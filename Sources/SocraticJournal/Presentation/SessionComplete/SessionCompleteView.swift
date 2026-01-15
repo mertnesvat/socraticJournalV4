@@ -8,10 +8,14 @@ import SwiftUI
 /// Post-session results screen displaying clarity score and insights
 public struct SessionCompleteView: View {
     @State private var viewModel: SessionCompleteViewModel
+    @State private var showingComposeLetter: Bool = false
     @Environment(\.dismiss) private var dismiss
 
-    public init(viewModel: SessionCompleteViewModel) {
+    private let repository: JournalRepositoryProtocol
+
+    public init(viewModel: SessionCompleteViewModel, repository: JournalRepositoryProtocol? = nil) {
         _viewModel = State(initialValue: viewModel)
+        self.repository = repository ?? InMemoryJournalRepository()
     }
 
     public var body: some View {
@@ -35,11 +39,20 @@ public struct SessionCompleteView: View {
                     dismiss()
                 }
                 viewModel.onWriteLetter = { _ in
-                    // Placeholder for Feature 4 - will be replaced with navigation
-                    print("Navigate to letter writing screen")
-                    dismiss()
+                    showingComposeLetter = true
                 }
                 await viewModel.loadResults()
+            }
+            .fullScreenCover(isPresented: $showingComposeLetter) {
+                // Dismiss session complete after letter is saved
+                dismiss()
+            } content: {
+                ComposeLetterView(
+                    viewModel: ComposeLetterViewModel(
+                        sessionId: viewModel.session.id,
+                        repository: repository
+                    )
+                )
             }
         }
     }

@@ -9,6 +9,7 @@ import SwiftUI
 public struct HomeView: View {
     @State private var viewModel: HomeViewModel
     @State private var showingNewSession: Bool = false
+    @State private var showingLettersList: Bool = false
     private let repository: JournalRepositoryProtocol
 
     public init(viewModel: HomeViewModel, repository: JournalRepositoryProtocol) {
@@ -34,6 +35,17 @@ public struct HomeView: View {
                             questionService: MockQuestionService(),
                             repository: repository
                         ),
+                        repository: repository
+                    )
+                }
+                .fullScreenCover(isPresented: $showingLettersList) {
+                    // Reload ready letters count when letters list is dismissed
+                    Task {
+                        await viewModel.loadData()
+                    }
+                } content: {
+                    LettersListView(
+                        viewModel: LettersListViewModel(repository: repository),
                         repository: repository
                     )
                 }
@@ -176,8 +188,7 @@ public struct HomeView: View {
         ToolbarItem(placement: .topBarTrailing) {
             HStack(spacing: 16) {
                 Button {
-                    // Navigate to Letters
-                    print("Letters tapped")
+                    showingLettersList = true
                 } label: {
                     LettersBadge(count: viewModel.readyLettersCount)
                 }

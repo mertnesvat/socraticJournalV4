@@ -69,7 +69,8 @@ public struct DialogueSessionView: View {
                         session: viewModel.getCompletedSession(),
                         clarityScoreService: MockClarityScoreService(),
                         repository: repository
-                    )
+                    ),
+                    repository: repository
                 )
             }
             .task {
