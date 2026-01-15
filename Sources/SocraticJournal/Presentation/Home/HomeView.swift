@@ -11,6 +11,7 @@ public struct HomeView: View {
     @State private var showingNewSession: Bool = false
     @State private var showingLettersList: Bool = false
     @State private var showingCharacterDiscovery: Bool = false
+    @State private var showingStatistics: Bool = false
     @State private var selectedSession: JournalSession?
     private let repository: JournalRepositoryProtocol
 
@@ -69,6 +70,11 @@ public struct HomeView: View {
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
                 }
+                .fullScreenCover(isPresented: $showingStatistics) {
+                    StatisticsView(
+                        viewModel: StatisticsViewModel(repository: repository)
+                    )
+                }
         }
     }
 
@@ -105,9 +111,14 @@ public struct HomeView: View {
     private var mainContent: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Stats Card
-                StatsCardView(stats: viewModel.stats)
-                    .padding(.horizontal)
+                // Stats Card - Tappable to show full statistics
+                Button {
+                    showingStatistics = true
+                } label: {
+                    StatsCardView(stats: viewModel.stats)
+                }
+                .buttonStyle(.plain)
+                .padding(.horizontal)
 
                 // Start Session Button
                 StartSessionButton {
@@ -212,10 +223,9 @@ public struct HomeView: View {
                 }
 
                 Button {
-                    // Navigate to Settings
-                    print("Settings tapped")
+                    showingStatistics = true
                 } label: {
-                    Image(systemName: "gearshape")
+                    Image(systemName: "chart.bar.fill")
                         .font(.title3)
                 }
             }
