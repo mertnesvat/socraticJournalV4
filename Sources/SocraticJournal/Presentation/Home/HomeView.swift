@@ -9,9 +9,11 @@ import SwiftUI
 public struct HomeView: View {
     @State private var viewModel: HomeViewModel
     @State private var showingNewSession: Bool = false
+    private let repository: JournalRepositoryProtocol
 
-    public init(viewModel: HomeViewModel) {
+    public init(viewModel: HomeViewModel, repository: JournalRepositoryProtocol) {
         _viewModel = State(initialValue: viewModel)
+        self.repository = repository
     }
 
     public var body: some View {
@@ -21,6 +23,19 @@ public struct HomeView: View {
                 .toolbar { toolbarContent }
                 .task { await viewModel.loadData() }
                 .refreshable { await viewModel.refreshData() }
+                .fullScreenCover(isPresented: $showingNewSession) {
+                    // Reload data when session is dismissed
+                    Task {
+                        await viewModel.loadData()
+                    }
+                } content: {
+                    DialogueSessionView(
+                        viewModel: DialogueSessionViewModel(
+                            questionService: MockQuestionService(),
+                            repository: repository
+                        )
+                    )
+                }
         }
     }
 
@@ -179,6 +194,10 @@ public struct HomeView: View {
 }
 
 #Preview {
-    HomeView(viewModel: HomeViewModel(repository: InMemoryJournalRepository()))
+    let repository = InMemoryJournalRepository()
+    return HomeView(
+        viewModel: HomeViewModel(repository: repository),
+        repository: repository
+    )
 }
 #endif
