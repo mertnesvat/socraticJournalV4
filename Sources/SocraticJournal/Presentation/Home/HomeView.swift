@@ -10,6 +10,7 @@ public struct HomeView: View {
     @State private var viewModel: HomeViewModel
     @State private var showingNewSession: Bool = false
     @State private var showingLettersList: Bool = false
+    @State private var showingCharacterDiscovery: Bool = false
     private let repository: JournalRepositoryProtocol
 
     public init(viewModel: HomeViewModel, repository: JournalRepositoryProtocol) {
@@ -47,6 +48,14 @@ public struct HomeView: View {
                     LettersListView(
                         viewModel: LettersListViewModel(repository: repository),
                         repository: repository
+                    )
+                }
+                .fullScreenCover(isPresented: $showingCharacterDiscovery) {
+                    CharacterDiscoveryView(
+                        viewModel: CharacterDiscoveryViewModel(
+                            repository: repository,
+                            analysisService: MockPersonalityAnalysisService()
+                        )
                     )
                 }
         }
@@ -177,8 +186,7 @@ public struct HomeView: View {
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button {
-                // Navigate to Character Discovery
-                print("Character Discovery tapped")
+                showingCharacterDiscovery = true
             } label: {
                 Image(systemName: "person.crop.circle")
                     .font(.title3)
