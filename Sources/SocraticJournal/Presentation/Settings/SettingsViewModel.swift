@@ -54,8 +54,8 @@ public final class SettingsViewModel {
 
     // MARK: - Dependencies
 
-    private let settingsRepository: SettingsRepositoryProtocol
-    private let journalRepository: JournalRepositoryProtocol
+    public let settingsRepository: SettingsRepositoryProtocol
+    public let journalRepository: JournalRepositoryProtocol
 
     // MARK: - Init
 
@@ -108,45 +108,5 @@ public final class SettingsViewModel {
         }
     }
 
-    public func exportJournalData() async -> URL? {
-        do {
-            let sessions = try await journalRepository.getAllSessions()
-            let letters = try await journalRepository.getAllLetters()
-
-            let exportData = JournalExportData(
-                exportDate: Date(),
-                sessions: sessions,
-                letters: letters
-            )
-
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-            encoder.dateEncodingStrategy = .iso8601
-
-            let data = try encoder.encode(exportData)
-
-            let tempURL = FileManager.default.temporaryDirectory
-                .appendingPathComponent("socratic_journal_export_\(exportTimestamp).json")
-
-            try data.write(to: tempURL)
-            return tempURL
-        } catch {
-            self.error = error
-            return nil
-        }
-    }
-
-    private var exportTimestamp: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd_HHmmss"
-        return formatter.string(from: Date())
-    }
-}
-
-/// Data structure for journal export
-struct JournalExportData: Codable {
-    let exportDate: Date
-    let sessions: [JournalSession]
-    let letters: [FutureLetter]
 }
 #endif

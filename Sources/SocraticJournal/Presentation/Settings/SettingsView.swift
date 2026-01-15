@@ -9,8 +9,7 @@ import SwiftUI
 public struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: SettingsViewModel
-    @State private var showingExportSheet: Bool = false
-    @State private var exportURL: URL?
+    @State private var showingExportView: Bool = false
 
     public init(viewModel: SettingsViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -33,10 +32,15 @@ public struct SettingsView: View {
                 } message: {
                     Text("This will permanently delete all your journal sessions and letters. This action cannot be undone.")
                 }
-                .sheet(isPresented: $showingExportSheet) {
-                    if let url = exportURL {
-                        ShareSheet(activityItems: [url])
-                    }
+                .sheet(isPresented: $showingExportView) {
+                    ExportView(
+                        viewModel: ExportViewModel(
+                            exportService: JSONDataExportService(
+                                journalRepository: viewModel.journalRepository,
+                                settingsRepository: viewModel.settingsRepository
+                            )
+                        )
+                    )
                 }
                 .overlay {
                     if viewModel.showClearDataSuccess {
@@ -90,12 +94,7 @@ public struct SettingsView: View {
                     // Data section
                     DataManagementView(
                         onExport: {
-                            Task {
-                                exportURL = await viewModel.exportJournalData()
-                                if exportURL != nil {
-                                    showingExportSheet = true
-                                }
-                            }
+                            showingExportView = true
                         },
                         onClearData: {
                             viewModel.confirmClearData()
