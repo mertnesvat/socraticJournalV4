@@ -15,6 +15,7 @@ public enum ExchangePhase: Equatable {
     case showingClarityMirror
     case showingInsightCard
     case readyForNext
+    case sessionComplete
 }
 
 /// ViewModel for the Socratic Dialogue Session
@@ -59,6 +60,9 @@ public final class DialogueSessionViewModel {
 
     /// Error state
     private(set) var error: Error?
+
+    /// Whether to show the session complete screen
+    var showSessionComplete: Bool = false
 
     /// Whether the session is complete
     var isSessionComplete: Bool {
@@ -215,16 +219,20 @@ public final class DialogueSessionViewModel {
             id: session.id,
             createdAt: session.createdAt,
             exchanges: exchanges,
-            clarityScore: nil, // Will be generated in post-session
-            wisdomQuote: nil,  // Will be generated in post-session
+            clarityScore: nil, // Will be generated in SessionCompleteView
+            wisdomQuote: nil,  // Will be generated in SessionCompleteView
             isComplete: true
         )
 
         do {
             try await repository.saveSession(session)
-            onSessionComplete?(session)
+            phase = .sessionComplete
+            showSessionComplete = true
         } catch {
             self.error = error
+            // Still show session complete even if save fails
+            phase = .sessionComplete
+            showSessionComplete = true
         }
 
         isLoading = false
@@ -238,6 +246,11 @@ public final class DialogueSessionViewModel {
     /// Discard the current session and exit
     public func discardAndExit() {
         onExit?()
+    }
+
+    /// Returns the completed session for passing to SessionCompleteView
+    func getCompletedSession() -> JournalSession {
+        return session
     }
 
     /// Whether we have unsaved progress that would be lost

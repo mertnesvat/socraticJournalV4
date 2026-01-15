@@ -96,9 +96,12 @@ actor InMemoryDataSource {
                 )
             ],
             clarityScore: ClarityScore(
-                score: 7.5,
-                themes: ["Career", "Purpose", "Growth"],
-                insight: "You find meaning in creation and teaching."
+                total: 75,
+                completion: 100,
+                depth: 70,
+                emotional: 55,
+                label: "Deep Dive",
+                message: "Your deep reflection today reveals a mind truly engaged with its inner wisdom."
             ),
             wisdomQuote: WisdomQuote(
                 text: "The unexamined life is not worth living.",
@@ -121,9 +124,12 @@ actor InMemoryDataSource {
                 )
             ],
             clarityScore: ClarityScore(
-                score: 5.2,
-                themes: ["Relationships", "Communication"],
-                insight: "Conflict reveals what matters most to you."
+                total: 52,
+                completion: 67,
+                depth: 50,
+                emotional: 40,
+                label: "Thoughtful Reflection",
+                message: "You've taken meaningful steps in your reflection today."
             ),
             isComplete: true
         )
@@ -138,9 +144,12 @@ actor InMemoryDataSource {
                 )
             ],
             clarityScore: ClarityScore(
-                score: 8.0,
-                themes: ["Gratitude", "Mindfulness"],
-                insight: "Gratitude opens the door to presence."
+                total: 80,
+                completion: 100,
+                depth: 75,
+                emotional: 70,
+                label: "Deep Dive",
+                message: "What a profound journey you've taken today."
             ),
             isComplete: true
         )
@@ -155,9 +164,12 @@ actor InMemoryDataSource {
                 )
             ],
             clarityScore: ClarityScore(
-                score: 6.0,
-                themes: ["Reflection"],
-                insight: "Regular reflection builds self-awareness."
+                total: 60,
+                completion: 100,
+                depth: 45,
+                emotional: 40,
+                label: "Thoughtful Reflection",
+                message: "Today's session shows your commitment to self-understanding."
             ),
             isComplete: true
         )

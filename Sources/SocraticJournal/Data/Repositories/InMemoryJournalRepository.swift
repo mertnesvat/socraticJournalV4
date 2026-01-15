@@ -84,9 +84,9 @@ public final class InMemoryJournalRepository: JournalRepositoryProtocol, @unchec
         for (dateKey, dateSessions) in sessionsByDate {
             sessionCountByDate[dateKey] = dateSessions.count
 
-            let scores = dateSessions.compactMap { $0.clarityScore?.score }
+            let scores = dateSessions.compactMap { $0.clarityScore?.total }
             if !scores.isEmpty {
-                averageScoreByDate[dateKey] = scores.reduce(0, +) / Double(scores.count)
+                averageScoreByDate[dateKey] = Double(scores.reduce(0, +)) / Double(scores.count)
             }
         }
 

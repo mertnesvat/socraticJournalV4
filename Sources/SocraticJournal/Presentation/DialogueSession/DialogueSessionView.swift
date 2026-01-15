@@ -11,8 +11,11 @@ public struct DialogueSessionView: View {
     @State private var showingExitConfirmation: Bool = false
     @Environment(\.dismiss) private var dismiss
 
-    public init(viewModel: DialogueSessionViewModel) {
+    private let repository: JournalRepositoryProtocol
+
+    public init(viewModel: DialogueSessionViewModel, repository: JournalRepositoryProtocol? = nil) {
         _viewModel = State(initialValue: viewModel)
+        self.repository = repository ?? InMemoryJournalRepository()
     }
 
     public var body: some View {
@@ -60,14 +63,29 @@ public struct DialogueSessionView: View {
             } message: {
                 Text("Your progress will be lost if you exit now.")
             }
+            .fullScreenCover(isPresented: $viewModel.showSessionComplete) {
+                SessionCompleteView(
+                    viewModel: SessionCompleteViewModel(
+                        session: viewModel.getCompletedSession(),
+                        clarityScoreService: MockClarityScoreService(),
+                        repository: repository
+                    )
+                )
+            }
             .task {
                 viewModel.onExit = {
                     dismiss()
                 }
                 viewModel.onSessionComplete = { _ in
-                    dismiss()
+                    // Now handled by fullScreenCover
                 }
                 await viewModel.startSession()
+            }
+            .onChange(of: viewModel.showSessionComplete) { _, isShowing in
+                if !isShowing {
+                    // Session complete screen was dismissed, go back to home
+                    dismiss()
+                }
             }
         }
     }
@@ -91,6 +109,16 @@ public struct DialogueSessionView: View {
 
         case .showingInsightCard, .readyForNext:
             insightCardContent
+
+        case .sessionComplete:
+            // Show loading while transitioning
+            VStack(spacing: 16) {
+                ProgressView()
+                Text("Preparing your results...")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, minHeight: 200)
         }
     }
 
@@ -269,11 +297,13 @@ struct UserAnswerCard: View {
 }
 
 #Preview {
-    DialogueSessionView(
+    let repository = InMemoryJournalRepository()
+    return DialogueSessionView(
         viewModel: DialogueSessionViewModel(
             questionService: MockQuestionService(),
-            repository: InMemoryJournalRepository()
-        )
+            repository: repository
+        ),
+        repository: repository
     )
 }
 #endif

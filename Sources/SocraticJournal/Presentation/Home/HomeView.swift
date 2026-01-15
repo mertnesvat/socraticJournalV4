@@ -33,7 +33,8 @@ public struct HomeView: View {
                         viewModel: DialogueSessionViewModel(
                             questionService: MockQuestionService(),
                             repository: repository
-                        )
+                        ),
+                        repository: repository
                     )
                 }
         }
