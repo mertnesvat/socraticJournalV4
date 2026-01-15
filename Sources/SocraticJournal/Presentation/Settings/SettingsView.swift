@@ -32,6 +32,14 @@ public struct SettingsView: View {
                 } message: {
                     Text("This will permanently delete all your journal sessions and letters. This action cannot be undone.")
                 }
+                .alert("Notifications Disabled", isPresented: $viewModel.showPermissionDeniedAlert) {
+                    Button("Cancel", role: .cancel) {}
+                    Button("Open Settings") {
+                        viewModel.openNotificationSettings()
+                    }
+                } message: {
+                    Text("To receive notifications, please enable them in Settings.")
+                }
                 .sheet(isPresented: $showingExportView) {
                     ExportView(
                         viewModel: ExportViewModel(
@@ -88,7 +96,11 @@ public struct SettingsView: View {
                         reminderTime: Binding(
                             get: { viewModel.reminderTime },
                             set: { viewModel.reminderTime = $0 }
-                        )
+                        ),
+                        notificationsDenied: viewModel.notificationsDenied,
+                        onOpenSettings: {
+                            viewModel.openNotificationSettings()
+                        }
                     )
 
                     // Data section

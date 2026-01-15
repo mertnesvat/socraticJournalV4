@@ -117,6 +117,8 @@ public final class ComposeLetterViewModel {
     // MARK: - Dependencies
 
     private let repository: JournalRepositoryProtocol
+    private let notificationService: NotificationServiceProtocol?
+    private let settingsRepository: SettingsRepositoryProtocol?
 
     // MARK: - Callbacks
 
@@ -127,10 +129,14 @@ public final class ComposeLetterViewModel {
 
     public init(
         sessionId: String? = nil,
-        repository: JournalRepositoryProtocol
+        repository: JournalRepositoryProtocol,
+        notificationService: NotificationServiceProtocol? = nil,
+        settingsRepository: SettingsRepositoryProtocol? = nil
     ) {
         self.sessionId = sessionId
         self.repository = repository
+        self.notificationService = notificationService
+        self.settingsRepository = settingsRepository
     }
 
     // MARK: - Actions
@@ -148,6 +154,10 @@ public final class ComposeLetterViewModel {
                 deliveryDate: deliveryDate
             )
             try await repository.saveLetter(letter)
+
+            // Schedule notification if letter reminders are enabled
+            await scheduleLetterNotification(letter: letter)
+
             didSave = true
             onSaveComplete?()
         } catch {
@@ -155,6 +165,22 @@ public final class ComposeLetterViewModel {
         }
 
         isSaving = false
+    }
+
+    /// Schedule notification for the letter if enabled in settings
+    private func scheduleLetterNotification(letter: FutureLetter) async {
+        guard let notificationService = notificationService,
+              let settingsRepository = settingsRepository else { return }
+
+        do {
+            let settings = try await settingsRepository.getSettings()
+            if settings.letterRemindersEnabled {
+                try await notificationService.scheduleLetterUnlock(letter: letter)
+            }
+        } catch {
+            // Log but don't fail the save operation
+            print("Failed to schedule letter notification: \(error)")
+        }
     }
 
     /// Cancel and discard the letter

@@ -96,11 +96,16 @@ public final class LettersListViewModel {
     // MARK: - Dependencies
 
     private let repository: JournalRepositoryProtocol
+    private let notificationService: NotificationServiceProtocol?
 
     // MARK: - Init
 
-    public init(repository: JournalRepositoryProtocol) {
+    public init(
+        repository: JournalRepositoryProtocol,
+        notificationService: NotificationServiceProtocol? = nil
+    ) {
         self.repository = repository
+        self.notificationService = notificationService
     }
 
     // MARK: - Actions
@@ -130,6 +135,8 @@ public final class LettersListViewModel {
                 letters[index].status = .read
                 letters[index].readAt = Date()
             }
+            // Cancel the notification since letter is now opened
+            await notificationService?.cancelLetterNotification(letterId: letter.id)
         } catch {
             self.error = error
         }

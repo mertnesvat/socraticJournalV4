@@ -13,10 +13,19 @@ public struct LettersListView: View {
     @Environment(\.dismiss) private var dismiss
 
     private let repository: JournalRepositoryProtocol
+    private let notificationService: NotificationServiceProtocol?
+    private let settingsRepository: SettingsRepositoryProtocol?
 
-    public init(viewModel: LettersListViewModel, repository: JournalRepositoryProtocol) {
+    public init(
+        viewModel: LettersListViewModel,
+        repository: JournalRepositoryProtocol,
+        notificationService: NotificationServiceProtocol? = nil,
+        settingsRepository: SettingsRepositoryProtocol? = nil
+    ) {
         _viewModel = State(initialValue: viewModel)
         self.repository = repository
+        self.notificationService = notificationService
+        self.settingsRepository = settingsRepository
     }
 
     public var body: some View {
@@ -47,7 +56,9 @@ public struct LettersListView: View {
             } content: {
                 ComposeLetterView(
                     viewModel: ComposeLetterViewModel(
-                        repository: repository
+                        repository: repository,
+                        notificationService: notificationService,
+                        settingsRepository: settingsRepository
                     )
                 )
             }

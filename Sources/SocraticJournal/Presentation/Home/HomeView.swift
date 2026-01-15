@@ -17,15 +17,18 @@ public struct HomeView: View {
     @State private var selectedSession: JournalSession?
     private let repository: JournalRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
+    private let notificationService: NotificationServiceProtocol?
 
     public init(
         viewModel: HomeViewModel,
         repository: JournalRepositoryProtocol,
-        settingsRepository: SettingsRepositoryProtocol
+        settingsRepository: SettingsRepositoryProtocol,
+        notificationService: NotificationServiceProtocol? = nil
     ) {
         _viewModel = State(initialValue: viewModel)
         self.repository = repository
         self.settingsRepository = settingsRepository
+        self.notificationService = notificationService
     }
 
     public var body: some View {
@@ -56,8 +59,13 @@ public struct HomeView: View {
                     }
                 } content: {
                     LettersListView(
-                        viewModel: LettersListViewModel(repository: repository),
-                        repository: repository
+                        viewModel: LettersListViewModel(
+                            repository: repository,
+                            notificationService: notificationService
+                        ),
+                        repository: repository,
+                        notificationService: notificationService,
+                        settingsRepository: settingsRepository
                     )
                 }
                 .fullScreenCover(isPresented: $showingCharacterDiscovery) {
@@ -94,7 +102,8 @@ public struct HomeView: View {
                     SettingsView(
                         viewModel: SettingsViewModel(
                             settingsRepository: settingsRepository,
-                            journalRepository: repository
+                            journalRepository: repository,
+                            notificationService: notificationService
                         )
                     )
                 }
