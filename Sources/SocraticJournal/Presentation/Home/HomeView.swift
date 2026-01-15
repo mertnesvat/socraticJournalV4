@@ -12,6 +12,7 @@ public struct HomeView: View {
     @State private var showingLettersList: Bool = false
     @State private var showingCharacterDiscovery: Bool = false
     @State private var showingStatistics: Bool = false
+    @State private var showingWisdomQuotes: Bool = false
     @State private var selectedSession: JournalSession?
     private let repository: JournalRepositoryProtocol
 
@@ -73,6 +74,13 @@ public struct HomeView: View {
                 .fullScreenCover(isPresented: $showingStatistics) {
                     StatisticsView(
                         viewModel: StatisticsViewModel(repository: repository)
+                    )
+                }
+                .fullScreenCover(isPresented: $showingWisdomQuotes) {
+                    WisdomQuotesView(
+                        viewModel: WisdomQuotesViewModel(
+                            quoteService: LocalWisdomQuoteService()
+                        )
                     )
                 }
         }
@@ -216,6 +224,13 @@ public struct HomeView: View {
 
         ToolbarItem(placement: .topBarTrailing) {
             HStack(spacing: 16) {
+                Button {
+                    showingWisdomQuotes = true
+                } label: {
+                    Image(systemName: "quote.bubble")
+                        .font(.title3)
+                }
+
                 Button {
                     showingLettersList = true
                 } label: {

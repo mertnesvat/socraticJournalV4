@@ -24,7 +24,10 @@ let package = Package(
                 .product(name: "FirebaseFunctions", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk")
             ],
-            path: "Sources/SocraticJournal"
+            path: "Sources/SocraticJournal",
+            resources: [
+                .process("Resources")
+            ]
         ),
         .testTarget(
             name: "SocraticJournalTests",

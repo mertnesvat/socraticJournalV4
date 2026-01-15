@@ -50,34 +50,34 @@ public final class MockClarityScoreService: ClarityScoreServiceProtocol, @unchec
 
     // MARK: - Wisdom Quotes
 
-    private let philosophyQuotes: [(text: String, author: String, source: String?)] = [
-        ("The unexamined life is not worth living.", "Socrates", nil),
-        ("Know thyself.", "Delphic Maxim", nil),
-        ("He who knows others is wise; he who knows himself is enlightened.", "Lao Tzu", "Tao Te Ching"),
-        ("The only true wisdom is in knowing you know nothing.", "Socrates", nil),
-        ("Knowing yourself is the beginning of all wisdom.", "Aristotle", nil)
+    private let philosophyQuotes: [WisdomQuote] = [
+        WisdomQuote(text: "The unexamined life is not worth living.", author: "Socrates", theme: .selfKnowledge),
+        WisdomQuote(text: "Know thyself.", author: "Delphic Maxim", theme: .selfKnowledge),
+        WisdomQuote(text: "He who knows others is wise; he who knows himself is enlightened.", author: "Lao Tzu", source: "Tao Te Ching", theme: .selfKnowledge),
+        WisdomQuote(text: "The only true wisdom is in knowing you know nothing.", author: "Socrates", theme: .selfKnowledge),
+        WisdomQuote(text: "Knowing yourself is the beginning of all wisdom.", author: "Aristotle", theme: .selfKnowledge)
     ]
 
-    private let growthQuotes: [(text: String, author: String, source: String?)] = [
-        ("The impediment to action advances action. What stands in the way becomes the way.", "Marcus Aurelius", "Meditations"),
-        ("No man ever steps in the same river twice, for it's not the same river and he's not the same man.", "Heraclitus", nil),
-        ("The wound is the place where the Light enters you.", "Rumi", nil),
-        ("Out of your vulnerabilities will come your strength.", "Sigmund Freud", nil),
-        ("What we achieve inwardly will change outer reality.", "Plutarch", nil)
+    private let growthQuotes: [WisdomQuote] = [
+        WisdomQuote(text: "The impediment to action advances action. What stands in the way becomes the way.", author: "Marcus Aurelius", source: "Meditations", theme: .struggle),
+        WisdomQuote(text: "No man ever steps in the same river twice, for it's not the same river and he's not the same man.", author: "Heraclitus", theme: .change),
+        WisdomQuote(text: "The wound is the place where the Light enters you.", author: "Rumi", theme: .loss),
+        WisdomQuote(text: "Out of your vulnerabilities will come your strength.", author: "Sigmund Freud", theme: .struggle),
+        WisdomQuote(text: "What we achieve inwardly will change outer reality.", author: "Plutarch", theme: .change)
     ]
 
-    private let courageQuotes: [(text: String, author: String, source: String?)] = [
-        ("Courage is not the absence of fear, but rather the judgment that something else is more important than fear.", "Ambrose Redmoon", nil),
-        ("Life shrinks or expands in proportion to one's courage.", "Anais Nin", nil),
-        ("You gain strength, courage, and confidence by every experience in which you really stop to look fear in the face.", "Eleanor Roosevelt", nil),
-        ("Courage is resistance to fear, mastery of fear - not absence of fear.", "Mark Twain", nil)
+    private let courageQuotes: [WisdomQuote] = [
+        WisdomQuote(text: "Courage is not the absence of fear, but rather the judgment that something else is more important than fear.", author: "Ambrose Redmoon", theme: .fear),
+        WisdomQuote(text: "Life shrinks or expands in proportion to one's courage.", author: "Anais Nin", theme: .fear),
+        WisdomQuote(text: "You gain strength, courage, and confidence by every experience in which you really stop to look fear in the face.", author: "Eleanor Roosevelt", theme: .fear),
+        WisdomQuote(text: "Courage is resistance to fear, mastery of fear - not absence of fear.", author: "Mark Twain", theme: .fear)
     ]
 
-    private let peacefulQuotes: [(text: String, author: String, source: String?)] = [
-        ("Within you, there is a stillness and a sanctuary to which you can retreat at any time.", "Hermann Hesse", "Siddhartha"),
-        ("The greatest weapon against stress is our ability to choose one thought over another.", "William James", nil),
-        ("Peace comes from within. Do not seek it without.", "Buddha", nil),
-        ("In the midst of movement and chaos, keep stillness inside of you.", "Deepak Chopra", nil)
+    private let peacefulQuotes: [WisdomQuote] = [
+        WisdomQuote(text: "Within you, there is a stillness and a sanctuary to which you can retreat at any time.", author: "Hermann Hesse", source: "Siddhartha", theme: .acceptance),
+        WisdomQuote(text: "The greatest weapon against stress is our ability to choose one thought over another.", author: "William James", theme: .acceptance),
+        WisdomQuote(text: "Peace comes from within. Do not seek it without.", author: "Buddha", theme: .acceptance),
+        WisdomQuote(text: "In the midst of movement and chaos, keep stillness inside of you.", author: "Deepak Chopra", theme: .acceptance)
     ]
 
     // MARK: - ClarityScoreServiceProtocol
@@ -160,7 +160,7 @@ public final class MockClarityScoreService: ClarityScoreServiceProtocol, @unchec
         // Analyze session content to pick appropriate quote category
         let allText = exchanges.map { $0.answer }.joined(separator: " ").lowercased()
 
-        let quotePool: [(text: String, author: String, source: String?)]
+        let quotePool: [WisdomQuote]
 
         // Simple keyword matching to select quote category
         if containsAny(text: allText, words: ["fear", "afraid", "scared", "worry", "anxious", "courage", "brave"]) {
@@ -174,13 +174,7 @@ public final class MockClarityScoreService: ClarityScoreServiceProtocol, @unchec
             quotePool = philosophyQuotes
         }
 
-        let selected = quotePool.randomElement() ?? philosophyQuotes[0]
-
-        return WisdomQuote(
-            text: selected.text,
-            author: selected.author,
-            source: selected.source
-        )
+        return quotePool.randomElement() ?? philosophyQuotes[0]
     }
 
     // MARK: - Private Helpers
