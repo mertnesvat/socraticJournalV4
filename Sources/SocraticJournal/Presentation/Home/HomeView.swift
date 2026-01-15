@@ -11,6 +11,7 @@ public struct HomeView: View {
     @State private var showingNewSession: Bool = false
     @State private var showingLettersList: Bool = false
     @State private var showingCharacterDiscovery: Bool = false
+    @State private var selectedSession: JournalSession?
     private let repository: JournalRepositoryProtocol
 
     public init(viewModel: HomeViewModel, repository: JournalRepositoryProtocol) {
@@ -57,6 +58,16 @@ public struct HomeView: View {
                             analysisService: MockPersonalityAnalysisService()
                         )
                     )
+                }
+                .sheet(item: $selectedSession) { session in
+                    SessionDetailView(
+                        viewModel: SessionDetailViewModel(
+                            session: session,
+                            repository: repository
+                        )
+                    )
+                    .presentationDetents([.medium, .large])
+                    .presentationDragIndicator(.visible)
                 }
         }
     }
@@ -128,8 +139,7 @@ public struct HomeView: View {
                         }
                     },
                     onSelect: { session in
-                        // Navigate to session detail (to be implemented)
-                        print("Selected session: \(session.id)")
+                        selectedSession = session
                     }
                 )
 

@@ -61,7 +61,7 @@ struct SessionRowView: View {
                     .frame(width: 44, height: 44)
 
                 if let score = session.clarityScore {
-                    Text(String(format: "%.1f", score.score))
+                    Text("\(score.total)")
                         .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundStyle(scoreColor)
@@ -104,13 +104,13 @@ struct SessionRowView: View {
     }
 
     private var scoreColor: Color {
-        guard let score = session.clarityScore?.score else {
+        guard let score = session.clarityScore else {
             return .gray
         }
-        switch score {
-        case 0..<4: return .orange
-        case 4..<7: return .yellow
-        default: return .green
+        switch score.quality {
+        case .quick: return .orange
+        case .moderate: return .blue
+        case .high: return .green
         }
     }
 }
@@ -150,7 +150,14 @@ struct EmptySessionsView: View {
                             answer: "I've been thinking about my career direction and whether I'm making the right choices for my future."
                         )
                     ],
-                    clarityScore: ClarityScore(score: 7.5),
+                    clarityScore: ClarityScore(
+                        total: 75,
+                        completion: 100,
+                        depth: 70,
+                        emotional: 60,
+                        label: "Deep Dive",
+                        message: "A thoughtful session."
+                    ),
                     isComplete: true
                 ),
                 JournalSession(
@@ -160,7 +167,14 @@ struct EmptySessionsView: View {
                             answer: "Just reflecting on the day."
                         )
                     ],
-                    clarityScore: ClarityScore(score: 5.0),
+                    clarityScore: ClarityScore(
+                        total: 50,
+                        completion: 100,
+                        depth: 40,
+                        emotional: 35,
+                        label: "Thoughtful Reflection",
+                        message: "A good moment."
+                    ),
                     isComplete: true
                 )
             ],
