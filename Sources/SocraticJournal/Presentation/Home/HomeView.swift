@@ -13,12 +13,19 @@ public struct HomeView: View {
     @State private var showingCharacterDiscovery: Bool = false
     @State private var showingStatistics: Bool = false
     @State private var showingWisdomQuotes: Bool = false
+    @State private var showingSettings: Bool = false
     @State private var selectedSession: JournalSession?
     private let repository: JournalRepositoryProtocol
+    private let settingsRepository: SettingsRepositoryProtocol
 
-    public init(viewModel: HomeViewModel, repository: JournalRepositoryProtocol) {
+    public init(
+        viewModel: HomeViewModel,
+        repository: JournalRepositoryProtocol,
+        settingsRepository: SettingsRepositoryProtocol
+    ) {
         _viewModel = State(initialValue: viewModel)
         self.repository = repository
+        self.settingsRepository = settingsRepository
     }
 
     public var body: some View {
@@ -80,6 +87,14 @@ public struct HomeView: View {
                     WisdomQuotesView(
                         viewModel: WisdomQuotesViewModel(
                             quoteService: LocalWisdomQuoteService()
+                        )
+                    )
+                }
+                .fullScreenCover(isPresented: $showingSettings) {
+                    SettingsView(
+                        viewModel: SettingsViewModel(
+                            settingsRepository: settingsRepository,
+                            journalRepository: repository
                         )
                     )
                 }
@@ -243,6 +258,13 @@ public struct HomeView: View {
                     Image(systemName: "chart.bar.fill")
                         .font(.title3)
                 }
+
+                Button {
+                    showingSettings = true
+                } label: {
+                    Image(systemName: "gearshape.fill")
+                        .font(.title3)
+                }
             }
         }
     }
@@ -250,9 +272,11 @@ public struct HomeView: View {
 
 #Preview {
     let repository = InMemoryJournalRepository()
+    let settingsRepository = UserDefaultsSettingsRepository()
     return HomeView(
         viewModel: HomeViewModel(repository: repository),
-        repository: repository
+        repository: repository,
+        settingsRepository: settingsRepository
     )
 }
 #endif
