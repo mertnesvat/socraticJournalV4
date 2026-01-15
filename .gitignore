@@ -1,0 +1,22 @@
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# Xcode
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+DerivedData/
+
+# Firebase
+firebase-debug.log
+.firebase/
+
+# Night Agent
+.night-agent-state.json
+.night-screenshots/
+.night-logs/
+
+# macOS
+.DS_Store
