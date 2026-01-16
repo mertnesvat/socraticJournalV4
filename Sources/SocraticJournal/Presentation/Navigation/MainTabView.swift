@@ -100,51 +100,48 @@ struct CustomTabBar: View {
     private let plusButtonOffset: CGFloat = -20
 
     var body: some View {
-        ZStack {
-            // Tab bar background
-            tabBarBackground
+        VStack(spacing: 0) {
+            ZStack {
+                // Tab buttons
+                HStack(spacing: 0) {
+                    // Home tab
+                    TabBarButton(
+                        icon: "house",
+                        filledIcon: "house.fill",
+                        label: "Home",
+                        isSelected: selectedTab == .home
+                    ) {
+                        selectedTab = .home
+                    }
 
-            // Tab buttons
-            HStack(spacing: 0) {
-                // Home tab
-                TabBarButton(
-                    icon: "house",
-                    filledIcon: "house.fill",
-                    label: "Home",
-                    isSelected: selectedTab == .home
-                ) {
-                    selectedTab = .home
+                    // Center spacer for plus button
+                    Spacer()
+                        .frame(width: plusButtonSize + 20)
+
+                    // Statistics tab
+                    TabBarButton(
+                        icon: "chart.bar",
+                        filledIcon: "chart.bar.fill",
+                        label: "Stats",
+                        isSelected: selectedTab == .statistics
+                    ) {
+                        selectedTab = .statistics
+                    }
                 }
+                .padding(.horizontal, 40)
 
-                // Center spacer for plus button
-                Spacer()
-                    .frame(width: plusButtonSize + 20)
-
-                // Statistics tab
-                TabBarButton(
-                    icon: "chart.bar",
-                    filledIcon: "chart.bar.fill",
-                    label: "Stats",
-                    isSelected: selectedTab == .statistics
-                ) {
-                    selectedTab = .statistics
-                }
+                // Floating Plus Button
+                floatingPlusButton
+                    .offset(y: plusButtonOffset)
             }
-            .padding(.horizontal, 40)
-
-            // Floating Plus Button
-            floatingPlusButton
-                .offset(y: plusButtonOffset)
+            .frame(height: tabBarHeight)
         }
-        .frame(height: tabBarHeight)
-        .padding(.bottom, 20) // Account for safe area
-    }
-
-    private var tabBarBackground: some View {
-        Rectangle()
-            .fill(Color(uiColor: .systemBackground))
-            .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: -4)
-            .ignoresSafeArea(edges: .bottom)
+        .background(
+            Rectangle()
+                .fill(Color(uiColor: .systemBackground))
+                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: -4)
+                .ignoresSafeArea(edges: .bottom)
+        )
     }
 
     private var floatingPlusButton: some View {
