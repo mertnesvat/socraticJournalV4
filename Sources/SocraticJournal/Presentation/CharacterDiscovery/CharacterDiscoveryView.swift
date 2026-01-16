@@ -134,7 +134,7 @@ public struct CharacterDiscoveryView: View {
             VStack(spacing: 12) {
                 Image(systemName: "pencil.and.outline")
                     .font(.largeTitle)
-                    .foregroundStyle(.accentColor)
+                    .foregroundStyle(Color.accentColor)
 
                 Text("Start a new journal session to unlock your personality insights")
                     .font(.subheadline)

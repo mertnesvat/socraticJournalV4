@@ -7,7 +7,7 @@ import SwiftUI
 import UserNotifications
 
 /// Main entry point for the Socratic Journal app
-/// Note: @main is used only when building the iOS app directly
+@main
 public struct SocraticJournalApp: App {
     private let repository: JournalRepositoryProtocol = InMemoryJournalRepository()
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()

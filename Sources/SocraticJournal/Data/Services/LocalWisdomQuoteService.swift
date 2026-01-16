@@ -15,8 +15,8 @@ public final class LocalWisdomQuoteService: WisdomQuoteServiceProtocol, @uncheck
     // MARK: - WisdomQuoteServiceProtocol
 
     public func loadQuotes() async throws -> [WisdomQuote] {
-        // Try to load from bundle first
-        guard let url = Bundle.module.url(forResource: "wisdom_quotes", withExtension: "json") else {
+        // Try to load from bundle first (use main bundle for Xcode, module for SPM)
+        guard let url = Bundle.main.url(forResource: "wisdom_quotes", withExtension: "json") else {
             // Fallback: return hardcoded quotes if bundle resource not found
             let fallbackQuotes = getFallbackQuotes()
             lock.lock()

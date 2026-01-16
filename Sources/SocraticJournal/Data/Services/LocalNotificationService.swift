@@ -5,6 +5,7 @@
 #if os(iOS)
 import Foundation
 import UserNotifications
+import UIKit
 
 /// Local notification service implementation using UNUserNotificationCenter
 public final class LocalNotificationService: NotificationServiceProtocol, @unchecked Sendable {

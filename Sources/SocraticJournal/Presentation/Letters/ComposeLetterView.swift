@@ -90,7 +90,7 @@ public struct ComposeLetterView: View {
             HStack(spacing: 10) {
                 Image(systemName: "envelope.badge.person.crop")
                     .font(.title2)
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(Color.accentColor)
 
                 Text("Write to Your Future Self")
                     .font(.headline)
@@ -167,7 +167,7 @@ public struct ComposeLetterView: View {
         HStack(spacing: 12) {
             Image(systemName: "calendar.badge.clock")
                 .font(.title2)
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("Unlock Date")

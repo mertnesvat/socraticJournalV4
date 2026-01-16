@@ -122,7 +122,7 @@ public struct LetterDetailView: View {
             HStack {
                 Image(systemName: "envelope.open.fill")
                     .font(.title3)
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(Color.accentColor)
 
                 Text("From Your Past Self")
                     .font(.headline)
