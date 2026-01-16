@@ -74,7 +74,10 @@ public struct MainTabView: View {
                 viewModel: homeViewModel,
                 repository: repository,
                 settingsRepository: settingsRepository,
-                notificationService: notificationService
+                notificationService: notificationService,
+                onStatsCardTapped: {
+                    selectedTab = .statistics
+                }
             )
         case .statistics:
             StatisticsTabView(

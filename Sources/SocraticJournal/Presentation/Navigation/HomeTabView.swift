@@ -7,7 +7,7 @@ import SwiftUI
 
 /// Home view adapted for tab navigation
 /// Session start is handled by the floating plus button in MainTabView
-/// Statistics is now a separate tab
+/// Statistics is now a separate tab - stats card tap switches to Statistics tab
 public struct HomeTabView: View {
     @Bindable var viewModel: HomeViewModel
     @State private var showingLettersList: Bool = false
@@ -19,17 +19,20 @@ public struct HomeTabView: View {
     private let repository: JournalRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol?
+    private let onStatsCardTapped: (() -> Void)?
 
     public init(
         viewModel: HomeViewModel,
         repository: JournalRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
-        notificationService: NotificationServiceProtocol? = nil
+        notificationService: NotificationServiceProtocol? = nil,
+        onStatsCardTapped: (() -> Void)? = nil
     ) {
         self.viewModel = viewModel
         self.repository = repository
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
+        self.onStatsCardTapped = onStatsCardTapped
     }
 
     public var body: some View {
@@ -134,9 +137,15 @@ public struct HomeTabView: View {
     private var mainContent: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Stats Card - Quick overview at top
-                StatsCardView(stats: viewModel.stats)
-                    .padding(.horizontal)
+                // Stats Card - Tappable to switch to Statistics tab
+                Button {
+                    onStatsCardTapped?()
+                } label: {
+                    StatsCardView(stats: viewModel.stats)
+                }
+                .buttonStyle(.plain)
+                .accessibilityHint("Tap to view full statistics")
+                .padding(.horizontal)
 
                 // Prompt to start session when no sessions exist
                 if viewModel.hasNoSessions {
@@ -285,7 +294,8 @@ public struct HomeTabView: View {
     return HomeTabView(
         viewModel: HomeViewModel(repository: repository),
         repository: repository,
-        settingsRepository: settingsRepository
+        settingsRepository: settingsRepository,
+        onStatsCardTapped: { print("Stats tapped") }
     )
     .environment(ThemeManager.shared)
 }
