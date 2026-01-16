@@ -11,7 +11,7 @@ public enum MainTab: Int, CaseIterable {
     case statistics
 }
 
-/// Main tab container with custom tab bar and floating plus button
+/// Main tab container with native tab bar and floating plus button
 public struct MainTabView: View {
     @State private var selectedTab: MainTab = .home
     @State private var showingNewSession: Bool = false
@@ -37,16 +37,34 @@ public struct MainTabView: View {
 
     public var body: some View {
         ZStack(alignment: .bottom) {
-            // Tab Content
-            tabContent
-
-            // Custom Tab Bar with floating button
-            CustomTabBar(
-                selectedTab: $selectedTab,
-                onPlusTapped: {
-                    showingNewSession = true
+            // Native TabView with liquid glass effect
+            TabView(selection: $selectedTab) {
+                HomeTabView(
+                    viewModel: homeViewModel,
+                    repository: repository,
+                    settingsRepository: settingsRepository,
+                    notificationService: notificationService,
+                    onStatsCardTapped: {
+                        selectedTab = .statistics
+                    }
+                )
+                .tabItem {
+                    Label("Home", systemImage: "house.fill")
                 }
-            )
+                .tag(MainTab.home)
+
+                StatisticsTabView(
+                    viewModel: StatisticsViewModel(repository: repository)
+                )
+                .tabItem {
+                    Label("Stats", systemImage: "chart.bar.fill")
+                }
+                .tag(MainTab.statistics)
+            }
+
+            // Floating Plus Button above tab bar
+            floatingPlusButton
+                .padding(.bottom, 60) // Position above tab bar
         }
         .fullScreenCover(isPresented: $showingNewSession) {
             // Reload data when session is dismissed
@@ -66,90 +84,14 @@ public struct MainTabView: View {
         }
     }
 
-    @ViewBuilder
-    private var tabContent: some View {
-        switch selectedTab {
-        case .home:
-            HomeTabView(
-                viewModel: homeViewModel,
-                repository: repository,
-                settingsRepository: settingsRepository,
-                notificationService: notificationService,
-                onStatsCardTapped: {
-                    selectedTab = .statistics
-                }
-            )
-        case .statistics:
-            StatisticsTabView(
-                viewModel: StatisticsViewModel(repository: repository)
-            )
-        }
-    }
-}
-
-// MARK: - Custom Tab Bar
-
-/// Custom tab bar with floating center plus button
-struct CustomTabBar: View {
-    @Binding var selectedTab: MainTab
-    let onPlusTapped: () -> Void
-    @Environment(\.colorScheme) private var colorScheme
-
-    private let tabBarHeight: CGFloat = 60
-    private let plusButtonSize: CGFloat = 56
-    private let plusButtonOffset: CGFloat = -20
-
-    var body: some View {
-        VStack(spacing: 0) {
-            ZStack {
-                // Tab buttons
-                HStack(spacing: 0) {
-                    // Home tab
-                    TabBarButton(
-                        icon: "house",
-                        filledIcon: "house.fill",
-                        label: "Home",
-                        isSelected: selectedTab == .home
-                    ) {
-                        selectedTab = .home
-                    }
-
-                    // Center spacer for plus button
-                    Spacer()
-                        .frame(width: plusButtonSize + 20)
-
-                    // Statistics tab
-                    TabBarButton(
-                        icon: "chart.bar",
-                        filledIcon: "chart.bar.fill",
-                        label: "Stats",
-                        isSelected: selectedTab == .statistics
-                    ) {
-                        selectedTab = .statistics
-                    }
-                }
-                .padding(.horizontal, 40)
-
-                // Floating Plus Button
-                floatingPlusButton
-                    .offset(y: plusButtonOffset)
-            }
-            .frame(height: tabBarHeight)
-        }
-        .background(
-            Rectangle()
-                .fill(Color(uiColor: .systemBackground))
-                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: -4)
-                .ignoresSafeArea(edges: .bottom)
-        )
-    }
-
     private var floatingPlusButton: some View {
-        Button(action: onPlusTapped) {
+        Button {
+            showingNewSession = true
+        } label: {
             ZStack {
                 Circle()
                     .fill(Color.accentColor)
-                    .frame(width: plusButtonSize, height: plusButtonSize)
+                    .frame(width: 56, height: 56)
                     .shadow(color: Color.accentColor.opacity(0.4), radius: 8, x: 0, y: 4)
 
                 Image(systemName: "plus")
@@ -158,33 +100,6 @@ struct CustomTabBar: View {
             }
         }
         .accessibilityLabel("Start new session")
-    }
-}
-
-// MARK: - Tab Bar Button
-
-/// Individual tab bar button
-struct TabBarButton: View {
-    let icon: String
-    let filledIcon: String
-    let label: String
-    let isSelected: Bool
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 4) {
-                Image(systemName: isSelected ? filledIcon : icon)
-                    .font(.system(size: 22))
-                    .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
-
-                Text(label)
-                    .font(.caption2)
-                    .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
-            }
-            .frame(maxWidth: .infinity)
-        }
-        .accessibilityLabel(label)
     }
 }
 
