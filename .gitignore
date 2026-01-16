@@ -4,6 +4,7 @@
 Package.resolved
 
 # Xcode
+build/
 *.xcodeproj
 *.xcworkspace
 xcuserdata/
