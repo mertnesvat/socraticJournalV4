@@ -23,8 +23,7 @@ public struct SocraticJournalApp: App {
 
     public var body: some Scene {
         WindowGroup {
-            HomeView(
-                viewModel: HomeViewModel(repository: repository),
+            MainTabView(
                 repository: repository,
                 settingsRepository: settingsRepository,
                 notificationService: notificationService
