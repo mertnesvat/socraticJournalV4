@@ -48,3 +48,13 @@ targets:
       path: SocraticJournal.entitlements
       properties:
         aps-environment: development
+
+schemes:
+  SocraticJournal:
+    build:
+      targets:
+        SocraticJournal: all
+    run:
+      config: Debug
+    archive:
+      config: Release

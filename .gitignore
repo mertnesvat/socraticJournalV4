@@ -5,10 +5,11 @@ Package.resolved
 
 # Xcode
 build/
-*.xcodeproj
-*.xcworkspace
+# Note: .xcodeproj is NOT ignored - it must be committed for Xcode Cloud
+# Regenerate with: xcodegen generate
 xcuserdata/
 DerivedData/
+*.xcuserdatad
 
 # Firebase
 firebase-debug.log
