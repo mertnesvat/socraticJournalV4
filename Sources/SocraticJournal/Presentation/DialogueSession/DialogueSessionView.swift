@@ -10,6 +10,7 @@ public struct DialogueSessionView: View {
     @State private var viewModel: DialogueSessionViewModel
     @State private var showingExitConfirmation: Bool = false
     @Environment(\.dismiss) private var dismiss
+    @Environment(ThemeManager.self) private var themeManager
 
     private let repository: JournalRepositoryProtocol
 
@@ -72,6 +73,8 @@ public struct DialogueSessionView: View {
                     ),
                     repository: repository
                 )
+                .environment(themeManager)
+                .preferredColorScheme(themeManager.colorScheme)
             }
             .task {
                 viewModel.onExit = {

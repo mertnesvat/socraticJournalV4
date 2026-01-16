@@ -15,6 +15,7 @@ public struct HomeView: View {
     @State private var showingWisdomQuotes: Bool = false
     @State private var showingSettings: Bool = false
     @State private var selectedSession: JournalSession?
+    @Environment(ThemeManager.self) private var themeManager
     private let repository: JournalRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol?
@@ -51,6 +52,8 @@ public struct HomeView: View {
                         ),
                         repository: repository
                     )
+                    .environment(themeManager)
+                    .preferredColorScheme(themeManager.colorScheme)
                 }
                 .fullScreenCover(isPresented: $showingLettersList) {
                     // Reload ready letters count when letters list is dismissed
@@ -67,6 +70,8 @@ public struct HomeView: View {
                         notificationService: notificationService,
                         settingsRepository: settingsRepository
                     )
+                    .environment(themeManager)
+                    .preferredColorScheme(themeManager.colorScheme)
                 }
                 .fullScreenCover(isPresented: $showingCharacterDiscovery) {
                     CharacterDiscoveryView(
@@ -75,6 +80,8 @@ public struct HomeView: View {
                             analysisService: MockPersonalityAnalysisService()
                         )
                     )
+                    .environment(themeManager)
+                    .preferredColorScheme(themeManager.colorScheme)
                 }
                 .sheet(item: $selectedSession) { session in
                     SessionDetailView(
@@ -85,11 +92,14 @@ public struct HomeView: View {
                     )
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
+                    .preferredColorScheme(themeManager.colorScheme)
                 }
                 .fullScreenCover(isPresented: $showingStatistics) {
                     StatisticsView(
                         viewModel: StatisticsViewModel(repository: repository)
                     )
+                    .environment(themeManager)
+                    .preferredColorScheme(themeManager.colorScheme)
                 }
                 .fullScreenCover(isPresented: $showingWisdomQuotes) {
                     WisdomQuotesView(
@@ -97,6 +107,8 @@ public struct HomeView: View {
                             quoteService: LocalWisdomQuoteService()
                         )
                     )
+                    .environment(themeManager)
+                    .preferredColorScheme(themeManager.colorScheme)
                 }
                 .fullScreenCover(isPresented: $showingSettings) {
                     SettingsView(
@@ -106,6 +118,8 @@ public struct HomeView: View {
                             notificationService: notificationService
                         )
                     )
+                    .environment(themeManager)
+                    .preferredColorScheme(themeManager.colorScheme)
                 }
         }
     }

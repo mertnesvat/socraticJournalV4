@@ -8,6 +8,7 @@ import SwiftUI
 /// Settings screen for app configuration
 public struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(ThemeManager.self) private var themeManager
     @State private var viewModel: SettingsViewModel
     @State private var showingExportView: Bool = false
 
@@ -49,21 +50,17 @@ public struct SettingsView: View {
                             )
                         )
                     )
+                    .preferredColorScheme(themeManager.colorScheme)
                 }
                 .overlay {
                     if viewModel.showClearDataSuccess {
                         successOverlay
                     }
                 }
-                .preferredColorScheme(colorScheme)
-        }
-    }
-
-    private var colorScheme: ColorScheme? {
-        switch viewModel.themeMode {
-        case .system: return nil
-        case .light: return .light
-        case .dark: return .dark
+                .preferredColorScheme(themeManager.colorScheme)
+                .onChange(of: viewModel.themeMode) { _, newMode in
+                    themeManager.updateTheme(newMode)
+                }
         }
     }
 
