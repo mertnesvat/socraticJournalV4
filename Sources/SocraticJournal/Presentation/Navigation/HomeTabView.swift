@@ -1,17 +1,17 @@
-// HomeView.swift
+// HomeTabView.swift
 // SocraticJournal
 // Copyright 2024 StudioNext
 
 #if os(iOS)
 import SwiftUI
 
-/// Main home screen for the Socratic Journal app
-public struct HomeView: View {
-    @State private var viewModel: HomeViewModel
-    @State private var showingNewSession: Bool = false
+/// Home view adapted for tab navigation
+/// Session start is handled by the floating plus button in MainTabView
+/// Statistics is now a separate tab - stats card tap switches to Statistics tab
+public struct HomeTabView: View {
+    @Bindable var viewModel: HomeViewModel
     @State private var showingLettersList: Bool = false
     @State private var showingCharacterDiscovery: Bool = false
-    @State private var showingStatistics: Bool = false
     @State private var showingWisdomQuotes: Bool = false
     @State private var showingSettings: Bool = false
     @State private var selectedSession: JournalSession?
@@ -19,17 +19,20 @@ public struct HomeView: View {
     private let repository: JournalRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol?
+    private let onStatsCardTapped: (() -> Void)?
 
     public init(
         viewModel: HomeViewModel,
         repository: JournalRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
-        notificationService: NotificationServiceProtocol? = nil
+        notificationService: NotificationServiceProtocol? = nil,
+        onStatsCardTapped: (() -> Void)? = nil
     ) {
-        _viewModel = State(initialValue: viewModel)
+        self.viewModel = viewModel
         self.repository = repository
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
+        self.onStatsCardTapped = onStatsCardTapped
     }
 
     public var body: some View {
@@ -39,22 +42,6 @@ public struct HomeView: View {
                 .toolbar { toolbarContent }
                 .task { await viewModel.loadData() }
                 .refreshable { await viewModel.refreshData() }
-                .fullScreenCover(isPresented: $showingNewSession) {
-                    // Reload data when session is dismissed
-                    Task {
-                        await viewModel.loadData()
-                    }
-                } content: {
-                    DialogueSessionView(
-                        viewModel: DialogueSessionViewModel(
-                            questionService: MockQuestionService(),
-                            repository: repository
-                        ),
-                        repository: repository
-                    )
-                    .environment(themeManager)
-                    .preferredColorScheme(themeManager.colorScheme)
-                }
                 .fullScreenCover(isPresented: $showingLettersList) {
                     // Reload ready letters count when letters list is dismissed
                     Task {
@@ -92,13 +79,6 @@ public struct HomeView: View {
                     )
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
-                    .preferredColorScheme(themeManager.colorScheme)
-                }
-                .fullScreenCover(isPresented: $showingStatistics) {
-                    StatisticsView(
-                        viewModel: StatisticsViewModel(repository: repository)
-                    )
-                    .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
                 }
                 .fullScreenCover(isPresented: $showingWisdomQuotes) {
@@ -157,20 +137,21 @@ public struct HomeView: View {
     private var mainContent: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Stats Card - Tappable to show full statistics
+                // Stats Card - Tappable to switch to Statistics tab
                 Button {
-                    showingStatistics = true
+                    onStatsCardTapped?()
                 } label: {
                     StatsCardView(stats: viewModel.stats)
                 }
                 .buttonStyle(.plain)
+                .accessibilityHint("Tap to view full statistics")
                 .padding(.horizontal)
 
-                // Start Session Button
-                StartSessionButton {
-                    showingNewSession = true
+                // Prompt to start session when no sessions exist
+                if viewModel.hasNoSessions {
+                    emptyStatePrompt
+                        .padding(.horizontal)
                 }
-                .padding(.horizontal)
 
                 // Calendar
                 CalendarView(
@@ -220,12 +201,33 @@ public struct HomeView: View {
                     .padding(.vertical, 32)
                 }
 
-                // Bottom spacing
-                Spacer(minLength: 40)
+                // Extra bottom spacing to account for tab bar
+                Spacer(minLength: 100)
             }
             .padding(.top)
         }
         .background(Color(uiColor: .systemGroupedBackground))
+    }
+
+    private var emptyStatePrompt: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "sparkles")
+                .font(.system(size: 40))
+                .foregroundStyle(Color.accentColor)
+
+            Text("Ready to begin?")
+                .font(.headline)
+
+            Text("Tap the + button below to start your first Socratic dialogue session.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 32)
+        .padding(.horizontal)
+        .background(Color(uiColor: .secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     private func selectedDateHeader(_ date: Date) -> some View {
@@ -276,13 +278,6 @@ public struct HomeView: View {
                 }
 
                 Button {
-                    showingStatistics = true
-                } label: {
-                    Image(systemName: "chart.bar.fill")
-                        .font(.title3)
-                }
-
-                Button {
                     showingSettings = true
                 } label: {
                     Image(systemName: "gearshape.fill")
@@ -296,10 +291,12 @@ public struct HomeView: View {
 #Preview {
     let repository = InMemoryJournalRepository()
     let settingsRepository = UserDefaultsSettingsRepository()
-    return HomeView(
+    return HomeTabView(
         viewModel: HomeViewModel(repository: repository),
         repository: repository,
-        settingsRepository: settingsRepository
+        settingsRepository: settingsRepository,
+        onStatsCardTapped: { print("Stats tapped") }
     )
+    .environment(ThemeManager.shared)
 }
 #endif

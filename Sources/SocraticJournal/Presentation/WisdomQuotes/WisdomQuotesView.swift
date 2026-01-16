@@ -169,8 +169,11 @@ public struct WisdomQuotesView: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
-            Button("Done") {
+            Button {
                 dismiss()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.body.weight(.medium))
             }
         }
 

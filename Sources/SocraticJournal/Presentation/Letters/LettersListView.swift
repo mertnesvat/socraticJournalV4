@@ -11,6 +11,7 @@ public struct LettersListView: View {
     @State private var selectedLetter: FutureLetter?
     @State private var showingCompose: Bool = false
     @Environment(\.dismiss) private var dismiss
+    @Environment(ThemeManager.self) private var themeManager
 
     private let repository: JournalRepositoryProtocol
     private let notificationService: NotificationServiceProtocol?
@@ -48,6 +49,7 @@ public struct LettersListView: View {
                         repository: repository
                     )
                 )
+                .preferredColorScheme(themeManager.colorScheme)
             }
             .fullScreenCover(isPresented: $showingCompose) {
                 Task {
@@ -61,6 +63,8 @@ public struct LettersListView: View {
                         settingsRepository: settingsRepository
                     )
                 )
+                .environment(themeManager)
+                .preferredColorScheme(themeManager.colorScheme)
             }
         }
     }

@@ -10,6 +10,7 @@ public struct SessionCompleteView: View {
     @State private var viewModel: SessionCompleteViewModel
     @State private var showingComposeLetter: Bool = false
     @Environment(\.dismiss) private var dismiss
+    @Environment(ThemeManager.self) private var themeManager
 
     private let repository: JournalRepositoryProtocol
 
@@ -53,6 +54,8 @@ public struct SessionCompleteView: View {
                         repository: repository
                     )
                 )
+                .environment(themeManager)
+                .preferredColorScheme(themeManager.colorScheme)
             }
         }
     }

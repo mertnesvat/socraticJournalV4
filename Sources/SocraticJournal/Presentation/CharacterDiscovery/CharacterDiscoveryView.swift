@@ -9,6 +9,7 @@ import SwiftUI
 public struct CharacterDiscoveryView: View {
     @State private var viewModel: CharacterDiscoveryViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(ThemeManager.self) private var themeManager
 
     public init(viewModel: CharacterDiscoveryViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -27,6 +28,7 @@ public struct CharacterDiscoveryView: View {
                             trait: trait,
                             onDismiss: { viewModel.dismissTraitDetail() }
                         )
+                        .preferredColorScheme(themeManager.colorScheme)
                     }
                 }
         }
@@ -260,8 +262,8 @@ public struct CharacterDiscoveryView: View {
             Button {
                 dismiss()
             } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .foregroundStyle(.secondary)
+                Image(systemName: "xmark")
+                    .font(.body.weight(.medium))
             }
         }
 

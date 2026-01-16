@@ -12,24 +12,26 @@ public struct SocraticJournalApp: App {
     private let repository: JournalRepositoryProtocol = InMemoryJournalRepository()
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()
     private let notificationService: NotificationServiceProtocol = LocalNotificationService()
-    @State private var themeMode: ThemeMode = .system
+    @State private var themeManager = ThemeManager.shared
 
     public init() {
         // Configure Firebase Messaging
         FirebaseNotificationService.shared.configure()
+        // Configure ThemeManager with settings repository
+        ThemeManager.shared.configure(settingsRepository: UserDefaultsSettingsRepository())
     }
 
     public var body: some Scene {
         WindowGroup {
-            HomeView(
-                viewModel: HomeViewModel(repository: repository),
+            MainTabView(
                 repository: repository,
                 settingsRepository: settingsRepository,
                 notificationService: notificationService
             )
-            .preferredColorScheme(colorScheme)
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
             .task {
-                await loadTheme()
+                await themeManager.loadTheme()
                 await rescheduleNotifications()
                 await clearBadge()
             }
@@ -38,23 +40,6 @@ public struct SocraticJournalApp: App {
                     await clearBadge()
                 }
             }
-        }
-    }
-
-    private var colorScheme: ColorScheme? {
-        switch themeMode {
-        case .system: return nil
-        case .light: return .light
-        case .dark: return .dark
-        }
-    }
-
-    private func loadTheme() async {
-        do {
-            let settings = try await settingsRepository.getSettings()
-            themeMode = settings.themeMode
-        } catch {
-            themeMode = .system
         }
     }
 

@@ -1,14 +1,14 @@
-// StatisticsView.swift
+// StatisticsTabView.swift
 // SocraticJournal
 // Copyright 2024 StudioNext
 
 #if os(iOS)
 import SwiftUI
 
-/// Dedicated statistics screen showing detailed journal analytics
-public struct StatisticsView: View {
+/// Statistics view adapted for tab navigation (no dismiss button)
+/// Uses the same StatisticsViewModel and maintains all statistics functionality
+public struct StatisticsTabView: View {
     @State private var viewModel: StatisticsViewModel
-    @Environment(\.dismiss) private var dismiss
 
     public init(viewModel: StatisticsViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -19,7 +19,6 @@ public struct StatisticsView: View {
             content
                 .navigationTitle("Statistics")
                 .navigationBarTitleDisplayMode(.large)
-                .toolbar { toolbarContent }
                 .task { await viewModel.loadData() }
                 .refreshable { await viewModel.loadData() }
         }
@@ -94,7 +93,8 @@ public struct StatisticsView: View {
                 // Milestones Section
                 milestonesSection
 
-                Spacer(minLength: 40)
+                // Extra bottom padding to account for tab bar
+                Spacer(minLength: 100)
             }
             .padding()
         }
@@ -111,14 +111,14 @@ public struct StatisticsView: View {
             }
 
             HStack(spacing: 12) {
-                QuickStatCard(
+                QuickStatCardTab(
                     title: "Total Entries",
                     value: "\(viewModel.stats.totalEntries)",
                     icon: "book.closed.fill",
                     color: .blue
                 )
 
-                QuickStatCard(
+                QuickStatCardTab(
                     title: "Average Score",
                     value: String(format: "%.0f", viewModel.averageScore),
                     icon: "chart.line.uptrend.xyaxis",
@@ -127,14 +127,14 @@ public struct StatisticsView: View {
             }
 
             HStack(spacing: 12) {
-                QuickStatCard(
+                QuickStatCardTab(
                     title: "This Week",
                     value: "\(viewModel.stats.thisWeekEntries)",
                     icon: "calendar",
                     color: .orange
                 )
 
-                QuickStatCard(
+                QuickStatCardTab(
                     title: "Days Active",
                     value: "\(viewModel.stats.sessionCountByDate.count)",
                     icon: "checkmark.circle.fill",
@@ -165,22 +165,10 @@ public struct StatisticsView: View {
             }
         }
     }
-
-    @ToolbarContentBuilder
-    private var toolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "xmark")
-                    .font(.body.weight(.medium))
-            }
-        }
-    }
 }
 
-/// Quick stat card for overview section
-private struct QuickStatCard: View {
+/// Quick stat card for overview section (tab version)
+private struct QuickStatCardTab: View {
     let title: String
     let value: String
     let icon: String
@@ -213,7 +201,7 @@ private struct QuickStatCard: View {
 }
 
 #Preview {
-    StatisticsView(
+    StatisticsTabView(
         viewModel: StatisticsViewModel(repository: InMemoryJournalRepository())
     )
 }
