@@ -1,366 +1,161 @@
-# Socratic Journal - iOS Native Rebuild
+---
+base_branch: main
+max_retries: 2
+continue_on_failure: true
+visual_gate_enabled: true
+visual_gate_threshold: 0.7
+bundle_id: com.StudioNext.socraticJournal
+action_logging: true
+---
 
-A guided journaling app that uses Socratic dialogue methodology to help users gain clarity through deep self-reflection. Users engage in meaningful conversations with a virtual "Socrates" character, receive personalized insights, and can write sealed letters to their future selves.
+# Feature Queue: Socratic Journal UX Overhaul
+
+This queue addresses two main areas: fixing app-wide theming and modernizing the navigation UX with a tab bar.
 
 ---
 
-## Firebase & App Configuration
+### 1. Fix App-Wide Dark/Light Theme Support
 
-**App Name:** Socratic Journal V3
-**Bundle Identifier:** `com.StudioNext.socraticJournal`
-**Firebase Project ID:** `socratic-journal`
+The theme selector in Settings changes the theme, but it doesn't apply to full-screen covers (DialogueSessionView, LettersListView, StatisticsView, WisdomQuotesView, CharacterDiscoveryView, SessionCompleteView). Users expect their theme choice to apply everywhere.
 
-### GoogleService-Info.plist Values
-```
-API_KEY: AIzaSyDQijVFO2lZ3hrp9j41WRAU_OdfAI5-7DA
-GCM_SENDER_ID: 453670854244
-BUNDLE_ID: com.StudioNext.socraticJournal
-PROJECT_ID: socratic-journal
-STORAGE_BUCKET: socratic-journal.firebasestorage.app
-GOOGLE_APP_ID: 1:453670854244:ios:84adf881a9baa8102f0971
-IS_GCM_ENABLED: true
-IS_SIGNIN_ENABLED: true
-IS_APPINVITE_ENABLED: true
-IS_ANALYTICS_ENABLED: false
-IS_ADS_ENABLED: false
-```
+**User Story:** As a user, I want my dark/light theme preference to apply to every screen in the app, so I have a consistent visual experience.
 
-### Firebase Cloud Functions Used
-- `generateNextQuestion` - Generates AI follow-up questions based on user answers
-- `generateSocratesReaction` - Creates emotional reactions (e.g., "Socrates nods slowly...")
-- `generateClarityMirror` - Reflects user's thoughts back in a new perspective
-- `generateFollowUpQuestion` - Contextual follow-up generation
-- Big Five personality analysis function
+**Acceptance Criteria:**
+- User can select System/Light/Dark theme in Settings
+- Theme applies immediately to all screens including full-screen covers
+- DialogueSessionView respects the selected theme
+- LettersListView respects the selected theme
+- StatisticsView respects the selected theme
+- WisdomQuotesView respects the selected theme
+- CharacterDiscoveryView respects the selected theme
+- SessionCompleteView respects the selected theme
+- SettingsView respects the selected theme
+- All sheets and modals respect the selected theme
+- Theme persists across app restarts
 
----
+**Current Issues to Address:**
+- Full-screen covers don't inherit `.preferredColorScheme()` from parent
+- Some views have hardcoded colors that don't adapt (purple/blue gradient in LettersListView, orange in CharacterDiscoveryView, green in SessionCompleteView)
+- Theme state needs to be passed through environment or stored globally
 
-## Features
-
-### 1. Home Screen
 **Priority:** 1
-**Dependencies:** none
-
-Main dashboard with:
-- Stats summary card showing total entries, current streak, longest streak, weekly entries
-- Interactive calendar with session indicators per date and average clarity scores
-- Tap on calendar date to filter session history
-- "Start Session" prominent button
-- Session history list with most recent sessions
-- Badge notification showing count of ready-to-read sealed letters
-- Navigation icons: Character Discovery, Settings, Letters notification
-- Empty state with encouraging message when no sessions exist
+**Dependencies:** None
 
 ---
 
-### 2. Socratic Dialogue Session
+### 2. Implement Tab Bar Navigation with Floating Plus Button
+
+Replace the current toolbar-based navigation with a modern tab bar. The current UX has the "Start Session" button in the middle of the home screen content and navigation scattered in the toolbar. This should become a clean tab bar with a prominent floating center button for starting sessions.
+
+**User Story:** As a user, I want a tab bar at the bottom of the screen with a prominent plus button in the center, so I can easily start new journaling sessions and navigate between main sections.
+
+**Acceptance Criteria:**
+- Tab bar appears at the bottom of the screen with 3 main areas
+- Left tab: Home (house icon) - shows the main journal home screen
+- Center: Floating circular plus button that stands out above the tab bar
+- Right tab: Statistics (chart icon) - shows the statistics screen
+- Plus button has elevated/floating appearance (shadow, slightly raised above tab bar)
+- Tapping plus button starts a new Socratic dialogue session
+- Tab bar is visible on Home and Statistics screens
+- Tab bar hides during dialogue sessions (full-screen experience)
+- Active tab has visual indicator (filled icon, accent color, or label)
+- Tab bar respects dark/light theme
+
 **Priority:** 2
-**Dependencies:** Home Screen
-
-The core journaling experience with exactly 3 questions per session:
-
-**Question Flow:**
-- First question always: "What's on your mind today?"
-- Questions 2 and 3 are AI-generated based on previous answers (Firebase Cloud Function)
-- Fallback questions available if Firebase is unavailable
-
-**For Each Question:**
-1. Display the Socratic question
-2. User types answer in text field (can skip by leaving blank)
-3. After submitting:
-   - Show Socrates' reaction (AI-generated emotional response like "Socrates nods slowly...")
-   - Display Clarity Mirror (AI-generated reflection of user's insights)
-   - Show Insight Card (3-4 word summary like "Growth through challenge")
-4. Continue button advances to next question
-
-**Session Features:**
-- Progress bar showing "Question 1 of 3"
-- Text input field for answers
-- Skip option (leave blank)
-- Exit confirmation dialog to prevent accidental data loss
+**Dependencies:** Feature 1 (App-Wide Theme Support)
 
 ---
 
-### 3. Session Complete Screen
+### 3. Relocate Profile, Letters, and Wisdom Library to Toolbar/Menu
+
+With the new tab bar handling primary navigation, secondary features need a new home. Profile (Character Discovery), My Letters, and Wisdom Library should be accessible from the top toolbar on the Home screen.
+
+**User Story:** As a user, I want to access my profile, letters, and wisdom quotes from the home screen toolbar, so these features are still easily reachable without cluttering the tab bar.
+
+**Acceptance Criteria:**
+- Home screen has a toolbar with navigation icons
+- Profile icon (person.crop.circle) in toolbar opens Character Discovery
+- Letters icon (envelope with badge) in toolbar opens My Letters list
+- Wisdom icon (quote.bubble) in toolbar opens Wisdom Quotes
+- Settings gear icon remains in toolbar for Settings access
+- Badge on letters icon shows count of ready-to-read letters
+- Toolbar icons are appropriately sized and spaced
+- Toolbar respects dark/light theme
+
 **Priority:** 3
-**Dependencies:** Socratic Dialogue Session
-
-Post-session results display:
-- Large clarity score (0-100) with visual styling
-- Score breakdown showing three components:
-  - Completion score (30% weight)
-  - Depth score (40% weight)
-  - Emotional score (30% weight)
-- Score label (e.g., "Deep Dive", "Thoughtful Reflection", "Quick Check-in")
-- Personalized encouraging message based on score quality
-- Wisdom quote section with thematic quote matched to session content
-- Action buttons:
-  - "Write Letter to Future Self" - navigates to letter screen
-  - "Back to Home" - returns to home
-
-**Score Quality Levels:**
-- High Quality: score >= 70
-- Moderate: score 40-69
-- Quick: score < 40
+**Dependencies:** Feature 2 (Tab Bar Navigation)
 
 ---
 
-### 4. Future Letters
+### 4. Update Home Screen Layout for Tab Bar
+
+The home screen needs to be restructured to work with the new tab bar. Remove the current "Start Session" button from the content area since it's now in the tab bar. Adjust spacing and layout.
+
+**User Story:** As a user, I want the home screen to feel clean and focused on my journal history and stats, with the session start action in the tab bar.
+
+**Acceptance Criteria:**
+- Stats summary card remains at top of home screen (tappable to see full stats)
+- "Start Session" button removed from main content (now in tab bar)
+- Calendar view remains for filtering sessions by date
+- Session history list shows below calendar
+- Empty state shows encouraging message when no sessions exist
+- Content has appropriate bottom padding to account for tab bar
+- Pull-to-refresh still works to reload data
+- Layout looks balanced without the large start button in content
+
 **Priority:** 4
-**Dependencies:** Session Complete Screen
-
-Write sealed letters to your future self:
-- Text editor for letter content (20-2000 characters)
-- Character counter with validity feedback
-- Duration selector with options:
-  - 1 Week
-  - 1 Month (default)
-  - 3 Months
-  - 1 Year
-- Display of exact unlock date
-- Save letter button
-- Exit confirmation when leaving without saving
-
-**Letter Lifecycle:**
-1. `sealed` - Letter is locked, waiting for unlock date
-2. `ready` - Unlock date reached, user notified
-3. `read` - User has opened and read the letter
-4. `archived` - User archived the letter after reading
-
-Letters are linked to the originating session for context.
+**Dependencies:** Feature 2 (Tab Bar Navigation), Feature 3 (Toolbar Relocation)
 
 ---
 
-### 5. Character Discovery (Personality Analysis)
+### 5. Ensure Consistent Navigation Flow with New Structure
+
+All navigation flows need to work correctly with the new tab bar architecture. Full-screen covers for sessions should hide the tab bar, and returning from sessions should show it again.
+
+**User Story:** As a user, I want navigation to feel smooth and consistent, with the tab bar appearing and disappearing appropriately as I move through the app.
+
+**Acceptance Criteria:**
+- Starting a session from plus button presents DialogueSessionView full-screen (no tab bar)
+- Completing a session shows SessionCompleteView full-screen (no tab bar)
+- "Write Letter" from session complete opens ComposeLetterView full-screen
+- "Back to Home" from session complete returns to home with tab bar visible
+- Opening Letters list from toolbar presents full-screen (no tab bar visible)
+- Opening Wisdom Quotes from toolbar presents full-screen
+- Opening Character Discovery from toolbar presents full-screen
+- Opening Settings from toolbar presents full-screen
+- All dismiss actions properly return to the tab bar view
+- No duplicate navigation bars or visual glitches during transitions
+
 **Priority:** 5
-**Dependencies:** Socratic Dialogue Session
-
-AI-powered Big Five (OCEAN) personality analysis based on journal entries:
-
-**Progressive Unlock System (logarithmic: 25 * ln(entries + 1)):**
-- **Locked** (< 30% progress): Show progress bar with "journal more" encouragement
-- **Sample** (30-40% progress): Preview with sample personality data and disclaimer
-- **Available** (> 40% progress): Full personality profile access
-
-**Big Five Traits Displayed:**
-1. **Openness to Experience** - Curiosity, creativity, openness to new ideas
-2. **Conscientiousness** - Organization, dependability, self-discipline
-3. **Extraversion** - Sociability, assertiveness, positive emotions
-4. **Agreeableness** - Compassion, cooperation, trust
-5. **Neuroticism** - Emotional sensitivity, tendency toward negative emotions
-
-**Display Elements:**
-- Overall progress bar toward full unlock
-- Visual chart of trait scores (radar/spider chart)
-- Individual trait cards showing:
-  - Score (0-100)
-  - Label (High/Moderate/Low)
-  - Description
-  - Supporting evidence quotes from journal entries
-- Summary narrative interpretation
-- Refresh button to regenerate after new sessions
-- "Last analyzed" timestamp
+**Dependencies:** Feature 4 (Home Screen Layout)
 
 ---
 
-### 6. Session History & Details
-**Priority:** 6
-**Dependencies:** Home Screen, Socratic Dialogue Session
+## Technical Notes for Implementation
 
-View past sessions:
-- List view of all sessions sorted by date
-- Filter by tapping calendar dates
-- Session preview cards showing date and clarity score
+### Theme Fix Approach
+The recommended approach is to:
+1. Create an `@Observable` ThemeManager that stores the current theme
+2. Pass theme through SwiftUI environment using `.environment()`
+3. Apply `.preferredColorScheme()` to each full-screen cover's root view
+4. Replace hardcoded colors with semantic alternatives or use `.opacity()` modifiers that work in both modes
 
-**Session Detail Modal (Bottom Sheet):**
-- Swipeable/draggable to dismiss
-- Full conversation history with all Q&A pairs
-- Clarity mirrors displayed for each exchange
-- Insight cards shown
-- Wisdom quote from that session
-- Clarity score breakdown
+### Tab Bar Implementation Approach
+Consider using:
+1. Custom `TabView` with `.tabViewStyle(.page)` or standard tabs
+2. ZStack overlay for the floating center button
+3. Custom tab bar view if standard TabView doesn't support the floating button design
+4. GeometryReader for proper positioning of floating button
 
----
-
-### 7. Journal Statistics
-**Priority:** 7
-**Dependencies:** Socratic Dialogue Session
-
-Track journaling habits:
-- Total entries completed
-- Current streak (consecutive days with journal entry)
-- Longest streak ever achieved
-- This week's entry count
-- Session count by date (shown on calendar)
-- Average clarity score by date (shown on calendar)
-
----
-
-### 8. Wisdom Quotes
-**Priority:** 8
-**Dependencies:** Session Complete Screen
-
-Quote system with 390+ quotes:
-- Organized by themes: Change, Struggle, Acceptance, Relationships, Purpose, Self-Knowledge, Time, Fear, Loss, Gratitude, Creativity, Universal
-- Matched to session content themes
-- Display with author and source attribution
-- Stored in local JSON file (`wisdom_quotes.json`)
-
----
-
-### 9. Settings Screen
-**Priority:** 9
-**Dependencies:** Home Screen
-
-App configuration:
-
-**Appearance:**
-- Theme selector: System (default) / Light / Dark
-- Changes apply immediately without restart
-
-**Notifications:**
-- Letter reminders toggle (on by default)
-- Daily reminder toggle (off by default)
-- Reminder time picker (when daily reminders enabled)
-
-**Data:**
-- Export journal as JSON file
-- Clear all data (with confirmation dialog)
-
-**About:**
-- App version display (1.0.0)
-- Privacy policy link
-
----
-
-### 10. Data Export
-**Priority:** 10
-**Dependencies:** Settings Screen
-
-Export all journal data:
-- JSON format export
-- Includes:
-  - All sessions with exchanges
-  - All future letters
-  - Settings configuration
-  - Export timestamp
-- Saved to device documents directory
-- Filename: `socratic_journal_export_[timestamp].json`
-
----
-
-### 11. Notifications
-**Priority:** 11
-**Dependencies:** Future Letters, Settings Screen
-
-Push notification support:
-- Letter ready notifications when sealed letter unlock date is reached
-- Optional daily journaling reminder at user-configured time
-- Uses Firebase Cloud Messaging (GCM enabled)
-
----
-
-## Data Models
-
-### JournalSession
-- `id`: String (UUID)
-- `createdAt`: DateTime
-- `exchanges`: Array of Exchange objects
-- `clarityScore`: ClarityScore object (optional, set after completion)
-- `wisdomQuote`: WisdomQuote object (optional)
-- `isComplete`: Boolean
-
-### Exchange
-- `id`: String
-- `question`: String
-- `answer`: String
-- `clarityMirror`: String (optional, AI-generated)
-- `insightCard`: String (optional, 3-4 word summary)
-- `skipped`: Boolean
-- `answeredAt`: DateTime
-
-### FutureLetter
-- `id`: String (UUID)
-- `sessionId`: String (links to originating session)
-- `content`: String
-- `createdAt`: DateTime
-- `unlockAt`: DateTime
-- `status`: Enum (sealed/ready/read/archived)
-- `readAt`: DateTime (optional)
-
-### ClarityScore
-- `total`: Int (0-100)
-- `completion`: Int (0-100, 30% weight)
-- `depth`: Int (0-100, 40% weight)
-- `emotional`: Int (0-100, 30% weight)
-- `label`: String
-- `message`: String
-
-### BigFiveProfile
-- `openness`: PersonalityTrait
-- `conscientiousness`: PersonalityTrait
-- `extraversion`: PersonalityTrait
-- `agreeableness`: PersonalityTrait
-- `neuroticism`: PersonalityTrait
-- `summary`: String
-- `analyzedAt`: DateTime
-
-### PersonalityTrait
-- `type`: Enum (openness/conscientiousness/extraversion/agreeableness/neuroticism)
-- `score`: Int (0-100)
-- `label`: String (High/Moderate/Low)
-- `description`: String
-- `evidence`: Array of Strings
-
-### JournalStats
-- `totalEntries`: Int
-- `currentStreak`: Int
-- `longestStreak`: Int
-- `thisWeekEntries`: Int
-- `sessionCountByDate`: Dictionary<Date, Int>
-- `averageScoreByDate`: Dictionary<Date, Double>
-
-### UserSettings
-- `themeMode`: Enum (system/light/dark)
-- `letterRemindersEnabled`: Boolean
-- `dailyReminderEnabled`: Boolean
-- `dailyReminderHour`: Int (optional)
-- `dailyReminderMinute`: Int (optional)
-
-### WisdomQuote
-- `id`: String
-- `text`: String
-- `author`: String
-- `source`: String (optional)
-- `theme`: Enum (change/struggle/acceptance/relationships/purpose/self-knowledge/time/fear/loss/gratitude/creativity/universal)
-
----
-
-## Key User Flows
-
-### First-Time User
-1. Launch app → Home screen (empty state)
-2. Tap "Start Session"
-3. Answer 3 Socratic questions
-4. View clarity score and wisdom quote
-5. Optionally write letter to future self
-6. Return home, see first session in history
-
-### Daily Returning User
-1. Home shows stats, calendar with session indicators, recent sessions
-2. Tap "Start Session"
-3. Complete 3-question dialogue
-4. View results
-5. Progress toward character discovery increases
-
-### Character Discovery Unlock
-1. Complete 10-15 sessions → Hit 30% progress → See preview
-2. Complete more sessions → Hit 40% progress → Full profile unlocked
-3. View detailed Big Five personality analysis
-4. Refresh profile after additional journaling
-
-### Future Letter Lifecycle
-1. Complete session → Tap "Write Letter" on complete screen
-2. Write message, choose unlock duration (1 week to 1 year)
-3. Letter sealed
-4. On unlock date, notification badge appears on home
-5. Read letter → Option to archive
+### Files Likely to Change
+- `SocraticJournalApp.swift` - App structure, possibly switch to tab-based root
+- `HomeView.swift` - Remove start button, adjust layout, update toolbar
+- `DialogueSessionView.swift` - Add theme support
+- `LettersListView.swift` - Add theme support, fix hardcoded colors
+- `StatisticsView.swift` - Add theme support, integrate with tab bar
+- `WisdomQuotesView.swift` - Add theme support
+- `CharacterDiscoveryView.swift` - Add theme support, fix hardcoded colors
+- `SessionCompleteView.swift` - Add theme support, fix hardcoded colors
+- `SettingsView.swift` - Theme support already present, may need adjustments
+- New file: `MainTabView.swift` or similar for tab bar container
+- New file: `ThemeManager.swift` or similar for centralized theme state
