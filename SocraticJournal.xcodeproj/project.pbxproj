@@ -36,6 +36,7 @@
 		3C7FFEB692B8CE92702F3410 /* SessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF9F96EEB8A9B0B1BE9C79A /* SessionCompleteView.swift */; };
 		3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782BF4BCB8611080CE7218E /* AboutView.swift */; };
 		4039A71FB974A8A4DDAFB797 /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4365E37F7BE4F7D2E83A7B /* ExportView.swift */; };
+		40DB66C3830BF575B1904170 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBFCD947C02302577DE3EC06 /* Assets.xcassets */; };
 		42F43471BC19B2F1C766543A /* MilestoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0D7EA93CE17433C6F33C /* MilestoneView.swift */; };
 		4B003C1F1D8857D2E752CADD /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4DCECA7E63ADA14711F603 /* StatisticsViewModel.swift */; };
 		4D8F3842A54452AED741EF12 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD021C9D10C27E2047636405 /* CalendarView.swift */; };
@@ -185,6 +186,7 @@
 		C700B1F0D3CD77AE8C620AAC /* MockPersonalityAnalysisService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPersonalityAnalysisService.swift; sourceTree = "<group>"; };
 		C904560046371ED6FE9FF72B /* SessionScoreSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionScoreSummary.swift; sourceTree = "<group>"; };
 		C9807DF03FE24AF6534E5768 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		CBFCD947C02302577DE3EC06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE0C2398B2D95A1A21365378 /* LetterDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterDetailViewModel.swift; sourceTree = "<group>"; };
 		CE62D57E33763614826EC91D /* WeeklyComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyComparisonView.swift; sourceTree = "<group>"; };
 		CF92EF5F314A4CC8478E991C /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 		2581841F6743B138C7DB4AF5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CBFCD947C02302577DE3EC06 /* Assets.xcassets */,
 				E9721DD221539E97DDD9E989 /* wisdom_quotes.json */,
 			);
 			path = Resources;
@@ -671,6 +674,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40DB66C3830BF575B1904170 /* Assets.xcassets in Resources */,
 				1D91E8114B8C5EDAADA1C820 /* SocraticJournalGoogleService-Info.plist in Resources */,
 				90D36BD2BF7047735751CD6B /* wisdom_quotes.json in Resources */,
 			);
