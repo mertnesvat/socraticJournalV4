@@ -1,7 +1,10 @@
 # Swift Package Manager
 .build/
 .swiftpm/
-Package.resolved
+# Root Package.resolved is ignored (SPM CLI)
+/Package.resolved
+# But xcodeproj's Package.resolved must be committed for Xcode Cloud
+!SocraticJournal.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
 # Xcode
 build/
