@@ -7,12 +7,23 @@ import Foundation
 /// In-memory data source for development and testing
 /// Will be replaced with Firebase implementation
 actor InMemoryDataSource {
-    private var sessions: [String: JournalSession] = [:]
-    private var letters: [String: FutureLetter] = [:]
+    private var sessions: [String: JournalSession]
+    private var letters: [String: FutureLetter]
 
-    init() {
-        // Seed with sample data for development
-        seedSampleData()
+    init(seedSampleData: Bool = true) {
+        // Initialize empty dictionaries first
+        self.sessions = [:]
+        self.letters = [:]
+
+        // Seed with sample data for development (disabled for testing)
+        if seedSampleData {
+            self.populateSampleData()
+        }
+    }
+
+    /// Populates sample data synchronously during init (called from nonisolated context)
+    private nonisolated func populateSampleData() {
+        Task { await self.seedSampleData() }
     }
 
     // MARK: - Sessions
