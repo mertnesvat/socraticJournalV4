@@ -13,6 +13,11 @@ public final class InMemoryJournalRepository: JournalRepositoryProtocol, @unchec
         self.dataSource = InMemoryDataSource()
     }
 
+    /// Internal initializer for testing (no sample data)
+    internal init(seedSampleData: Bool) {
+        self.dataSource = InMemoryDataSource(seedSampleData: seedSampleData)
+    }
+
     // MARK: - Sessions
 
     public func getAllSessions() async throws -> [JournalSession] {
