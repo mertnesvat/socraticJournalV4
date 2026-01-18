@@ -112,14 +112,14 @@ public struct OnboardingCharacterDiscoveryView: View {
                 // Center icon - the self
                 Image(systemName: "person.fill")
                     .font(.system(size: 36))
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(Color.accentColor)
                     .symbolRenderingMode(.hierarchical)
 
                 // Surrounding trait icons
                 ForEach(Array(traitIcons.enumerated()), id: \.offset) { index, icon in
                     Image(systemName: icon)
                         .font(.system(size: 24))
-                        .foregroundStyle(.accent.opacity(0.7))
+                        .foregroundStyle(Color.accentColor.opacity(0.7))
                         .symbolRenderingMode(.hierarchical)
                         .offset(traitOffset(for: index))
                 }
@@ -141,10 +141,10 @@ public struct OnboardingCharacterDiscoveryView: View {
     /// Calculate offset for each trait icon in circular arrangement
     private func traitOffset(for index: Int) -> CGSize {
         let radius: CGFloat = 60
-        let angle = (Double(index) * (360.0 / 5.0) - 90) * .pi / 180
+        let angle = CGFloat((Double(index) * (360.0 / 5.0) - 90) * .pi / 180)
         return CGSize(
-            width: cos(angle) * radius,
-            height: sin(angle) * radius
+            width: Foundation.cos(angle) * radius,
+            height: Foundation.sin(angle) * radius
         )
     }
 
@@ -154,7 +154,7 @@ public struct OnboardingCharacterDiscoveryView: View {
         HStack(spacing: 8) {
             Image(systemName: "lock.open.fill")
                 .font(.subheadline)
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
 
             Text("Unlocks as you journal")
                 .font(.subheadline)

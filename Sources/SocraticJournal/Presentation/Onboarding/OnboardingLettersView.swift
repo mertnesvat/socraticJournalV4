@@ -110,13 +110,13 @@ public struct OnboardingLettersView: View {
             // Main envelope icon
             Image(systemName: "envelope.open.fill")
                 .font(.system(size: 80))
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
                 .symbolRenderingMode(.hierarchical)
 
             // Clock overlay to indicate time-locked
             Image(systemName: "clock.fill")
                 .font(.system(size: 24))
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
                 .background(
                     Circle()
                         .fill(Color(uiColor: .systemBackground))
@@ -132,7 +132,7 @@ public struct OnboardingLettersView: View {
         HStack(spacing: 8) {
             Image(systemName: "lock.fill")
                 .font(.subheadline)
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
 
             Text("Time-locked until your chosen date")
                 .font(.subheadline)

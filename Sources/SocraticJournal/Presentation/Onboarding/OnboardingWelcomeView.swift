@@ -76,7 +76,7 @@ public struct OnboardingWelcomeView: View {
             // Icon
             Image(systemName: "brain.head.profile")
                 .font(.system(size: 80))
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
                 .symbolRenderingMode(.hierarchical)
 
             // Title and description

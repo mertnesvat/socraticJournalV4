@@ -113,7 +113,7 @@ public struct OnboardingGuidedReflectionView: View {
                 HStack {
                     Image(systemName: "bubble.left.fill")
                         .font(.system(size: 32))
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(Color.accentColor)
                         .symbolRenderingMode(.hierarchical)
                     Spacer()
                 }
@@ -134,12 +134,12 @@ public struct OnboardingGuidedReflectionView: View {
                     ZStack(alignment: .topTrailing) {
                         Image(systemName: "bubble.left.fill")
                             .font(.system(size: 32))
-                            .foregroundStyle(.accent)
+                            .foregroundStyle(Color.accentColor)
                             .symbolRenderingMode(.hierarchical)
 
                         Image(systemName: "sparkles")
                             .font(.system(size: 14))
-                            .foregroundStyle(.accent)
+                            .foregroundStyle(Color.accentColor)
                             .offset(x: 8, y: -8)
                     }
                     Spacer()
@@ -155,7 +155,7 @@ public struct OnboardingGuidedReflectionView: View {
         HStack(spacing: 8) {
             Image(systemName: "chart.line.uptrend.xyaxis")
                 .font(.subheadline)
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
 
             Text("Track your reflection depth with Clarity Score")
                 .font(.subheadline)
