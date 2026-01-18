@@ -13,6 +13,7 @@ public struct SocraticJournalApp: App {
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()
     private let notificationService: NotificationServiceProtocol = LocalNotificationService()
     @State private var themeManager = ThemeManager.shared
+    @State private var showOnboarding: Bool = false
 
     public init() {
         // Configure Firebase Messaging
@@ -32,6 +33,7 @@ public struct SocraticJournalApp: App {
             .preferredColorScheme(themeManager.colorScheme)
             .task {
                 await themeManager.loadTheme()
+                await checkOnboardingStatus()
                 await rescheduleNotifications()
                 await clearBadge()
             }
@@ -39,6 +41,29 @@ public struct SocraticJournalApp: App {
                 Task {
                     await clearBadge()
                 }
+            }
+            .fullScreenCover(isPresented: $showOnboarding) {
+                OnboardingView(
+                    settingsRepository: settingsRepository,
+                    onDismiss: { showOnboarding = false }
+                )
+            }
+        }
+    }
+
+    /// Check if user has completed onboarding and show it if not
+    private func checkOnboardingStatus() async {
+        do {
+            let settings = try await settingsRepository.getSettings()
+            if !settings.hasCompletedOnboarding {
+                await MainActor.run {
+                    showOnboarding = true
+                }
+            }
+        } catch {
+            // On error, assume new user and show onboarding
+            await MainActor.run {
+                showOnboarding = true
             }
         }
     }
