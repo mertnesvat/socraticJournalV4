@@ -9,6 +9,7 @@ import SwiftUI
 struct AboutView: View {
     let version: String
     let onPrivacyPolicy: () -> Void
+    let onReplayOnboarding: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -30,6 +31,28 @@ struct AboutView: View {
                     .font(.body)
                     .foregroundStyle(.secondary)
             }
+
+            Divider()
+
+            // Replay onboarding
+            Button(action: onReplayOnboarding) {
+                HStack {
+                    Image(systemName: "arrow.counterclockwise")
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+
+                    Text("Replay Onboarding")
+                        .font(.body)
+                        .foregroundStyle(.primary)
+
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                        .foregroundStyle(.tertiary)
+                }
+            }
+            .buttonStyle(.plain)
 
             Divider()
 
@@ -62,7 +85,8 @@ struct AboutView: View {
 #Preview {
     AboutView(
         version: "1.0.0",
-        onPrivacyPolicy: {}
+        onPrivacyPolicy: {},
+        onReplayOnboarding: {}
     )
     .padding()
     .background(Color(uiColor: .systemGroupedBackground))

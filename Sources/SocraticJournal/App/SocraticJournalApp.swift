@@ -42,6 +42,15 @@ public struct SocraticJournalApp: App {
                     await clearBadge()
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: .replayOnboarding)) { _ in
+                // Small delay to allow settings sheet to dismiss first
+                Task {
+                    try? await Task.sleep(for: .milliseconds(300))
+                    await MainActor.run {
+                        showOnboarding = true
+                    }
+                }
+            }
             .fullScreenCover(isPresented: $showOnboarding) {
                 OnboardingView(
                     settingsRepository: settingsRepository,

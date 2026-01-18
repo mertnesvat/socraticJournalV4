@@ -244,5 +244,11 @@ public final class SettingsViewModel {
             UIApplication.shared.open(url)
         }
     }
+
+    /// Reset onboarding flag so user can replay the onboarding flow
+    public func resetOnboarding() async {
+        settings.hasCompletedOnboarding = false
+        await saveSettings()
+    }
 }
 #endif
