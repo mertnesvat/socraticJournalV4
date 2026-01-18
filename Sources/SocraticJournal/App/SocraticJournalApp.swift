@@ -13,6 +13,7 @@ public struct SocraticJournalApp: App {
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()
     private let notificationService: NotificationServiceProtocol = LocalNotificationService()
     @State private var themeManager = ThemeManager.shared
+    @State private var showOnboarding: Bool = false
 
     public init() {
         // Configure Firebase Messaging
@@ -30,16 +31,48 @@ public struct SocraticJournalApp: App {
             )
             .environment(themeManager)
             .preferredColorScheme(themeManager.colorScheme)
+            .fullScreenCover(isPresented: $showOnboarding) {
+                OnboardingContainerView {
+                    // Mark onboarding complete and dismiss
+                    Task { @MainActor in
+                        do {
+                            var settings = try await settingsRepository.getSettings()
+                            settings.hasCompletedOnboarding = true
+                            try await settingsRepository.saveSettings(settings)
+                            showOnboarding = false
+                        } catch {
+                            // Even if saving fails, dismiss onboarding to not block the user
+                            print("Failed to save onboarding completion: \(error)")
+                            showOnboarding = false
+                        }
+                    }
+                }
+            }
             .task {
                 await themeManager.loadTheme()
                 await rescheduleNotifications()
                 await clearBadge()
+                await checkOnboardingStatus()
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                 Task {
                     await clearBadge()
                 }
             }
+        }
+    }
+
+    /// Check if onboarding has been completed and show it if not
+    private func checkOnboardingStatus() async {
+        do {
+            let settings = try await settingsRepository.getSettings()
+            if !settings.hasCompletedOnboarding {
+                showOnboarding = true
+            }
+        } catch {
+            // If we can't read settings, assume onboarding hasn't been completed
+            print("Failed to check onboarding status: \(error)")
+            showOnboarding = true
         }
     }
 
