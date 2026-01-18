@@ -11,19 +11,22 @@ public struct UserSettings: Codable, Sendable, Equatable {
     public var dailyReminderEnabled: Bool
     public var dailyReminderHour: Int
     public var dailyReminderMinute: Int
+    public var hasCompletedOnboarding: Bool
 
     public init(
         themeMode: ThemeMode = .system,
         letterRemindersEnabled: Bool = true,
         dailyReminderEnabled: Bool = false,
         dailyReminderHour: Int = 9,
-        dailyReminderMinute: Int = 0
+        dailyReminderMinute: Int = 0,
+        hasCompletedOnboarding: Bool = false
     ) {
         self.themeMode = themeMode
         self.letterRemindersEnabled = letterRemindersEnabled
         self.dailyReminderEnabled = dailyReminderEnabled
         self.dailyReminderHour = dailyReminderHour
         self.dailyReminderMinute = dailyReminderMinute
+        self.hasCompletedOnboarding = hasCompletedOnboarding
     }
 
     /// Default settings
