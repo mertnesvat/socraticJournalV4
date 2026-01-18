@@ -68,7 +68,7 @@ public struct SocraticJournalApp: App {
             VStack(spacing: 16) {
                 Image(systemName: "book.pages")
                     .font(.system(size: 60))
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(Color.accentColor)
                 Text("Socratic Journal")
                     .font(.title)
                     .fontWeight(.semibold)
