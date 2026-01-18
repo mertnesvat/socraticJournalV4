@@ -53,4 +53,15 @@ public final class UserDefaultsSettingsRepository: SettingsRepositoryProtocol, @
         // In a production app with persistent storage, you would clear
         // the database/files here as well
     }
+
+    public func hasCompletedOnboarding() async throws -> Bool {
+        let settings = try await getSettings()
+        return settings.hasCompletedOnboarding
+    }
+
+    public func markOnboardingComplete() async throws {
+        var settings = try await getSettings()
+        settings.hasCompletedOnboarding = true
+        try await saveSettings(settings)
+    }
 }

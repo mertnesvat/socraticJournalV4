@@ -17,4 +17,10 @@ public protocol SettingsRepositoryProtocol: Sendable {
 
     /// Clears all app data (sessions, letters, settings)
     func clearAllData() async throws
+
+    /// Checks if user has completed onboarding
+    func hasCompletedOnboarding() async throws -> Bool
+
+    /// Marks onboarding as complete
+    func markOnboardingComplete() async throws
 }
