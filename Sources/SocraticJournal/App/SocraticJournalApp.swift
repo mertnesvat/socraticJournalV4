@@ -13,6 +13,8 @@ public struct SocraticJournalApp: App {
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()
     private let notificationService: NotificationServiceProtocol = LocalNotificationService()
     @State private var themeManager = ThemeManager.shared
+    @State private var showOnboarding = false
+    @State private var hasCheckedOnboarding = false
 
     public init() {
         // Configure Firebase Messaging
@@ -23,14 +25,29 @@ public struct SocraticJournalApp: App {
 
     public var body: some Scene {
         WindowGroup {
-            MainTabView(
-                repository: repository,
-                settingsRepository: settingsRepository,
-                notificationService: notificationService
-            )
+            Group {
+                if hasCheckedOnboarding {
+                    MainTabView(
+                        repository: repository,
+                        settingsRepository: settingsRepository,
+                        notificationService: notificationService
+                    )
+                } else {
+                    // Show splash/loading state while checking onboarding status
+                    splashView
+                }
+            }
             .environment(themeManager)
             .preferredColorScheme(themeManager.colorScheme)
+            .fullScreenCover(isPresented: $showOnboarding) {
+                OnboardingContainerView(onComplete: {
+                    Task {
+                        await completeOnboarding()
+                    }
+                })
+            }
             .task {
+                await checkOnboardingStatus()
                 await themeManager.loadTheme()
                 await rescheduleNotifications()
                 await clearBadge()
@@ -41,6 +58,47 @@ public struct SocraticJournalApp: App {
                 }
             }
         }
+    }
+
+    /// Splash view shown while checking onboarding status
+    private var splashView: some View {
+        ZStack {
+            Color(uiColor: .systemBackground)
+                .ignoresSafeArea()
+            VStack(spacing: 16) {
+                Image(systemName: "book.pages")
+                    .font(.system(size: 60))
+                    .foregroundStyle(.accent)
+                Text("Socratic Journal")
+                    .font(.title)
+                    .fontWeight(.semibold)
+            }
+        }
+    }
+
+    /// Check onboarding status on app launch
+    private func checkOnboardingStatus() async {
+        do {
+            let hasCompleted = try await settingsRepository.hasCompletedOnboarding()
+            if !hasCompleted {
+                showOnboarding = true
+            }
+        } catch {
+            // If we can't check onboarding status, assume user needs onboarding
+            print("Failed to check onboarding status: \(error)")
+            showOnboarding = true
+        }
+        hasCheckedOnboarding = true
+    }
+
+    /// Complete onboarding and dismiss the onboarding flow
+    private func completeOnboarding() async {
+        do {
+            try await settingsRepository.markOnboardingComplete()
+        } catch {
+            print("Failed to mark onboarding complete: \(error)")
+        }
+        showOnboarding = false
     }
 
     /// Reschedule notifications on app launch to ensure they're still valid
