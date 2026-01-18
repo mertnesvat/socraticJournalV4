@@ -59,7 +59,7 @@ public struct OnboardingWelcomeView: View {
                     // Icon
                     Image(systemName: "brain.head.profile")
                         .font(.system(size: 80, weight: .thin))
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(Color.accentColor)
                         .opacity(iconOpacity)
                         .scaleEffect(iconScale)
 

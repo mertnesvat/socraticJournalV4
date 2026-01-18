@@ -63,7 +63,7 @@ public struct OnboardingCharacterView: View {
                     // Icon - person with star representing character
                     Image(systemName: "person.fill")
                         .font(.system(size: 80, weight: .thin))
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(Color.accentColor)
                         .opacity(iconOpacity)
                         .scaleEffect(iconScale)
 
@@ -150,7 +150,7 @@ public struct OnboardingCharacterView: View {
         VStack(spacing: 6) {
             Image(systemName: symbol)
                 .font(.title2)
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
                 .frame(width: 44, height: 44)
                 .background(Color.accentColor.opacity(0.1))
                 .clipShape(Circle())
@@ -166,7 +166,7 @@ public struct OnboardingCharacterView: View {
         HStack(spacing: 10) {
             Image(systemName: "lock.open")
                 .font(.subheadline)
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
 
             Text("Unlocks as you journal")
                 .font(.subheadline)

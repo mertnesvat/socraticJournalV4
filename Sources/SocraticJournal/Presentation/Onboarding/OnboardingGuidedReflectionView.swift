@@ -63,7 +63,7 @@ public struct OnboardingGuidedReflectionView: View {
                     // Icon - dialogue bubbles
                     Image(systemName: "bubble.left.and.bubble.right")
                         .font(.system(size: 80, weight: .thin))
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(Color.accentColor)
                         .opacity(iconOpacity)
                         .scaleEffect(iconScale)
 
@@ -133,7 +133,7 @@ public struct OnboardingGuidedReflectionView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "questionmark.circle.fill")
                         .font(.caption)
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(Color.accentColor)
                     Text("What matters most to you today?")
                         .font(.caption)
                         .foregroundStyle(.primary)
@@ -172,7 +172,7 @@ public struct OnboardingGuidedReflectionView: View {
         HStack(spacing: 8) {
             Image(systemName: "sparkles")
                 .font(.subheadline)
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
             Text("Your Clarity Score tracks reflection depth")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)

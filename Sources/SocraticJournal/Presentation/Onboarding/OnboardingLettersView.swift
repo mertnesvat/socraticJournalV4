@@ -62,7 +62,7 @@ public struct OnboardingLettersView: View {
                     // Icon - envelope with time element
                     Image(systemName: "envelope.badge.shield.half.filled")
                         .font(.system(size: 80, weight: .thin))
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(Color.accentColor)
                         .opacity(iconOpacity)
                         .scaleEffect(iconScale)
 
@@ -136,7 +136,7 @@ public struct OnboardingLettersView: View {
                 VStack(spacing: 6) {
                     Image(systemName: "pencil.and.outline")
                         .font(.title3)
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(Color.accentColor)
                         .frame(width: 40, height: 40)
                         .background(Color.accentColor.opacity(0.15))
                         .clipShape(Circle())
@@ -156,7 +156,7 @@ public struct OnboardingLettersView: View {
                 VStack(spacing: 6) {
                     Image(systemName: "lock.fill")
                         .font(.title3)
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(Color.accentColor)
                         .frame(width: 40, height: 40)
                         .background(Color.accentColor.opacity(0.15))
                         .clipShape(Circle())
@@ -176,7 +176,7 @@ public struct OnboardingLettersView: View {
                 VStack(spacing: 6) {
                     Image(systemName: "envelope.open.fill")
                         .font(.title3)
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(Color.accentColor)
                         .frame(width: 40, height: 40)
                         .background(Color.accentColor.opacity(0.15))
                         .clipShape(Circle())
@@ -191,7 +191,7 @@ public struct OnboardingLettersView: View {
             HStack(spacing: 8) {
                 Image(systemName: "clock")
                     .font(.caption)
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(Color.accentColor)
                 Text("1 week to 1 year")
                     .font(.caption)
                     .foregroundStyle(.tertiary)
