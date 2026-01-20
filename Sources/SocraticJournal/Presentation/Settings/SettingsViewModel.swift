@@ -226,8 +226,20 @@ public final class SettingsViewModel {
                 await service.removeAllPendingNotifications()
             }
 
+            // Clear journal data (sessions and letters)
+            try await journalRepository.clearAllData()
+
+            // Mark sample data as dismissed so it won't reappear on restart
+            InMemoryJournalRepository.markSampleDataDismissed()
+
+            // Clear settings but preserve the hasDismissedSampleData flag
             try await settingsRepository.clearAllData()
+
+            // Reset to default settings but mark that sample data was dismissed
             settings = .default
+            settings.hasDismissedSampleData = true
+            try await settingsRepository.saveSettings(settings)
+
             showClearDataSuccess = true
 
             // Auto-hide success message
