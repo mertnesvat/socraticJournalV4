@@ -35,7 +35,7 @@ public struct HomeView: View {
     public var body: some View {
         NavigationStack {
             content
-                .navigationTitle("Socratic Journal")
+                .navigationTitle("Socratic")
                 .toolbar { toolbarContent }
                 .task { await viewModel.loadData() }
                 .refreshable { await viewModel.refreshData() }
