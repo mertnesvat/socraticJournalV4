@@ -12,6 +12,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
     public var dailyReminderHour: Int
     public var dailyReminderMinute: Int
     public var hasCompletedOnboarding: Bool
+    public var hasDismissedSampleData: Bool
 
     public init(
         themeMode: ThemeMode = .system,
@@ -19,7 +20,8 @@ public struct UserSettings: Codable, Sendable, Equatable {
         dailyReminderEnabled: Bool = false,
         dailyReminderHour: Int = 9,
         dailyReminderMinute: Int = 0,
-        hasCompletedOnboarding: Bool = false
+        hasCompletedOnboarding: Bool = false,
+        hasDismissedSampleData: Bool = false
     ) {
         self.themeMode = themeMode
         self.letterRemindersEnabled = letterRemindersEnabled
@@ -27,6 +29,29 @@ public struct UserSettings: Codable, Sendable, Equatable {
         self.dailyReminderHour = dailyReminderHour
         self.dailyReminderMinute = dailyReminderMinute
         self.hasCompletedOnboarding = hasCompletedOnboarding
+        self.hasDismissedSampleData = hasDismissedSampleData
+    }
+
+    // Custom decoder to handle backwards compatibility with existing saved settings
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        themeMode = try container.decodeIfPresent(ThemeMode.self, forKey: .themeMode) ?? .system
+        letterRemindersEnabled = try container.decodeIfPresent(Bool.self, forKey: .letterRemindersEnabled) ?? true
+        dailyReminderEnabled = try container.decodeIfPresent(Bool.self, forKey: .dailyReminderEnabled) ?? false
+        dailyReminderHour = try container.decodeIfPresent(Int.self, forKey: .dailyReminderHour) ?? 9
+        dailyReminderMinute = try container.decodeIfPresent(Int.self, forKey: .dailyReminderMinute) ?? 0
+        hasCompletedOnboarding = try container.decodeIfPresent(Bool.self, forKey: .hasCompletedOnboarding) ?? false
+        hasDismissedSampleData = try container.decodeIfPresent(Bool.self, forKey: .hasDismissedSampleData) ?? false
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case themeMode
+        case letterRemindersEnabled
+        case dailyReminderEnabled
+        case dailyReminderHour
+        case dailyReminderMinute
+        case hasCompletedOnboarding
+        case hasDismissedSampleData
     }
 
     /// Default settings

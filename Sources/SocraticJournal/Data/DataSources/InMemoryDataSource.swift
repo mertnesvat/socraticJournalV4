@@ -83,6 +83,21 @@ actor InMemoryDataSource {
         }.count + letters.values.filter { $0.status == .ready }.count
     }
 
+    // MARK: - Data Management
+
+    func clearAllSessions() {
+        sessions.removeAll()
+    }
+
+    func clearAllLetters() {
+        letters.removeAll()
+    }
+
+    func clearAllData() {
+        sessions.removeAll()
+        letters.removeAll()
+    }
+
     // MARK: - Sample Data
 
     private func seedSampleData() {
