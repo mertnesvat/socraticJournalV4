@@ -8,163 +8,104 @@ bundle_id: com.mertnesvat.SocraticJournal
 action_logging: true
 ---
 
-# Feature Queue: Onboarding Experience
+# Feature Queue: v1.1 Bug Fixes & Polish
 
-Create an elegant, minimal onboarding flow that introduces new users to Socratic Journal. The onboarding should make a great first impression, explain the app's value proposition, and guide users to start their first session.
+Address user-reported bugs and UI polish issues to improve app stability and visual consistency.
 
 ---
 
-### 1. Onboarding Data & State Management
+### 1. Update Home Screen Title
 
-Set up the infrastructure for onboarding: track whether user has completed onboarding and provide content for screens.
+Change the home screen title from "Socratic Journal" to just "Socratic" for a cleaner, more minimal look.
 
-**User Story:** As a new user, I want to see onboarding only on my first launch, so returning users go straight to the app.
+**User Story:** As a user, I want the home screen to show "Socratic" as the title, so the interface feels more minimal and elegant.
 
 **Acceptance Criteria:**
-- User can launch app and see onboarding on first run
-- User's onboarding completion status persists across app launches
-- User who completed onboarding goes directly to home screen
-- Onboarding state is stored in UserDefaults via SettingsRepository
+- User sees "Socratic" as the title on the home screen
+- Title no longer shows "Socratic Journal"
+- Title styling remains consistent with current design
 
 **Priority:** 1
 **Dependencies:** None
 
 ---
 
-### 2. Onboarding Screen 1 - Welcome & Value Proposition
+### 2. Update Privacy Policy URL
 
-Create the first onboarding screen that welcomes users and introduces the core concept of Socratic journaling.
+Update the privacy policy URL to point to the correct location.
 
-**User Story:** As a new user, I want to understand what this app does, so I know if it's right for me.
+**User Story:** As a user, I want the privacy policy link to work correctly, so I can review the app's privacy practices.
 
 **Acceptance Criteria:**
-- User sees a welcoming headline: "Know Thyself"
-- User sees a supporting tagline explaining Socratic dialogue concept
-- User sees an elegant, minimal illustration or icon representing self-reflection (use SF Symbols)
-- Screen has smooth fade-in animation on appear
-- User can swipe to next screen or tap continue
-- User can tap "Skip" button in top-right corner to skip all onboarding
+- Privacy URL is set to https://studionext.co.uk/socratic-privacy.html
+- User can access the privacy policy from Settings or wherever it's linked
+- URL opens correctly in the system browser or in-app web view
 
 **Priority:** 1
-**Dependencies:** 1
+**Dependencies:** None
 
 ---
 
-### 3. Onboarding Screen 2 - Guided Reflection Feature
+### 3. Fix Calendar Row Height Inconsistency
 
-Create the second onboarding screen that explains the dialogue session feature.
+Fix the visual issue where calendar rows have inconsistent heights when some days have events and others don't.
 
-**User Story:** As a new user, I want to understand how the journaling works, so I know what to expect.
+**User Story:** As a user, I want all calendar rows to have consistent heights, so the calendar looks visually balanced and professional.
 
 **Acceptance Criteria:**
-- User sees headline about guided questions (e.g., "Thoughtful Questions")
-- User sees explanation that the app asks meaningful questions to guide reflection
-- User sees visual representation of the dialogue concept (question/answer flow)
-- User sees mention of "Clarity Score" that measures reflection depth
-- Screen maintains consistent styling with screen 1
-- Smooth transition animation from previous screen
+- User sees all calendar rows at the same height regardless of event count
+- Days with no events have the same row height as days with events
+- Calendar maintains consistent visual appearance across all rows
+- The fix doesn't affect the visibility of event indicators on days that have them
 
-**Priority:** 1
-**Dependencies:** 2
+**Priority:** 2
+**Dependencies:** None
 
 ---
 
-### 4. Onboarding Screen 3 - Discover Your Character
+### 4. Fix Session Completion Crash on Skipped Questions
 
-Create the third onboarding screen that introduces the personality discovery feature.
+Fix the crash that occurs when completing a session after skipping all three questions.
 
-**User Story:** As a new user, I want to know about personality insights, so I'm excited about long-term value.
+**User Story:** As a user, I want to complete a session even if I skipped all questions, so the app doesn't crash and I can still end my session gracefully.
 
 **Acceptance Criteria:**
-- User sees headline about character discovery (e.g., "Discover Your Character")
-- User sees explanation that journaling reveals personality traits over time
-- User sees visual hint at the Big Five personality model (5 trait icons or abstract representation)
-- User understands this unlocks with continued journaling
-- Creates anticipation for the feature without overpromising
+- User can skip all three questions in a session without crashing
+- User can tap the complete session button after skipping all questions
+- Session completes successfully and saves appropriately
+- App handles the edge case of all questions being skipped gracefully
+- No data loss or corruption occurs
 
 **Priority:** 1
-**Dependencies:** 3
+**Dependencies:** None
 
 ---
 
-### 5. Onboarding Screen 4 - Letters to Future Self & Get Started
+### 5. Fix Sample Sessions Re-Adding After Clear All
 
-Create the final onboarding screen that mentions letters feature and has the call-to-action.
+Fix the issue where sample sessions are re-added after the user clears all sessions, or fix the clear all functionality if it's not working correctly.
 
-**User Story:** As a new user, I want a clear next step, so I can start using the app immediately.
+**User Story:** As a user, I want my "clear all sessions" action to be permanent, so sample sessions don't reappear after I've deleted them.
 
 **Acceptance Criteria:**
-- User sees mention of "Letters to Future Self" feature
-- User sees a brief explanation of time-locked letters concept
-- User sees prominent "Begin Your Journey" or "Start First Session" button
-- Button has elegant styling consistent with app's accent color
-- Tapping button marks onboarding complete and navigates to home screen
-- User can also tap skip to complete onboarding and go to home
+- User can clear all sessions successfully
+- Sample sessions do not reappear after being cleared
+- App remembers that sample data has been dismissed/cleared
+- First-time users still see sample sessions on initial launch
+- Returning users who cleared samples don't see them again
+- Clear all functionality removes all sessions from storage
 
 **Priority:** 1
-**Dependencies:** 4
+**Dependencies:** None
 
 ---
 
-### 6. Onboarding View Container & Navigation
+## Testing Notes
 
-Create the parent container view that manages all onboarding screens with paging.
-
-**User Story:** As a new user, I want smooth navigation between onboarding screens, so the experience feels polished.
-
-**Acceptance Criteria:**
-- User sees page indicator dots showing current position (4 dots)
-- User can swipe horizontally between screens
-- User can tap continue/next button to advance
-- Skip button visible on all screens except the last
-- Page indicators update smoothly with swipe progress
-- Transitions between pages are smooth and elegant
-- Container handles both light and dark mode
-
-**Priority:** 1
-**Dependencies:** 2, 3, 4, 5
-
----
-
-### 7. App Entry Point Integration
-
-Integrate onboarding into the app's launch flow.
-
-**User Story:** As a user, I want the app to show the right screen on launch based on my onboarding status.
-
-**Acceptance Criteria:**
-- App checks onboarding status on launch
-- New users see OnboardingView as full-screen cover
-- Returning users go directly to MainTabView
-- Completing onboarding dismisses it and shows MainTabView
-- Transition from onboarding to main app is smooth
-
-**Priority:** 1
-**Dependencies:** 1, 6
-
----
-
-## Design Guidelines
-
-**Visual Style:**
-- Elegant and minimal - lots of whitespace
-- Use SF Symbols for illustrations (brain.head.profile, text.bubble, person.fill, envelope.fill, etc.)
-- Large, centered icons with subtle accent color tinting
-- Clean typography using system fonts (.largeTitle for headlines, .body for descriptions)
-- Subtle fade and slide animations
-
-**Colors:**
-- Follow existing app theme (system colors, accent color)
-- Support both light and dark mode
-- Use opacity for secondary text
-
-**Layout:**
-- Content centered vertically with generous padding
-- Page dots at bottom with continue button
-- Skip button in navigation area (top-right or as text button)
-
-**Animations:**
-- Fade-in on appear for each screen's content
-- Smooth horizontal paging transition
-- Subtle scale animation on CTA button
+**Critical Paths to Verify:**
+- Launch app fresh → see sample sessions → clear all → relaunch → samples should NOT reappear
+- Start session → skip question 1 → skip question 2 → skip question 3 → complete → should NOT crash
+- Check home screen title shows "Socratic" only
+- Check privacy URL opens correctly
+- View calendar with mixed event days → all rows should be same height
 
