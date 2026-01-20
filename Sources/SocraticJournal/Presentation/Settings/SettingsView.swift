@@ -168,8 +168,8 @@ public struct SettingsView: View {
     }
 
     private func openPrivacyPolicy() {
-        // Privacy policy URL - replace with actual URL
-        let urlString = "https://socraticjournal.app/privacy"
+        // Privacy policy URL
+        let urlString = "https://studionext.co.uk/socratic-privacy.html"
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url)
         }
