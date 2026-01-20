@@ -5,6 +5,11 @@
 #if os(iOS)
 import SwiftUI
 
+/// Notification posted when user requests to replay onboarding
+public extension Notification.Name {
+    static let replayOnboarding = Notification.Name("com.socraticjournal.replayOnboarding")
+}
+
 /// Settings screen for app configuration
 public struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
@@ -115,6 +120,14 @@ public struct SettingsView: View {
                         version: SocraticJournal.version,
                         onPrivacyPolicy: {
                             openPrivacyPolicy()
+                        },
+                        onReplayOnboarding: {
+                            Task {
+                                await viewModel.resetOnboarding()
+                                dismiss()
+                                // Post notification to trigger onboarding display
+                                NotificationCenter.default.post(name: .replayOnboarding, object: nil)
+                            }
                         }
                     )
 
