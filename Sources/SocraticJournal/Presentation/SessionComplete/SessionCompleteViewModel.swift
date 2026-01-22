@@ -34,6 +34,8 @@ public final class SessionCompleteViewModel {
 
     private let clarityScoreService: ClarityScoreServiceProtocol
     private let repository: JournalRepositoryProtocol
+    private let analyticsService: AnalyticsServiceProtocol
+    private let appReviewService: AppReviewService
 
     // MARK: - Callbacks
 
@@ -45,11 +47,15 @@ public final class SessionCompleteViewModel {
     public init(
         session: JournalSession,
         clarityScoreService: ClarityScoreServiceProtocol,
-        repository: JournalRepositoryProtocol
+        repository: JournalRepositoryProtocol,
+        analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared,
+        appReviewService: AppReviewService = AppReviewService.shared
     ) {
         self.session = session
         self.clarityScoreService = clarityScoreService
         self.repository = repository
+        self.analyticsService = analyticsService
+        self.appReviewService = appReviewService
     }
 
     // MARK: - Computed Properties
@@ -120,9 +126,23 @@ public final class SessionCompleteViewModel {
             // Save updated session
             try await repository.saveSession(updatedSession)
 
+            // Log analytics events
+            analyticsService.logEvent(.sessionCompleted, parameters: [
+                AnalyticsParameter.sessionId.rawValue: session.id,
+                AnalyticsParameter.clarityScore.rawValue: score.total,
+                AnalyticsParameter.exchangeCount.rawValue: session.exchanges.count
+            ])
+
             // Trigger animation after slight delay
             try await Task.sleep(nanoseconds: 300_000_000) // 0.3 seconds
             showScoreAnimation = true
+
+            // Increment session count and potentially show review prompt
+            appReviewService.incrementSessionCount()
+
+            // Delay review prompt slightly to let user see their results first
+            try await Task.sleep(nanoseconds: 2_000_000_000) // 2 seconds
+            appReviewService.requestReviewIfAppropriate(clarityScore: score.total)
 
         } catch {
             self.error = error

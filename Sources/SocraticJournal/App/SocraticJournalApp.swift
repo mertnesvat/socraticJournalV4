@@ -5,6 +5,7 @@
 #if os(iOS)
 import SwiftUI
 import UserNotifications
+import FirebaseCore
 
 /// Main entry point for the Socratic Journal app
 @main
@@ -12,10 +13,15 @@ public struct SocraticJournalApp: App {
     private let repository: JournalRepositoryProtocol = InMemoryJournalRepository()
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()
     private let notificationService: NotificationServiceProtocol = LocalNotificationService()
+    private let analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
+    private let appReviewService: AppReviewService = AppReviewService.shared
     @State private var themeManager = ThemeManager.shared
     @State private var showOnboarding: Bool = false
 
     public init() {
+        // Configure Firebase (must be called before using any Firebase services)
+        FirebaseApp.configure()
+
         // Configure Firebase Messaging
         FirebaseNotificationService.shared.configure()
         // Configure ThemeManager with settings repository

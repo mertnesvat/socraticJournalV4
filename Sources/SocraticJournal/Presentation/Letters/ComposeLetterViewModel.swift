@@ -119,6 +119,7 @@ public final class ComposeLetterViewModel {
     private let repository: JournalRepositoryProtocol
     private let notificationService: NotificationServiceProtocol?
     private let settingsRepository: SettingsRepositoryProtocol?
+    private let analyticsService: AnalyticsServiceProtocol
 
     // MARK: - Callbacks
 
@@ -131,12 +132,14 @@ public final class ComposeLetterViewModel {
         sessionId: String? = nil,
         repository: JournalRepositoryProtocol,
         notificationService: NotificationServiceProtocol? = nil,
-        settingsRepository: SettingsRepositoryProtocol? = nil
+        settingsRepository: SettingsRepositoryProtocol? = nil,
+        analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
     ) {
         self.sessionId = sessionId
         self.repository = repository
         self.notificationService = notificationService
         self.settingsRepository = settingsRepository
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Actions
@@ -157,6 +160,13 @@ public final class ComposeLetterViewModel {
 
             // Schedule notification if letter reminders are enabled
             await scheduleLetterNotification(letter: letter)
+
+            // Log analytics event for letter composed
+            let durationDays = Calendar.current.dateComponents([.day], from: Date(), to: deliveryDate).day ?? 0
+            analyticsService.logEvent(.letterComposed, parameters: [
+                AnalyticsParameter.letterId.rawValue: letter.id,
+                AnalyticsParameter.letterDuration.rawValue: durationDays
+            ])
 
             didSave = true
             onSaveComplete?()
