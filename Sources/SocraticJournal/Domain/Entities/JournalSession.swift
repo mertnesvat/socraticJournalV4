@@ -29,13 +29,21 @@ public struct JournalSession: Codable, Sendable, Identifiable, Equatable {
         self.isComplete = isComplete
     }
 
-    /// Returns the title based on the first exchange or a default
+    /// Returns the title based on the first non-skipped exchange or a default
     public var title: String {
-        guard let firstExchange = exchanges.first else {
+        // Find the first non-skipped exchange with content
+        if let firstAnswered = exchanges.first(where: { !$0.skipped && !$0.answer.isEmpty }) {
+            let preview = firstAnswered.answer.prefix(50)
+            return preview.count < firstAnswered.answer.count ? "\(preview)..." : String(preview)
+        }
+
+        // If all exchanges are skipped or empty, return a meaningful default
+        if exchanges.isEmpty {
             return "New Session"
         }
-        let preview = firstExchange.answer.prefix(50)
-        return preview.count < firstExchange.answer.count ? "\(preview)..." : String(preview)
+
+        // All questions were skipped
+        return "Quick Reflection"
     }
 
     /// Returns the date formatted for display

@@ -44,4 +44,9 @@ public protocol JournalRepositoryProtocol: Sendable {
 
     /// Returns count of letters ready to be read
     func getReadyLettersCount() async throws -> Int
+
+    // MARK: - Data Management
+
+    /// Clears all sessions and letters data
+    func clearAllData() async throws
 }

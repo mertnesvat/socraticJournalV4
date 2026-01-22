@@ -170,12 +170,11 @@ private struct DayCell: View {
                     .fontWeight(isToday ? .bold : .regular)
                     .foregroundStyle(isSelected ? .white : .primary)
 
-                // Session indicator
-                if sessionCount > 0 {
-                    Circle()
-                        .fill(indicatorColor)
-                        .frame(width: 6, height: 6)
-                }
+                // Session indicator - always present for consistent row height
+                Circle()
+                    .fill(indicatorColor)
+                    .frame(width: 6, height: 6)
+                    .opacity(sessionCount > 0 ? 1 : 0)
             }
         }
         .aspectRatio(1, contentMode: .fill)

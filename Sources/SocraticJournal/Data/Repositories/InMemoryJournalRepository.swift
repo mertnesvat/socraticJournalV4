@@ -9,13 +9,28 @@ import Foundation
 public final class InMemoryJournalRepository: JournalRepositoryProtocol, @unchecked Sendable {
     private let dataSource: InMemoryDataSource
 
-    public init() {
-        self.dataSource = InMemoryDataSource()
+    /// UserDefaults key to track if user has dismissed sample data
+    private static let sampleDataDismissedKey = "com.socraticjournal.sampleDataDismissed"
+
+    public init(defaults: UserDefaults = .standard) {
+        // Check if user has previously cleared/dismissed sample data
+        let hasDismissedSamples = defaults.bool(forKey: Self.sampleDataDismissedKey)
+        self.dataSource = InMemoryDataSource(seedSampleData: !hasDismissedSamples)
     }
 
     /// Internal initializer for testing (no sample data)
     internal init(seedSampleData: Bool) {
         self.dataSource = InMemoryDataSource(seedSampleData: seedSampleData)
+    }
+
+    /// Marks sample data as dismissed (called when user clears all data)
+    public static func markSampleDataDismissed(defaults: UserDefaults = .standard) {
+        defaults.set(true, forKey: sampleDataDismissedKey)
+    }
+
+    /// Resets the sample data dismissed flag (for testing)
+    public static func resetSampleDataDismissedFlag(defaults: UserDefaults = .standard) {
+        defaults.removeObject(forKey: sampleDataDismissedKey)
     }
 
     // MARK: - Sessions
@@ -67,6 +82,12 @@ public final class InMemoryJournalRepository: JournalRepositoryProtocol, @unchec
 
     public func getReadyLettersCount() async throws -> Int {
         await dataSource.getReadyLettersCount()
+    }
+
+    // MARK: - Data Management
+
+    public func clearAllData() async throws {
+        await dataSource.clearAllData()
     }
 
     // MARK: - Private Helpers
