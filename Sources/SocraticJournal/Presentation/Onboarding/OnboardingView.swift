@@ -11,6 +11,7 @@ public struct OnboardingView: View {
     // MARK: - Dependencies
 
     private let settingsRepository: SettingsRepositoryProtocol
+    private let analyticsService: AnalyticsServiceProtocol
     private let onDismiss: () -> Void
 
     // MARK: - State
@@ -25,9 +26,11 @@ public struct OnboardingView: View {
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
+        analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared,
         onDismiss: @escaping () -> Void
     ) {
         self.settingsRepository = settingsRepository
+        self.analyticsService = analyticsService
         self.onDismiss = onDismiss
     }
 
@@ -102,6 +105,8 @@ public struct OnboardingView: View {
                 var settings = try await settingsRepository.getSettings()
                 settings.hasCompletedOnboarding = true
                 try await settingsRepository.saveSettings(settings)
+                // Log onboarding completion analytics
+                analyticsService.logEvent(.onboardingCompleted, parameters: nil)
             } catch {
                 // Log error but still dismiss - user should not be stuck on onboarding
                 print("Failed to save onboarding completion: \(error)")

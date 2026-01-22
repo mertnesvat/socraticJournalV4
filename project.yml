@@ -34,10 +34,12 @@ targets:
         INFOPLIST_FILE: Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         TARGETED_DEVICE_FAMILY: "1,2"
-        MARKETING_VERSION: "1.1.0"
+        MARKETING_VERSION: "1.2.0"
         CURRENT_PROJECT_VERSION: "8"
         GENERATE_INFOPLIST_FILE: NO
     dependencies:
+      - package: firebase-ios-sdk
+        product: FirebaseAnalytics
       - package: firebase-ios-sdk
         product: FirebaseFirestore
       - package: firebase-ios-sdk

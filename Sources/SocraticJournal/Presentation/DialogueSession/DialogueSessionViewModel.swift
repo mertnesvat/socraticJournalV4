@@ -83,6 +83,7 @@ public final class DialogueSessionViewModel {
 
     private let questionService: QuestionServiceProtocol
     private let repository: JournalRepositoryProtocol
+    private let analyticsService: AnalyticsServiceProtocol
 
     // MARK: - Callbacks
 
@@ -93,10 +94,12 @@ public final class DialogueSessionViewModel {
 
     public init(
         questionService: QuestionServiceProtocol,
-        repository: JournalRepositoryProtocol
+        repository: JournalRepositoryProtocol,
+        analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
     ) {
         self.questionService = questionService
         self.repository = repository
+        self.analyticsService = analyticsService
         self.session = JournalSession(
             id: UUID().uuidString,
             createdAt: Date(),
@@ -109,6 +112,10 @@ public final class DialogueSessionViewModel {
 
     /// Start the dialogue session by loading the first question
     public func startSession() async {
+        // Log session started analytics event
+        analyticsService.logEvent(.sessionStarted, parameters: [
+            AnalyticsParameter.sessionId.rawValue: session.id
+        ])
         await loadNextQuestion()
     }
 

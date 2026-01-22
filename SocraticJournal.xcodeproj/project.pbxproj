@@ -20,6 +20,7 @@
 		0F6473FA64932CCA57F18A26 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9807DF03FE24AF6534E5768 /* QuestionView.swift */; };
 		13DA34036DE8F70B987B9404 /* JournalExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E660B1F4A895C3D10A85E154 /* JournalExport.swift */; };
 		1522B7ECBC5170B4B0730BD9 /* SessionScoreSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904560046371ED6FE9FF72B /* SessionScoreSummary.swift */; };
+		15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */; };
 		17C179873F6002CC9BDEA163 /* WisdomQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42C616AB317420FA485D572 /* WisdomQuoteView.swift */; };
 		1B6E13E3E5AA154BB2668383 /* WisdomQuotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD89F782D263C0185E19061 /* WisdomQuotesViewModel.swift */; };
 		1D91E8114B8C5EDAADA1C820 /* SocraticJournalGoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0827B9933410CAD611216CE /* SocraticJournalGoogleService-Info.plist */; };
@@ -32,6 +33,7 @@
 		3011F4A890A63770C46CB92F /* DataManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6393671D5BB1907C751541A /* DataManagementView.swift */; };
 		375EFB583B7BA1A56793D381 /* DataExportServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7613CB40021B551A823C6F1E /* DataExportServiceProtocol.swift */; };
 		3A29D29676E0D81E80F2AA85 /* InMemoryJournalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC921E31BBF56315A0DA55 /* InMemoryJournalRepository.swift */; };
+		3BCE20D54AE96A3872A4890B /* AppReviewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE01830F0959A72723F0DD /* AppReviewService.swift */; };
 		3C27438F4EFA26C263439EF2 /* JSONDataExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B081E4933C5D95CFDB2AA0 /* JSONDataExportService.swift */; };
 		3C7FFEB692B8CE92702F3410 /* SessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF9F96EEB8A9B0B1BE9C79A /* SessionCompleteView.swift */; };
 		3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782BF4BCB8611080CE7218E /* AboutView.swift */; };
@@ -59,7 +61,7 @@
 		7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */; };
 		7D6ED2141C50A20077EA4F81 /* WisdomQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D8FE753B241A8EC717E08F /* WisdomQuote.swift */; };
 		7E18F84144F8748DD3C9BE5E /* FirebaseNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67545F72405599CA3D6E892 /* FirebaseNotificationService.swift */; };
-		7E55D38D6BCA0E51D0F45013 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
+		7E55D38D6BCA0E51D0F45013 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1439E1ED4A0277B8F3670D92 /* FirebaseAnalytics */; };
 		80B412F4783DC43E99D8F1B7 /* LetterDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602C804EC1312F2F283F8072 /* LetterDetailView.swift */; };
 		820A8F166BA0E7A25B150AC8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA5D013746FC29B516ADE8B /* HomeViewModel.swift */; };
 		861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */; };
@@ -71,7 +73,7 @@
 		973819C7AF4DDE9699F479F4 /* ThemeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EF2E8B120F1677BC908310 /* ThemeFilterView.swift */; };
 		977664B2130F9D3192DF1CB1 /* OnboardingCharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C125E25CE091EED451BF73A8 /* OnboardingCharacterView.swift */; };
 		97D355F8C2A5BBAD25DD2B18 /* StartSessionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FAE65D79E56D3B514848FB /* StartSessionButton.swift */; };
-		97DB0893F432AAA1FF3FF082 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 20CC8584D9C7E0C1B74D5D56 /* FirebaseFunctions */; };
+		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
 		98914A2DEBF383067C7D7C5B /* PersonalityTrait.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B84223758EB94D90551D82 /* PersonalityTrait.swift */; };
 		9B455AAF94634625E97C6EC8 /* LettersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3391C3B827DCDA617AFE690 /* LettersListViewModel.swift */; };
 		9C4CF7EE3293A7ECEF7C50F9 /* EvidenceQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDB9E2D5462BA072079C322 /* EvidenceQuoteView.swift */; };
@@ -99,6 +101,7 @@
 		D81E7022392CDED7E2042358 /* InsightCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFFF8D30FAF886D171C9274 /* InsightCardView.swift */; };
 		D8698435192D45E3B7566C4E /* OnboardingWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5008BD267656811454CD5B7 /* OnboardingWelcomeView.swift */; };
 		DBD6A4B15FC05F7E2CD14C0B /* LocalWisdomQuoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739C432FE1792495D5A2F2E6 /* LocalWisdomQuoteService.swift */; };
+		DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */; };
 		E4E9903DE0C900BE356D23BD /* ActionButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDC37B5290D6F269F3248F1 /* ActionButtonsView.swift */; };
 		E57293E5593A0545FF1C2580 /* ProgressUnlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D6E845C5C0A6F6073AE849 /* ProgressUnlockView.swift */; };
 		E7B12C68845400511A4F79FD /* SummaryNarrativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF209799350179EBEE2D4D05 /* SummaryNarrativeView.swift */; };
@@ -113,7 +116,8 @@
 		FA341168BC3BEBF074661A4B /* TraitChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DC351C5C0216495D42B00E /* TraitChartView.swift */; };
 		FACF81767D46892A67D01F11 /* ClarityScoreServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950D45B9D0BB11FD7C96BFE0 /* ClarityScoreServiceProtocol.swift */; };
 		FAE5CA4653E58F4445B2F1A3 /* WisdomQuotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2638587C72B13EF1E5D5102 /* WisdomQuotesView.swift */; };
-		FFD6A44603614E7B7C030FAC /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7427E0C3061E854EE474F549 /* FirebaseMessaging */; };
+		FD764235B722DD5F364C9850 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7427E0C3061E854EE474F549 /* FirebaseMessaging */; };
+		FFD6A44603614E7B7C030FAC /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 20CC8584D9C7E0C1B74D5D56 /* FirebaseFunctions */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -140,6 +144,7 @@
 		58D8FE753B241A8EC717E08F /* WisdomQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomQuote.swift; sourceTree = "<group>"; };
 		59EF2E8B120F1677BC908310 /* ThemeFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFilterView.swift; sourceTree = "<group>"; };
 		5BBC921E31BBF56315A0DA55 /* InMemoryJournalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryJournalRepository.swift; sourceTree = "<group>"; };
+		5FDE01830F0959A72723F0DD /* AppReviewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewService.swift; sourceTree = "<group>"; };
 		602C804EC1312F2F283F8072 /* LetterDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterDetailView.swift; sourceTree = "<group>"; };
 		612D960CE6F192A59D33BF3D /* TrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendChartView.swift; sourceTree = "<group>"; };
 		669FF049A4583E3F84C6685F /* FutureLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureLetter.swift; sourceTree = "<group>"; };
@@ -173,6 +178,7 @@
 		A5F3080F0AF1033CD44AE169 /* PersonalityAnalysisServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalityAnalysisServiceProtocol.swift; sourceTree = "<group>"; };
 		A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		A84F14F8095B7E5B5EFAF0AD /* DialogueSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogueSessionView.swift; sourceTree = "<group>"; };
+		AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsService.swift; sourceTree = "<group>"; };
 		ABA0DB79E028261D57D98467 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AEA5D013746FC29B516ADE8B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		AF209799350179EBEE2D4D05 /* SummaryNarrativeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryNarrativeView.swift; sourceTree = "<group>"; };
@@ -204,6 +210,7 @@
 		DD021C9D10C27E2047636405 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		DF754053E7CCE80662BFEF85 /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
 		E2638587C72B13EF1E5D5102 /* WisdomQuotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomQuotesView.swift; sourceTree = "<group>"; };
+		E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceProtocol.swift; sourceTree = "<group>"; };
 		E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournal.swift; sourceTree = "<group>"; };
 		E60187B0793832C70774BBD4 /* LetterRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterRowView.swift; sourceTree = "<group>"; };
 		E660B1F4A895C3D10A85E154 /* JournalExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalExport.swift; sourceTree = "<group>"; };
@@ -229,9 +236,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E55D38D6BCA0E51D0F45013 /* FirebaseFirestore in Frameworks */,
-				97DB0893F432AAA1FF3FF082 /* FirebaseFunctions in Frameworks */,
-				FFD6A44603614E7B7C030FAC /* FirebaseMessaging in Frameworks */,
+				7E55D38D6BCA0E51D0F45013 /* FirebaseAnalytics in Frameworks */,
+				97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */,
+				FFD6A44603614E7B7C030FAC /* FirebaseFunctions in Frameworks */,
+				FD764235B722DD5F364C9850 /* FirebaseMessaging in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +324,7 @@
 		1E07D95F43FCD433BC2101ED /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */,
 				950D45B9D0BB11FD7C96BFE0 /* ClarityScoreServiceProtocol.swift */,
 				7613CB40021B551A823C6F1E /* DataExportServiceProtocol.swift */,
 				B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */,
@@ -567,6 +576,8 @@
 		E303FF20EFB3AE9FC13B314B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5FDE01830F0959A72723F0DD /* AppReviewService.swift */,
+				AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */,
 				B67545F72405599CA3D6E892 /* FirebaseNotificationService.swift */,
 				52B081E4933C5D95CFDB2AA0 /* JSONDataExportService.swift */,
 				C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */,
@@ -647,6 +658,7 @@
 			);
 			name = SocraticJournal;
 			packageProductDependencies = (
+				1439E1ED4A0277B8F3670D92 /* FirebaseAnalytics */,
 				D0C775AF90C1F520FA648805 /* FirebaseFirestore */,
 				20CC8584D9C7E0C1B74D5D56 /* FirebaseFunctions */,
 				7427E0C3061E854EE474F549 /* FirebaseMessaging */,
@@ -712,7 +724,9 @@
 			files = (
 				3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */,
 				E4E9903DE0C900BE356D23BD /* ActionButtonsView.swift in Sources */,
+				DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */,
 				D405BADF448090D71546EA06 /* AnswerInputView.swift in Sources */,
+				3BCE20D54AE96A3872A4890B /* AppReviewService.swift in Sources */,
 				7028FA904E6C1A0FFE7CCF07 /* BigFiveProfile.swift in Sources */,
 				4D8F3842A54452AED741EF12 /* CalendarView.swift in Sources */,
 				A99A70774108DBA18435A44E /* CharacterCounter.swift in Sources */,
@@ -735,6 +749,7 @@
 				A22867FCCE1C618C1C5166F0 /* ExchangeDetailCard.swift in Sources */,
 				4039A71FB974A8A4DDAFB797 /* ExportView.swift in Sources */,
 				E9A3ABA31C030C2A414A9AD4 /* ExportViewModel.swift in Sources */,
+				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
 				7E18F84144F8748DD3C9BE5E /* FirebaseNotificationService.swift in Sources */,
 				2CAB8A322184E8DBF540D4D7 /* FutureLetter.swift in Sources */,
 				007A7A769FAAB905E1FFCE3D /* HomeTabView.swift in Sources */,
@@ -830,7 +845,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.StudioNext.socraticJournal;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -915,7 +930,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.StudioNext.socraticJournal;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1015,6 +1030,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1439E1ED4A0277B8F3670D92 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
 		20CC8584D9C7E0C1B74D5D56 /* FirebaseFunctions */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
