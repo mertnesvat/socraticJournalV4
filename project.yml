@@ -16,6 +16,9 @@ packages:
   firebase-ios-sdk:
     url: https://github.com/firebase/firebase-ios-sdk.git
     from: "11.0.0"
+  AppsFlyerFramework:
+    url: https://github.com/AppsFlyerSDK/AppsFlyerFramework.git
+    from: "6.15.0"
 
 targets:
   SocraticJournal:
@@ -25,7 +28,7 @@ targets:
       - path: Sources/SocraticJournal
         excludes:
           - "**/.DS_Store"
-      - path: SocraticJournalGoogleService-Info.plist
+      - path: GoogleService-Info.plist
         buildPhase: resources
         type: file
     settings:
@@ -46,6 +49,8 @@ targets:
         product: FirebaseFunctions
       - package: firebase-ios-sdk
         product: FirebaseMessaging
+      - package: AppsFlyerFramework
+        product: AppsFlyerLib
     entitlements:
       path: SocraticJournal.entitlements
       properties:

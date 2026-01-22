@@ -24,6 +24,10 @@ public struct SocraticJournalApp: App {
 
         // Configure Firebase Messaging
         FirebaseNotificationService.shared.configure()
+
+        // Configure AppsFlyer (for attribution tracking)
+        AppsFlyerService.shared.configure()
+
         // Configure ThemeManager with settings repository
         ThemeManager.shared.configure(settingsRepository: UserDefaultsSettingsRepository())
     }
@@ -42,6 +46,8 @@ public struct SocraticJournalApp: App {
                 await checkOnboardingStatus()
                 await rescheduleNotifications()
                 await clearBadge()
+                // Request ATT authorization for AppsFlyer attribution
+                AppsFlyerService.shared.requestTrackingAuthorization()
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                 Task {

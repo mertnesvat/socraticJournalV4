@@ -37,5 +37,7 @@
     </array>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>We use this to measure the effectiveness of our marketing campaigns and improve your app experience.</string>
 </dict>
 </plist>
