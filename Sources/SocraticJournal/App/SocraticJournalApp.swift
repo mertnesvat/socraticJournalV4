@@ -17,6 +17,7 @@ public struct SocraticJournalApp: App {
     private let appReviewService: AppReviewService = AppReviewService.shared
     @State private var themeManager = ThemeManager.shared
     @State private var showOnboarding: Bool = false
+    @State private var hasRequestedATT: Bool = false
 
     public init() {
         // Configure Firebase (must be called before using any Firebase services)
@@ -46,8 +47,13 @@ public struct SocraticJournalApp: App {
                 await checkOnboardingStatus()
                 await rescheduleNotifications()
                 await clearBadge()
-                // Request ATT authorization for AppsFlyer attribution
-                AppsFlyerService.shared.requestTrackingAuthorization()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                // Request ATT when app becomes active (works reliably on both iPhone and iPad)
+                if !hasRequestedATT {
+                    hasRequestedATT = true
+                    AppsFlyerService.shared.requestTrackingAuthorization()
+                }
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                 Task {
