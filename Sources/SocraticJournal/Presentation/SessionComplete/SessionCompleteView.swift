@@ -83,6 +83,11 @@ public struct SessionCompleteView: View {
                 congratulationsHeader
                     .padding(.top, 16)
 
+                // Session summary (if available)
+                if let summary = viewModel.sessionSummary {
+                    sessionSummaryCard(summary: summary)
+                }
+
                 // Clarity score display
                 ClarityScoreDisplay(
                     score: viewModel.displayScore,
@@ -150,6 +155,36 @@ public struct SessionCompleteView: View {
         .padding()
         .background(Color(uiColor: .secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .padding(.horizontal)
+    }
+
+    private func sessionSummaryCard(summary: String) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 8) {
+                Image(systemName: "text.quote")
+                    .font(.headline)
+                    .foregroundStyle(.blue)
+                Text("Session Summary")
+                    .font(.headline)
+                    .foregroundStyle(.primary)
+            }
+
+            Text(summary)
+                .font(.body)
+                .foregroundStyle(.secondary)
+                .lineSpacing(4)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.blue.opacity(0.08))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.blue.opacity(0.2), lineWidth: 1)
+        )
         .padding(.horizontal)
     }
 

@@ -21,6 +21,9 @@ public final class SessionCompleteViewModel {
     /// Generated wisdom quote
     private(set) var wisdomQuote: WisdomQuote?
 
+    /// AI-generated session summary
+    private(set) var sessionSummary: String?
+
     /// Loading state
     private(set) var isLoading: Bool = false
 
@@ -36,6 +39,7 @@ public final class SessionCompleteViewModel {
     private let repository: JournalRepositoryProtocol
     private let analyticsService: AnalyticsServiceProtocol
     private let appReviewService: AppReviewService
+    private let functionsService: FirebaseFunctionsServiceProtocol?
 
     // MARK: - Callbacks
 
@@ -49,13 +53,15 @@ public final class SessionCompleteViewModel {
         clarityScoreService: ClarityScoreServiceProtocol,
         repository: JournalRepositoryProtocol,
         analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared,
-        appReviewService: AppReviewService = AppReviewService.shared
+        appReviewService: AppReviewService = AppReviewService.shared,
+        functionsService: FirebaseFunctionsServiceProtocol? = FirebaseFunctionsService.shared
     ) {
         self.session = session
         self.clarityScoreService = clarityScoreService
         self.repository = repository
         self.analyticsService = analyticsService
         self.appReviewService = appReviewService
+        self.functionsService = functionsService
     }
 
     // MARK: - Computed Properties
@@ -111,7 +117,29 @@ public final class SessionCompleteViewModel {
             let quote = try await clarityScoreService.generateWisdomQuote(for: session.exchanges, score: score)
             self.wisdomQuote = quote
 
-            // Update session with score and quote
+            // Generate session summary
+            var summary: String?
+            if let functionsService = functionsService {
+                do {
+                    let exchangeData = session.exchanges.map { exchange in
+                        SessionExchangeData(
+                            question: exchange.question,
+                            answer: exchange.answer,
+                            clarityMirror: exchange.clarityMirror
+                        )
+                    }
+                    let request = SessionSummaryRequest(exchanges: exchangeData)
+                    summary = try await functionsService.generateSessionSummary(request: request)
+                    self.sessionSummary = summary
+                } catch {
+                    #if DEBUG
+                    print("[SessionComplete] Failed to generate session summary: \(error.localizedDescription)")
+                    #endif
+                    // Continue without summary - it's not critical
+                }
+            }
+
+            // Update session with score, quote, and summary
             var updatedSession = session
             updatedSession = JournalSession(
                 id: session.id,
@@ -119,6 +147,7 @@ public final class SessionCompleteViewModel {
                 exchanges: session.exchanges,
                 clarityScore: score,
                 wisdomQuote: quote,
+                summary: summary,
                 isComplete: true
             )
             self.session = updatedSession

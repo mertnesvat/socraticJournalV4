@@ -49,6 +49,7 @@ public final class ComposeLetterViewModel {
 
     public static let minCharacters = 20
     public static let maxCharacters = 2000
+    public static let minCharactersForPrompts = 50
 
     // MARK: - State
 
@@ -57,6 +58,15 @@ public final class ComposeLetterViewModel {
     private(set) var isSaving: Bool = false
     private(set) var error: Error?
     private(set) var didSave: Bool = false
+
+    /// AI-generated reflection prompts to help deepen the letter
+    private(set) var aiPrompts: [String] = []
+    /// Encouragement message from AI
+    private(set) var aiEncouragement: String = ""
+    /// Whether AI prompts are currently being fetched
+    private(set) var isLoadingPrompts: Bool = false
+    /// Whether the prompts section is expanded
+    var showPrompts: Bool = false
 
     /// The session ID this letter is linked to (optional)
     private let sessionId: String?
@@ -114,12 +124,23 @@ public final class ComposeLetterViewModel {
         }
     }
 
+    /// Whether the user has written enough content to request AI prompts
+    var canRequestPrompts: Bool {
+        characterCount >= Self.minCharactersForPrompts && !isLoadingPrompts
+    }
+
+    /// Whether prompts are available to display
+    var hasPrompts: Bool {
+        !aiPrompts.isEmpty
+    }
+
     // MARK: - Dependencies
 
     private let repository: JournalRepositoryProtocol
     private let notificationService: NotificationServiceProtocol?
     private let settingsRepository: SettingsRepositoryProtocol?
     private let analyticsService: AnalyticsServiceProtocol
+    private let functionsService: FirebaseFunctionsServiceProtocol?
 
     // MARK: - Callbacks
 
@@ -133,13 +154,15 @@ public final class ComposeLetterViewModel {
         repository: JournalRepositoryProtocol,
         notificationService: NotificationServiceProtocol? = nil,
         settingsRepository: SettingsRepositoryProtocol? = nil,
-        analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
+        analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared,
+        functionsService: FirebaseFunctionsServiceProtocol? = FirebaseFunctionsService.shared
     ) {
         self.sessionId = sessionId
         self.repository = repository
         self.notificationService = notificationService
         self.settingsRepository = settingsRepository
         self.analyticsService = analyticsService
+        self.functionsService = functionsService
     }
 
     // MARK: - Actions
@@ -196,6 +219,48 @@ public final class ComposeLetterViewModel {
     /// Cancel and discard the letter
     public func cancel() {
         onCancel?()
+    }
+
+    /// Request AI-generated reflection prompts based on the current letter content
+    public func requestAIPrompts() async {
+        guard canRequestPrompts, let functionsService = functionsService else { return }
+
+        isLoadingPrompts = true
+        error = nil
+
+        do {
+            let request = LetterEnhancementRequest(
+                letterContent: letterContent,
+                letterTheme: nil,
+                deliveryDate: formattedDeliveryDate
+            )
+
+            let response = try await functionsService.enhanceFutureLetter(request: request)
+
+            aiPrompts = response.prompts
+            aiEncouragement = response.encouragement
+            showPrompts = true
+
+            // Log analytics event for prompt request
+            analyticsService.logEvent(.letterPromptsRequested, parameters: [
+                AnalyticsParameter.letterId.rawValue: sessionId ?? "new",
+                AnalyticsParameter.promptCount.rawValue: response.prompts.count
+            ])
+        } catch {
+            self.error = error
+            #if DEBUG
+            print("[ComposeLetterViewModel] Failed to fetch AI prompts: \(error)")
+            #endif
+        }
+
+        isLoadingPrompts = false
+    }
+
+    /// Clear the AI prompts
+    public func clearPrompts() {
+        aiPrompts = []
+        aiEncouragement = ""
+        showPrompts = false
     }
 }
 

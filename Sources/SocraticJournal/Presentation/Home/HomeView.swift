@@ -47,7 +47,7 @@ public struct HomeView: View {
                 } content: {
                     DialogueSessionView(
                         viewModel: DialogueSessionViewModel(
-                            questionService: MockQuestionService(),
+                            questionService: FirebaseQuestionService.shared,
                             repository: repository
                         ),
                         repository: repository
@@ -77,7 +77,7 @@ public struct HomeView: View {
                     CharacterDiscoveryView(
                         viewModel: CharacterDiscoveryViewModel(
                             repository: repository,
-                            analysisService: MockPersonalityAnalysisService()
+                            analysisService: FirebasePersonalityAnalysisService.shared
                         )
                     )
                     .environment(themeManager)
