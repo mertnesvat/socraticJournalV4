@@ -31,6 +31,7 @@ public enum AnalyticsEvent: String, Sendable {
     case letterComposed = "letter_composed"
     case letterUnlocked = "letter_unlocked"
     case letterViewed = "letter_viewed"
+    case letterPromptsRequested = "letter_prompts_requested"
 
     // Onboarding events
     case onboardingStarted = "onboarding_started"
@@ -64,4 +65,5 @@ public enum AnalyticsParameter: String, Sendable {
     case themeMode = "theme_mode"
     case sessionCount = "session_count"
     case streakDays = "streak_days"
+    case promptCount = "prompt_count"
 }

@@ -11,6 +11,7 @@ public struct JournalSession: Codable, Sendable, Identifiable, Equatable {
     public var exchanges: [Exchange]
     public var clarityScore: ClarityScore?
     public var wisdomQuote: WisdomQuote?
+    public var summary: String?
     public var isComplete: Bool
 
     public init(
@@ -19,6 +20,7 @@ public struct JournalSession: Codable, Sendable, Identifiable, Equatable {
         exchanges: [Exchange] = [],
         clarityScore: ClarityScore? = nil,
         wisdomQuote: WisdomQuote? = nil,
+        summary: String? = nil,
         isComplete: Bool = false
     ) {
         self.id = id
@@ -26,6 +28,7 @@ public struct JournalSession: Codable, Sendable, Identifiable, Equatable {
         self.exchanges = exchanges
         self.clarityScore = clarityScore
         self.wisdomQuote = wisdomQuote
+        self.summary = summary
         self.isComplete = isComplete
     }
 

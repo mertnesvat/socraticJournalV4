@@ -302,7 +302,7 @@ struct UserAnswerCard: View {
 
 #Preview {
     let repository = InMemoryJournalRepository()
-    return DialogueSessionView(
+    DialogueSessionView(
         viewModel: DialogueSessionViewModel(
             questionService: MockQuestionService(),
             repository: repository

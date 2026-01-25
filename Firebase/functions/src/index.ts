@@ -4,9 +4,15 @@ import {
   generateClarityMirrorWithAI,
   generateFollowUpQuestionWithAI,
   generateSocratesReactionWithAI,
+  generateWisdomQuoteWithAI,
+  generateSessionSummaryWithAI,
+  enhanceFutureLetterWithAI,
   ClarityMirrorRequest,
   FollowUpQuestionRequest,
   SocratesReactionRequest,
+  WisdomQuoteRequest,
+  SessionSummaryRequest,
+  LetterEnhancementRequest,
 } from "./services/openai";
 import {
   analyzePersonalityWithAI,
@@ -291,6 +297,219 @@ export const analyzePersonality = onCall(
       }
 
       throw new HttpsError("internal", "Failed to analyze personality");
+    }
+  }
+);
+
+/**
+ * Firebase Cloud Function: Generate Wisdom Quote
+ *
+ * Generates a contextual wisdom quote based on journal themes.
+ * Uses OpenAI GPT-4o-mini for relevant philosophical quotes.
+ *
+ * @param request.data.recentThemes - Array of recent journal themes
+ * @param request.data.mood - Optional current mood
+ * @returns Object with 'quote' containing text, author, source, and relevance
+ */
+export const generateWisdomQuoteNightprep = onCall(
+  {
+    secrets: [openaiApiKey],
+    cors: true,
+    maxInstances: 10,
+    timeoutSeconds: 30,
+  },
+  async (request) => {
+    const data = request.data as WisdomQuoteRequest;
+
+    if (!data.recentThemes || !Array.isArray(data.recentThemes)) {
+      throw new HttpsError("invalid-argument", "recentThemes array is required");
+    }
+
+    if (data.recentThemes.length === 0) {
+      throw new HttpsError(
+        "invalid-argument",
+        "recentThemes array cannot be empty"
+      );
+    }
+
+    // Validate theme strings
+    for (let i = 0; i < data.recentThemes.length; i++) {
+      if (typeof data.recentThemes[i] !== "string" || data.recentThemes[i].trim().length === 0) {
+        throw new HttpsError(
+          "invalid-argument",
+          `Theme at index ${i} must be a non-empty string`
+        );
+      }
+    }
+
+    try {
+      const quote = await generateWisdomQuoteWithAI({
+        recentThemes: data.recentThemes,
+        mood: data.mood,
+      });
+
+      return { quote };
+    } catch (error) {
+      console.error("Error generating wisdom quote:", error);
+
+      if (error instanceof Error) {
+        if (error.message.includes("API key")) {
+          throw new HttpsError("internal", "Service configuration error");
+        }
+        if (error.message.includes("rate limit")) {
+          throw new HttpsError(
+            "resource-exhausted",
+            "Service temporarily unavailable"
+          );
+        }
+        if (error.message.includes("parse") || error.message.includes("JSON")) {
+          throw new HttpsError("internal", "Failed to process wisdom quote");
+        }
+      }
+
+      throw new HttpsError("internal", "Failed to generate wisdom quote");
+    }
+  }
+);
+
+/**
+ * Firebase Cloud Function: Generate Session Summary
+ *
+ * Generates a brief summary of a completed journal session.
+ * Captures key themes, emotions, and insights explored.
+ *
+ * @param request.data.exchanges - Array of session exchanges with question/answer/clarityMirror
+ * @returns Object with 'summary' string containing 2-3 sentence summary
+ */
+export const generateSessionSummaryNightprep = onCall(
+  {
+    secrets: [openaiApiKey],
+    cors: true,
+    maxInstances: 10,
+    timeoutSeconds: 30,
+  },
+  async (request) => {
+    const data = request.data as SessionSummaryRequest;
+
+    if (!data.exchanges || !Array.isArray(data.exchanges) || data.exchanges.length === 0) {
+      throw new HttpsError("invalid-argument", "exchanges array is required and cannot be empty");
+    }
+
+    // Validate each exchange structure
+    for (let i = 0; i < data.exchanges.length; i++) {
+      const exchange = data.exchanges[i];
+
+      if (!exchange.question || typeof exchange.question !== "string") {
+        throw new HttpsError(
+          "invalid-argument",
+          `Exchange ${i + 1}: question is required and must be a string`
+        );
+      }
+
+      if (!exchange.answer || typeof exchange.answer !== "string") {
+        throw new HttpsError(
+          "invalid-argument",
+          `Exchange ${i + 1}: answer is required and must be a string`
+        );
+      }
+
+      if (exchange.answer.trim().length === 0) {
+        throw new HttpsError(
+          "invalid-argument",
+          `Exchange ${i + 1}: answer cannot be empty`
+        );
+      }
+
+      if (
+        exchange.clarityMirror !== undefined &&
+        typeof exchange.clarityMirror !== "string"
+      ) {
+        throw new HttpsError(
+          "invalid-argument",
+          `Exchange ${i + 1}: clarityMirror must be a string if provided`
+        );
+      }
+    }
+
+    try {
+      const summary = await generateSessionSummaryWithAI(data);
+      return { summary };
+    } catch (error) {
+      console.error("Error generating session summary:", error);
+
+      if (error instanceof Error) {
+        if (error.message.includes("API key")) {
+          throw new HttpsError("internal", "Service configuration error");
+        }
+        if (error.message.includes("rate limit")) {
+          throw new HttpsError(
+            "resource-exhausted",
+            "Service temporarily unavailable"
+          );
+        }
+      }
+
+      throw new HttpsError("internal", "Failed to generate session summary");
+    }
+  }
+);
+
+/**
+ * Firebase Cloud Function: Enhance Future Letter
+ *
+ * Generates AI-powered reflection prompts to help users write more meaningful
+ * letters to their future selves.
+ *
+ * @param request.data.letterContent - The current letter content
+ * @param request.data.letterTheme - Optional theme for the letter
+ * @param request.data.deliveryDate - Optional delivery date string
+ * @returns Object with 'prompts' array and 'encouragement' string
+ */
+export const enhanceFutureLetterNightprep = onCall(
+  {
+    secrets: [openaiApiKey],
+    cors: true,
+    maxInstances: 10,
+    timeoutSeconds: 30,
+  },
+  async (request) => {
+    const data = request.data as LetterEnhancementRequest;
+
+    if (!data.letterContent || typeof data.letterContent !== "string") {
+      throw new HttpsError("invalid-argument", "letterContent is required");
+    }
+
+    if (data.letterContent.trim().length === 0) {
+      throw new HttpsError("invalid-argument", "letterContent cannot be empty");
+    }
+
+    try {
+      const enhancement = await enhanceFutureLetterWithAI({
+        letterContent: data.letterContent,
+        letterTheme: data.letterTheme,
+        deliveryDate: data.deliveryDate,
+      });
+
+      return enhancement;
+    } catch (error) {
+      console.error("Error enhancing future letter:", error);
+
+      if (error instanceof Error) {
+        if (error.message.includes("API key")) {
+          throw new HttpsError("internal", "Service configuration error");
+        }
+        if (error.message.includes("rate limit")) {
+          throw new HttpsError(
+            "resource-exhausted",
+            "Service temporarily unavailable"
+          );
+        }
+        if (error.message.includes("parse") || error.message.includes("JSON")) {
+          throw new HttpsError("internal", "Failed to process letter enhancement");
+        }
+      }
+
+      throw new HttpsError("internal", "Failed to enhance letter");
     }
   }
 );

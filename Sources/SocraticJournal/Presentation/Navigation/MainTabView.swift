@@ -74,7 +74,7 @@ public struct MainTabView: View {
         } content: {
             DialogueSessionView(
                 viewModel: DialogueSessionViewModel(
-                    questionService: MockQuestionService(),
+                    questionService: FirebaseQuestionService.shared,
                     repository: repository
                 ),
                 repository: repository

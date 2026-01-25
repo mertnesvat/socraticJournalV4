@@ -64,7 +64,7 @@ public struct HomeTabView: View {
                     CharacterDiscoveryView(
                         viewModel: CharacterDiscoveryViewModel(
                             repository: repository,
-                            analysisService: MockPersonalityAnalysisService()
+                            analysisService: FirebasePersonalityAnalysisService.shared
                         )
                     )
                     .environment(themeManager)

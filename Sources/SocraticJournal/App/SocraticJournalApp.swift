@@ -31,6 +31,15 @@ public struct SocraticJournalApp: App {
 
         // Configure ThemeManager with settings repository
         ThemeManager.shared.configure(settingsRepository: UserDefaultsSettingsRepository())
+
+        // Start network monitoring for offline support
+        NetworkMonitor.shared.startMonitoring()
+
+        // Configure offline sync queue (listens for connectivity changes)
+        OfflineSyncQueue.shared.configure()
+
+        // Start backend health monitoring for AI feature availability
+        BackendHealthService.shared.startMonitoring()
     }
 
     public var body: some Scene {
@@ -47,6 +56,7 @@ public struct SocraticJournalApp: App {
                 await checkOnboardingStatus()
                 await rescheduleNotifications()
                 await clearBadge()
+                configureOfflineSyncHandler()
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 // Request ATT when app becomes active (works reliably on both iPhone and iPad)
@@ -110,6 +120,16 @@ public struct SocraticJournalApp: App {
     private func clearBadge() async {
         if let localService = notificationService as? LocalNotificationService {
             await localService.clearBadge()
+        }
+    }
+
+    /// Configure offline sync handler with repository for session updates
+    private func configureOfflineSyncHandler() {
+        OfflineSyncHandler.shared.configure(repository: repository)
+
+        // Try to process any pending offline requests now that we're configured
+        Task {
+            await OfflineSyncQueue.shared.processQueue()
         }
     }
 }

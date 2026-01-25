@@ -188,6 +188,79 @@ Generate a clarity mirror reflection for this answer.`;
 /**
  * Generates a follow-up Socratic question using OpenAI.
  */
+// MARK: - Wisdom Quote Types and Implementation
+
+export interface WisdomQuoteRequest {
+  recentThemes: string[];
+  mood?: string;
+}
+
+export interface WisdomQuote {
+  text: string;
+  author: string;
+  source?: string;
+  relevance: string;
+}
+
+/**
+ * System prompt for generating contextual wisdom quotes.
+ * Generates philosophical quotes that relate to the user's journal themes.
+ */
+export const WISDOM_QUOTE_SYSTEM_PROMPT = `You are a philosophical advisor for a Socratic journaling app. Your role is to provide meaningful, contextually relevant wisdom quotes based on the user's recent journal themes.
+
+Guidelines:
+1. Select or generate a quote that directly relates to the themes provided
+2. Prefer quotes from well-known philosophers (Socrates, Marcus Aurelius, Seneca, Epictetus, etc.) but also include poets, writers, and thinkers
+3. The quote should be authentic - do not invent fake quotes
+4. If you cannot find a perfect match, choose a timeless quote that relates to personal growth
+5. Keep the relevance explanation brief (one sentence)
+6. Consider the mood if provided - a sad mood might benefit from a comforting quote
+
+Always return valid JSON with:
+- text: the quote text (required)
+- author: the philosopher/author name (required)
+- source: the source work if known (optional, can be null)
+- relevance: one sentence explaining why this quote is relevant (required)`;
+
+/**
+ * Generates a contextual wisdom quote using OpenAI.
+ */
+export async function generateWisdomQuoteWithAI(
+  request: WisdomQuoteRequest
+): Promise<WisdomQuote> {
+  const client = getOpenAIClient();
+
+  const userMessage = `Based on these recent journal themes: ${request.recentThemes.join(", ")}
+${request.mood ? `Current mood: ${request.mood}` : ""}
+
+Generate a meaningful philosophical quote that relates to these themes. Return only valid JSON.`;
+
+  const response = await client.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      { role: "system", content: WISDOM_QUOTE_SYSTEM_PROMPT },
+      { role: "user", content: userMessage },
+    ],
+    max_tokens: 300,
+    temperature: 0.7,
+    response_format: { type: "json_object" },
+  });
+
+  const content = response.choices[0]?.message?.content;
+  if (!content) {
+    throw new Error("No response from OpenAI");
+  }
+
+  const parsed = JSON.parse(content) as WisdomQuote;
+
+  // Validate required fields
+  if (!parsed.text || !parsed.author || !parsed.relevance) {
+    throw new Error("Invalid wisdom quote response: missing required fields");
+  }
+
+  return parsed;
+}
+
 export async function generateFollowUpQuestionWithAI(
   request: FollowUpQuestionRequest
 ): Promise<string> {
@@ -223,4 +296,164 @@ Generate ONE follow-up question to deepen their reflection. Return only the ques
   }
 
   return content.trim();
+}
+
+// MARK: - Session Summary Types and Implementation
+
+export interface SessionSummaryRequest {
+  exchanges: Array<{
+    question: string;
+    answer: string;
+    clarityMirror?: string;
+  }>;
+}
+
+/**
+ * System prompt for generating session summaries.
+ * Creates warm, insightful summaries of completed journal sessions.
+ */
+export const SESSION_SUMMARY_SYSTEM_PROMPT = `You are a mindful journal companion for a Socratic journaling app. Your role is to provide a warm, insightful 2-3 sentence summary of the user's completed journaling session.
+
+Guidelines:
+1. Keep the summary to exactly 2-3 sentences
+2. Capture the key themes and emotions explored during the session
+3. Highlight any insights, realizations, or growth moments
+4. Be compassionate and affirming without being saccharine
+5. Use "you" language to make it personal
+6. Focus on what the user discovered rather than just what they talked about
+7. End with something uplifting or forward-looking when appropriate
+
+The summary should help the user quickly recall what they explored and feel proud of their reflection.
+
+Example input (exchanges):
+Q: What's on your mind today?
+A: I've been feeling overwhelmed with work deadlines.
+Reflection: It sounds like you're carrying a heavy load right now.
+
+Q: What makes this important to you?
+A: I don't want to let my team down, but I also need to take care of myself.
+Reflection: You're balancing care for others with self-compassion.
+
+Example output:
+"In today's session, you explored the tension between professional commitments and personal wellbeing. You showed real self-awareness in recognizing that caring for others and caring for yourself aren't mutually exclusive. This balance you're seeking reflects deep wisdom about sustainable success."`;
+
+/**
+ * Generates a session summary using OpenAI.
+ */
+export async function generateSessionSummaryWithAI(
+  request: SessionSummaryRequest
+): Promise<string> {
+  const client = getOpenAIClient();
+
+  // Format exchanges for the prompt
+  const exchangesText = request.exchanges
+    .map((exchange, index) => {
+      let text = `Q${index + 1}: ${exchange.question}\nA${index + 1}: ${exchange.answer}`;
+      if (exchange.clarityMirror) {
+        text += `\nReflection: ${exchange.clarityMirror}`;
+      }
+      return text;
+    })
+    .join("\n\n");
+
+  const userMessage = `Summarize this journal session:\n\n${exchangesText}`;
+
+  const response = await client.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      { role: "system", content: SESSION_SUMMARY_SYSTEM_PROMPT },
+      { role: "user", content: userMessage },
+    ],
+    max_tokens: 150,
+    temperature: 0.7,
+  });
+
+  const content = response.choices[0]?.message?.content;
+  if (!content) {
+    return "A meaningful session of self-reflection.";
+  }
+
+  return content.trim();
+}
+
+// MARK: - Letter Enhancement Types and Implementation
+
+export interface LetterEnhancementRequest {
+  letterContent: string;
+  letterTheme?: string;
+  deliveryDate?: string;
+}
+
+export interface LetterEnhancementResponse {
+  prompts: string[];
+  encouragement: string;
+}
+
+/**
+ * System prompt for generating letter enhancement prompts.
+ * Helps users write more meaningful letters to their future selves.
+ */
+export const LETTER_ENHANCEMENT_SYSTEM_PROMPT = `You are a compassionate writing coach helping someone write a letter to their future self. Your role is to suggest thoughtful reflection prompts that will help them deepen their letter.
+
+Guidelines:
+1. Generate 2-3 thought-provoking questions based on their letter content
+2. Questions should help them explore deeper emotions, intentions, or hopes
+3. Consider the delivery date if provided - a 1-year letter might focus on bigger life themes
+4. Be warm and encouraging, not clinical or judgmental
+5. Focus on helping them capture this moment meaningfully
+6. Avoid questions that are too personal or potentially triggering
+7. The prompts should feel like gentle invitations, not interrogations
+
+Example prompts:
+- "What do you hope your future self will remember most about this moment?"
+- "What advice would you give yourself if you were reading this today?"
+- "What are you most grateful for right now that you want to remind your future self about?"
+
+Always return valid JSON with:
+- prompts: array of 2-3 reflection questions (required)
+- encouragement: a brief (1-2 sentence) word of encouragement about their writing journey (required)`;
+
+/**
+ * Generates letter enhancement prompts using OpenAI.
+ */
+export async function enhanceFutureLetterWithAI(
+  request: LetterEnhancementRequest
+): Promise<LetterEnhancementResponse> {
+  const client = getOpenAIClient();
+
+  const userMessage = `You are helping someone write a letter to their future self.
+
+Their current letter content:
+"${request.letterContent}"
+${request.letterTheme ? `Theme: ${request.letterTheme}` : ""}
+${request.deliveryDate ? `To be delivered: ${request.deliveryDate}` : ""}
+
+Generate 2-3 thoughtful reflection prompts that could help them deepen their letter. Also provide a brief word of encouragement.
+
+Return only valid JSON.`;
+
+  const response = await client.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      { role: "system", content: LETTER_ENHANCEMENT_SYSTEM_PROMPT },
+      { role: "user", content: userMessage },
+    ],
+    max_tokens: 300,
+    temperature: 0.7,
+    response_format: { type: "json_object" },
+  });
+
+  const content = response.choices[0]?.message?.content;
+  if (!content) {
+    throw new Error("No response from OpenAI");
+  }
+
+  const parsed = JSON.parse(content) as LetterEnhancementResponse;
+
+  // Validate required fields
+  if (!parsed.prompts || !Array.isArray(parsed.prompts) || !parsed.encouragement) {
+    throw new Error("Invalid letter enhancement response: missing required fields");
+  }
+
+  return parsed;
 }
