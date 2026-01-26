@@ -16,6 +16,7 @@ public struct SettingsView: View {
     @Environment(ThemeManager.self) private var themeManager
     @State private var viewModel: SettingsViewModel
     @State private var showingExportView: Bool = false
+    @State private var showingWisdomLibrary: Bool = false
 
     public init(viewModel: SettingsViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -55,6 +56,15 @@ public struct SettingsView: View {
                             )
                         )
                     )
+                    .preferredColorScheme(themeManager.colorScheme)
+                }
+                .fullScreenCover(isPresented: $showingWisdomLibrary) {
+                    WisdomQuotesView(
+                        viewModel: WisdomQuotesViewModel(
+                            quoteService: LocalWisdomQuoteService()
+                        )
+                    )
+                    .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
                 }
                 .overlay {
@@ -104,6 +114,11 @@ public struct SettingsView: View {
                             viewModel.openNotificationSettings()
                         }
                     )
+
+                    // Wisdom Library section
+                    WisdomLibrarySettingsRow(onTap: {
+                        showingWisdomLibrary = true
+                    })
 
                     // Data section
                     DataManagementView(
