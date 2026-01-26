@@ -5,13 +5,12 @@
 #if os(iOS)
 import SwiftUI
 
-/// Home view adapted for tab navigation
+/// Home view adapted for tab navigation - Journal-centric view
 /// Session start is handled by the floating plus button in MainTabView
 /// Statistics is now a separate tab - stats card tap switches to Statistics tab
-/// Character Discovery and Letters are now in Self-Discovery tab
+/// Character Discovery, Letters, and Wisdom Quotes are now in Self-Discovery/Settings
 public struct HomeTabView: View {
     @Bindable var viewModel: HomeViewModel
-    @State private var showingWisdomQuotes: Bool = false
     @State private var showingSettings: Bool = false
     @State private var selectedSession: JournalSession?
     @Environment(ThemeManager.self) private var themeManager
@@ -50,15 +49,6 @@ public struct HomeTabView: View {
                     )
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
-                    .preferredColorScheme(themeManager.colorScheme)
-                }
-                .fullScreenCover(isPresented: $showingWisdomQuotes) {
-                    WisdomQuotesView(
-                        viewModel: WisdomQuotesViewModel(
-                            quoteService: LocalWisdomQuoteService()
-                        )
-                    )
-                    .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
                 }
                 .fullScreenCover(isPresented: $showingSettings) {
@@ -225,20 +215,11 @@ public struct HomeTabView: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
-            HStack(spacing: 16) {
-                Button {
-                    showingWisdomQuotes = true
-                } label: {
-                    Image(systemName: "quote.bubble")
-                        .font(.title3)
-                }
-
-                Button {
-                    showingSettings = true
-                } label: {
-                    Image(systemName: "gearshape.fill")
-                        .font(.title3)
-                }
+            Button {
+                showingSettings = true
+            } label: {
+                Image(systemName: "gearshape.fill")
+                    .font(.title3)
             }
         }
     }
