@@ -8,9 +8,24 @@ import SwiftUI
 /// Self-Discovery tab showing feature cards for personal exploration
 public struct SelfDiscoveryTabView: View {
     @State private var viewModel: SelfDiscoveryViewModel
+    @State private var showingCharacterDiscovery = false
+    @Environment(ThemeManager.self) private var themeManager
 
-    public init(viewModel: SelfDiscoveryViewModel = SelfDiscoveryViewModel()) {
-        _viewModel = State(initialValue: viewModel)
+    private let repository: JournalRepositoryProtocol
+    private let settingsRepository: SettingsRepositoryProtocol?
+    private let notificationService: NotificationServiceProtocol?
+
+    public init(
+        viewModel: SelfDiscoveryViewModel? = nil,
+        repository: JournalRepositoryProtocol? = nil,
+        settingsRepository: SettingsRepositoryProtocol? = nil,
+        notificationService: NotificationServiceProtocol? = nil
+    ) {
+        let repo = repository ?? FirestoreJournalRepository.shared
+        self.repository = repo
+        self.settingsRepository = settingsRepository
+        self.notificationService = notificationService
+        _viewModel = State(initialValue: viewModel ?? SelfDiscoveryViewModel(repository: repo))
     }
 
     public var body: some View {
@@ -18,6 +33,42 @@ public struct SelfDiscoveryTabView: View {
             content
                 .navigationTitle("Discover")
                 .navigationBarTitleDisplayMode(.large)
+                .task {
+                    await viewModel.loadAllData()
+                }
+                .fullScreenCover(isPresented: $showingCharacterDiscovery) {
+                    // Reload personality state when returning
+                    Task {
+                        await viewModel.loadAllData()
+                    }
+                } content: {
+                    CharacterDiscoveryView(
+                        viewModel: CharacterDiscoveryViewModel(
+                            repository: repository,
+                            analysisService: FirebasePersonalityAnalysisService.shared
+                        )
+                    )
+                    .environment(themeManager)
+                    .preferredColorScheme(themeManager.colorScheme)
+                }
+                .fullScreenCover(isPresented: $viewModel.showingLetters) {
+                    // Reload letters count when returning
+                    Task {
+                        await viewModel.loadLettersCount()
+                    }
+                } content: {
+                    LettersListView(
+                        viewModel: LettersListViewModel(
+                            repository: repository,
+                            notificationService: notificationService
+                        ),
+                        repository: repository,
+                        notificationService: notificationService,
+                        settingsRepository: settingsRepository
+                    )
+                    .environment(themeManager)
+                    .preferredColorScheme(themeManager.colorScheme)
+                }
         }
     }
 
@@ -58,8 +109,8 @@ public struct SelfDiscoveryTabView: View {
                 headerSection
                     .padding(.horizontal)
 
-                // Feature cards grid
-                featureCardsGrid
+                // Feature cards
+                featureCardsSection
                     .padding(.horizontal)
 
                 // Extra bottom spacing to account for tab bar
@@ -68,6 +119,9 @@ public struct SelfDiscoveryTabView: View {
             .padding(.top)
         }
         .background(Color(uiColor: .systemGroupedBackground))
+        .refreshable {
+            await viewModel.loadAllData()
+        }
     }
 
     private var headerSection: some View {
@@ -86,16 +140,70 @@ public struct SelfDiscoveryTabView: View {
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
-    private var featureCardsGrid: some View {
-        LazyVGrid(
-            columns: [GridItem(.flexible())],
-            spacing: 16
-        ) {
-            ForEach(viewModel.features) { feature in
+    private var featureCardsSection: some View {
+        VStack(spacing: 16) {
+            // Personality Card - Uses DiscoveryCard component
+            personalityCard
+
+            // Letters Card - Uses DiscoveryCard component
+            lettersCard
+
+            // Other features (coming soon)
+            ForEach(viewModel.features.filter { $0.id != "personality" && $0.id != "letters" }) { feature in
                 DiscoveryFeatureCard(feature: feature) {
                     viewModel.selectFeature(feature)
                 }
             }
+        }
+    }
+
+    private var lettersCard: some View {
+        DiscoveryCard(
+            icon: "envelope.badge.fill",
+            title: "Letters to Future Me",
+            subtitle: "Write meaningful letters to your future self",
+            badge: viewModel.readyLettersCount > 0 ? .count(viewModel.readyLettersCount) : nil,
+            accentColor: .blue
+        ) {
+            viewModel.showingLetters = true
+        }
+    }
+
+    private var personalityCard: some View {
+        DiscoveryCard(
+            icon: "brain.head.profile",
+            title: "My Personality",
+            subtitle: personalitySubtitle,
+            badge: personalityBadge,
+            accentColor: .purple,
+            isLocked: viewModel.isPersonalityLocked,
+            unlockProgress: viewModel.isPersonalityLocked ? viewModel.personalityProgress : nil,
+            entriesRequired: viewModel.isPersonalityLocked ? viewModel.personalityEntriesRequired : nil,
+            currentEntries: viewModel.isPersonalityLocked ? viewModel.totalEntries : nil
+        ) {
+            showingCharacterDiscovery = true
+        }
+    }
+
+    private var personalitySubtitle: String {
+        switch viewModel.personalityUnlockState {
+        case .locked:
+            return "Journal more to unlock your Big Five personality analysis"
+        case .sample:
+            return "Preview your personality traits - keep journaling for full insights"
+        case .available:
+            return "Explore your Big Five personality traits based on your reflections"
+        }
+    }
+
+    private var personalityBadge: DiscoveryBadge? {
+        switch viewModel.personalityUnlockState {
+        case .locked:
+            return nil
+        case .sample:
+            return .custom("Preview")
+        case .available:
+            return nil
         }
     }
 }
