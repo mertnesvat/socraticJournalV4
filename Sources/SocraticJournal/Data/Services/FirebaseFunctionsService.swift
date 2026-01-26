@@ -291,6 +291,80 @@ public final class FirebaseFunctionsService: FirebaseFunctionsServiceProtocol, @
         return response
     }
 
+    public func analyzeCharacterMatch(request: CharacterMatchRequest) async throws -> CharacterMatchResult {
+        #if DEBUG
+        print("[FirebaseFunctions] Calling analyzeCharacterMatch")
+        print("[FirebaseFunctions] Journal entries count: \(request.journalEntries.count)")
+        print("[FirebaseFunctions] Franchise: \(request.franchise.rawValue)")
+        #endif
+
+        // Encode request - need to convert franchise to string
+        let requestData: [String: Any] = [
+            "journalEntries": request.journalEntries.map { entry in
+                var dict: [String: Any] = [
+                    "question": entry.question,
+                    "answer": entry.answer
+                ]
+                if let clarityMirror = entry.clarityMirror {
+                    dict["clarityMirror"] = clarityMirror
+                }
+                return dict
+            },
+            "franchise": request.franchise.rawValue
+        ]
+
+        let result = try await callFunction(
+            name: "analyzeCharacterMatch",
+            data: requestData,
+            timeout: extendedTimeout
+        )
+
+        guard let responseDict = result as? [String: Any],
+              let resultDict = responseDict["result"] as? [String: Any],
+              let matchesArray = resultDict["matches"] as? [[String: Any]],
+              let analyzedAtString = resultDict["analyzedAt"] as? String else {
+            throw FirebaseFunctionsError.decodingError(
+                NSError(domain: "FirebaseFunctionsService",
+                        code: -1,
+                        userInfo: [NSLocalizedDescriptionKey: "Invalid character match response format"])
+            )
+        }
+
+        // Parse matches
+        var matches: [CharacterMatch] = []
+        for matchDict in matchesArray {
+            guard let character = matchDict["character"] as? String,
+                  let confidence = matchDict["confidence"] as? Int,
+                  let reasoning = matchDict["reasoning"] as? String else {
+                continue
+            }
+            matches.append(CharacterMatch(
+                character: character,
+                confidence: confidence,
+                reasoning: reasoning
+            ))
+        }
+
+        // Parse timestamp
+        let formatter = ISO8601DateFormatter()
+        let analyzedAt = formatter.date(from: analyzedAtString) ?? Date()
+
+        let matchResult = CharacterMatchResult(
+            matches: matches,
+            franchise: request.franchise,
+            analyzedAt: analyzedAt
+        )
+
+        #if DEBUG
+        print("[FirebaseFunctions] analyzeCharacterMatch success")
+        if let primary = matchResult.primaryMatch {
+            print("[FirebaseFunctions] Primary match: \(primary.character) (\(primary.confidence)%)")
+        }
+        #endif
+
+        return matchResult
+    }
+
     // MARK: - Private Helpers
 
     /// Encode a Codable request to a dictionary for Firebase Functions

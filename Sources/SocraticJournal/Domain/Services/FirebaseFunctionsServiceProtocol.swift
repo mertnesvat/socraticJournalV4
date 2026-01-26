@@ -46,6 +46,11 @@ public protocol FirebaseFunctionsServiceProtocol: Sendable {
     /// - Parameter request: The letter enhancement request with letter content
     /// - Returns: AI-generated prompts and encouragement to help deepen the letter
     func enhanceFutureLetter(request: LetterEnhancementRequest) async throws -> LetterEnhancementResponse
+
+    /// Analyze journal entries to find matching fictional characters
+    /// - Parameter request: The character match request with journal entries and franchise
+    /// - Returns: The top 3 character matches with confidence scores
+    func analyzeCharacterMatch(request: CharacterMatchRequest) async throws -> CharacterMatchResult
 }
 
 // MARK: - Request Types
@@ -194,6 +199,19 @@ public struct LetterEnhancementRequest: Codable, Sendable {
         self.letterContent = letterContent
         self.letterTheme = letterTheme
         self.deliveryDate = deliveryDate
+    }
+}
+
+/// Request data for character match analysis
+public struct CharacterMatchRequest: Codable, Sendable {
+    /// Array of journal entries to analyze
+    public let journalEntries: [JournalEntryData]
+    /// The franchise to match against
+    public let franchise: CharacterFranchise
+
+    public init(journalEntries: [JournalEntryData], franchise: CharacterFranchise) {
+        self.journalEntries = journalEntries
+        self.franchise = franchise
     }
 }
 

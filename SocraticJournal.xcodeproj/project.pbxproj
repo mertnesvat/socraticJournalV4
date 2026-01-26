@@ -29,6 +29,8 @@
 		2353327B27450AF113EF609F /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF92EF5F314A4CC8478E991C /* ThemeManager.swift */; };
 		2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */; };
 		26F18C08547904A38AFC396C /* MockPersonalityAnalysisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C700B1F0D3CD77AE8C620AAC /* MockPersonalityAnalysisService.swift */; };
+		CHARMAT01234567890ABCDEF /* CharacterMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = CHARMATCH0123456789ABCD /* CharacterMatch.swift */; };
+		MOCKCHARMATCH012345678 /* MockCharacterMatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = MOCKCHARMATCHSERVICE012 /* MockCharacterMatchService.swift */; };
 		2AFCA9C3386D8579C89D2523 /* OfflineSyncHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */; };
 		2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */; };
 		2CAB8A322184E8DBF540D4D7 /* FutureLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669FF049A4583E3F84C6685F /* FutureLetter.swift */; };
@@ -224,6 +226,8 @@
 		C3391C3B827DCDA617AFE690 /* LettersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LettersListViewModel.swift; sourceTree = "<group>"; };
 		C6393671D5BB1907C751541A /* DataManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagementView.swift; sourceTree = "<group>"; };
 		C700B1F0D3CD77AE8C620AAC /* MockPersonalityAnalysisService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPersonalityAnalysisService.swift; sourceTree = "<group>"; };
+		CHARMATCH0123456789ABCD /* CharacterMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterMatch.swift; sourceTree = "<group>"; };
+		MOCKCHARMATCHSERVICE012 /* MockCharacterMatchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCharacterMatchService.swift; sourceTree = "<group>"; };
 		C904560046371ED6FE9FF72B /* SessionScoreSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionScoreSummary.swift; sourceTree = "<group>"; };
 		C9807DF03FE24AF6534E5768 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		CBFCD947C02302577DE3EC06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -449,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				66CA094076238AED5C929709 /* BigFiveProfile.swift */,
+				CHARMATCH0123456789ABCD /* CharacterMatch.swift */,
 				96355142014EC509D10F97A6 /* ClarityScore.swift */,
 				D26F56EF8C8448893CE3B324 /* Exchange.swift */,
 				669FF049A4583E3F84C6685F /* FutureLetter.swift */,
@@ -631,6 +636,7 @@
 				C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */,
 				739C432FE1792495D5A2F2E6 /* LocalWisdomQuoteService.swift */,
 				C2DE9705D8F6B1B56FB136B5 /* MockClarityScoreService.swift */,
+				MOCKCHARMATCHSERVICE012 /* MockCharacterMatchService.swift */,
 				C700B1F0D3CD77AE8C620AAC /* MockPersonalityAnalysisService.swift */,
 				48A85539E50453CB3BEA69A7 /* MockQuestionService.swift */,
 				F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */,
@@ -786,6 +792,7 @@
 				A523E5F334F9E4E071C18047 /* BackendStatusView.swift in Sources */,
 				7028FA904E6C1A0FFE7CCF07 /* BigFiveProfile.swift in Sources */,
 				4D8F3842A54452AED741EF12 /* CalendarView.swift in Sources */,
+				CHARMAT01234567890ABCDEF /* CharacterMatch.swift in Sources */,
 				A99A70774108DBA18435A44E /* CharacterCounter.swift in Sources */,
 				8FC896338EEA960654E9913B /* CharacterDiscoveryView.swift in Sources */,
 				915173BDEC78033289D5B2AE /* CharacterDiscoveryViewModel.swift in Sources */,
@@ -837,6 +844,7 @@
 				2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */,
 				42F43471BC19B2F1C766543A /* MilestoneView.swift in Sources */,
 				9DFE8B0C428D59EB983E85E9 /* MockClarityScoreService.swift in Sources */,
+				MOCKCHARMATCH012345678 /* MockCharacterMatchService.swift in Sources */,
 				26F18C08547904A38AFC396C /* MockPersonalityAnalysisService.swift in Sources */,
 				4DCF02804D0FDE45603CD2A2 /* MockQuestionService.swift in Sources */,
 				31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */,
