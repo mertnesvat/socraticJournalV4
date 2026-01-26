@@ -84,9 +84,8 @@ public final class SelfDiscoveryViewModel {
     private let repository: JournalRepositoryProtocol
 
     // MARK: - Initialization
-    public init(repository: JournalRepositoryProtocol? = nil) {
-        // Use injected repository or fall back to shared instance
-        self.repository = repository ?? FirestoreJournalRepository.shared
+    public init(repository: JournalRepositoryProtocol) {
+        self.repository = repository
         loadFeatures()
     }
 

@@ -134,7 +134,7 @@ public struct CharacterQuizView: View {
             HStack(spacing: 12) {
                 Image(systemName: "clock.arrow.circlepath")
                     .font(.body)
-                    .foregroundStyle(.accentColor)
+                    .foregroundStyle(Color.accentColor)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("My Results")
@@ -704,7 +704,7 @@ private struct PulseAnimation: ViewModifier {
             quizService: MockCharacterQuizService()
         )
     )
-    .environment(ThemeManager())
+    .environment(ThemeManager.shared)
 }
 
 #Preview("Insufficient Entries") {

@@ -205,7 +205,7 @@ public struct CharacterQuizHistoryView: View {
             } label: {
                 Image(systemName: "arrow.triangle.2.circlepath")
                     .font(.caption)
-                    .foregroundStyle(.accentColor)
+                    .foregroundStyle(Color.accentColor)
             }
             .buttonStyle(.plain)
         }

@@ -151,7 +151,7 @@ public struct CharacterResultsView: View {
         }
         .sheet(isPresented: $showShareSheet) {
             if let topMatch = result.topMatch {
-                ShareSheet(items: [shareText(for: topMatch)])
+                ShareSheet(activityItems: [shareText(for: topMatch)])
             }
         }
     }
@@ -171,18 +171,6 @@ public struct CharacterResultsView: View {
         Discover your character match with Socratic Journal.
         """
     }
-}
-
-// MARK: - Share Sheet
-
-private struct ShareSheet: UIViewControllerRepresentable {
-    let items: [Any]
-
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: items, applicationActivities: nil)
-    }
-
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 // MARK: - Previews

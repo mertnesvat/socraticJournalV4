@@ -44,6 +44,8 @@
 		42F43471BC19B2F1C766543A /* MilestoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0D7EA93CE17433C6F33C /* MilestoneView.swift */; };
 		43C98F90392DF4FAF14C8794 /* OfflineSyncQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90870259354CA1249E7674EA /* OfflineSyncQueue.swift */; };
 		4603840F3E43DC164F97DE6D /* OnboardingLettersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2734EBA88653C87D9C0D34E9 /* OnboardingLettersView.swift */; };
+		465F813F23729000D61DA7A3 /* CharacterQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6B6B89FCFDF49D1E15AE15 /* CharacterQuizViewModel.swift */; };
+		46A965656A07ABCE10684BAE /* FictionalUniverseRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4473C083059C488CC7ED7F50 /* FictionalUniverseRepositoryProtocol.swift */; };
 		4B003C1F1D8857D2E752CADD /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4DCECA7E63ADA14711F603 /* StatisticsViewModel.swift */; };
 		4D8F3842A54452AED741EF12 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD021C9D10C27E2047636405 /* CalendarView.swift */; };
 		4DCF02804D0FDE45603CD2A2 /* MockQuestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A85539E50453CB3BEA69A7 /* MockQuestionService.swift */; };
@@ -54,14 +56,20 @@
 		54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */; };
 		55B60718FE227BEA19D64946 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */; };
 		588CE5D7F26823DC8A7C17E0 /* FirebaseWisdomQuoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC40968DCB2C7E6C3AADFC5E /* FirebaseWisdomQuoteService.swift */; };
+		5B6BFBF2A9326989700BFE85 /* FirebaseCharacterQuizService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECE6B26559FCA0946843EC3 /* FirebaseCharacterQuizService.swift */; };
+		5BA7E33649851F5C7CC32693 /* CharacterAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAD42E0FCFC4531C16344C3 /* CharacterAvatar.swift */; };
 		5D1A7EBEA24754D160ADA56A /* StreakProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC29A2B99B36406A5D3A7D4 /* StreakProgressView.swift */; };
 		5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4B1E73960A7489D123CF41 /* UserSettings.swift */; };
 		6046F01D721F4D503862AD8A /* LetterDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0C2398B2D95A1A21365378 /* LetterDetailViewModel.swift */; };
 		60B99C11288FC9AF6284BA27 /* ClarityMirrorCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6AC3DBE090228AA8AA335 /* ClarityMirrorCard.swift */; };
+		60EB4A1E12926D57ECB16654 /* LocalFictionalUniverseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED12555E4F8F36A0B9F3040 /* LocalFictionalUniverseRepository.swift */; };
 		61071B0D365402AB94E55047 /* JournalSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0F875DE3FFDCAE6706F0EA /* JournalSession.swift */; };
+		6EE86A152FA4EFB27716FFCE /* CharacterResultCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31358435DAED760EF50E37C /* CharacterResultCard.swift */; };
 		7028FA904E6C1A0FFE7CCF07 /* BigFiveProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CA094076238AED5C929709 /* BigFiveProfile.swift */; };
+		70949B3F02FBB7FF0924DDC5 /* DiscoveryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E072F59393A7AFC45492C4 /* DiscoveryCard.swift */; };
 		73CD5841CBF2A74464566DF3 /* StatsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51359D9BF5E1376FF3BD9CC5 /* StatsCardView.swift */; };
 		74957D7694A43BADB98848D7 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A7CDC0F93CF5FA1E9145C7 /* StatisticsView.swift */; };
+		77223979A793EABB4C9F93E7 /* CharacterQuizHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE596CC692A3058102564B9 /* CharacterQuizHistoryView.swift */; };
 		7B2DEEAD66AC32CF69654D52 /* JournalStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3362361FF92E8D631D6B71 /* JournalStats.swift */; };
 		7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */; };
 		7D6ED2141C50A20077EA4F81 /* WisdomQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D8FE753B241A8EC717E08F /* WisdomQuote.swift */; };
@@ -72,11 +80,14 @@
 		820A8F166BA0E7A25B150AC8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA5D013746FC29B516ADE8B /* HomeViewModel.swift */; };
 		85A6BB1CEF18A306B05B72AD /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */; };
 		861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */; };
+		89F401C8DB98BEDABCE57EB1 /* SelfDiscoveryTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4263E13A07DD5D4AE4E8596D /* SelfDiscoveryTabView.swift */; };
+		8C64568AA730FAC4B97B4422 /* SelfDiscoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1C538454BA2EA1299BA71C /* SelfDiscoveryViewModel.swift */; };
 		8FC896338EEA960654E9913B /* CharacterDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B13C33A04309EC9F7534EF /* CharacterDiscoveryView.swift */; };
 		900B230E4001A5C875CD0A0E /* JournalRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4681293066DAA3F815C174 /* JournalRepositoryProtocol.swift */; };
 		90D36BD2BF7047735751CD6B /* wisdom_quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = E9721DD221539E97DDD9E989 /* wisdom_quotes.json */; };
 		915173BDEC78033289D5B2AE /* CharacterDiscoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7F2F5D0B3AA1EEC596795D /* CharacterDiscoveryViewModel.swift */; };
 		929047D489C0B0CCA9CF5736 /* StatisticsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A77CB1C80F2854649956335 /* StatisticsTabView.swift */; };
+		95A6573351B8E55642CEFA8B /* FeaturesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA48F7F157BF690753D4BA0 /* FeaturesSettingsView.swift */; };
 		973819C7AF4DDE9699F479F4 /* ThemeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EF2E8B120F1677BC908310 /* ThemeFilterView.swift */; };
 		977664B2130F9D3192DF1CB1 /* OnboardingCharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C125E25CE091EED451BF73A8 /* OnboardingCharacterView.swift */; };
 		97D355F8C2A5BBAD25DD2B18 /* StartSessionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FAE65D79E56D3B514848FB /* StartSessionButton.swift */; };
@@ -89,25 +100,34 @@
 		9FD20DED2EF2FA3EEDD2F2A5 /* SessionDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E95109CA1CBF0D1BFF2836A /* SessionDetailViewModel.swift */; };
 		A22867FCCE1C618C1C5166F0 /* ExchangeDetailCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A691701986207C44E40E /* ExchangeDetailCard.swift */; };
 		A523E5F334F9E4E071C18047 /* BackendStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E102341D4D6B4D043E4BFE8 /* BackendStatusView.swift */; };
+		A7EA7AF0778C6640C599F443 /* CharacterQuizHistoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0B7D95C76B7EBD18829C2 /* CharacterQuizHistoryEntry.swift */; };
 		A99A70774108DBA18435A44E /* CharacterCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B247D005F49FEC076E19901 /* CharacterCounter.swift */; };
 		AACF46FCED951E64A94F3235 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA0DB79E028261D57D98467 /* HomeView.swift */; };
 		AB8427F58D4D1810DD710AA3 /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26F56EF8C8448893CE3B324 /* Exchange.swift */; };
 		AD6208BB6580B116029094B5 /* LetterRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60187B0793832C70774BBD4 /* LetterRowView.swift */; };
 		AFA3405C98AF46A9BCD59F83 /* WeeklyComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE62D57E33763614826EC91D /* WeeklyComparisonView.swift */; };
 		AFBBA19E9186A341DA95E6E0 /* BackendHealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */; };
+		B406D3E5322C2D646FB9AA2C /* FictionalCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3404B9EDE5F9CBE16CA5290B /* FictionalCharacter.swift */; };
 		B6E786D86EC46830FFBB70D0 /* LettersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9E190C99BFCBAD71EA722E /* LettersListView.swift */; };
+		B8753CC7B66176FCEAB8B35A /* UniverseIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E3AE71222E8F07F15473 /* UniverseIcon.swift */; };
 		BAE76A7BA0C38847C7ABFF88 /* DialogueSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9F90D49ED2476A970C7E22 /* DialogueSessionViewModel.swift */; };
 		BB4194113D186646D777173D /* SocratesReactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88A2178E093BBB1139F9CA0 /* SocratesReactionView.swift */; };
+		BD005C08FFD07AA6BEB5506B /* CharacterResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370B9B71340A2C343A987DE5 /* CharacterResultsView.swift */; };
 		BF8EB63CF895A403410CEE6C /* SessionMetadataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AAE0C498CCF57558BC71ED /* SessionMetadataView.swift */; };
+		C1CCB660EA2D2817F3E3FD74 /* LocalCharacterQuizHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9264680E0CF1E356E606383D /* LocalCharacterQuizHistoryRepository.swift */; };
 		C30277B802C3B45CA16D8DF4 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD30F73DA97D10E8C4A9DED /* SessionDetailView.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
 		C87995ABE0603D766B7B9CDB /* InMemoryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D74D7BEE56DD4C7E6C5317B /* InMemoryDataSource.swift */; };
 		C8D594118A47F12A3FAF8331 /* FirebaseFunctionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA93CEF67CF4AB69ACAD52F /* FirebaseFunctionsService.swift */; };
 		C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5D235EA9156B100C8E539A /* SettingsView.swift */; };
+		CAD702292B45DEEF4C844669 /* CharacterQuizServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD73A3A9B61C9172AFE3AC77 /* CharacterQuizServiceProtocol.swift */; };
+		CB5DF023A7BBE66D50142EBB /* MockCharacterQuizService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18DF6D7667BAC3DC6D4B20B /* MockCharacterQuizService.swift */; };
 		CD8AA12EE1490F23B3A07982 /* FirebaseFunctionsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEA5F7BF8D35EF08C0668C4 /* FirebaseFunctionsServiceProtocol.swift */; };
+		D11B861F793FB0939F3DA660 /* UniverseSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41A0137EF600F3F59AC305 /* UniverseSelectionView.swift */; };
 		D266DFB44C29AD40FFADD5C4 /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF754053E7CCE80662BFEF85 /* SessionListView.swift */; };
 		D4052CE44F43F0F480B3632E /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F693D0BCEB429E84EC84249D /* OnboardingView.swift */; };
 		D405BADF448090D71546EA06 /* AnswerInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F11FCC416B08664C4E259DB /* AnswerInputView.swift */; };
+		D5160704D0D668F215301565 /* FictionalUniverse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D341EB6982D2F11C9801FD2E /* FictionalUniverse.swift */; };
 		D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */; };
 		D81E7022392CDED7E2042358 /* InsightCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFFF8D30FAF886D171C9274 /* InsightCardView.swift */; };
 		D8698435192D45E3B7566C4E /* OnboardingWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5008BD267656811454CD5B7 /* OnboardingWelcomeView.swift */; };
@@ -121,7 +141,9 @@
 		E8C712A34325B42128EB8771 /* QuoteCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D26E7799BC7BE0D223DBB /* QuoteCard.swift */; };
 		E9A3ABA31C030C2A414A9AD4 /* ExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699F2A1ACE6C94D2C4FB4067 /* ExportViewModel.swift */; };
 		E9D3BBDED85CC7C4DDE7E31E /* ComposeLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B461BF8A630AA06CDC229D56 /* ComposeLetterView.swift */; };
+		EC02F62193A712991F17E5EA /* CharacterQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2577E783CEEB347C0163CFA /* CharacterQuizView.swift */; };
 		EC6580998DC214CA8545B523 /* OnboardingGuidedReflectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74F8DB126415AC697472C6 /* OnboardingGuidedReflectionView.swift */; };
+		EEA8E069EB7AF5696878213C /* CharacterQuizHistoryRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D571F88AC072B580DE8F72 /* CharacterQuizHistoryRepositoryProtocol.swift */; };
 		F065616CB306694C7E7B82A1 /* DailyWisdomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98469BCCDC72A8A90DFD1972 /* DailyWisdomView.swift */; };
 		F52CD99714AC84E18979C869 /* FirebasePersonalityAnalysisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F08F80283ED9CF2A62F36 /* FirebasePersonalityAnalysisService.swift */; };
 		F66217F586150BFEF281D1D6 /* ComposeLetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764DA53B408DE519954EC9FB /* ComposeLetterViewModel.swift */; };
@@ -142,6 +164,9 @@
 		25D7A691701986207C44E40E /* ExchangeDetailCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailCard.swift; sourceTree = "<group>"; };
 		2734EBA88653C87D9C0D34E9 /* OnboardingLettersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLettersView.swift; sourceTree = "<group>"; };
 		2DD89F782D263C0185E19061 /* WisdomQuotesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomQuotesViewModel.swift; sourceTree = "<group>"; };
+		33D571F88AC072B580DE8F72 /* CharacterQuizHistoryRepositoryProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterQuizHistoryRepositoryProtocol.swift; path = Sources/SocraticJournal/Domain/Repositories/CharacterQuizHistoryRepositoryProtocol.swift; sourceTree = "<group>"; };
+		3404B9EDE5F9CBE16CA5290B /* FictionalCharacter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FictionalCharacter.swift; path = Sources/SocraticJournal/Domain/Entities/FictionalCharacter.swift; sourceTree = "<group>"; };
+		370B9B71340A2C343A987DE5 /* CharacterResultsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterResultsView.swift; path = Sources/SocraticJournal/Presentation/CharacterQuiz/CharacterResultsView.swift; sourceTree = "<group>"; };
 		3A43537D009B1B270D030C01 /* FirebaseQuestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseQuestionService.swift; sourceTree = "<group>"; };
 		3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepositoryProtocol.swift; sourceTree = "<group>"; };
 		3BEA5F7BF8D35EF08C0668C4 /* FirebaseFunctionsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctionsServiceProtocol.swift; sourceTree = "<group>"; };
@@ -150,10 +175,14 @@
 		3D74D7BEE56DD4C7E6C5317B /* InMemoryDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryDataSource.swift; sourceTree = "<group>"; };
 		3D7F2F5D0B3AA1EEC596795D /* CharacterDiscoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDiscoveryViewModel.swift; sourceTree = "<group>"; };
 		3E102341D4D6B4D043E4BFE8 /* BackendStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendStatusView.swift; sourceTree = "<group>"; };
+		3EA48F7F157BF690753D4BA0 /* FeaturesSettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FeaturesSettingsView.swift; path = Sources/SocraticJournal/Presentation/Settings/Components/FeaturesSettingsView.swift; sourceTree = "<group>"; };
 		3F11FCC416B08664C4E259DB /* AnswerInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerInputView.swift; sourceTree = "<group>"; };
+		4263E13A07DD5D4AE4E8596D /* SelfDiscoveryTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SelfDiscoveryTabView.swift; path = Sources/SocraticJournal/Presentation/Navigation/SelfDiscoveryTabView.swift; sourceTree = "<group>"; };
+		4473C083059C488CC7ED7F50 /* FictionalUniverseRepositoryProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FictionalUniverseRepositoryProtocol.swift; path = Sources/SocraticJournal/Domain/Repositories/FictionalUniverseRepositoryProtocol.swift; sourceTree = "<group>"; };
 		47625E61F7824371D5D3C080 /* ClarityScoreDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClarityScoreDisplay.swift; sourceTree = "<group>"; };
 		48A85539E50453CB3BEA69A7 /* MockQuestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQuestionService.swift; sourceTree = "<group>"; };
 		4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSyncHandler.swift; sourceTree = "<group>"; };
+		4ED12555E4F8F36A0B9F3040 /* LocalFictionalUniverseRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocalFictionalUniverseRepository.swift; path = Sources/SocraticJournal/Data/Repositories/LocalFictionalUniverseRepository.swift; sourceTree = "<group>"; };
 		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51359D9BF5E1376FF3BD9CC5 /* StatsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCardView.swift; sourceTree = "<group>"; };
 		52B081E4933C5D95CFDB2AA0 /* JSONDataExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDataExportService.swift; sourceTree = "<group>"; };
@@ -161,6 +190,7 @@
 		58D8FE753B241A8EC717E08F /* WisdomQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomQuote.swift; sourceTree = "<group>"; };
 		59EF2E8B120F1677BC908310 /* ThemeFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFilterView.swift; sourceTree = "<group>"; };
 		5BBC921E31BBF56315A0DA55 /* InMemoryJournalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryJournalRepository.swift; sourceTree = "<group>"; };
+		5CAD42E0FCFC4531C16344C3 /* CharacterAvatar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterAvatar.swift; path = Sources/SocraticJournal/Presentation/Components/CharacterAvatar.swift; sourceTree = "<group>"; };
 		5FDE01830F0959A72723F0DD /* AppReviewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewService.swift; sourceTree = "<group>"; };
 		602C804EC1312F2F283F8072 /* LetterDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterDetailView.swift; sourceTree = "<group>"; };
 		612D960CE6F192A59D33BF3D /* TrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendChartView.swift; sourceTree = "<group>"; };
@@ -168,6 +198,7 @@
 		66CA094076238AED5C929709 /* BigFiveProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigFiveProfile.swift; sourceTree = "<group>"; };
 		682ED01B4319D5F5C3D55937 /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
 		699F2A1ACE6C94D2C4FB4067 /* ExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewModel.swift; sourceTree = "<group>"; };
+		6D41A0137EF600F3F59AC305 /* UniverseSelectionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UniverseSelectionView.swift; path = Sources/SocraticJournal/Presentation/CharacterQuiz/UniverseSelectionView.swift; sourceTree = "<group>"; };
 		6DA93CEF67CF4AB69ACAD52F /* FirebaseFunctionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctionsService.swift; sourceTree = "<group>"; };
 		6E3362361FF92E8D631D6B71 /* JournalStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalStats.swift; sourceTree = "<group>"; };
 		6E95109CA1CBF0D1BFF2836A /* SessionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailViewModel.swift; sourceTree = "<group>"; };
@@ -183,6 +214,7 @@
 		8AA319170D73C64374D137E1 /* ProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressIndicator.swift; sourceTree = "<group>"; };
 		8AD30F73DA97D10E8C4A9DED /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		90870259354CA1249E7674EA /* OfflineSyncQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSyncQueue.swift; sourceTree = "<group>"; };
+		9264680E0CF1E356E606383D /* LocalCharacterQuizHistoryRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocalCharacterQuizHistoryRepository.swift; path = Sources/SocraticJournal/Data/Repositories/LocalCharacterQuizHistoryRepository.swift; sourceTree = "<group>"; };
 		950D45B9D0BB11FD7C96BFE0 /* ClarityScoreServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClarityScoreServiceProtocol.swift; sourceTree = "<group>"; };
 		96355142014EC509D10F97A6 /* ClarityScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClarityScore.swift; sourceTree = "<group>"; };
 		96C6AC3DBE090228AA8AA335 /* ClarityMirrorCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClarityMirrorCard.swift; sourceTree = "<group>"; };
@@ -191,7 +223,9 @@
 		9A74F8DB126415AC697472C6 /* OnboardingGuidedReflectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingGuidedReflectionView.swift; sourceTree = "<group>"; };
 		9CF9F96EEB8A9B0B1BE9C79A /* SessionCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteView.swift; sourceTree = "<group>"; };
 		9D4DCECA7E63ADA14711F603 /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
+		9ECE6B26559FCA0946843EC3 /* FirebaseCharacterQuizService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FirebaseCharacterQuizService.swift; path = Sources/SocraticJournal/Data/Services/FirebaseCharacterQuizService.swift; sourceTree = "<group>"; };
 		9F4B1E73960A7489D123CF41 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		A31358435DAED760EF50E37C /* CharacterResultCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterResultCard.swift; path = Sources/SocraticJournal/Presentation/CharacterQuiz/Components/CharacterResultCard.swift; sourceTree = "<group>"; };
 		A42C616AB317420FA485D572 /* WisdomQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomQuoteView.swift; sourceTree = "<group>"; };
 		A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
 		A5F3080F0AF1033CD44AE169 /* PersonalityAnalysisServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalityAnalysisServiceProtocol.swift; sourceTree = "<group>"; };
@@ -209,6 +243,8 @@
 		BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelectorView.swift; sourceTree = "<group>"; };
 		BC40968DCB2C7E6C3AADFC5E /* FirebaseWisdomQuoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseWisdomQuoteService.swift; sourceTree = "<group>"; };
 		BC5998CC54163B8E53357243 /* SessionCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteViewModel.swift; sourceTree = "<group>"; };
+		BD05E3AE71222E8F07F15473 /* UniverseIcon.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UniverseIcon.swift; path = Sources/SocraticJournal/Presentation/Components/UniverseIcon.swift; sourceTree = "<group>"; };
+		BD73A3A9B61C9172AFE3AC77 /* CharacterQuizServiceProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterQuizServiceProtocol.swift; path = Sources/SocraticJournal/Domain/Services/CharacterQuizServiceProtocol.swift; sourceTree = "<group>"; };
 		BE4365E37F7BE4F7D2E83A7B /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
 		C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationService.swift; sourceTree = "<group>"; };
 		C0DC351C5C0216495D42B00E /* TraitChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitChartView.swift; sourceTree = "<group>"; };
@@ -224,15 +260,20 @@
 		CE0C2398B2D95A1A21365378 /* LetterDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterDetailViewModel.swift; sourceTree = "<group>"; };
 		CE62D57E33763614826EC91D /* WeeklyComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyComparisonView.swift; sourceTree = "<group>"; };
 		CF92EF5F314A4CC8478E991C /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		D18DF6D7667BAC3DC6D4B20B /* MockCharacterQuizService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MockCharacterQuizService.swift; path = Sources/SocraticJournal/Data/Services/MockCharacterQuizService.swift; sourceTree = "<group>"; };
 		D26F56EF8C8448893CE3B324 /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
+		D341EB6982D2F11C9801FD2E /* FictionalUniverse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FictionalUniverse.swift; path = Sources/SocraticJournal/Domain/Entities/FictionalUniverse.swift; sourceTree = "<group>"; };
 		D6B84223758EB94D90551D82 /* PersonalityTrait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalityTrait.swift; sourceTree = "<group>"; };
 		D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendHealthService.swift; sourceTree = "<group>"; };
+		D9E0B7D95C76B7EBD18829C2 /* CharacterQuizHistoryEntry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterQuizHistoryEntry.swift; path = Sources/SocraticJournal/Domain/Entities/CharacterQuizHistoryEntry.swift; sourceTree = "<group>"; };
 		DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DCC29A2B99B36406A5D3A7D4 /* StreakProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakProgressView.swift; sourceTree = "<group>"; };
 		DD021C9D10C27E2047636405 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		DF754053E7CCE80662BFEF85 /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
+		E2577E783CEEB347C0163CFA /* CharacterQuizView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterQuizView.swift; path = Sources/SocraticJournal/Presentation/CharacterQuiz/CharacterQuizView.swift; sourceTree = "<group>"; };
 		E25F08F80283ED9CF2A62F36 /* FirebasePersonalityAnalysisService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebasePersonalityAnalysisService.swift; sourceTree = "<group>"; };
 		E2638587C72B13EF1E5D5102 /* WisdomQuotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomQuotesView.swift; sourceTree = "<group>"; };
+		E4E072F59393A7AFC45492C4 /* DiscoveryCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DiscoveryCard.swift; path = Sources/SocraticJournal/Presentation/Components/DiscoveryCard.swift; sourceTree = "<group>"; };
 		E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceProtocol.swift; sourceTree = "<group>"; };
 		E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournal.swift; sourceTree = "<group>"; };
 		E60187B0793832C70774BBD4 /* LetterRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterRowView.swift; sourceTree = "<group>"; };
@@ -241,7 +282,10 @@
 		E88A2178E093BBB1139F9CA0 /* SocratesReactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocratesReactionView.swift; sourceTree = "<group>"; };
 		E9721DD221539E97DDD9E989 /* wisdom_quotes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = wisdom_quotes.json; sourceTree = "<group>"; };
 		EC5D235EA9156B100C8E539A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		EE6B6B89FCFDF49D1E15AE15 /* CharacterQuizViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterQuizViewModel.swift; path = Sources/SocraticJournal/Presentation/CharacterQuiz/CharacterQuizViewModel.swift; sourceTree = "<group>"; };
 		EEA18D9715EAA48C07D6996E /* LettersBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LettersBadge.swift; sourceTree = "<group>"; };
+		EF1C538454BA2EA1299BA71C /* SelfDiscoveryViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SelfDiscoveryViewModel.swift; path = Sources/SocraticJournal/Presentation/Navigation/SelfDiscoveryViewModel.swift; sourceTree = "<group>"; };
+		EFE596CC692A3058102564B9 /* CharacterQuizHistoryView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterQuizHistoryView.swift; path = Sources/SocraticJournal/Presentation/CharacterQuiz/CharacterQuizHistoryView.swift; sourceTree = "<group>"; };
 		F5008BD267656811454CD5B7 /* OnboardingWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWelcomeView.swift; sourceTree = "<group>"; };
 		F693D0BCEB429E84EC84249D /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		F782BF4BCB8611080CE7218E /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
@@ -280,6 +324,15 @@
 			path = SessionComplete;
 			sourceTree = "<group>";
 		};
+		02EC20BC78133DE63BA9FFD5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				083B1EE5E836D5B9A8D83812 /* Repositories */,
+				B5A312BA732469D4EBDAA51B /* Services */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
 		042591BA532AE8F9CD3BA39B /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -298,6 +351,15 @@
 			path = DialogueSession;
 			sourceTree = "<group>";
 		};
+		083B1EE5E836D5B9A8D83812 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				9264680E0CF1E356E606383D /* LocalCharacterQuizHistoryRepository.swift */,
+				4ED12555E4F8F36A0B9F3040 /* LocalFictionalUniverseRepository.swift */,
+			);
+			name = Repositories;
+			sourceTree = "<group>";
+		};
 		0A7D89DB9B7D4AA46EE297DA /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,6 +368,36 @@
 				EF190509FC1A1E38C542EE1F /* Components */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		0C7012CB284249C5D52C2AF1 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				33D571F88AC072B580DE8F72 /* CharacterQuizHistoryRepositoryProtocol.swift */,
+				4473C083059C488CC7ED7F50 /* FictionalUniverseRepositoryProtocol.swift */,
+			);
+			name = Repositories;
+			sourceTree = "<group>";
+		};
+		0F06F650AE0A824CBC135EB1 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				AF99D73E4016BB1EE212D16A /* CharacterQuiz */,
+				10D96A066C2557C015D428E8 /* Components */,
+				D121E737C26BE6F3B947BD97 /* Navigation */,
+				A14521D1936CC22EBE98D0F6 /* Settings */,
+			);
+			name = Presentation;
+			sourceTree = "<group>";
+		};
+		10D96A066C2557C015D428E8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5CAD42E0FCFC4531C16344C3 /* CharacterAvatar.swift */,
+				E4E072F59393A7AFC45492C4 /* DiscoveryCard.swift */,
+				BD05E3AE71222E8F07F15473 /* UniverseIcon.swift */,
+			);
+			name = Components;
 			sourceTree = "<group>";
 		};
 		13AF050E173084723535BE8A /* Components */ = {
@@ -379,12 +471,30 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		264E0864BED278B595F2FD74 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BD73A3A9B61C9172AFE3AC77 /* CharacterQuizServiceProtocol.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
 		3292427AC674B121CCABA44F /* Theme */ = {
 			isa = PBXGroup;
 			children = (
 				CF92EF5F314A4CC8478E991C /* ThemeManager.swift */,
 			);
 			path = Theme;
+			sourceTree = "<group>";
+		};
+		3A63CEE500DC624B827CF236 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				D9E0B7D95C76B7EBD18829C2 /* CharacterQuizHistoryEntry.swift */,
+				3404B9EDE5F9CBE16CA5290B /* FictionalCharacter.swift */,
+				D341EB6982D2F11C9801FD2E /* FictionalUniverse.swift */,
+			);
+			name = Entities;
 			sourceTree = "<group>";
 		};
 		4469CCD33893F35E046D9B9D /* Repositories */ = {
@@ -429,6 +539,16 @@
 				AD20C9ABEEDA904FBFDDC97C /* Components */,
 			);
 			path = CharacterDiscovery;
+			sourceTree = "<group>";
+		};
+		55ED7D255D51F5E2DD8B4D4F /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				3A63CEE500DC624B827CF236 /* Entities */,
+				0C7012CB284249C5D52C2AF1 /* Repositories */,
+				264E0864BED278B595F2FD74 /* Services */,
+			);
+			name = Domain;
 			sourceTree = "<group>";
 		};
 		59D69EF141D9FE3F51EE009A /* Products */ = {
@@ -506,6 +626,22 @@
 			path = Domain;
 			sourceTree = "<group>";
 		};
+		861450B1441D7D2D6E67A2AA /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				3EA48F7F157BF690753D4BA0 /* FeaturesSettingsView.swift */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		93833844B66A22C16B8E3830 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A31358435DAED760EF50E37C /* CharacterResultCard.swift */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
 		9E214058FE0248D23B2EAAD5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -515,13 +651,30 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		9FC3EDAD76AFE0F6C2FDD4DB /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B4903E2B9ABBFC92D7DE2455 /* SocraticJournal */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
 		A077F516DDE32664C794136A = {
 			isa = PBXGroup;
 			children = (
 				DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */,
 				1939C2C2FC3281E95516289F /* SocraticJournal */,
 				59D69EF141D9FE3F51EE009A /* Products */,
+				9FC3EDAD76AFE0F6C2FDD4DB /* Sources */,
 			);
+			sourceTree = "<group>";
+		};
+		A14521D1936CC22EBE98D0F6 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				861450B1441D7D2D6E67A2AA /* Components */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		A358BC59E2EAAA45F29B2F0D /* Statistics */ = {
@@ -554,6 +707,19 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		AF99D73E4016BB1EE212D16A /* CharacterQuiz */ = {
+			isa = PBXGroup;
+			children = (
+				EFE596CC692A3058102564B9 /* CharacterQuizHistoryView.swift */,
+				E2577E783CEEB347C0163CFA /* CharacterQuizView.swift */,
+				EE6B6B89FCFDF49D1E15AE15 /* CharacterQuizViewModel.swift */,
+				370B9B71340A2C343A987DE5 /* CharacterResultsView.swift */,
+				93833844B66A22C16B8E3830 /* Components */,
+				6D41A0137EF600F3F59AC305 /* UniverseSelectionView.swift */,
+			);
+			name = CharacterQuiz;
+			sourceTree = "<group>";
+		};
 		B04C0B8D7BF9B1BAF80E4F32 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -567,6 +733,25 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		B4903E2B9ABBFC92D7DE2455 /* SocraticJournal */ = {
+			isa = PBXGroup;
+			children = (
+				02EC20BC78133DE63BA9FFD5 /* Data */,
+				55ED7D255D51F5E2DD8B4D4F /* Domain */,
+				0F06F650AE0A824CBC135EB1 /* Presentation */,
+			);
+			name = SocraticJournal;
+			sourceTree = "<group>";
+		};
+		B5A312BA732469D4EBDAA51B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9ECE6B26559FCA0946843EC3 /* FirebaseCharacterQuizService.swift */,
+				D18DF6D7667BAC3DC6D4B20B /* MockCharacterQuizService.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
 		BEBAFFC8492A952A87A9B4E2 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -575,6 +760,15 @@
 				59EF2E8B120F1677BC908310 /* ThemeFilterView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		D121E737C26BE6F3B947BD97 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				4263E13A07DD5D4AE4E8596D /* SelfDiscoveryTabView.swift */,
+				EF1C538454BA2EA1299BA71C /* SelfDiscoveryViewModel.swift */,
+			);
+			name = Navigation;
 			sourceTree = "<group>";
 		};
 		D77587D21C5B88982C1671FA /* Export */ = {
@@ -733,6 +927,7 @@
 				9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 59D69EF141D9FE3F51EE009A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -874,6 +1069,28 @@
 				17C179873F6002CC9BDEA163 /* WisdomQuoteView.swift in Sources */,
 				FAE5CA4653E58F4445B2F1A3 /* WisdomQuotesView.swift in Sources */,
 				1B6E13E3E5AA154BB2668383 /* WisdomQuotesViewModel.swift in Sources */,
+				C1CCB660EA2D2817F3E3FD74 /* LocalCharacterQuizHistoryRepository.swift in Sources */,
+				60EB4A1E12926D57ECB16654 /* LocalFictionalUniverseRepository.swift in Sources */,
+				5B6BFBF2A9326989700BFE85 /* FirebaseCharacterQuizService.swift in Sources */,
+				CB5DF023A7BBE66D50142EBB /* MockCharacterQuizService.swift in Sources */,
+				A7EA7AF0778C6640C599F443 /* CharacterQuizHistoryEntry.swift in Sources */,
+				B406D3E5322C2D646FB9AA2C /* FictionalCharacter.swift in Sources */,
+				D5160704D0D668F215301565 /* FictionalUniverse.swift in Sources */,
+				EEA8E069EB7AF5696878213C /* CharacterQuizHistoryRepositoryProtocol.swift in Sources */,
+				46A965656A07ABCE10684BAE /* FictionalUniverseRepositoryProtocol.swift in Sources */,
+				CAD702292B45DEEF4C844669 /* CharacterQuizServiceProtocol.swift in Sources */,
+				77223979A793EABB4C9F93E7 /* CharacterQuizHistoryView.swift in Sources */,
+				EC02F62193A712991F17E5EA /* CharacterQuizView.swift in Sources */,
+				465F813F23729000D61DA7A3 /* CharacterQuizViewModel.swift in Sources */,
+				BD005C08FFD07AA6BEB5506B /* CharacterResultsView.swift in Sources */,
+				6EE86A152FA4EFB27716FFCE /* CharacterResultCard.swift in Sources */,
+				D11B861F793FB0939F3DA660 /* UniverseSelectionView.swift in Sources */,
+				5BA7E33649851F5C7CC32693 /* CharacterAvatar.swift in Sources */,
+				70949B3F02FBB7FF0924DDC5 /* DiscoveryCard.swift in Sources */,
+				B8753CC7B66176FCEAB8B35A /* UniverseIcon.swift in Sources */,
+				89F401C8DB98BEDABCE57EB1 /* SelfDiscoveryTabView.swift in Sources */,
+				8C64568AA730FAC4B97B4422 /* SelfDiscoveryViewModel.swift in Sources */,
+				95A6573351B8E55642CEFA8B /* FeaturesSettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

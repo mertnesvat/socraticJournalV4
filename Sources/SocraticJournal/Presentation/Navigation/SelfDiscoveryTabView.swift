@@ -18,15 +18,14 @@ public struct SelfDiscoveryTabView: View {
 
     public init(
         viewModel: SelfDiscoveryViewModel? = nil,
-        repository: JournalRepositoryProtocol? = nil,
+        repository: JournalRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol? = nil,
         notificationService: NotificationServiceProtocol? = nil
     ) {
-        let repo = repository ?? FirestoreJournalRepository.shared
-        self.repository = repo
+        self.repository = repository
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
-        _viewModel = State(initialValue: viewModel ?? SelfDiscoveryViewModel(repository: repo))
+        _viewModel = State(initialValue: viewModel ?? SelfDiscoveryViewModel(repository: repository))
     }
 
     public var body: some View {
@@ -74,7 +73,7 @@ public struct SelfDiscoveryTabView: View {
                     CharacterQuizView(
                         viewModel: CharacterQuizViewModel(
                             repository: repository,
-                            quizService: MockCharacterQuizService()
+                            quizService: FirebaseCharacterQuizService.shared
                         )
                     )
                     .environment(themeManager)
@@ -294,6 +293,7 @@ private struct DiscoveryFeatureCard: View {
 }
 
 #Preview {
-    SelfDiscoveryTabView()
+    SelfDiscoveryTabView(repository: InMemoryJournalRepository())
+        .environment(ThemeManager.shared)
 }
 #endif

@@ -118,16 +118,35 @@ public final class CharacterQuizViewModel {
 
     /// Load initial data and determine if user can take the quiz
     public func loadData() async {
+        #if DEBUG
+        print("[CharacterQuizVM] loadData() starting...")
+        #endif
+
         do {
             // Load history first
+            #if DEBUG
+            print("[CharacterQuizVM] Loading history...")
+            #endif
             historyEntries = try await historyRepository.getAllResults()
+            #if DEBUG
+            print("[CharacterQuizVM] History loaded: \(historyEntries.count) entries")
+            #endif
 
             // Get entry count
+            #if DEBUG
+            print("[CharacterQuizVM] Getting stats...")
+            #endif
             let stats = try await repository.getStats()
             totalEntries = stats.totalEntries
+            #if DEBUG
+            print("[CharacterQuizVM] Stats loaded: \(totalEntries) total entries")
+            #endif
 
             // If not enough entries, show insufficient entries state
             if totalEntries < minimumEntriesRequired {
+                #if DEBUG
+                print("[CharacterQuizVM] Insufficient entries: \(totalEntries) < \(minimumEntriesRequired)")
+                #endif
                 state = .insufficientEntries(
                     current: totalEntries,
                     required: minimumEntriesRequired
@@ -136,23 +155,40 @@ public final class CharacterQuizViewModel {
             }
 
             // Load journal entries for analysis
+            #if DEBUG
+            print("[CharacterQuizVM] Loading sessions...")
+            #endif
             let sessions = try await repository.getAllSessions()
             let completedSessions = sessions.filter { $0.isComplete }
+            #if DEBUG
+            print("[CharacterQuizVM] Sessions loaded: \(sessions.count) total, \(completedSessions.count) complete")
+            #endif
 
             // Extract journal content from sessions
             journalEntries = completedSessions.compactMap { session -> String? in
-                // Get the user's responses from the session
-                let userMessages = session.messages.filter { $0.role == .user }
-                guard !userMessages.isEmpty else { return nil }
+                // Get the user's answers from the exchanges (excluding skipped)
+                let answers = session.exchanges.filter { !$0.skipped && !$0.answer.isEmpty }
+                guard !answers.isEmpty else { return nil }
 
-                // Combine user messages into a single entry
-                return userMessages.map { $0.content }.joined(separator: "\n")
+                // Combine answers into a single entry
+                return answers.map { $0.answer }.joined(separator: "\n")
             }
+            #if DEBUG
+            print("[CharacterQuizVM] Journal entries extracted: \(journalEntries.count)")
+            #endif
 
             // Show universe selection
             state = .selectingUniverse
+            #if DEBUG
+            print("[CharacterQuizVM] State set to selectingUniverse")
+            #endif
 
         } catch {
+            #if DEBUG
+            print("[CharacterQuizVM] ERROR: \(error)")
+            print("[CharacterQuizVM] Error type: \(type(of: error))")
+            print("[CharacterQuizVM] Error localizedDescription: \(error.localizedDescription)")
+            #endif
             state = .error(message: error.localizedDescription)
         }
     }

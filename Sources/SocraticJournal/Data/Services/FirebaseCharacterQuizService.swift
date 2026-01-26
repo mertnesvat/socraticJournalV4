@@ -30,6 +30,12 @@ public final class FirebaseCharacterQuizService: CharacterQuizServiceProtocol, @
     ) {
         self.functions = Functions.functions()
         self.localService = localService
+        #if DEBUG
+        // Use Firebase emulator for local development
+        // Run `cd Firebase && npx firebase emulators:start --only functions` to start the emulator
+        functions.useEmulator(withHost: "127.0.0.1", port: 5001)
+        print("[FirebaseCharacterQuiz] Service initialized with EMULATOR at 127.0.0.1:5001")
+        #endif
     }
 
     // MARK: - CharacterQuizServiceProtocol
