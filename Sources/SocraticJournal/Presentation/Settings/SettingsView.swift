@@ -16,6 +16,7 @@ public struct SettingsView: View {
     @Environment(ThemeManager.self) private var themeManager
     @State private var viewModel: SettingsViewModel
     @State private var showingExportView: Bool = false
+    @State private var showingWisdomQuotes: Bool = false
 
     public init(viewModel: SettingsViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -55,6 +56,15 @@ public struct SettingsView: View {
                             )
                         )
                     )
+                    .preferredColorScheme(themeManager.colorScheme)
+                }
+                .fullScreenCover(isPresented: $showingWisdomQuotes) {
+                    WisdomQuotesView(
+                        viewModel: WisdomQuotesViewModel(
+                            quoteService: LocalWisdomQuoteService()
+                        )
+                    )
+                    .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
                 }
                 .overlay {
@@ -102,6 +112,13 @@ public struct SettingsView: View {
                         notificationsDenied: viewModel.notificationsDenied,
                         onOpenSettings: {
                             viewModel.openNotificationSettings()
+                        }
+                    )
+
+                    // Features section
+                    FeaturesSettingsView(
+                        onWisdomQuotesTapped: {
+                            showingWisdomQuotes = true
                         }
                     )
 
