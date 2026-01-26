@@ -31,6 +31,8 @@
 		26F18C08547904A38AFC396C /* MockPersonalityAnalysisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C700B1F0D3CD77AE8C620AAC /* MockPersonalityAnalysisService.swift */; };
 		CHARMAT01234567890ABCDEF /* CharacterMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = CHARMATCH0123456789ABCD /* CharacterMatch.swift */; };
 		MOCKCHARMATCH012345678 /* MockCharacterMatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = MOCKCHARMATCHSERVICE012 /* MockCharacterMatchService.swift */; };
+		CHARMATCHVIEW01234567A /* CharacterMatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CHARMATCHVIEWREF012345 /* CharacterMatchView.swift */; };
+		CHARMATCHVM012345678AB /* CharacterMatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CHARMATCHVMREF0123456 /* CharacterMatchViewModel.swift */; };
 		2AFCA9C3386D8579C89D2523 /* OfflineSyncHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */; };
 		2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */; };
 		2CAB8A322184E8DBF540D4D7 /* FutureLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669FF049A4583E3F84C6685F /* FutureLetter.swift */; };
@@ -155,6 +157,8 @@
 		3D029C25B681B5461B571644 /* AppsFlyerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerService.swift; sourceTree = "<group>"; };
 		3D74D7BEE56DD4C7E6C5317B /* InMemoryDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryDataSource.swift; sourceTree = "<group>"; };
 		3D7F2F5D0B3AA1EEC596795D /* CharacterDiscoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDiscoveryViewModel.swift; sourceTree = "<group>"; };
+		CHARMATCHVIEWREF012345 /* CharacterMatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterMatchView.swift; sourceTree = "<group>"; };
+		CHARMATCHVMREF0123456 /* CharacterMatchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterMatchViewModel.swift; sourceTree = "<group>"; };
 		3E102341D4D6B4D043E4BFE8 /* BackendStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendStatusView.swift; sourceTree = "<group>"; };
 		3F11FCC416B08664C4E259DB /* AnswerInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerInputView.swift; sourceTree = "<group>"; };
 		47625E61F7824371D5D3C080 /* ClarityScoreDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClarityScoreDisplay.swift; sourceTree = "<group>"; };
@@ -441,6 +445,15 @@
 			path = CharacterDiscovery;
 			sourceTree = "<group>";
 		};
+		CHARMATCHGROUP012345AB /* CharacterMatch */ = {
+			isa = PBXGroup;
+			children = (
+				CHARMATCHVIEWREF012345 /* CharacterMatchView.swift */,
+				CHARMATCHVMREF0123456 /* CharacterMatchViewModel.swift */,
+			);
+			path = CharacterMatch;
+			sourceTree = "<group>";
+		};
 		59D69EF141D9FE3F51EE009A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -681,6 +694,7 @@
 			isa = PBXGroup;
 			children = (
 				529D40B5582EE6E7305C69AB /* CharacterDiscovery */,
+				CHARMATCHGROUP012345AB /* CharacterMatch */,
 				B04C0B8D7BF9B1BAF80E4F32 /* Components */,
 				065B1CCB6CD8F1D6EC25A7AD /* DialogueSession */,
 				D77587D21C5B88982C1671FA /* Export */,
@@ -796,6 +810,8 @@
 				A99A70774108DBA18435A44E /* CharacterCounter.swift in Sources */,
 				8FC896338EEA960654E9913B /* CharacterDiscoveryView.swift in Sources */,
 				915173BDEC78033289D5B2AE /* CharacterDiscoveryViewModel.swift in Sources */,
+				CHARMATCHVIEW01234567A /* CharacterMatchView.swift in Sources */,
+				CHARMATCHVM012345678AB /* CharacterMatchViewModel.swift in Sources */,
 				60B99C11288FC9AF6284BA27 /* ClarityMirrorCard.swift in Sources */,
 				2064C3AA3127AB0A97B3C716 /* ClarityScore.swift in Sources */,
 				07069E391D329A9F618C12A6 /* ClarityScoreDisplay.swift in Sources */,

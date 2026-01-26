@@ -39,6 +39,16 @@ public struct SelfDiscoveryTabView: View {
                     .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
                 }
+                .fullScreenCover(isPresented: $showingCharacterMatch) {
+                    CharacterMatchView(
+                        viewModel: CharacterMatchViewModel(
+                            repository: repository,
+                            functionsService: FirebaseFunctionsService.shared
+                        )
+                    )
+                    .environment(themeManager)
+                    .preferredColorScheme(themeManager.colorScheme)
+                }
         }
     }
 
@@ -148,12 +158,10 @@ public struct SelfDiscoveryTabView: View {
                 title: "Which Character Are You?",
                 subtitle: "Match with characters from LOTR, Harry Potter, Star Wars",
                 isLocked: !viewModel.isUnlocked,
-                preview: viewModel.isUnlocked ? "Discover your fictional match" : nil,
-                comingSoon: true
+                preview: viewModel.isUnlocked ? "Discover your fictional match" : nil
             )
         }
         .buttonStyle(.plain)
-        .disabled(true) // Disabled until Feature #4
     }
 }
 
