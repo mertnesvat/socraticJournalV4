@@ -18,6 +18,12 @@ import {
   analyzePersonalityWithAI,
   PersonalityAnalysisRequest,
 } from "./services/personality";
+import {
+  matchFictionalCharacterWithAI,
+  CharacterMatchRequest,
+  isValidUniverseId,
+  SUPPORTED_UNIVERSES,
+} from "./services/characterMatch";
 
 /**
  * Firebase Cloud Function: Generate Clarity Mirror
@@ -510,6 +516,144 @@ export const enhanceFutureLetterNightprep = onCall(
       }
 
       throw new HttpsError("internal", "Failed to enhance letter");
+    }
+  }
+);
+
+/**
+ * Firebase Cloud Function: Match Fictional Character
+ *
+ * Analyzes journal entries to match users with fictional characters
+ * from popular universes based on personality patterns and themes.
+ *
+ * @param request.data.journalEntries - Array of journal entries with question/answer pairs
+ * @param request.data.universeId - ID of the fictional universe (lotr, hp, sw, marvel, dc, got, narnia)
+ * @returns CharacterMatchResponse with top 3 character matches and confidence percentages
+ */
+export const matchFictionalCharacter = onCall(
+  {
+    secrets: [openaiApiKey],
+    cors: true,
+    maxInstances: 10,
+    timeoutSeconds: 60, // Longer timeout for comprehensive analysis
+  },
+  async (request) => {
+    // Validate request data
+    const data = request.data as CharacterMatchRequest;
+
+    if (!data.journalEntries || !Array.isArray(data.journalEntries)) {
+      throw new HttpsError(
+        "invalid-argument",
+        "journalEntries array is required"
+      );
+    }
+
+    // Require minimum entries for meaningful character matching
+    const MIN_ENTRIES = 3;
+    if (data.journalEntries.length < MIN_ENTRIES) {
+      throw new HttpsError(
+        "invalid-argument",
+        `At least ${MIN_ENTRIES} journal entries are required for character matching. ` +
+          `Received: ${data.journalEntries.length}. ` +
+          "Keep journaling to unlock your character match!"
+      );
+    }
+
+    // Validate universe ID
+    if (!data.universeId || typeof data.universeId !== "string") {
+      throw new HttpsError(
+        "invalid-argument",
+        "universeId is required"
+      );
+    }
+
+    if (!isValidUniverseId(data.universeId)) {
+      throw new HttpsError(
+        "invalid-argument",
+        `Invalid universeId: ${data.universeId}. ` +
+          `Supported universes: ${SUPPORTED_UNIVERSES.join(", ")}`
+      );
+    }
+
+    // Validate each entry structure
+    for (let i = 0; i < data.journalEntries.length; i++) {
+      const entry = data.journalEntries[i];
+
+      if (!entry.question || typeof entry.question !== "string") {
+        throw new HttpsError(
+          "invalid-argument",
+          `Entry ${i + 1}: question is required and must be a string`
+        );
+      }
+
+      if (!entry.answer || typeof entry.answer !== "string") {
+        throw new HttpsError(
+          "invalid-argument",
+          `Entry ${i + 1}: answer is required and must be a string`
+        );
+      }
+
+      if (entry.answer.trim().length === 0) {
+        throw new HttpsError(
+          "invalid-argument",
+          `Entry ${i + 1}: answer cannot be empty`
+        );
+      }
+
+      if (
+        entry.clarityMirror !== undefined &&
+        typeof entry.clarityMirror !== "string"
+      ) {
+        throw new HttpsError(
+          "invalid-argument",
+          `Entry ${i + 1}: clarityMirror must be a string if provided`
+        );
+      }
+    }
+
+    // Check for sufficient content (not just count, but substance)
+    const totalContentLength = data.journalEntries.reduce(
+      (sum, entry) => sum + entry.answer.length,
+      0
+    );
+    const MIN_CONTENT_LENGTH = 100; // At least 100 characters total
+    if (totalContentLength < MIN_CONTENT_LENGTH) {
+      throw new HttpsError(
+        "invalid-argument",
+        "Insufficient journal content for meaningful character matching. " +
+          "Please provide more detailed journal entries."
+      );
+    }
+
+    try {
+      const result = await matchFictionalCharacterWithAI({
+        journalEntries: data.journalEntries,
+        universeId: data.universeId,
+      });
+
+      return result;
+    } catch (error) {
+      console.error("Error matching fictional character:", error);
+
+      if (error instanceof Error) {
+        if (error.message.includes("API key")) {
+          throw new HttpsError("internal", "Service configuration error");
+        }
+        if (error.message.includes("rate limit")) {
+          throw new HttpsError(
+            "resource-exhausted",
+            "Service temporarily unavailable"
+          );
+        }
+        if (error.message.includes("parse") || error.message.includes("JSON")) {
+          throw new HttpsError(
+            "internal",
+            "Failed to process character matching analysis"
+          );
+        }
+      }
+
+      throw new HttpsError("internal", "Failed to match fictional character");
     }
   }
 );
