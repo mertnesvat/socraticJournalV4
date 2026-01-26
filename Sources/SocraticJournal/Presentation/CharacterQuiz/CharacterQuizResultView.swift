@@ -144,16 +144,16 @@ final class CharacterQuizResultViewModel {
 // MARK: - Main View
 
 /// Displays the character quiz results with top matches and explanations
-public struct CharacterQuizResultView: View {
+struct CharacterQuizResultView: View {
     @State private var viewModel: CharacterQuizResultViewModel
     @Environment(\.dismiss) private var dismiss
     @Environment(ThemeManager.self) private var themeManager
 
-    public init(viewModel: CharacterQuizResultViewModel) {
+    init(viewModel: CharacterQuizResultViewModel) {
         _viewModel = State(initialValue: viewModel)
     }
 
-    public var body: some View {
+    var body: some View {
         NavigationStack {
             ZStack {
                 // Franchise-themed background

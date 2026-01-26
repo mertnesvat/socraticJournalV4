@@ -241,7 +241,7 @@ struct FranchiseCardView: View {
                 // Selection indicator
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .font(.title2)
-                    .foregroundStyle(isSelected ? .accentColor : .secondary.opacity(0.5))
+                    .foregroundStyle(isSelected ? Color.accentColor : Color.secondary.opacity(0.5))
             }
             .padding()
             .background(Color(uiColor: .secondarySystemGroupedBackground))
