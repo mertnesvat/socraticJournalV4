@@ -8,6 +8,7 @@ import SwiftUI
 /// Tab selection options for main navigation
 public enum MainTab: Int, CaseIterable {
     case home
+    case selfDiscovery
     case statistics
 }
 
@@ -52,6 +53,12 @@ public struct MainTabView: View {
                     Label("Home", systemImage: "house.fill")
                 }
                 .tag(MainTab.home)
+
+                SelfDiscoveryTabView()
+                .tabItem {
+                    Label("Discover", systemImage: "sparkles")
+                }
+                .tag(MainTab.selfDiscovery)
 
                 StatisticsTabView(
                     viewModel: StatisticsViewModel(repository: repository)
