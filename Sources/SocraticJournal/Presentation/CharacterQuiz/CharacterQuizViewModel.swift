@@ -30,7 +30,7 @@ public final class CharacterQuizViewModel {
 
     private(set) var state: CharacterQuizState = .idle
     private(set) var totalEntries: Int = 0
-    private(set) var journalEntries: [String] = []
+    private(set) var journalEntries: [JournalEntryData] = []
 
     /// Quiz history entries
     private(set) var historyEntries: [CharacterQuizHistoryEntry] = []
@@ -164,14 +164,18 @@ public final class CharacterQuizViewModel {
             print("[CharacterQuizVM] Sessions loaded: \(sessions.count) total, \(completedSessions.count) complete")
             #endif
 
-            // Extract journal content from sessions
-            journalEntries = completedSessions.compactMap { session -> String? in
-                // Get the user's answers from the exchanges (excluding skipped)
-                let answers = session.exchanges.filter { !$0.skipped && !$0.answer.isEmpty }
-                guard !answers.isEmpty else { return nil }
-
-                // Combine answers into a single entry
-                return answers.map { $0.answer }.joined(separator: "\n")
+            // Extract journal entries from sessions with question/answer pairs
+            journalEntries = completedSessions.flatMap { session -> [JournalEntryData] in
+                // Get exchanges with valid answers (excluding skipped)
+                session.exchanges
+                    .filter { !$0.skipped && !$0.answer.isEmpty }
+                    .map { exchange in
+                        JournalEntryData(
+                            question: exchange.question,
+                            answer: exchange.answer,
+                            clarityMirror: exchange.clarityMirror
+                        )
+                    }
             }
             #if DEBUG
             print("[CharacterQuizVM] Journal entries extracted: \(journalEntries.count)")

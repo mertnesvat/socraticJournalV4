@@ -23,13 +23,14 @@ public protocol CharacterQuizServiceProtocol: Sendable {
 // MARK: - Request Types
 
 /// Request data for character matching analysis
+/// Uses JournalEntryData from FirebaseFunctionsServiceProtocol for Firebase compatibility
 public struct CharacterMatchRequest: Codable, Sendable {
-    /// Array of journal entry texts to analyze
-    public let journalEntries: [String]
+    /// Array of journal entries with question/answer pairs
+    public let journalEntries: [JournalEntryData]
     /// The ID of the fictional universe to match against
     public let universeId: String
 
-    public init(journalEntries: [String], universeId: String) {
+    public init(journalEntries: [JournalEntryData], universeId: String) {
         self.journalEntries = journalEntries
         self.universeId = universeId
     }
@@ -71,6 +72,21 @@ public struct CharacterMatchResult: Codable, Sendable, Equatable {
     }
 }
 
+/// A journal excerpt used as evidence for the character match
+public struct JournalExcerpt: Codable, Sendable, Equatable, Identifiable {
+    /// The excerpt text from the user's journal
+    public let text: String
+    /// Brief explanation of how this excerpt supports the match
+    public let relevance: String
+
+    public var id: String { text }
+
+    public init(text: String, relevance: String) {
+        self.text = text
+        self.relevance = relevance
+    }
+}
+
 /// A single character match with confidence and reasoning
 public struct CharacterMatch: Codable, Sendable, Equatable, Identifiable {
     /// The ID of the matched character
@@ -81,6 +97,8 @@ public struct CharacterMatch: Codable, Sendable, Equatable, Identifiable {
     public let confidence: Double
     /// AI-generated explanation of why this character matches
     public let reasoning: String
+    /// Excerpts from journal entries that support this match
+    public let excerpts: [JournalExcerpt]
 
     public var id: String { characterId }
 
@@ -88,12 +106,14 @@ public struct CharacterMatch: Codable, Sendable, Equatable, Identifiable {
         characterId: String,
         characterName: String,
         confidence: Double,
-        reasoning: String
+        reasoning: String,
+        excerpts: [JournalExcerpt] = []
     ) {
         self.characterId = characterId
         self.characterName = characterName
         self.confidence = confidence
         self.reasoning = reasoning
+        self.excerpts = excerpts
     }
 
     /// Returns the confidence as a percentage string (e.g., "87%")

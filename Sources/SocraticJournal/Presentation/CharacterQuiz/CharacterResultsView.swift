@@ -76,7 +76,6 @@ public struct CharacterResultsView: View {
                     character: character,
                     universe: universe,
                     rank: index + 1,
-                    journalExcerpts: [], // Could be populated from result if available
                     animated: cardsRevealed
                 )
                 .characterCardReveal(index: index, isRevealed: cardsRevealed)
@@ -182,19 +181,11 @@ public struct CharacterResultsView: View {
                 characterId: "lotr-gandalf",
                 characterName: "Gandalf",
                 confidence: 0.87,
-                reasoning: "Your journal entries reveal a deep wisdom and thoughtful approach to life's challenges. Like Gandalf, you guide others with patience and see the potential in those around you."
-            ),
-            CharacterMatch(
-                characterId: "lotr-aragorn",
-                characterName: "Aragorn",
-                confidence: 0.72,
-                reasoning: "You show strong leadership qualities and a sense of duty that resonates with Aragorn's noble character."
-            ),
-            CharacterMatch(
-                characterId: "lotr-sam",
-                characterName: "Samwise Gamgee",
-                confidence: 0.58,
-                reasoning: "Your loyalty and steadfast nature align with Sam's unwavering dedication to those he cares about."
+                reasoning: "Your journal entries reveal a deep wisdom and thoughtful approach to life's challenges. Like Gandalf, you guide others with patience and see the potential in those around you.",
+                excerpts: [
+                    JournalExcerpt(text: "I helped someone see things differently today", relevance: "Shows your guiding nature"),
+                    JournalExcerpt(text: "Small actions can lead to big changes", relevance: "Reflects Gandalf's philosophy")
+                ]
             )
         ],
         universe: "Lord of the Rings",
@@ -220,13 +211,10 @@ public struct CharacterResultsView: View {
                 characterId: "hp-hermione",
                 characterName: "Hermione Granger",
                 confidence: 0.91,
-                reasoning: "Your intellectual curiosity and dedication to learning shine through your reflections, much like Hermione's love of knowledge."
-            ),
-            CharacterMatch(
-                characterId: "hp-luna",
-                characterName: "Luna Lovegood",
-                confidence: 0.68,
-                reasoning: "Your unique perspective and authenticity mirror Luna's unwavering individuality."
+                reasoning: "Your intellectual curiosity and dedication to learning shine through your reflections, much like Hermione's love of knowledge.",
+                excerpts: [
+                    JournalExcerpt(text: "I spent hours researching this topic", relevance: "Shows your dedication to learning")
+                ]
             )
         ],
         universe: "Harry Potter",

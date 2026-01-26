@@ -200,10 +200,78 @@ actor InMemoryDataSource {
             isComplete: true
         )
 
+        // Session 5: Exploring creativity and passion
+        let session5 = JournalSession(
+            id: UUID().uuidString,
+            createdAt: calendar.date(byAdding: .day, value: -4, to: Date()) ?? Date(),
+            exchanges: [
+                Exchange(
+                    question: "What drives you to create?",
+                    answer: "There's something deeply satisfying about bringing ideas to life. I feel most alive when I'm building something from nothing, whether it's code, writing, or art."
+                ),
+                Exchange(
+                    question: "How do you handle creative blocks?",
+                    answer: "I've learned to step away and let my subconscious work on problems. A walk in nature or reading something unrelated often sparks new connections."
+                ),
+                Exchange(
+                    question: "What would you create if you had unlimited resources?",
+                    answer: "I'd build tools that help people understand themselves better - something that bridges technology and human wisdom."
+                )
+            ],
+            clarityScore: ClarityScore(
+                total: 85,
+                completion: 100,
+                depth: 80,
+                emotional: 75,
+                label: "Deep Dive",
+                message: "Your creative spirit shines through in today's reflection."
+            ),
+            wisdomQuote: WisdomQuote(
+                text: "Creativity takes courage.",
+                author: "Henri Matisse"
+            ),
+            isComplete: true
+        )
+
+        // Session 6: Exploring relationships and connection
+        let session6 = JournalSession(
+            id: UUID().uuidString,
+            createdAt: calendar.date(byAdding: .day, value: -5, to: Date()) ?? Date(),
+            exchanges: [
+                Exchange(
+                    question: "What does meaningful connection look like to you?",
+                    answer: "It's about being truly seen and understood. The conversations where time stops and you feel completely present with another person."
+                ),
+                Exchange(
+                    question: "How do you nurture the relationships that matter most?",
+                    answer: "I try to be intentional - really listening instead of just waiting to speak, remembering the small things that matter to people, showing up when it counts."
+                ),
+                Exchange(
+                    question: "What have your relationships taught you about yourself?",
+                    answer: "That I'm braver than I thought, more capable of love than I believed, and that vulnerability is actually strength in disguise."
+                )
+            ],
+            clarityScore: ClarityScore(
+                total: 90,
+                completion: 100,
+                depth: 88,
+                emotional: 85,
+                label: "Deep Dive",
+                message: "A beautiful exploration of what connects us to others."
+            ),
+            wisdomQuote: WisdomQuote(
+                text: "We are most alive when we're in love.",
+                author: "John Updike"
+            ),
+            isComplete: true
+        )
+
         sessions[session1.id] = session1
         sessions[session2.id] = session2
         sessions[session3.id] = session3
         sessions[session4.id] = session4
+        sessions[session5.id] = session5
+        sessions[session6.id] = session6
 
         // Create sample letters
         let readyLetter = FutureLetter(

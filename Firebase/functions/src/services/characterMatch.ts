@@ -41,6 +41,16 @@ export interface CharacterMatchRequest {
 }
 
 /**
+ * Journal excerpt used as evidence for the character match.
+ */
+export interface JournalExcerpt {
+  /** The excerpt text from the user's answer */
+  text: string;
+  /** Brief explanation of how this excerpt supports the match */
+  relevance: string;
+}
+
+/**
  * Individual character match result.
  */
 export interface CharacterMatch {
@@ -48,20 +58,22 @@ export interface CharacterMatch {
   characterName: string;
   /** Character ID from the universe */
   characterId: string;
-  /** Confidence percentage (0-100) */
+  /** Confidence as decimal (0.0-1.0) - will be displayed as percentage in UI */
   confidence: number;
-  /** Reasoning explaining why this character matches, citing journal themes/patterns */
+  /** Reasoning explaining why this character matches */
   reasoning: string;
   /** Key traits that align with the user's journal entries */
   matchingTraits: string[];
+  /** Excerpts from journal entries that support this match */
+  excerpts: JournalExcerpt[];
 }
 
 /**
  * Response from character matching.
  */
 export interface CharacterMatchResponse {
-  /** Top 3 character matches */
-  matches: CharacterMatch[];
+  /** The single best character match */
+  match: CharacterMatch;
   /** The universe analyzed */
   universe: string;
   /** Summary of the analysis approach */
@@ -168,7 +180,7 @@ export const CHARACTER_MATCH_SYSTEM_PROMPT = `You are a personality analysis exp
 
 ## Your Task
 
-Analyze the user's journal entries to identify personality patterns, values, emotional themes, and behavioral tendencies. Then match them to the most similar fictional characters from the specified universe.
+Analyze the user's journal entries to identify personality patterns, values, emotional themes, and behavioral tendencies. Then match them to the SINGLE most fitting fictional character from the specified universe.
 
 ## Analysis Approach
 
@@ -180,36 +192,44 @@ Analyze the user's journal entries to identify personality patterns, values, emo
 
 ## Matching Guidelines
 
-1. **Be specific**: Cite actual phrases or patterns from the journal entries in your reasoning
+1. **Be specific**: You MUST cite actual quotes from the journal entries as excerpts
 2. **Consider nuance**: Characters have multiple dimensions - match the whole person, not just one trait
-3. **Assign realistic confidence**: Only use 90%+ confidence if there's overwhelming evidence
-4. **Variety in matches**: The top 3 should represent different aspects of the person's personality
-5. **Make it meaningful**: The reasoning should help the user understand themselves better
+3. **Assign realistic confidence**: Use decimal format (0.0 to 1.0). Only use 0.90+ if there's overwhelming evidence
+4. **Make it meaningful**: The reasoning should help the user understand themselves better
+5. **Provide evidence**: Include 2-3 specific excerpts from their journal that support your match
 
-## Confidence Guidelines
+## Confidence Guidelines (decimal format 0.0-1.0)
 
-- 85-100%: Strong, clear alignment with multiple journal themes
-- 70-84%: Good alignment with several key traits
-- 55-69%: Moderate alignment, some traits match well
-- 40-54%: Partial alignment, few matching traits
+- 0.85-1.0: Strong, clear alignment with multiple journal themes
+- 0.70-0.84: Good alignment with several key traits
+- 0.55-0.69: Moderate alignment, some traits match well
+- 0.40-0.54: Partial alignment, few matching traits
 
 ## Response Format
 
 You MUST respond with valid JSON matching this exact structure:
 {
-  "matches": [
-    {
-      "characterName": "<character name>",
-      "characterId": "<character id>",
-      "confidence": <number 0-100>,
-      "reasoning": "<2-3 sentences explaining the match, citing specific journal themes/patterns>",
-      "matchingTraits": ["<trait1>", "<trait2>", "<trait3>"]
-    }
-  ],
-  "analysisSummary": "<1-2 sentences describing the overall analysis approach>"
+  "match": {
+    "characterName": "<full character name>",
+    "characterId": "<character id from the list>",
+    "confidence": <decimal number 0.0-1.0, e.g., 0.85>,
+    "reasoning": "<3-4 sentences explaining WHY this character matches, describing the personality alignment>",
+    "matchingTraits": ["<trait1>", "<trait2>", "<trait3>"],
+    "excerpts": [
+      {
+        "text": "<exact quote from their journal answer>",
+        "relevance": "<brief explanation of how this excerpt shows the character trait>"
+      },
+      {
+        "text": "<another exact quote>",
+        "relevance": "<explanation>"
+      }
+    ]
+  },
+  "analysisSummary": "<1-2 sentences describing what personality patterns you found>"
 }
 
-Return exactly 3 matches, ordered by confidence (highest first).`;
+Return EXACTLY ONE match - the single best character match. Include 2-3 excerpts as evidence.`;
 
 /**
  * Validates that the universe ID is supported.
@@ -263,7 +283,7 @@ ${entriesText}
 
 ---
 
-Analyze these ${request.journalEntries.length} journal entries and match the person to the top 3 characters from ${universeName}. Return valid JSON with your analysis.`;
+Analyze these ${request.journalEntries.length} journal entries and find the SINGLE best character match from ${universeName}. Include 2-3 direct quotes from their journal as excerpts to prove your analysis. Return valid JSON.`;
 
   const response = await client.chat.completions.create({
     model: "gpt-4o-mini",
@@ -282,7 +302,7 @@ Analyze these ${request.journalEntries.length} journal entries and match the per
   }
 
   // Parse the JSON response
-  let parsedResponse: { matches: CharacterMatch[]; analysisSummary: string };
+  let parsedResponse: { match: CharacterMatch; analysisSummary: string };
   try {
     parsedResponse = JSON.parse(content);
   } catch {
@@ -290,31 +310,46 @@ Analyze these ${request.journalEntries.length} journal entries and match the per
   }
 
   // Validate response structure
-  if (!parsedResponse.matches || !Array.isArray(parsedResponse.matches)) {
-    throw new Error("Invalid response: missing matches array");
+  if (!parsedResponse.match || typeof parsedResponse.match !== "object") {
+    throw new Error("Invalid response: missing match object");
   }
 
-  if (parsedResponse.matches.length < 1) {
-    throw new Error("Invalid response: no character matches returned");
+  const match = parsedResponse.match;
+
+  // Validate the match
+  if (!match.characterName || typeof match.characterName !== "string") {
+    throw new Error("Match: missing or invalid characterName");
+  }
+  if (!match.characterId || typeof match.characterId !== "string") {
+    throw new Error("Match: missing or invalid characterId");
+  }
+  if (typeof match.confidence !== "number" || match.confidence < 0 || match.confidence > 1) {
+    // If confidence is in 0-100 range, convert to 0-1
+    if (match.confidence > 1 && match.confidence <= 100) {
+      match.confidence = match.confidence / 100;
+    } else {
+      throw new Error("Match: confidence must be a decimal between 0 and 1");
+    }
+  }
+  if (!match.reasoning || typeof match.reasoning !== "string") {
+    throw new Error("Match: missing or invalid reasoning");
+  }
+  if (!match.matchingTraits || !Array.isArray(match.matchingTraits)) {
+    throw new Error("Match: missing or invalid matchingTraits array");
+  }
+  if (!match.excerpts || !Array.isArray(match.excerpts)) {
+    // Provide empty excerpts if not returned
+    match.excerpts = [];
   }
 
-  // Validate each match
-  for (let i = 0; i < parsedResponse.matches.length; i++) {
-    const match = parsedResponse.matches[i];
-    if (!match.characterName || typeof match.characterName !== "string") {
-      throw new Error(`Match ${i + 1}: missing or invalid characterName`);
+  // Validate excerpts
+  for (let i = 0; i < match.excerpts.length; i++) {
+    const excerpt = match.excerpts[i];
+    if (!excerpt.text || typeof excerpt.text !== "string") {
+      throw new Error(`Excerpt ${i + 1}: missing or invalid text`);
     }
-    if (!match.characterId || typeof match.characterId !== "string") {
-      throw new Error(`Match ${i + 1}: missing or invalid characterId`);
-    }
-    if (typeof match.confidence !== "number" || match.confidence < 0 || match.confidence > 100) {
-      throw new Error(`Match ${i + 1}: confidence must be a number between 0 and 100`);
-    }
-    if (!match.reasoning || typeof match.reasoning !== "string") {
-      throw new Error(`Match ${i + 1}: missing or invalid reasoning`);
-    }
-    if (!match.matchingTraits || !Array.isArray(match.matchingTraits)) {
-      throw new Error(`Match ${i + 1}: missing or invalid matchingTraits array`);
+    if (!excerpt.relevance || typeof excerpt.relevance !== "string") {
+      excerpt.relevance = "This excerpt reflects your personality.";
     }
   }
 
@@ -322,9 +357,9 @@ Analyze these ${request.journalEntries.length} journal entries and match the per
     throw new Error("Invalid response: missing or invalid analysisSummary");
   }
 
-  // Return the complete response
+  // Return the complete response with single match
   const result: CharacterMatchResponse = {
-    matches: parsedResponse.matches.slice(0, 3), // Ensure max 3 matches
+    match: match,
     universe: universeName,
     analysisSummary: parsedResponse.analysisSummary,
     analyzedAt: new Date().toISOString(),
