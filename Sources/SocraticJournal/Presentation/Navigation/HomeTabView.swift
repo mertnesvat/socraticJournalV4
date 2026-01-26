@@ -8,10 +8,9 @@ import SwiftUI
 /// Home view adapted for tab navigation
 /// Session start is handled by the floating plus button in MainTabView
 /// Statistics is now a separate tab - stats card tap switches to Statistics tab
-/// Character Discovery is now in Self-Discovery tab
+/// Character Discovery and Letters are now in Self-Discovery tab
 public struct HomeTabView: View {
     @Bindable var viewModel: HomeViewModel
-    @State private var showingLettersList: Bool = false
     @State private var showingWisdomQuotes: Bool = false
     @State private var showingSettings: Bool = false
     @State private var selectedSession: JournalSession?
@@ -42,24 +41,6 @@ public struct HomeTabView: View {
                 .toolbar { toolbarContent }
                 .task { await viewModel.loadData() }
                 .refreshable { await viewModel.refreshData() }
-                .fullScreenCover(isPresented: $showingLettersList) {
-                    // Reload ready letters count when letters list is dismissed
-                    Task {
-                        await viewModel.loadData()
-                    }
-                } content: {
-                    LettersListView(
-                        viewModel: LettersListViewModel(
-                            repository: repository,
-                            notificationService: notificationService
-                        ),
-                        repository: repository,
-                        notificationService: notificationService,
-                        settingsRepository: settingsRepository
-                    )
-                    .environment(themeManager)
-                    .preferredColorScheme(themeManager.colorScheme)
-                }
                 .sheet(item: $selectedSession) { session in
                     SessionDetailView(
                         viewModel: SessionDetailViewModel(
@@ -250,12 +231,6 @@ public struct HomeTabView: View {
                 } label: {
                     Image(systemName: "quote.bubble")
                         .font(.title3)
-                }
-
-                Button {
-                    showingLettersList = true
-                } label: {
-                    LettersBadge(count: viewModel.readyLettersCount)
                 }
 
                 Button {

@@ -54,7 +54,11 @@ public struct MainTabView: View {
                 }
                 .tag(MainTab.home)
 
-                SelfDiscoveryTabView()
+                SelfDiscoveryTabView(
+                    repository: repository,
+                    settingsRepository: settingsRepository,
+                    notificationService: notificationService
+                )
                 .tabItem {
                     Label("Discover", systemImage: "sparkles")
                 }
