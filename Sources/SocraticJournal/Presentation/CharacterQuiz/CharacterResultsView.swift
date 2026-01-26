@@ -13,8 +13,8 @@ public struct CharacterResultsView: View {
     let universe: FictionalUniverse
     let onTryAgain: () -> Void
 
-    @State private var expandedMatchId: String?
     @State private var showShareSheet = false
+    @State private var cardsRevealed = false
 
     // MARK: - Body
 
@@ -24,17 +24,9 @@ public struct CharacterResultsView: View {
                 // Header with universe badge
                 headerSection
 
-                // Top match highlight
-                if let topMatch = result.topMatch {
-                    topMatchCard(topMatch)
-                        .padding(.horizontal)
-                }
-
-                // Other matches
-                if result.matches.count > 1 {
-                    otherMatchesSection
-                        .padding(.horizontal)
-                }
+                // Character match cards using the new component
+                matchCardsSection
+                    .padding(.horizontal)
 
                 // Analysis summary
                 analysisSummarySection
@@ -49,14 +41,18 @@ public struct CharacterResultsView: View {
             .padding(.top)
         }
         .background(Color(uiColor: .systemGroupedBackground))
+        .onAppear {
+            // Trigger reveal animation
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                cardsRevealed = true
+            }
+        }
     }
 
     // MARK: - Header Section
 
     private var headerSection: some View {
         VStack(spacing: 12) {
-            UniverseBadge(universe: universe)
-
             Text("Your Character Match")
                 .font(.title2)
                 .fontWeight(.bold)
@@ -68,163 +64,24 @@ public struct CharacterResultsView: View {
         .padding()
     }
 
-    // MARK: - Top Match Card
+    // MARK: - Match Cards Section
 
-    private func topMatchCard(_ match: CharacterMatch) -> some View {
-        let character = findCharacter(for: match)
+    private var matchCardsSection: some View {
+        VStack(spacing: 20) {
+            ForEach(Array(result.matches.prefix(3).enumerated()), id: \.element.id) { index, match in
+                let character = findCharacter(for: match)
 
-        return VStack(spacing: 16) {
-            // Character avatar
-            if let character = character {
-                CharacterAvatar(character: character, size: .hero, style: .gradient)
-            } else {
-                PlaceholderAvatar(size: .hero)
-            }
-
-            // Character name
-            Text(match.characterName)
-                .font(.title)
-                .fontWeight(.bold)
-
-            // Confidence indicator
-            confidenceIndicator(match.confidence, isTopMatch: true)
-
-            // Confidence label
-            Text(match.confidenceLabel)
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .foregroundStyle(confidenceColor(match.confidence))
-
-            // Character description
-            if let character = character {
-                Text(character.description)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .lineSpacing(2)
-                    .padding(.horizontal)
-            }
-
-            // Reasoning
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Image(systemName: "quote.opening")
-                        .foregroundStyle(.secondary)
-                    Text("Why this match?")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                    Spacer()
-                }
-
-                Text(match.reasoning)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                    .lineSpacing(4)
-            }
-            .padding()
-            .background(Color(uiColor: .tertiarySystemGroupedBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-        }
-        .padding(20)
-        .background(Color(uiColor: .systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-        .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
-    }
-
-    // MARK: - Other Matches Section
-
-    private var otherMatchesSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Other Matches")
-                .font(.headline)
-
-            ForEach(Array(result.matches.dropFirst().prefix(2))) { match in
-                otherMatchCard(match)
+                CharacterResultCard(
+                    match: match,
+                    character: character,
+                    universe: universe,
+                    rank: index + 1,
+                    journalExcerpts: [], // Could be populated from result if available
+                    animated: cardsRevealed
+                )
+                .characterCardReveal(index: index, isRevealed: cardsRevealed)
             }
         }
-    }
-
-    private func otherMatchCard(_ match: CharacterMatch) -> some View {
-        let character = findCharacter(for: match)
-        let isExpanded = expandedMatchId == match.id
-
-        return VStack(spacing: 0) {
-            // Main row
-            Button {
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    expandedMatchId = isExpanded ? nil : match.id
-                }
-            } label: {
-                HStack(spacing: 12) {
-                    // Avatar
-                    if let character = character {
-                        CharacterAvatar(character: character, size: .medium, style: .gradient)
-                    } else {
-                        PlaceholderAvatar(size: .medium)
-                    }
-
-                    // Name and confidence
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(match.characterName)
-                            .font(.headline)
-                            .foregroundStyle(.primary)
-
-                        Text(match.confidenceLabel)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-
-                    Spacer()
-
-                    // Confidence percentage
-                    Text(match.confidencePercentage)
-                        .font(.headline)
-                        .foregroundStyle(confidenceColor(match.confidence))
-
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                .padding()
-            }
-            .buttonStyle(.plain)
-
-            // Expanded reasoning
-            if isExpanded {
-                VStack(alignment: .leading, spacing: 8) {
-                    // Confidence bar
-                    confidenceIndicator(match.confidence, isTopMatch: false)
-                        .padding(.bottom, 4)
-
-                    // Character description
-                    if let character = character {
-                        Text(character.description)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .lineSpacing(2)
-                            .padding(.bottom, 8)
-                    }
-
-                    // Reasoning
-                    HStack(alignment: .top, spacing: 8) {
-                        Image(systemName: "lightbulb.fill")
-                            .foregroundStyle(.yellow)
-                            .font(.caption)
-
-                        Text(match.reasoning)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .lineSpacing(2)
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-                .transition(.opacity.combined(with: .move(edge: .top)))
-            }
-        }
-        .background(Color(uiColor: .systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.05), radius: 6, x: 0, y: 2)
     }
 
     // MARK: - Analysis Summary
@@ -296,39 +153,6 @@ public struct CharacterResultsView: View {
             if let topMatch = result.topMatch {
                 ShareSheet(items: [shareText(for: topMatch)])
             }
-        }
-    }
-
-    // MARK: - Helper Views
-
-    private func confidenceIndicator(_ confidence: Double, isTopMatch: Bool) -> some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                // Background track
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(Color(uiColor: .tertiarySystemFill))
-
-                // Progress fill
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(
-                        LinearGradient(
-                            colors: [confidenceColor(confidence), confidenceColor(confidence).opacity(0.7)],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .frame(width: geometry.size.width * confidence)
-            }
-        }
-        .frame(height: isTopMatch ? 8 : 6)
-    }
-
-    private func confidenceColor(_ confidence: Double) -> Color {
-        switch confidence {
-        case 0.8...: return .green
-        case 0.6..<0.8: return .blue
-        case 0.4..<0.6: return .orange
-        default: return .gray
         }
     }
 
