@@ -5,14 +5,12 @@
 #if os(iOS)
 import SwiftUI
 
-/// Home view adapted for tab navigation
+/// Home view adapted for tab navigation - Journal-centric view
 /// Session start is handled by the floating plus button in MainTabView
 /// Statistics is now a separate tab - stats card tap switches to Statistics tab
+/// Character Discovery, Letters, and Wisdom Quotes are now in Self-Discovery/Settings
 public struct HomeTabView: View {
     @Bindable var viewModel: HomeViewModel
-    @State private var showingLettersList: Bool = false
-    @State private var showingCharacterDiscovery: Bool = false
-    @State private var showingWisdomQuotes: Bool = false
     @State private var showingSettings: Bool = false
     @State private var selectedSession: JournalSession?
     @Environment(ThemeManager.self) private var themeManager
@@ -42,34 +40,6 @@ public struct HomeTabView: View {
                 .toolbar { toolbarContent }
                 .task { await viewModel.loadData() }
                 .refreshable { await viewModel.refreshData() }
-                .fullScreenCover(isPresented: $showingLettersList) {
-                    // Reload ready letters count when letters list is dismissed
-                    Task {
-                        await viewModel.loadData()
-                    }
-                } content: {
-                    LettersListView(
-                        viewModel: LettersListViewModel(
-                            repository: repository,
-                            notificationService: notificationService
-                        ),
-                        repository: repository,
-                        notificationService: notificationService,
-                        settingsRepository: settingsRepository
-                    )
-                    .environment(themeManager)
-                    .preferredColorScheme(themeManager.colorScheme)
-                }
-                .fullScreenCover(isPresented: $showingCharacterDiscovery) {
-                    CharacterDiscoveryView(
-                        viewModel: CharacterDiscoveryViewModel(
-                            repository: repository,
-                            analysisService: FirebasePersonalityAnalysisService.shared
-                        )
-                    )
-                    .environment(themeManager)
-                    .preferredColorScheme(themeManager.colorScheme)
-                }
                 .sheet(item: $selectedSession) { session in
                     SessionDetailView(
                         viewModel: SessionDetailViewModel(
@@ -79,15 +49,6 @@ public struct HomeTabView: View {
                     )
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
-                    .preferredColorScheme(themeManager.colorScheme)
-                }
-                .fullScreenCover(isPresented: $showingWisdomQuotes) {
-                    WisdomQuotesView(
-                        viewModel: WisdomQuotesViewModel(
-                            quoteService: LocalWisdomQuoteService()
-                        )
-                    )
-                    .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
                 }
                 .fullScreenCover(isPresented: $showingSettings) {
@@ -253,36 +214,12 @@ public struct HomeTabView: View {
 
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
-            Button {
-                showingCharacterDiscovery = true
-            } label: {
-                Image(systemName: "person.crop.circle")
-                    .font(.title3)
-            }
-        }
-
         ToolbarItem(placement: .topBarTrailing) {
-            HStack(spacing: 16) {
-                Button {
-                    showingWisdomQuotes = true
-                } label: {
-                    Image(systemName: "quote.bubble")
-                        .font(.title3)
-                }
-
-                Button {
-                    showingLettersList = true
-                } label: {
-                    LettersBadge(count: viewModel.readyLettersCount)
-                }
-
-                Button {
-                    showingSettings = true
-                } label: {
-                    Image(systemName: "gearshape.fill")
-                        .font(.title3)
-                }
+            Button {
+                showingSettings = true
+            } label: {
+                Image(systemName: "gearshape.fill")
+                    .font(.title3)
             }
         }
     }
