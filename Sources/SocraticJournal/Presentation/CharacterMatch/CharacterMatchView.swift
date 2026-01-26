@@ -146,6 +146,10 @@ public struct CharacterMatchView: View {
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
 
+            Text("Total entries: \(viewModel.totalEntries)")
+                .font(.caption)
+                .foregroundStyle(.tertiary)
+
             Button {
                 Task {
                     await viewModel.analyzeCharacterMatch()
@@ -171,6 +175,20 @@ public struct CharacterMatchView: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
+            }
+
+            if let error = viewModel.error {
+                VStack(spacing: 8) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.red)
+                    Text("Error: \(error.localizedDescription)")
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                        .multilineTextAlignment(.center)
+                }
+                .padding()
+                .background(Color.red.opacity(0.1))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }
         .padding()

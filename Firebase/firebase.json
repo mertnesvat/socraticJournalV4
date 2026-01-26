@@ -1,4 +1,13 @@
 {
+  "emulators": {
+    "functions": {
+      "port": 5055
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4040
+    }
+  },
   "functions": [
     {
       "source": "functions",

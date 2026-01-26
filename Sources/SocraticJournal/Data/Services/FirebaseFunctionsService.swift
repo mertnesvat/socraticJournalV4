@@ -24,7 +24,9 @@ public final class FirebaseFunctionsService: FirebaseFunctionsServiceProtocol, @
     private init() {
         self.functions = Functions.functions()
         #if DEBUG
-        print("[FirebaseFunctions] Service initialized")
+        // Use local emulator for development
+        functions.useEmulator(withHost: "127.0.0.1", port: 5055)
+        print("[FirebaseFunctions] Service initialized with EMULATOR at 127.0.0.1:5055")
         #endif
     }
 
