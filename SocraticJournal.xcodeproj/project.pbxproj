@@ -10,6 +10,7 @@
 		0047B39B7559AD5B4D2A724A /* ThemeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */; };
 		007A7A769FAAB905E1FFCE3D /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682ED01B4319D5F5C3D55937 /* HomeTabView.swift */; };
 		01A4D34BB1F4DE33696018E9 /* UnlockCountdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027EBBA9DD429C76140BF933 /* UnlockCountdown.swift */; };
+		02D012F741BD3E5A3CD69B53 /* SelfDiscoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD96CC52F727FFAECE30472 /* SelfDiscoveryViewModel.swift */; };
 		060DCDE2F8D2095C6DA7AC4E /* SocraticJournal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */; };
 		07069E391D329A9F618C12A6 /* ClarityScoreDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47625E61F7824371D5D3C080 /* ClarityScoreDisplay.swift */; };
 		071ADAC56D03A9BE9771A847 /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA319170D73C64374D137E1 /* ProgressIndicator.swift */; };
@@ -77,6 +78,7 @@
 		90D36BD2BF7047735751CD6B /* wisdom_quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = E9721DD221539E97DDD9E989 /* wisdom_quotes.json */; };
 		915173BDEC78033289D5B2AE /* CharacterDiscoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7F2F5D0B3AA1EEC596795D /* CharacterDiscoveryViewModel.swift */; };
 		929047D489C0B0CCA9CF5736 /* StatisticsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A77CB1C80F2854649956335 /* StatisticsTabView.swift */; };
+		929C35D3BDA93393E64DC7F2 /* SelfDiscoveryTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D48B97B27F63DA9081976B /* SelfDiscoveryTabView.swift */; };
 		973819C7AF4DDE9699F479F4 /* ThemeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EF2E8B120F1677BC908310 /* ThemeFilterView.swift */; };
 		977664B2130F9D3192DF1CB1 /* OnboardingCharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C125E25CE091EED451BF73A8 /* OnboardingCharacterView.swift */; };
 		97D355F8C2A5BBAD25DD2B18 /* StartSessionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FAE65D79E56D3B514848FB /* StartSessionButton.swift */; };
@@ -96,7 +98,6 @@
 		AFA3405C98AF46A9BCD59F83 /* WeeklyComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE62D57E33763614826EC91D /* WeeklyComparisonView.swift */; };
 		AFBBA19E9186A341DA95E6E0 /* BackendHealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */; };
 		B6E786D86EC46830FFBB70D0 /* LettersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9E190C99BFCBAD71EA722E /* LettersListView.swift */; };
-		B745F30400857817EA4A3AFE /* SelfDiscoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CC6E502A8099B774C9F376 /* SelfDiscoveryViewModel.swift */; };
 		BAE76A7BA0C38847C7ABFF88 /* DialogueSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9F90D49ED2476A970C7E22 /* DialogueSessionViewModel.swift */; };
 		BB4194113D186646D777173D /* SocratesReactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88A2178E093BBB1139F9CA0 /* SocratesReactionView.swift */; };
 		BF8EB63CF895A403410CEE6C /* SessionMetadataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AAE0C498CCF57558BC71ED /* SessionMetadataView.swift */; };
@@ -114,7 +115,7 @@
 		D8698435192D45E3B7566C4E /* OnboardingWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5008BD267656811454CD5B7 /* OnboardingWelcomeView.swift */; };
 		DBD6A4B15FC05F7E2CD14C0B /* LocalWisdomQuoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739C432FE1792495D5A2F2E6 /* LocalWisdomQuoteService.swift */; };
 		DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */; };
-		E4C6BB343A556D9B5C3A99F1 /* SelfDiscoveryTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E3AC08B9D80C42FF17A7E /* SelfDiscoveryTabView.swift */; };
+		E02A64F6F07A3E0C08A4A7A2 /* LettersCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDEBE173B94B4B3E6B1289A /* LettersCard.swift */; };
 		E4E9903DE0C900BE356D23BD /* ActionButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDC37B5290D6F269F3248F1 /* ActionButtonsView.swift */; };
 		E57293E5593A0545FF1C2580 /* ProgressUnlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D6E845C5C0A6F6073AE849 /* ProgressUnlockView.swift */; };
 		E7B12C68845400511A4F79FD /* SummaryNarrativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF209799350179EBEE2D4D05 /* SummaryNarrativeView.swift */; };
@@ -141,6 +142,7 @@
 		1A77CB1C80F2854649956335 /* StatisticsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsTabView.swift; sourceTree = "<group>"; };
 		1B05FDBE0577AEC49338C5B2 /* DurationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationPicker.swift; sourceTree = "<group>"; };
 		1EDC37B5290D6F269F3248F1 /* ActionButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonsView.swift; sourceTree = "<group>"; };
+		20D48B97B27F63DA9081976B /* SelfDiscoveryTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfDiscoveryTabView.swift; sourceTree = "<group>"; };
 		25D7A691701986207C44E40E /* ExchangeDetailCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailCard.swift; sourceTree = "<group>"; };
 		2734EBA88653C87D9C0D34E9 /* OnboardingLettersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLettersView.swift; sourceTree = "<group>"; };
 		2DD89F782D263C0185E19061 /* WisdomQuotesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomQuotesViewModel.swift; sourceTree = "<group>"; };
@@ -153,10 +155,8 @@
 		3D7F2F5D0B3AA1EEC596795D /* CharacterDiscoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDiscoveryViewModel.swift; sourceTree = "<group>"; };
 		3E102341D4D6B4D043E4BFE8 /* BackendStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendStatusView.swift; sourceTree = "<group>"; };
 		3F11FCC416B08664C4E259DB /* AnswerInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerInputView.swift; sourceTree = "<group>"; };
-		446E3AC08B9D80C42FF17A7E /* SelfDiscoveryTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SelfDiscoveryTabView.swift; sourceTree = "<group>"; };
 		47625E61F7824371D5D3C080 /* ClarityScoreDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClarityScoreDisplay.swift; sourceTree = "<group>"; };
 		48A85539E50453CB3BEA69A7 /* MockQuestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQuestionService.swift; sourceTree = "<group>"; };
-		48CC6E502A8099B774C9F376 /* SelfDiscoveryViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SelfDiscoveryViewModel.swift; sourceTree = "<group>"; };
 		4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSyncHandler.swift; sourceTree = "<group>"; };
 		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51359D9BF5E1376FF3BD9CC5 /* StatsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCardView.swift; sourceTree = "<group>"; };
@@ -166,6 +166,7 @@
 		59EF2E8B120F1677BC908310 /* ThemeFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFilterView.swift; sourceTree = "<group>"; };
 		5BBC921E31BBF56315A0DA55 /* InMemoryJournalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryJournalRepository.swift; sourceTree = "<group>"; };
 		5FDE01830F0959A72723F0DD /* AppReviewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewService.swift; sourceTree = "<group>"; };
+		5FDEBE173B94B4B3E6B1289A /* LettersCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LettersCard.swift; sourceTree = "<group>"; };
 		602C804EC1312F2F283F8072 /* LetterDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterDetailView.swift; sourceTree = "<group>"; };
 		612D960CE6F192A59D33BF3D /* TrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendChartView.swift; sourceTree = "<group>"; };
 		669FF049A4583E3F84C6685F /* FutureLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureLetter.swift; sourceTree = "<group>"; };
@@ -211,6 +212,7 @@
 		B67545F72405599CA3D6E892 /* FirebaseNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseNotificationService.swift; sourceTree = "<group>"; };
 		B96CB7A90D8631A85BB9E7A3 /* TraitCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitCardView.swift; sourceTree = "<group>"; };
 		BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelectorView.swift; sourceTree = "<group>"; };
+		BBD96CC52F727FFAECE30472 /* SelfDiscoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfDiscoveryViewModel.swift; sourceTree = "<group>"; };
 		BC40968DCB2C7E6C3AADFC5E /* FirebaseWisdomQuoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseWisdomQuoteService.swift; sourceTree = "<group>"; };
 		BC5998CC54163B8E53357243 /* SessionCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteViewModel.swift; sourceTree = "<group>"; };
 		BE4365E37F7BE4F7D2E83A7B /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
@@ -469,12 +471,11 @@
 			path = Repositories;
 			sourceTree = "<group>";
 		};
-		69BB557411B64C50A4C59ED5 /* SelfDiscovery */ = {
+		64E7CAAB03F123E1F4FBF634 /* SelfDiscovery */ = {
 			isa = PBXGroup;
 			children = (
-				48CC6E502A8099B774C9F376 /* SelfDiscoveryViewModel.swift */,
+				BBD96CC52F727FFAECE30472 /* SelfDiscoveryViewModel.swift */,
 			);
-			name = SelfDiscovery;
 			path = SelfDiscovery;
 			sourceTree = "<group>";
 		};
@@ -504,8 +505,8 @@
 			children = (
 				682ED01B4319D5F5C3D55937 /* HomeTabView.swift */,
 				A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */,
+				20D48B97B27F63DA9081976B /* SelfDiscoveryTabView.swift */,
 				1A77CB1C80F2854649956335 /* StatisticsTabView.swift */,
-				446E3AC08B9D80C42FF17A7E /* SelfDiscoveryTabView.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -574,6 +575,7 @@
 				3E102341D4D6B4D043E4BFE8 /* BackendStatusView.swift */,
 				DD021C9D10C27E2047636405 /* CalendarView.swift */,
 				EEA18D9715EAA48C07D6996E /* LettersBadge.swift */,
+				5FDEBE173B94B4B3E6B1289A /* LettersCard.swift */,
 				DF754053E7CCE80662BFEF85 /* SessionListView.swift */,
 				96FAE65D79E56D3B514848FB /* StartSessionButton.swift */,
 				51359D9BF5E1376FF3BD9CC5 /* StatsCardView.swift */,
@@ -680,13 +682,13 @@
 				4DA282FA62A3505F68103F89 /* Letters */,
 				7DBE6F1459754CEC4DAED18F /* Navigation */,
 				165EBEA269EA38D7418DCC61 /* Onboarding */,
+				64E7CAAB03F123E1F4FBF634 /* SelfDiscovery */,
 				007986A727609C1CC7EA4F27 /* SessionComplete */,
 				25282619FBE332C3EFACD1FF /* SessionHistory */,
 				0A7D89DB9B7D4AA46EE297DA /* Settings */,
 				A358BC59E2EAAA45F29B2F0D /* Statistics */,
 				3292427AC674B121CCABA44F /* Theme */,
 				E598FD85F1EEF3794A45BB8A /* WisdomQuotes */,
-				69BB557411B64C50A4C59ED5 /* SelfDiscovery */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -748,7 +750,6 @@
 				9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 59D69EF141D9FE3F51EE009A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -828,6 +829,7 @@
 				6046F01D721F4D503862AD8A /* LetterDetailViewModel.swift in Sources */,
 				AD6208BB6580B116029094B5 /* LetterRowView.swift in Sources */,
 				0D5B63D8D19A6CFE52C0319C /* LettersBadge.swift in Sources */,
+				E02A64F6F07A3E0C08A4A7A2 /* LettersCard.swift in Sources */,
 				B6E786D86EC46830FFBB70D0 /* LettersListView.swift in Sources */,
 				9B455AAF94634625E97C6EC8 /* LettersListViewModel.swift in Sources */,
 				2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */,
@@ -855,6 +857,8 @@
 				0F6473FA64932CCA57F18A26 /* QuestionView.swift in Sources */,
 				E8C712A34325B42128EB8771 /* QuoteCard.swift in Sources */,
 				501BD6BC5C60BA924A107651 /* ScoreBreakdownView.swift in Sources */,
+				929C35D3BDA93393E64DC7F2 /* SelfDiscoveryTabView.swift in Sources */,
+				02D012F741BD3E5A3CD69B53 /* SelfDiscoveryViewModel.swift in Sources */,
 				3C7FFEB692B8CE92702F3410 /* SessionCompleteView.swift in Sources */,
 				5463E09009BDC8DAA19AE96C /* SessionCompleteViewModel.swift in Sources */,
 				C30277B802C3B45CA16D8DF4 /* SessionDetailView.swift in Sources */,
@@ -890,8 +894,6 @@
 				17C179873F6002CC9BDEA163 /* WisdomQuoteView.swift in Sources */,
 				FAE5CA4653E58F4445B2F1A3 /* WisdomQuotesView.swift in Sources */,
 				1B6E13E3E5AA154BB2668383 /* WisdomQuotesViewModel.swift in Sources */,
-				E4C6BB343A556D9B5C3A99F1 /* SelfDiscoveryTabView.swift in Sources */,
-				B745F30400857817EA4A3AFE /* SelfDiscoveryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

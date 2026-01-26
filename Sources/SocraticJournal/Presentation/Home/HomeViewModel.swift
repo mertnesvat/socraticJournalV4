@@ -15,6 +15,7 @@ public final class HomeViewModel {
     private(set) var sessions: [JournalSession] = []
     private(set) var stats: JournalStats = .empty
     private(set) var readyLettersCount: Int = 0
+    private(set) var sealedLettersCount: Int = 0
     private(set) var isLoading: Bool = false
     private(set) var error: Error?
 
@@ -52,11 +53,13 @@ public final class HomeViewModel {
         do {
             async let sessionsTask = repository.getAllSessions()
             async let statsTask = repository.getStats()
-            async let lettersTask = repository.getReadyLettersCount()
+            async let readyLettersTask = repository.getReadyLettersCount()
+            async let sealedLettersTask = repository.getLetters(status: .sealed)
 
             sessions = try await sessionsTask
             stats = try await statsTask
-            readyLettersCount = try await lettersTask
+            readyLettersCount = try await readyLettersTask
+            sealedLettersCount = try await sealedLettersTask.count
         } catch {
             self.error = error
         }

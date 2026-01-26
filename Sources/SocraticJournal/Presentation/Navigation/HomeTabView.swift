@@ -163,6 +163,16 @@ public struct HomeTabView: View {
                 )
                 .padding(.horizontal)
 
+                // Letters Card
+                LettersCard(
+                    sealedCount: viewModel.sealedLettersCount,
+                    readyCount: viewModel.readyLettersCount,
+                    onTap: {
+                        showingLettersList = true
+                    }
+                )
+                .padding(.horizontal)
+
                 // Selected date indicator
                 if let selectedDate = viewModel.selectedDate {
                     selectedDateHeader(selectedDate)
@@ -269,12 +279,6 @@ public struct HomeTabView: View {
                 } label: {
                     Image(systemName: "quote.bubble")
                         .font(.title3)
-                }
-
-                Button {
-                    showingLettersList = true
-                } label: {
-                    LettersBadge(count: viewModel.readyLettersCount)
                 }
 
                 Button {
