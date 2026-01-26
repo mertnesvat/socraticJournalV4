@@ -18,6 +18,11 @@ import {
   analyzePersonalityWithAI,
   PersonalityAnalysisRequest,
 } from "./services/personality";
+import {
+  analyzeCharacterMatchWithAI,
+  CharacterMatchRequest,
+  SUPPORTED_FRANCHISES,
+} from "./services/characters";
 
 /**
  * Firebase Cloud Function: Generate Clarity Mirror
@@ -510,6 +515,119 @@ export const enhanceFutureLetterNightprep = onCall(
       }
 
       throw new HttpsError("internal", "Failed to enhance letter");
+    }
+  }
+);
+
+/**
+ * Firebase Cloud Function: Analyze Character Match
+ *
+ * Matches user personality patterns from journal entries to fictional characters.
+ * Returns top 3 character matches with confidence percentages and explanations.
+ *
+ * @param request.data.entries - Array of journal entries with question/answer pairs
+ * @param request.data.franchise - The franchise to match against ("Lord of the Rings", "Harry Potter", "Star Wars")
+ * @returns Object with 'matches' array and 'analyzedAt' timestamp
+ */
+export const analyzeCharacterMatch = onCall(
+  {
+    secrets: [openaiApiKey],
+    cors: true,
+    maxInstances: 10,
+    timeoutSeconds: 45, // Set to 45 seconds as per requirements
+  },
+  async (request) => {
+    // Validate request data
+    const data = request.data as CharacterMatchRequest;
+
+    if (!data.entries || !Array.isArray(data.entries)) {
+      throw new HttpsError(
+        "invalid-argument",
+        "entries array is required"
+      );
+    }
+
+    // Require at least 1 entry for analysis
+    if (data.entries.length === 0) {
+      throw new HttpsError(
+        "invalid-argument",
+        "At least one journal entry is required for character matching"
+      );
+    }
+
+    // Validate each entry structure
+    for (let i = 0; i < data.entries.length; i++) {
+      const entry = data.entries[i];
+
+      if (!entry.question || typeof entry.question !== "string") {
+        throw new HttpsError(
+          "invalid-argument",
+          `Entry ${i + 1}: question is required and must be a string`
+        );
+      }
+
+      if (!entry.answer || typeof entry.answer !== "string") {
+        throw new HttpsError(
+          "invalid-argument",
+          `Entry ${i + 1}: answer is required and must be a string`
+        );
+      }
+
+      if (entry.answer.trim().length === 0) {
+        throw new HttpsError(
+          "invalid-argument",
+          `Entry ${i + 1}: answer cannot be empty`
+        );
+      }
+    }
+
+    // Validate franchise
+    if (!data.franchise || typeof data.franchise !== "string") {
+      throw new HttpsError(
+        "invalid-argument",
+        "franchise is required and must be a string"
+      );
+    }
+
+    if (!SUPPORTED_FRANCHISES.includes(data.franchise)) {
+      throw new HttpsError(
+        "invalid-argument",
+        `Unsupported franchise: "${data.franchise}". Supported franchises: ${SUPPORTED_FRANCHISES.join(", ")}`
+      );
+    }
+
+    try {
+      const result = await analyzeCharacterMatchWithAI({
+        entries: data.entries,
+        franchise: data.franchise,
+      });
+
+      return result;
+    } catch (error) {
+      console.error("Error analyzing character match:", error);
+
+      if (error instanceof Error) {
+        if (error.message.includes("API key")) {
+          throw new HttpsError("internal", "Service configuration error");
+        }
+        if (error.message.includes("rate limit")) {
+          throw new HttpsError(
+            "resource-exhausted",
+            "Service temporarily unavailable"
+          );
+        }
+        if (error.message.includes("parse") || error.message.includes("JSON")) {
+          throw new HttpsError(
+            "internal",
+            "Failed to process character match analysis"
+          );
+        }
+        if (error.message.includes("Unsupported franchise")) {
+          throw new HttpsError("invalid-argument", error.message);
+        }
+      }
+
+      throw new HttpsError("internal", "Failed to analyze character match");
     }
   }
 );
