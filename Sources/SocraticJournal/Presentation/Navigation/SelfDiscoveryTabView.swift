@@ -9,6 +9,7 @@ import SwiftUI
 public struct SelfDiscoveryTabView: View {
     @State private var viewModel: SelfDiscoveryViewModel
     @State private var showingCharacterDiscovery = false
+    @State private var showingCharacterQuiz = false
     @Environment(ThemeManager.self) private var themeManager
 
     private let repository: JournalRepositoryProtocol
@@ -65,6 +66,16 @@ public struct SelfDiscoveryTabView: View {
                         repository: repository,
                         notificationService: notificationService,
                         settingsRepository: settingsRepository
+                    )
+                    .environment(themeManager)
+                    .preferredColorScheme(themeManager.colorScheme)
+                }
+                .fullScreenCover(isPresented: $showingCharacterQuiz) {
+                    CharacterQuizView(
+                        viewModel: CharacterQuizViewModel(
+                            repository: repository,
+                            quizService: MockCharacterQuizService()
+                        )
                     )
                     .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
@@ -145,15 +156,30 @@ public struct SelfDiscoveryTabView: View {
             // Personality Card - Uses DiscoveryCard component
             personalityCard
 
+            // Character Quiz Card - Uses DiscoveryCard component
+            characterQuizCard
+
             // Letters Card - Uses DiscoveryCard component
             lettersCard
 
             // Other features (coming soon)
-            ForEach(viewModel.features.filter { $0.id != "personality" && $0.id != "letters" }) { feature in
+            ForEach(viewModel.features.filter { $0.id != "personality" && $0.id != "letters" && $0.id != "character" }) { feature in
                 DiscoveryFeatureCard(feature: feature) {
                     viewModel.selectFeature(feature)
                 }
             }
+        }
+    }
+
+    private var characterQuizCard: some View {
+        DiscoveryCard(
+            icon: "person.crop.circle.badge.questionmark.fill",
+            title: "Which Character Am I?",
+            subtitle: "Discover which fictional character matches your personality",
+            badge: .new,
+            accentColor: .orange
+        ) {
+            showingCharacterQuiz = true
         }
     }
 

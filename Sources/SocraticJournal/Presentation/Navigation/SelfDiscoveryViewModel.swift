@@ -111,10 +111,10 @@ public final class SelfDiscoveryViewModel {
             SelfDiscoveryFeature(
                 id: "character",
                 title: "Which Character Am I?",
-                subtitle: "Find your philosophical archetype",
-                icon: "person.crop.circle.badge.questionmark",
+                subtitle: "Discover which fictional character matches your personality",
+                icon: "person.crop.circle.badge.questionmark.fill",
                 color: .orange,
-                isAvailable: false
+                isAvailable: true
             ),
             SelfDiscoveryFeature(
                 id: "letters",
