@@ -11,7 +11,6 @@ import SwiftUI
 public struct HomeTabView: View {
     @Bindable var viewModel: HomeViewModel
     @State private var showingLettersList: Bool = false
-    @State private var showingWisdomQuotes: Bool = false
     @State private var showingSettings: Bool = false
     @State private var selectedSession: JournalSession?
     @Environment(ThemeManager.self) private var themeManager
@@ -68,15 +67,6 @@ public struct HomeTabView: View {
                     )
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
-                    .preferredColorScheme(themeManager.colorScheme)
-                }
-                .fullScreenCover(isPresented: $showingWisdomQuotes) {
-                    WisdomQuotesView(
-                        viewModel: WisdomQuotesViewModel(
-                            quoteService: LocalWisdomQuoteService()
-                        )
-                    )
-                    .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
                 }
                 .fullScreenCover(isPresented: $showingSettings) {
@@ -253,20 +243,11 @@ public struct HomeTabView: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
-            HStack(spacing: 16) {
-                Button {
-                    showingWisdomQuotes = true
-                } label: {
-                    Image(systemName: "quote.bubble")
-                        .font(.title3)
-                }
-
-                Button {
-                    showingSettings = true
-                } label: {
-                    Image(systemName: "gearshape.fill")
-                        .font(.title3)
-                }
+            Button {
+                showingSettings = true
+            } label: {
+                Image(systemName: "gearshape.fill")
+                    .font(.title3)
             }
         }
     }
