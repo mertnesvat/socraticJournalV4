@@ -23,12 +23,20 @@ public final class FirebaseFunctionsService: FirebaseFunctionsServiceProtocol, @
 
     private init() {
         self.functions = Functions.functions()
-        #if DEBUG
-        // Use Firebase emulator for local development
-        // Run `cd Firebase && npx firebase emulators:start --only functions` to start the emulator
-        functions.useEmulator(withHost: "127.0.0.1", port: 5001)
-        print("[FirebaseFunctions] Service initialized with EMULATOR at 127.0.0.1:5001")
-        #endif
+
+        // Configure emulator based on build configuration (set via xcconfig)
+        if AppEnvironment.Firebase.useEmulator {
+            let host = AppEnvironment.Firebase.emulatorHost
+            let port = AppEnvironment.Firebase.functionsEmulatorPort
+            functions.useEmulator(withHost: host, port: port)
+            #if DEBUG
+            print("[FirebaseFunctions] Service initialized with EMULATOR at \(host):\(port)")
+            #endif
+        } else {
+            #if DEBUG
+            print("[FirebaseFunctions] Service initialized with PRODUCTION Firebase")
+            #endif
+        }
     }
 
     // MARK: - FirebaseFunctionsServiceProtocol

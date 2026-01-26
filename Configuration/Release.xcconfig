@@ -1,0 +1,19 @@
+// Release.xcconfig
+// Configuration settings for Release builds
+// Copyright 2024 StudioNext
+
+// MARK: - Firebase Configuration
+// Use production Firebase (no emulator)
+FIREBASE_USE_EMULATOR = NO
+FIREBASE_EMULATOR_HOST =
+FIREBASE_FUNCTIONS_EMULATOR_PORT =
+FIREBASE_FIRESTORE_EMULATOR_PORT =
+FIREBASE_AUTH_EMULATOR_PORT =
+
+// MARK: - Build Flags
+// No DEBUG flag for release builds
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited)
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited)
+
+// MARK: - Info.plist Values
+// These values can be accessed via Info.plist using $(FIREBASE_USE_EMULATOR)

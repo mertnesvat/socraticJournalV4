@@ -30,12 +30,20 @@ public final class FirebaseCharacterQuizService: CharacterQuizServiceProtocol, @
     ) {
         self.functions = Functions.functions()
         self.localService = localService
-        #if DEBUG
-        // Use Firebase emulator for local development
-        // Run `cd Firebase && npx firebase emulators:start --only functions` to start the emulator
-        functions.useEmulator(withHost: "127.0.0.1", port: 5001)
-        print("[FirebaseCharacterQuiz] Service initialized with EMULATOR at 127.0.0.1:5001")
-        #endif
+
+        // Configure emulator based on build configuration (set via xcconfig)
+        if AppEnvironment.Firebase.useEmulator {
+            let host = AppEnvironment.Firebase.emulatorHost
+            let port = AppEnvironment.Firebase.functionsEmulatorPort
+            functions.useEmulator(withHost: host, port: port)
+            #if DEBUG
+            print("[FirebaseCharacterQuiz] Service initialized with EMULATOR at \(host):\(port)")
+            #endif
+        } else {
+            #if DEBUG
+            print("[FirebaseCharacterQuiz] Service initialized with PRODUCTION Firebase")
+            #endif
+        }
     }
 
     // MARK: - CharacterQuizServiceProtocol
@@ -187,28 +195,41 @@ public final class FirebaseCharacterQuizService: CharacterQuizServiceProtocol, @
             throw CharacterQuizError.invalidResponse
         }
 
-        // Parse matches array
-        guard let matchesArray = responseDict["matches"] as? [[String: Any]] else {
+        // Parse single match object (new format)
+        guard let matchDict = responseDict["match"] as? [String: Any] else {
             throw CharacterQuizError.invalidResponse
         }
 
-        let matches: [CharacterMatch] = try matchesArray.map { matchDict in
-            guard
-                let characterId = matchDict["characterId"] as? String,
-                let characterName = matchDict["characterName"] as? String,
-                let confidence = matchDict["confidence"] as? Double,
-                let reasoning = matchDict["reasoning"] as? String
-            else {
-                throw CharacterQuizError.invalidResponse
-            }
-
-            return CharacterMatch(
-                characterId: characterId,
-                characterName: characterName,
-                confidence: confidence,
-                reasoning: reasoning
-            )
+        guard
+            let characterId = matchDict["characterId"] as? String,
+            let characterName = matchDict["characterName"] as? String,
+            let confidence = matchDict["confidence"] as? Double,
+            let reasoning = matchDict["reasoning"] as? String
+        else {
+            throw CharacterQuizError.invalidResponse
         }
+
+        // Parse excerpts array
+        var excerpts: [JournalExcerpt] = []
+        if let excerptsArray = matchDict["excerpts"] as? [[String: Any]] {
+            excerpts = excerptsArray.compactMap { excerptDict in
+                guard
+                    let text = excerptDict["text"] as? String,
+                    let relevance = excerptDict["relevance"] as? String
+                else {
+                    return nil
+                }
+                return JournalExcerpt(text: text, relevance: relevance)
+            }
+        }
+
+        let match = CharacterMatch(
+            characterId: characterId,
+            characterName: characterName,
+            confidence: confidence,
+            reasoning: reasoning,
+            excerpts: excerpts
+        )
 
         // Parse universe
         guard let universe = responseDict["universe"] as? String else {
@@ -227,8 +248,9 @@ public final class FirebaseCharacterQuizService: CharacterQuizServiceProtocol, @
             generatedAt = Date()
         }
 
+        // Return with single match in array (for backward compatibility)
         return CharacterMatchResult(
-            matches: matches,
+            matches: [match],
             universe: universe,
             analysisSummary: analysisSummary,
             generatedAt: generatedAt

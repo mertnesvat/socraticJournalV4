@@ -50,7 +50,8 @@ public final class MockCharacterQuizService: CharacterQuizServiceProtocol, @unch
                 characterId: character.id,
                 characterName: character.name,
                 confidence: [0.85, 0.72, 0.58][index],
-                reasoning: generateSampleReasoning(for: character)
+                reasoning: generateSampleReasoning(for: character),
+                excerpts: [] // Sample matches don't include excerpts
             )
         }
 
@@ -65,11 +66,13 @@ public final class MockCharacterQuizService: CharacterQuizServiceProtocol, @unch
     // MARK: - Private Helpers
 
     private func generateMatches(
-        from journalEntries: [String],
+        from journalEntries: [JournalEntryData],
         universe: FictionalUniverse
     ) -> [CharacterMatch] {
+        // Extract answer texts from journal entries
+        let entryTexts = journalEntries.map { "\($0.question)\n\($0.answer)" }
         // Extract traits from journal entries
-        let extractedTraits = extractTraits(from: journalEntries)
+        let extractedTraits = extractTraits(from: entryTexts)
 
         // Score each character based on trait matches
         var characterScores: [(character: FictionalCharacter, score: Double)] = []
@@ -102,7 +105,8 @@ public final class MockCharacterQuizService: CharacterQuizServiceProtocol, @unch
                 characterId: item.character.id,
                 characterName: item.character.name,
                 confidence: item.score,
-                reasoning: generateReasoning(for: item.character, traits: extractedTraits)
+                reasoning: generateReasoning(for: item.character, traits: extractedTraits),
+                excerpts: [] // Mock service doesn't provide excerpts
             )
         }
     }

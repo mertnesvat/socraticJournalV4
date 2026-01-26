@@ -39,5 +39,15 @@
     <false/>
     <key>NSUserTrackingUsageDescription</key>
     <string>We use this to measure the effectiveness of our marketing campaigns and improve your app experience.</string>
+    <key>FirebaseUseEmulator</key>
+    <string>$(FIREBASE_USE_EMULATOR)</string>
+    <key>FirebaseEmulatorHost</key>
+    <string>$(FIREBASE_EMULATOR_HOST)</string>
+    <key>FirebaseFunctionsEmulatorPort</key>
+    <string>$(FIREBASE_FUNCTIONS_EMULATOR_PORT)</string>
+    <key>FirebaseFirestoreEmulatorPort</key>
+    <string>$(FIREBASE_FIRESTORE_EMULATOR_PORT)</string>
+    <key>FirebaseAuthEmulatorPort</key>
+    <string>$(FIREBASE_AUTH_EMULATOR_PORT)</string>
 </dict>
 </plist>

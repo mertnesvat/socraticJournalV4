@@ -20,6 +20,9 @@ public struct SocraticJournalApp: App {
     @State private var hasRequestedATT: Bool = false
 
     public init() {
+        // Log environment configuration at startup
+        AppEnvironment.logConfiguration()
+
         // Configure Firebase (must be called before using any Firebase services)
         FirebaseApp.configure()
 

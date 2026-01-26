@@ -214,7 +214,7 @@ private struct AnimatedPercentage: View {
 /// Collapsible section showing match reasoning with optional journal excerpts
 private struct ExpandableReasoningSection: View {
     let reasoning: String
-    let journalExcerpts: [String]
+    let journalExcerpts: [JournalExcerpt]
     @Binding var isExpanded: Bool
 
     var body: some View {
@@ -261,30 +261,43 @@ private struct ExpandableReasoningSection: View {
 
                     // Journal excerpts if available
                     if !journalExcerpts.isEmpty {
-                        VStack(alignment: .leading, spacing: 12) {
+                        VStack(alignment: .leading, spacing: 16) {
                             HStack(spacing: 6) {
                                 Image(systemName: "text.book.closed")
                                     .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(.purple)
 
-                                Text("From your journal")
+                                Text("Evidence from your journal")
                                     .font(.caption)
-                                    .fontWeight(.medium)
+                                    .fontWeight(.semibold)
                                     .foregroundStyle(.secondary)
                             }
 
-                            ForEach(Array(journalExcerpts.prefix(2).enumerated()), id: \.offset) { _, excerpt in
-                                HStack(alignment: .top, spacing: 8) {
-                                    Rectangle()
-                                        .fill(Color.accentColor.opacity(0.5))
-                                        .frame(width: 3)
+                            ForEach(journalExcerpts.prefix(3)) { excerpt in
+                                VStack(alignment: .leading, spacing: 6) {
+                                    // Quote with accent bar
+                                    HStack(alignment: .top, spacing: 10) {
+                                        Rectangle()
+                                            .fill(Color.purple.opacity(0.6))
+                                            .frame(width: 3)
 
-                                    Text(excerpt)
-                                        .font(.subheadline)
-                                        .foregroundStyle(.tertiary)
-                                        .italic()
-                                        .lineLimit(3)
+                                        Text("\"\(excerpt.text)\"")
+                                            .font(.subheadline)
+                                            .foregroundStyle(.primary)
+                                            .italic()
+                                            .lineSpacing(2)
+                                    }
+
+                                    // Relevance explanation
+                                    Text(excerpt.relevance)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                        .padding(.leading, 13)
                                 }
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 12)
+                                .background(Color.purple.opacity(0.05))
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
                             }
                         }
                     }
@@ -328,7 +341,7 @@ public struct CharacterResultCard: View {
     let rank: Int
 
     /// Optional journal excerpts that contributed to the match
-    let journalExcerpts: [String]
+    let journalExcerpts: [JournalExcerpt]
 
     /// Whether to animate the reveal (confidence bar, percentage)
     let animated: Bool
@@ -366,21 +379,21 @@ public struct CharacterResultCard: View {
     ///   - character: The full character entity (optional)
     ///   - universe: The universe the character belongs to
     ///   - rank: The rank of this match (1, 2, or 3)
-    ///   - journalExcerpts: Optional journal excerpts
+    ///   - journalExcerpts: Optional journal excerpts (defaults to match.excerpts)
     ///   - animated: Whether to animate the reveal
     public init(
         match: CharacterMatch,
         character: FictionalCharacter? = nil,
         universe: FictionalUniverse,
         rank: Int,
-        journalExcerpts: [String] = [],
+        journalExcerpts: [JournalExcerpt]? = nil,
         animated: Bool = true
     ) {
         self.match = match
         self.character = character
         self.universe = universe
         self.rank = rank
-        self.journalExcerpts = journalExcerpts
+        self.journalExcerpts = journalExcerpts ?? match.excerpts
         self.animated = animated
     }
 
@@ -543,7 +556,17 @@ public extension View {
         characterId: "lotr-gandalf",
         characterName: "Gandalf",
         confidence: 0.87,
-        reasoning: "Your journal entries reveal a deep wisdom and thoughtful approach to life's challenges. Like Gandalf, you guide others with patience and see the potential in those around you. You often reflect on the bigger picture while remaining grounded in practical wisdom."
+        reasoning: "Your journal entries reveal a deep wisdom and thoughtful approach to life's challenges. Like Gandalf, you guide others with patience and see the potential in those around you. You often reflect on the bigger picture while remaining grounded in practical wisdom.",
+        excerpts: [
+            JournalExcerpt(
+                text: "Today I helped a colleague see a problem from a new perspective",
+                relevance: "Shows your natural inclination to guide and mentor others"
+            ),
+            JournalExcerpt(
+                text: "I find myself thinking about how small actions can lead to big changes",
+                relevance: "Reflects Gandalf's belief in the power of small acts of kindness"
+            )
+        ]
     )
 
     let character = FictionalUniverse.lordOfTheRings.characters.first { $0.id == "lotr-gandalf" }
@@ -554,10 +577,6 @@ public extension View {
             character: character,
             universe: .lordOfTheRings,
             rank: 1,
-            journalExcerpts: [
-                "Today I helped a colleague see a problem from a new perspective...",
-                "I find myself thinking about how small actions can lead to big changes..."
-            ],
             animated: true
         )
         .padding()
@@ -650,7 +669,13 @@ public extension View {
         characterId: "sw-yoda",
         characterName: "Yoda",
         confidence: 0.84,
-        reasoning: "Your reflective nature and appreciation for patience in growth reflect Yoda's ancient wisdom. 'Do or do not, there is no try' - your entries show this determined mindset."
+        reasoning: "Your reflective nature and appreciation for patience in growth reflect Yoda's ancient wisdom. 'Do or do not, there is no try' - your entries show this determined mindset.",
+        excerpts: [
+            JournalExcerpt(
+                text: "Patience is something I've been working on lately",
+                relevance: "Demonstrates your commitment to personal growth through patience"
+            )
+        ]
     )
 
     let character = FictionalUniverse.starWars.characters.first { $0.id == "sw-yoda" }
@@ -661,9 +686,6 @@ public extension View {
             character: character,
             universe: .starWars,
             rank: 1,
-            journalExcerpts: [
-                "Patience is something I've been working on lately..."
-            ],
             animated: false
         )
         .padding()
