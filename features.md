@@ -4,10 +4,10 @@ max_retries: 2
 continue_on_failure: true
 visual_gate_enabled: true
 visual_gate_threshold: 0.7
-bundle_id: com.mertnesvat.SocraticJournal
+bundle_id: com.StudioNext.socraticJournal
 action_logging: true
 
-# Deep Quality Mode (enabled for Firebase integration - critical backend services)
+# Deep Quality Mode (enabled for UX rehaul - critical user experience changes)
 deep_quality_mode: true
 deep_quality_max_retries: 5
 deep_quality_visual_threshold: 0.85
@@ -15,313 +15,437 @@ deep_quality_min_test_coverage: 0.7
 deep_quality_review_gate: true
 ---
 
-# Feature Queue: Firebase Functions Integration for Socratic Journal
+# Feature Queue: UX Rehaul & Character Quiz - Socratic Journal
 
 ## Context
 
-The app was previously built with Flutter and Firebase Functions. Now it's rewritten as a native Swift app. The Firebase Functions backend is already deployed and functional (see `Firebase/functions/`), but the Swift app is not yet connected to these cloud functions.
+The app currently has a two-tab architecture (Home + Statistics) with features accessed via toolbar icons. This rehaul introduces a new **Self-Discovery** tab to consolidate personality insights, character quizzes, and future letters into a dedicated exploration space. The Home tab will become purely journal-focused.
 
-**Available Firebase Functions:**
-- `generateClarityMirror` - AI reflection on user's journal answer
-- `generateFollowUpQuestion` - Socratic follow-up question generation
-- `generateSocratesReaction` - Character reaction to user responses
-- `analyzePersonality` - Big Five personality profile from journal entries
-- `healthCheck` - Backend health monitoring
+**Current State:**
+- Two tabs: Home (calendar, sessions, stats overview) and Statistics
+- Toolbar icons for: Letters, Character Discovery, Wisdom Quotes, Settings
+- Character Discovery uses Big Five personality analysis with unlock system
+- Future Letters accessed via envelope icon in toolbar
+- Wisdom Quotes library accessible from toolbar
 
-**Swift App Status:**
-- Uses Clean Architecture with MVVM
-- Firebase SDK already integrated (Analytics, Messaging, Firestore, Functions dependencies exist)
-- Currently uses mock/local services for AI features
-- Protocol-based dependency injection pattern established
+**Target State:**
+- Three tabs: Home (journal-centric), Self-Discovery (insights hub), Statistics
+- Home focuses purely on journaling: calendar, sessions, quick stats
+- Self-Discovery contains: Character Analysis, Which Character Am I quiz, Future Letters
+- Wisdom Quotes moved to Settings (hidden but accessible)
+- New AI-powered character matching feature with 7+ fictional universes
+
+**Existing Patterns:**
+- Clean Architecture: Protocol in Domain, Implementation in Data
+- MVVM with @Observable @MainActor ViewModels
+- Firebase Functions for AI features via `FirebaseFunctionsService.shared`
+- Tab navigation in `MainTabView.swift`
+- Feature screens in dedicated folders under `/Presentation/`
 
 ---
 
-### 1. Create Firebase Functions Service Layer
+### 1. Create Self-Discovery Tab Infrastructure
 
-Create a centralized Firebase Functions service in Swift that handles all cloud function calls with proper error handling, retry logic, and timeout management.
+Create the new Self-Discovery tab with a cards grid layout that will house all self-insight features.
 
-**User Story:** As a developer, I want a robust Firebase Functions service so that all AI features can reliably communicate with the backend.
+**User Story:** As a user, I want a dedicated space for self-discovery features so that I can explore insights about myself without cluttering my journaling experience.
 
 **Acceptance Criteria:**
-- FirebaseFunctionsService class created following existing service patterns (Sendable singleton)
-- Service handles Firebase Functions callable invocations
-- Proper error types defined for network failures, timeout, and backend errors
-- Configurable timeout settings (default 30 seconds matching backend)
-- Logging for debugging API calls
-- Service protocol defined in Domain layer
+- New `MainTab.selfDiscovery` case added to tab enum
+- `SelfDiscoveryTabView` created with cards grid layout
+- Tab appears between Home and Statistics tabs
+- Tab icon is appropriate (e.g., sparkles, compass, or person.crop.circle.badge.questionmark)
+- Grid shows placeholder cards for: "My Personality", "Which Character Am I?", "Letters to Future Me"
+- Cards are visually distinct and tappable
+- Empty state handled gracefully before features are connected
 
 **Priority:** 1
 **Dependencies:** None
-**Branch Suffix:** -firebase-service
+**Branch Suffix:** -self-discovery-tab
 
-**Technical Notes:**
-- Place protocol at: `Domain/Services/FirebaseFunctionsServiceProtocol.swift`
-- Place implementation at: `Data/Services/FirebaseFunctionsService.swift`
-- Follow pattern from `FirebaseAnalyticsService` (shared singleton, @unchecked Sendable)
-- Use `Functions.functions().httpsCallable()` pattern
+**Implementation Notes:**
+- Add to `Navigation/` folder: `SelfDiscoveryTabView.swift`
+- Create `SelfDiscoveryViewModel.swift` for grid state management
+- Update `MainTabView.swift` to include third tab
+- Use SF Symbols for tab icon
+- Cards should use consistent styling with existing app theme
 
 ---
 
-### 2. Integrate Clarity Mirror AI Generation
+### 2. Create Discovery Card Component
 
-Connect the dialogue session to the `generateClarityMirror` Firebase function so users receive AI-generated empathetic reflections after each answer.
+Create a reusable discovery card component for the Self-Discovery grid that provides consistent visual style and interaction patterns.
 
-**User Story:** As a user, I want to receive thoughtful AI-generated reflections on my journal answers so that I feel understood and validated.
+**User Story:** As a user, I want visually appealing cards that invite me to explore each self-discovery feature.
 
 **Acceptance Criteria:**
-- User completes answering a Socratic question
-- App calls `generateClarityMirror` function with question, answer, and previous exchanges
-- AI-generated mirror text is displayed to the user
-- Graceful fallback to local mock if network fails
-- Loading state shown while waiting for AI response
-- Mirror text is saved with the Exchange entity
+- `DiscoveryCard` component created with: icon, title, subtitle, optional badge
+- Card supports locked/unlocked states visually
+- Card has subtle animation on tap
+- Card shows progress indicator if feature has unlock requirements
+- Consistent styling with app theme (colors, shadows, corners)
+- Cards adapt to different content lengths
+- VoiceOver accessible
 
 **Priority:** 1
-**Dependencies:** 1
-**Branch Suffix:** -clarity-mirror
+**Dependencies:** None
+**Branch Suffix:** -discovery-card
 
-**Integration Points:**
-- Update `DialogueSessionViewModel` to call Firebase function
-- Modify `Exchange` entity if needed to store mirror response
-- Add clarity mirror display in `DialogueSessionView`
+**Implementation Notes:**
+- Place in `Presentation/Components/DiscoveryCard.swift`
+- Support configurable accent colors per card
+- Badge for "New" or notification counts
+- Consider using ViewModifier for card styling
 
 ---
 
-### 3. Integrate Follow-Up Question Generation
+### 3. Move Character Analysis to Self-Discovery
 
-Connect the dialogue flow to the `generateFollowUpQuestion` Firebase function for dynamic, contextual Socratic questions.
+Relocate the existing Character Analysis (Big Five personality) feature from toolbar to Self-Discovery tab as the "My Personality" card.
 
-**User Story:** As a user, I want follow-up questions that respond to what I've shared so that the journaling feels like a real conversation.
+**User Story:** As a user, I want to access my personality analysis from the Self-Discovery tab so that all my personal insights are in one place.
 
 **Acceptance Criteria:**
-- After user answers, app calls `generateFollowUpQuestion` with context
-- AI-generated question replaces static question list (for questions 2-3)
-- First question remains from curated starter set
-- Fallback to local question bank if network fails
-- Question appears naturally in dialogue flow
-- Previous exchanges sent for context continuity
+- "My Personality" card in Self-Discovery grid
+- Tapping card opens existing `CharacterDiscoveryView`
+- Card shows current unlock state (locked/sample/available)
+- Progress percentage shown if not fully unlocked
+- Remove person icon from Home tab toolbar
+- All existing personality analysis functionality preserved
+- Navigation works correctly (back button returns to Self-Discovery)
 
 **Priority:** 1
-**Dependencies:** 1
-**Branch Suffix:** -followup-questions
+**Dependencies:** 1, 2
+**Branch Suffix:** -move-personality
 
-**Integration Points:**
-- Update `QuestionServiceProtocol` to support remote generation
-- Create `FirebaseQuestionService` implementation
-- Modify `DialogueSessionViewModel` question flow
+**Implementation Notes:**
+- Use NavigationLink or sheet presentation
+- Preserve all existing CharacterDiscoveryView behavior
+- Update HomeTabView to remove toolbar button
 
 ---
 
-### 4. Integrate Socrates Character Reactions
+### 4. Move Future Letters to Self-Discovery
 
-Connect to the `generateSocratesReaction` Firebase function to bring the Socrates character to life with contextual reactions.
+Relocate the Future Letters feature from toolbar to Self-Discovery tab as the "Letters to Future Me" card.
 
-**User Story:** As a user, I want Socrates to react naturally to my responses so that the experience feels more engaging and personal.
+**User Story:** As a user, I want to access my future letters from the Self-Discovery tab so that this reflective feature is grouped with other self-insight tools.
 
 **Acceptance Criteria:**
-- After each user answer, app calls `generateSocratesReaction`
-- Reaction text displayed alongside the AI character
-- Reactions describe Socrates' body language/expressions (e.g., "Socrates strokes his beard thoughtfully")
-- Fallback to local reaction set if network fails
-- Reactions cached/saved with session data
+- "Letters to Future Me" card in Self-Discovery grid
+- Tapping card opens existing `LettersListView`
+- Card shows badge with count of ready-to-read letters
+- Envelope icon removed from Home tab toolbar
+- All existing letters functionality preserved
+- Compose letter flow works correctly from new location
+
+**Priority:** 1
+**Dependencies:** 1, 2
+**Branch Suffix:** -move-letters
+
+**Implementation Notes:**
+- Badge shows `repository.getReadyLettersCount()` value
+- Use same navigation pattern as personality card
+- Ensure deep links still work if implemented
+
+---
+
+### 5. Move Wisdom Quotes to Settings
+
+Relocate Wisdom Quotes library from toolbar to Settings screen as a less prominent feature.
+
+**User Story:** As a user, I want wisdom quotes accessible from settings while keeping my main screens focused on core functionality.
+
+**Acceptance Criteria:**
+- "Wisdom Quotes Library" row added to Settings screen
+- Tapping row opens existing `WisdomQuotesView`
+- Quote bubble icon removed from Home tab toolbar
+- All existing wisdom quotes functionality preserved
+- Settings row shows quote count or "Browse quotes" subtitle
 
 **Priority:** 2
-**Dependencies:** 1
-**Branch Suffix:** -socrates-reactions
+**Dependencies:** None
+**Branch Suffix:** -move-wisdom
 
-**Integration Points:**
-- Add reaction display component in dialogue UI
-- Store reactions in `Exchange` entity
-- Create animated/visual representation if desired
+**Implementation Notes:**
+- Add section to SettingsView for "Features" or similar grouping
+- Could group with other secondary features
+- Consider adding Daily Quote toggle in settings too
 
 ---
 
-### 5. Integrate Personality Analysis
+### 6. Simplify Home Tab to Journal-Centric View
 
-Connect to the `analyzePersonality` Firebase function to generate Big Five personality profiles from journal entries.
+Refocus the Home tab purely on journaling by removing discovery-related toolbar icons and keeping only calendar, sessions, and quick stats.
 
-**User Story:** As a user who has journaled multiple times, I want to see an AI-generated personality profile so that I can gain insights into my character traits.
+**User Story:** As a user, I want my Home tab to focus on journaling so I can quickly review my history and start new sessions without distractions.
 
 **Acceptance Criteria:**
-- User with 5+ journal sessions can request personality analysis
-- App calls `analyzePersonality` with journal history
-- Big Five profile (OCEAN) displayed with scores and descriptions
-- Evidence from journal entries shown for each trait
-- Profile saved locally and can be viewed later
-- Loading state during analysis (may take longer ~60s)
-- Clear messaging if insufficient journal entries
+- Home tab shows: Calendar view, Recent sessions list, Quick stats card
+- Toolbar only has: Settings gear icon
+- Floating action button preserved for new session
+- Stats overview card shows: streak, total sessions, last session date
+- Clean, uncluttered layout
+- All journal session functionality preserved
 
 **Priority:** 2
-**Dependencies:** 1
-**Branch Suffix:** -personality-analysis
+**Dependencies:** 3, 4, 5
+**Branch Suffix:** -simplify-home
 
-**Integration Points:**
-- Replace `MockPersonalityAnalysisService` with Firebase implementation
-- Update `CharacterDiscoveryView` and its ViewModel
-- Ensure `BigFiveProfile` entity matches backend response format
+**Implementation Notes:**
+- Remove: Letters icon, Character icon, Wisdom icon from toolbar
+- Keep calendar, session list, and minimal stats
+- Consider moving detailed stats to Statistics tab only
 
 ---
 
-### 6. Add Offline Mode & Sync Queue
+### 7. Create Fictional Universe Data Model
 
-Create a queuing system for Firebase function calls when offline, automatically syncing when connection returns.
+Create the data model for fictional universes and their characters to support the "Which Character Am I?" feature.
 
-**User Story:** As a user with intermittent connectivity, I want to continue journaling offline and have my sessions enhanced with AI when I'm back online.
+**User Story:** As a developer, I need a structured way to represent fictional universes and their characters for the character matching feature.
 
 **Acceptance Criteria:**
-- User can complete full journal sessions offline
-- Pending AI requests queued locally
-- Queue processes automatically when connectivity returns
-- User notified when AI enhancements are added to past sessions
-- No data loss during offline periods
-- Sessions work seamlessly whether online or offline
+- `FictionalUniverse` entity with: id, name, icon, description, characters
+- `FictionalCharacter` entity with: id, name, universe, description, traits, imageAssetName
+- Initial universes defined: Lord of the Rings, Harry Potter, Star Wars, Marvel, DC Comics, Game of Thrones, Narnia
+- At least 10-15 notable characters per universe
+- Characters have personality trait keywords for matching
+- Data stored as local JSON or embedded Swift data
 
 **Priority:** 2
-**Dependencies:** 2, 3, 4
-**Branch Suffix:** -offline-sync
+**Dependencies:** None
+**Branch Suffix:** -universe-models
 
-**Technical Notes:**
-- Consider using Firestore for persistence + sync
-- Implement network reachability monitoring
-- Queue should persist across app restarts
+**Implementation Notes:**
+- Place entities in `Domain/Entities/`
+- Consider `FictionalUniverseRepository` for data access
+- Characters need trait descriptors that map to journal analysis
+- Start with main characters, can expand later
 
 ---
 
-### 7. Create Backend Health Monitoring
+### 8. Create Character Quiz Firebase Function
 
-Implement health check functionality to verify backend availability and provide appropriate user feedback.
+Create the Firebase Function that analyzes journal entries and matches the user's personality to characters from a selected fictional universe.
 
-**User Story:** As a user, I want clear feedback when AI features are unavailable so that I understand why and can still use the app.
+**User Story:** As a user, I want AI to analyze my journal entries and tell me which fictional character I'm most like so I can have fun discovering my personality through beloved characters.
 
 **Acceptance Criteria:**
-- App checks `healthCheck` endpoint on launch
-- Backend status cached and refreshed periodically
-- UI indicates when AI features are degraded/unavailable
-- Automatic failover to local services when backend is down
-- No crashes or hangs if backend is unreachable
+- New Firebase function `matchFictionalCharacter` created
+- Function accepts: journal entries (text), selected universe ID
+- Function returns: top 3 character matches with confidence percentages
+- Each match includes: character name, confidence (0-100%), reasoning from entries
+- Reasoning cites specific themes/patterns from journal entries
+- Function handles all 7 supported universes
+- Appropriate error handling for insufficient journal content
+
+**Priority:** 2
+**Dependencies:** 7
+**Branch Suffix:** -character-function
+
+**Implementation Notes:**
+- Add to `Firebase/functions/src/index.ts`
+- Create `services/characterMatching.ts` for logic
+- Use GPT-4o-mini with structured output for consistent results
+- Prompt should include universe-specific character knowledge
+- Consider caching results for same entries + universe combo
+
+---
+
+### 9. Create Character Quiz Swift Service
+
+Create the Swift service layer to call the character matching Firebase function and handle responses.
+
+**User Story:** As a developer, I want a service that handles character quiz API calls following our existing patterns.
+
+**Acceptance Criteria:**
+- `CharacterQuizServiceProtocol` defined in Domain layer
+- `FirebaseCharacterQuizService` implementation in Data layer
+- Service calls `matchFictionalCharacter` Firebase function
+- Proper request/response types defined
+- Error handling with meaningful error types
+- Timeout of 45 seconds (analysis may take time)
+- Mock service available for testing
+
+**Priority:** 2
+**Dependencies:** 8
+**Branch Suffix:** -character-service
+
+**Implementation Notes:**
+- Follow `PersonalityAnalysisServiceProtocol` pattern
+- Request type: `CharacterMatchRequest(journalEntries: [String], universeId: String)`
+- Response type: `CharacterMatchResult(matches: [CharacterMatch], generatedAt: Date)`
+- `CharacterMatch`: `characterId, characterName, confidence, reasoning`
+
+---
+
+### 10. Create Which Character Am I Quiz View
+
+Create the user interface for the character quiz feature, including universe selection and results display.
+
+**User Story:** As a user, I want to select a fictional universe and see which character I match with, along with why the AI thinks I'm like that character.
+
+**Acceptance Criteria:**
+- "Which Character Am I?" card in Self-Discovery grid
+- Tapping opens universe selection screen
+- Universe selection shows grid of universe cards with icons
+- After selecting universe, analysis runs with loading state
+- Results screen shows top 3 matches:
+  - Character name and image/icon
+  - Confidence percentage with visual bar
+  - Reasoning text citing journal patterns
+- User can try different universes from results screen
+- Results can be shared (optional)
+- Handles case when user has insufficient journal entries
 
 **Priority:** 3
-**Dependencies:** 1
-**Branch Suffix:** -health-monitoring
+**Dependencies:** 2, 9
+**Branch Suffix:** -character-quiz-ui
+
+**Implementation Notes:**
+- Create `Presentation/CharacterQuiz/` folder
+- Views: `CharacterQuizView`, `UniverseSelectionView`, `CharacterResultsView`
+- ViewModel: `CharacterQuizViewModel`
+- Use existing unlock pattern if requiring minimum entries
+- Consider fun animations for reveal
 
 ---
 
-### 8. Add Firebase Function for Wisdom Quote Generation
+### 11. Create Character Results Card Component
 
-Create a new Firebase function that generates contextual wisdom quotes based on user's recent journal themes.
+Create a visually engaging component to display individual character match results with confidence and reasoning.
 
-**User Story:** As a user, I want wisdom quotes that relate to what I've been journaling about so that they feel more personally meaningful.
+**User Story:** As a user, I want to see my character matches displayed in an engaging way that shows the confidence level and explains why I matched.
 
 **Acceptance Criteria:**
-- New Firebase function `generateWisdomQuote-nightprep` created
-- Function analyzes recent journal themes
-- Returns contextually relevant philosophical quote
-- Includes quote source/attribution when available
-- Swift service integration to call this function
-- Fallback to local quote database if unavailable
+- `CharacterResultCard` component displays single character match
+- Shows: character image/icon, name, universe badge, confidence percentage
+- Confidence shown as animated percentage and visual bar
+- Expandable/collapsible reasoning section
+- Visual hierarchy: #1 match larger, #2 and #3 progressively smaller
+- Smooth animations for loading/reveal
+- Accessible with VoiceOver
 
 **Priority:** 3
-**Dependencies:** 1
-**Branch Suffix:** -wisdom-quotes
+**Dependencies:** 10
+**Branch Suffix:** -character-result-card
 
-**Technical Notes:**
-- Create function in `Firebase/functions/src/index.ts`
-- Add service in `Firebase/functions/src/services/`
-- Follow existing function patterns (timeout, error handling)
-- Use branch suffix `-nightprep` for the function name
-
----
-
-### 9. Add Firebase Function for Session Summary Generation
-
-Create a new Firebase function that generates a brief summary of a completed journal session.
-
-**User Story:** As a user, I want a summary of my journal session so that I can quickly recall what I explored.
-
-**Acceptance Criteria:**
-- New Firebase function `generateSessionSummary-nightprep` created
-- Function takes completed session with all exchanges
-- Returns 2-3 sentence summary of session themes
-- Summary highlights key insights and emotions explored
-- Swift integration to call after session completion
-- Summary displayed on session completion screen
-- Summary saved with JournalSession entity
-
-**Priority:** 3
-**Dependencies:** 1
-**Branch Suffix:** -session-summary
-
-**Technical Notes:**
-- Create function with `-nightprep` suffix
-- Follow existing OpenAI integration patterns
-- Consider token limits for summary generation
+**Implementation Notes:**
+- Place in `Presentation/CharacterQuiz/Components/`
+- Consider medal/rank indicators (gold, silver, bronze)
+- Reasoning should show journal entry excerpts if possible
 
 ---
 
-### 10. Add Firebase Function for Letter Enhancement
+### 12. Add Character Quiz History & Favorites
 
-Create a new Firebase function that enhances Future Letters with AI-generated reflection prompts.
+Allow users to view their past character quiz results and save favorites.
 
-**User Story:** As a user writing a letter to my future self, I want thoughtful prompts to guide my reflection so that my letters are more meaningful.
+**User Story:** As a user, I want to see my past character quiz results and save my favorite matches so I can revisit them later.
 
 **Acceptance Criteria:**
-- New Firebase function `enhanceFutureLetter-nightprep` created
-- Function suggests reflection prompts based on letter content
-- Returns 2-3 thought-provoking questions for the user
-- Swift integration in letter composition flow
-- Prompts displayed as optional writing aids
-- Works without disrupting manual letter writing
+- Character quiz results saved locally after each analysis
+- "My Results" section in quiz view showing past results by universe
+- Can favorite/unfavorite character matches
+- Favorites accessible from results view
+- Can re-analyze with updated journal entries
+- Shows when result was generated
+- Can delete old results
 
 **Priority:** 4
-**Dependencies:** 1
-**Branch Suffix:** -letter-enhancement
+**Dependencies:** 10
+**Branch Suffix:** -character-history
 
-**Technical Notes:**
-- Create function with `-nightprep` suffix
-- Integrate with `LetterWritingView` and ViewModel
-- Make prompts optional/dismissable
+**Implementation Notes:**
+- Add `CharacterQuizResult` entity for persistence
+- Add to repository layer
+- Consider showing "personality evolved" if re-analysis differs significantly
+
+---
+
+### 13. Add Universe-Specific Character Assets
+
+Add visual assets (icons or images) for characters and universes to enhance the quiz experience.
+
+**User Story:** As a user, I want to see recognizable images or icons for characters and universes so the experience feels more immersive.
+
+**Acceptance Criteria:**
+- Each universe has a distinctive icon/symbol
+- Major characters have representative icons (can be stylized/abstract due to licensing)
+- Assets work in both light and dark mode
+- Assets are appropriately sized for cards and results
+- Fallback placeholder for characters without custom assets
+- All assets added to asset catalog
+
+**Priority:** 4
+**Dependencies:** 7
+**Branch Suffix:** -character-assets
+
+**Implementation Notes:**
+- Use SF Symbols where possible for universes
+- Consider abstract/stylized character representations
+- Could use emoji as lightweight fallback
+- Add to Assets.xcassets
 
 ---
 
 ## Implementation Order
 
 ```
-1. Firebase Functions Service Layer (foundation)
-   |
-   +-- 2. Clarity Mirror Integration
-   |
-   +-- 3. Follow-Up Question Integration
-   |
-   +-- 4. Socrates Reactions Integration
-   |
-   +-- 5. Personality Analysis Integration
-   |       |
-   |       +-- 6. Offline Mode & Sync Queue
-   |
-   +-- 7. Health Monitoring (parallel)
-   |
-   +-- 8. Wisdom Quote Function (parallel)
-   |
-   +-- 9. Session Summary Function (parallel)
-   |
-   +-- 10. Letter Enhancement Function (parallel)
+Phase 1 - Tab Infrastructure (Parallel)
+├── 1. Self-Discovery Tab Infrastructure
+├── 2. Discovery Card Component
+└── 7. Fictional Universe Data Model
+
+Phase 2 - Feature Relocation (Sequential)
+├── 3. Move Character Analysis to Self-Discovery (needs 1, 2)
+├── 4. Move Future Letters to Self-Discovery (needs 1, 2)
+├── 5. Move Wisdom Quotes to Settings
+└── 6. Simplify Home Tab (needs 3, 4, 5)
+
+Phase 3 - Character Quiz Backend (Sequential)
+├── 8. Character Quiz Firebase Function (needs 7)
+└── 9. Character Quiz Swift Service (needs 8)
+
+Phase 4 - Character Quiz UI (Sequential)
+├── 10. Character Quiz View (needs 2, 9)
+└── 11. Character Result Card (needs 10)
+
+Phase 5 - Polish (Parallel)
+├── 12. Character Quiz History & Favorites (needs 10)
+└── 13. Universe-Specific Character Assets (needs 7)
 ```
 
 ## Notes for Night Agent
 
-- All new Firebase functions should have `-nightprep` suffix to avoid conflicts with other branches
-- Follow existing Clean Architecture patterns (Protocol in Domain, Implementation in Data)
-- Use `@unchecked Sendable` and `shared` singleton pattern for services
-- Ensure fallback to mock services on any failure
-- Test with Firebase emulator if possible before deployment
-- Consider rate limiting on client side to avoid excessive API calls
-- All services should be injectable for testing
+- **Deep Quality Mode is ON** - This is a major UX rehaul affecting navigation patterns
+- All new views should follow existing SwiftUI patterns (NavigationStack, @Observable)
+- Preserve all existing functionality when relocating features
+- The Self-Discovery tab should feel inviting and exploration-focused
+- Character quiz should be fun and engaging, not overly serious
+- Use consistent spacing, colors, and typography with existing app
+- Test navigation flows thoroughly - especially back button behavior
+- The character matching AI should provide thoughtful, personalized reasoning
+- Consider accessibility throughout (VoiceOver, Dynamic Type)
 
-## Existing Backend Reference
+## Supported Fictional Universes (Initial Launch)
 
-The Firebase Functions are located at `Firebase/functions/src/`:
-- `index.ts` - Function exports (generateClarityMirror, generateFollowUpQuestion, generateSocratesReaction, analyzePersonality, healthCheck)
-- `services/openai.ts` - OpenAI integration for most functions
-- `services/personality.ts` - Personality analysis service
+1. **Lord of the Rings** - Frodo, Aragorn, Gandalf, Legolas, Gimli, Boromir, Sam, Gollum, Eowyn, Faramir
+2. **Harry Potter** - Harry, Hermione, Ron, Dumbledore, Snape, Luna, Neville, Draco, Hagrid, McGonagall
+3. **Star Wars** - Luke, Leia, Han, Obi-Wan, Yoda, Vader, Rey, Kylo, Ahsoka, Mandalorian
+4. **Marvel** - Iron Man, Captain America, Thor, Black Widow, Spider-Man, Hulk, Black Panther, Scarlet Witch, Doctor Strange, Groot
+5. **DC Comics** - Batman, Superman, Wonder Woman, Aquaman, Flash, Green Lantern, Joker, Harley Quinn, Alfred, Catwoman
+6. **Game of Thrones** - Jon Snow, Daenerys, Tyrion, Arya, Cersei, Jaime, Sansa, Brienne, The Hound, Varys
+7. **Narnia** - Aslan, Peter, Susan, Edmund, Lucy, White Witch, Reepicheep, Mr. Tumnus, Caspian, Puddleglum
 
-Model used: `gpt-4o-mini` with Firebase secrets for API key management.
+## Character Matching Approach
+
+The AI should analyze journal entries for:
+- **Themes**: What topics does the user reflect on? (duty, adventure, relationships, power, justice)
+- **Emotional patterns**: How do they process emotions? (introspective, action-oriented, empathetic)
+- **Decision-making**: How do they approach choices? (logical, intuitive, values-driven)
+- **Relationships**: How do they view connections with others? (loyal, independent, protective)
+- **Growth mindset**: How do they handle challenges? (resilient, cautious, transformative)
+
+Then map these patterns to character archetypes in each universe, providing specific reasoning tied to actual journal content.
