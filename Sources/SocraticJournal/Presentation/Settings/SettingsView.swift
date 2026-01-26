@@ -14,6 +14,7 @@ public extension Notification.Name {
 public struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(ThemeManager.self) private var themeManager
+    @Environment(SuperwallService.self) private var subscriptionService
     @State private var viewModel: SettingsViewModel
     @State private var showingExportView: Bool = false
 
@@ -77,6 +78,9 @@ public struct SettingsView: View {
         } else {
             ScrollView {
                 VStack(spacing: 20) {
+                    // Subscription section (first for prominence)
+                    SubscriptionSectionView()
+
                     // Appearance section
                     ThemeSelectorView(
                         selectedTheme: Binding(
@@ -194,5 +198,7 @@ struct ShareSheet: UIViewControllerRepresentable {
             journalRepository: InMemoryJournalRepository()
         )
     )
+    .environment(ThemeManager.shared)
+    .environment(SuperwallService.shared)
 }
 #endif

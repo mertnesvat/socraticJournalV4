@@ -16,6 +16,7 @@ public struct HomeTabView: View {
     @State private var showingSettings: Bool = false
     @State private var selectedSession: JournalSession?
     @Environment(ThemeManager.self) private var themeManager
+    @Environment(SuperwallService.self) private var subscriptionService
     private let repository: JournalRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol?
@@ -99,6 +100,7 @@ public struct HomeTabView: View {
                         )
                     )
                     .environment(themeManager)
+                    .environment(subscriptionService)
                     .preferredColorScheme(themeManager.colorScheme)
                 }
         }
@@ -298,5 +300,6 @@ public struct HomeTabView: View {
         onStatsCardTapped: { print("Stats tapped") }
     )
     .environment(ThemeManager.shared)
+    .environment(SuperwallService.shared)
 }
 #endif

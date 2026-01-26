@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0047B39B7559AD5B4D2A724A /* ThemeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */; };
 		007A7A769FAAB905E1FFCE3D /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682ED01B4319D5F5C3D55937 /* HomeTabView.swift */; };
 		01A4D34BB1F4DE33696018E9 /* UnlockCountdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027EBBA9DD429C76140BF933 /* UnlockCountdown.swift */; };
+		05995DAF8F22AC7406D89DEC /* SubscriptionServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC02A1182B94FB55F6FA910 /* SubscriptionServiceProtocol.swift */; };
 		060DCDE2F8D2095C6DA7AC4E /* SocraticJournal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */; };
 		07069E391D329A9F618C12A6 /* ClarityScoreDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47625E61F7824371D5D3C080 /* ClarityScoreDisplay.swift */; };
 		071ADAC56D03A9BE9771A847 /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA319170D73C64374D137E1 /* ProgressIndicator.swift */; };
@@ -59,6 +60,8 @@
 		6046F01D721F4D503862AD8A /* LetterDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0C2398B2D95A1A21365378 /* LetterDetailViewModel.swift */; };
 		60B99C11288FC9AF6284BA27 /* ClarityMirrorCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6AC3DBE090228AA8AA335 /* ClarityMirrorCard.swift */; };
 		61071B0D365402AB94E55047 /* JournalSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0F875DE3FFDCAE6706F0EA /* JournalSession.swift */; };
+		6198415334E45B03DCE8ACDE /* SubscriptionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA8247248BB1D034EEF0594 /* SubscriptionStatus.swift */; };
+		6CC744C6A687DFABFEFF2CEC /* SuperwallKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7FA6AA9F65F49AB6382A599E /* SuperwallKit */; };
 		7028FA904E6C1A0FFE7CCF07 /* BigFiveProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CA094076238AED5C929709 /* BigFiveProfile.swift */; };
 		73CD5841CBF2A74464566DF3 /* StatsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51359D9BF5E1376FF3BD9CC5 /* StatsCardView.swift */; };
 		74957D7694A43BADB98848D7 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A7CDC0F93CF5FA1E9145C7 /* StatisticsView.swift */; };
@@ -111,6 +114,7 @@
 		D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */; };
 		D81E7022392CDED7E2042358 /* InsightCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFFF8D30FAF886D171C9274 /* InsightCardView.swift */; };
 		D8698435192D45E3B7566C4E /* OnboardingWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5008BD267656811454CD5B7 /* OnboardingWelcomeView.swift */; };
+		D8DB86BBCD8F21154E3AE82A /* SuperwallService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEA419FD3D9AE1826B1DDA /* SuperwallService.swift */; };
 		DBD6A4B15FC05F7E2CD14C0B /* LocalWisdomQuoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739C432FE1792495D5A2F2E6 /* LocalWisdomQuoteService.swift */; };
 		DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */; };
 		E4E9903DE0C900BE356D23BD /* ActionButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDC37B5290D6F269F3248F1 /* ActionButtonsView.swift */; };
@@ -121,6 +125,7 @@
 		E8C712A34325B42128EB8771 /* QuoteCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176D26E7799BC7BE0D223DBB /* QuoteCard.swift */; };
 		E9A3ABA31C030C2A414A9AD4 /* ExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699F2A1ACE6C94D2C4FB4067 /* ExportViewModel.swift */; };
 		E9D3BBDED85CC7C4DDE7E31E /* ComposeLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B461BF8A630AA06CDC229D56 /* ComposeLetterView.swift */; };
+		EA13762053C91915F5D6AD41 /* SubscriptionSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7951500A80237A83686953 /* SubscriptionSectionView.swift */; };
 		EC6580998DC214CA8545B523 /* OnboardingGuidedReflectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74F8DB126415AC697472C6 /* OnboardingGuidedReflectionView.swift */; };
 		F065616CB306694C7E7B82A1 /* DailyWisdomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98469BCCDC72A8A90DFD1972 /* DailyWisdomView.swift */; };
 		F52CD99714AC84E18979C869 /* FirebasePersonalityAnalysisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25F08F80283ED9CF2A62F36 /* FirebasePersonalityAnalysisService.swift */; };
@@ -137,6 +142,7 @@
 		07E66E8339102D55766233C1 /* WisdomQuoteServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomQuoteServiceProtocol.swift; sourceTree = "<group>"; };
 		176D26E7799BC7BE0D223DBB /* QuoteCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCard.swift; sourceTree = "<group>"; };
 		1A77CB1C80F2854649956335 /* StatisticsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsTabView.swift; sourceTree = "<group>"; };
+		1ABEA419FD3D9AE1826B1DDA /* SuperwallService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperwallService.swift; sourceTree = "<group>"; };
 		1B05FDBE0577AEC49338C5B2 /* DurationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationPicker.swift; sourceTree = "<group>"; };
 		1EDC37B5290D6F269F3248F1 /* ActionButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonsView.swift; sourceTree = "<group>"; };
 		25D7A691701986207C44E40E /* ExchangeDetailCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeDetailCard.swift; sourceTree = "<group>"; };
@@ -154,13 +160,15 @@
 		47625E61F7824371D5D3C080 /* ClarityScoreDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClarityScoreDisplay.swift; sourceTree = "<group>"; };
 		48A85539E50453CB3BEA69A7 /* MockQuestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQuestionService.swift; sourceTree = "<group>"; };
 		4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSyncHandler.swift; sourceTree = "<group>"; };
-		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51359D9BF5E1376FF3BD9CC5 /* StatsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCardView.swift; sourceTree = "<group>"; };
 		52B081E4933C5D95CFDB2AA0 /* JSONDataExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDataExportService.swift; sourceTree = "<group>"; };
 		58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		58D8FE753B241A8EC717E08F /* WisdomQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomQuote.swift; sourceTree = "<group>"; };
 		59EF2E8B120F1677BC908310 /* ThemeFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFilterView.swift; sourceTree = "<group>"; };
 		5BBC921E31BBF56315A0DA55 /* InMemoryJournalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryJournalRepository.swift; sourceTree = "<group>"; };
+		5E7951500A80237A83686953 /* SubscriptionSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionSectionView.swift; sourceTree = "<group>"; };
+		5EA8247248BB1D034EEF0594 /* SubscriptionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionStatus.swift; sourceTree = "<group>"; };
 		5FDE01830F0959A72723F0DD /* AppReviewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewService.swift; sourceTree = "<group>"; };
 		602C804EC1312F2F283F8072 /* LetterDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterDetailView.swift; sourceTree = "<group>"; };
 		612D960CE6F192A59D33BF3D /* TrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendChartView.swift; sourceTree = "<group>"; };
@@ -168,6 +176,7 @@
 		66CA094076238AED5C929709 /* BigFiveProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigFiveProfile.swift; sourceTree = "<group>"; };
 		682ED01B4319D5F5C3D55937 /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
 		699F2A1ACE6C94D2C4FB4067 /* ExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewModel.swift; sourceTree = "<group>"; };
+		6CC02A1182B94FB55F6FA910 /* SubscriptionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionServiceProtocol.swift; sourceTree = "<group>"; };
 		6DA93CEF67CF4AB69ACAD52F /* FirebaseFunctionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctionsService.swift; sourceTree = "<group>"; };
 		6E3362361FF92E8D631D6B71 /* JournalStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalStats.swift; sourceTree = "<group>"; };
 		6E95109CA1CBF0D1BFF2836A /* SessionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailViewModel.swift; sourceTree = "<group>"; };
@@ -264,6 +273,7 @@
 				FFD6A44603614E7B7C030FAC /* FirebaseFunctions in Frameworks */,
 				FD764235B722DD5F364C9850 /* FirebaseMessaging in Frameworks */,
 				85A6BB1CEF18A306B05B72AD /* AppsFlyerLib in Frameworks */,
+				6CC744C6A687DFABFEFF2CEC /* SuperwallKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +365,7 @@
 				B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */,
 				A5F3080F0AF1033CD44AE169 /* PersonalityAnalysisServiceProtocol.swift */,
 				F8261CB374216451CFA6D81F /* QuestionServiceProtocol.swift */,
+				6CC02A1182B94FB55F6FA910 /* SubscriptionServiceProtocol.swift */,
 				07E66E8339102D55766233C1 /* WisdomQuoteServiceProtocol.swift */,
 			);
 			path = Services;
@@ -450,6 +461,7 @@
 				7B0F875DE3FFDCAE6706F0EA /* JournalSession.swift */,
 				6E3362361FF92E8D631D6B71 /* JournalStats.swift */,
 				D6B84223758EB94D90551D82 /* PersonalityTrait.swift */,
+				5EA8247248BB1D034EEF0594 /* SubscriptionStatus.swift */,
 				9F4B1E73960A7489D123CF41 /* UserSettings.swift */,
 				58D8FE753B241A8EC717E08F /* WisdomQuote.swift */,
 			);
@@ -620,6 +632,7 @@
 				F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */,
 				4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */,
 				90870259354CA1249E7674EA /* OfflineSyncQueue.swift */,
+				1ABEA419FD3D9AE1826B1DDA /* SuperwallService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -640,6 +653,7 @@
 				F782BF4BCB8611080CE7218E /* AboutView.swift */,
 				C6393671D5BB1907C751541A /* DataManagementView.swift */,
 				A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */,
+				5E7951500A80237A83686953 /* SubscriptionSectionView.swift */,
 				BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */,
 			);
 			path = Components;
@@ -698,6 +712,7 @@
 				20CC8584D9C7E0C1B74D5D56 /* FirebaseFunctions */,
 				7427E0C3061E854EE474F549 /* FirebaseMessaging */,
 				B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */,
+				7FA6AA9F65F49AB6382A599E /* SuperwallKit */,
 			);
 			productName = SocraticJournal;
 			productReference = 5116538D9F07FF35490DCEC7 /* SocraticJournal.app */;
@@ -713,7 +728,6 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					4F597517012D1D2069CFA905 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -730,9 +744,9 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				0FEB5928F96AB8640A1CDC8A /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
+				5FFCB808A029417D727E7762 /* XCRemoteSwiftPackageReference "Superwall-iOS" */,
 				9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -858,7 +872,11 @@
 				4B003C1F1D8857D2E752CADD /* StatisticsViewModel.swift in Sources */,
 				73CD5841CBF2A74464566DF3 /* StatsCardView.swift in Sources */,
 				5D1A7EBEA24754D160ADA56A /* StreakProgressView.swift in Sources */,
+				EA13762053C91915F5D6AD41 /* SubscriptionSectionView.swift in Sources */,
+				05995DAF8F22AC7406D89DEC /* SubscriptionServiceProtocol.swift in Sources */,
+				6198415334E45B03DCE8ACDE /* SubscriptionStatus.swift in Sources */,
 				E7B12C68845400511A4F79FD /* SummaryNarrativeView.swift in Sources */,
+				D8DB86BBCD8F21154E3AE82A /* SuperwallService.swift in Sources */,
 				973819C7AF4DDE9699F479F4 /* ThemeFilterView.swift in Sources */,
 				2353327B27450AF113EF609F /* ThemeManager.swift in Sources */,
 				0047B39B7559AD5B4D2A724A /* ThemeSelectorView.swift in Sources */,
@@ -887,6 +905,7 @@
 				CODE_SIGN_ENTITLEMENTS = SocraticJournal.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 9;
+				DEVELOPMENT_TEAM = 5C6693YG48;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -972,6 +991,7 @@
 				CODE_SIGN_ENTITLEMENTS = SocraticJournal.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 9;
+				DEVELOPMENT_TEAM = 5C6693YG48;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1075,6 +1095,14 @@
 				minimumVersion = 6.15.0;
 			};
 		};
+		5FFCB808A029417D727E7762 /* XCRemoteSwiftPackageReference "Superwall-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/superwall/Superwall-iOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -1100,6 +1128,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		7FA6AA9F65F49AB6382A599E /* SuperwallKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5FFCB808A029417D727E7762 /* XCRemoteSwiftPackageReference "Superwall-iOS" */;
+			productName = SuperwallKit;
 		};
 		B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */ = {
 			isa = XCSwiftPackageProductDependency;
