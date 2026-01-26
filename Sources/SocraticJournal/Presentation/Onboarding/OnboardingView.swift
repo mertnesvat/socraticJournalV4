@@ -20,7 +20,7 @@ public struct OnboardingView: View {
 
     // MARK: - Constants
 
-    private let totalPages = 4
+    private let totalPages = 5
 
     // MARK: - Init
 
@@ -58,11 +58,17 @@ public struct OnboardingView: View {
                 )
                 .tag(2)
 
+                OnboardingSelfDiscoveryView(
+                    onContinue: { advanceToNextPage() },
+                    onSkip: { completeOnboarding() }
+                )
+                .tag(3)
+
                 OnboardingLettersView(
                     onComplete: { completeOnboarding() },
                     onSkip: { completeOnboarding() }
                 )
-                .tag(3)
+                .tag(4)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .animation(.easeInOut(duration: 0.3), value: currentPage)

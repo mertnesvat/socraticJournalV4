@@ -109,6 +109,9 @@ final class CharacterQuizResultViewModel {
                 franchise: franchise
             )
 
+            // Save the result to history
+            try? await quizService.saveQuizResult(result)
+
             viewState = .loaded(result)
 
             // Trigger animation after brief delay

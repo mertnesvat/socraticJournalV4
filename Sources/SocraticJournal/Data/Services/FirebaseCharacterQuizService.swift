@@ -15,6 +15,13 @@ public final class FirebaseCharacterQuizService: CharacterQuizServiceProtocol, @
 
     private let functions: Functions
     private let localService: CharacterQuizServiceProtocol
+    private let defaults: UserDefaults
+
+    /// UserDefaults key for quiz history storage
+    private let historyKey = "characterQuizHistory"
+
+    /// Maximum number of results to keep in history
+    private let maxHistoryCount = 20
 
     /// Timeout for character analysis (extended for complex AI analysis)
     private let analysisTimeout: TimeInterval = 60
@@ -23,10 +30,12 @@ public final class FirebaseCharacterQuizService: CharacterQuizServiceProtocol, @
     public let minimumEntriesRequired: Int = 5
 
     private init(
-        localService: CharacterQuizServiceProtocol = MockCharacterQuizService()
+        localService: CharacterQuizServiceProtocol = MockCharacterQuizService(),
+        defaults: UserDefaults = .standard
     ) {
         self.functions = Functions.functions()
         self.localService = localService
+        self.defaults = defaults
 
         #if DEBUG
         print("[FirebaseCharacterQuiz] Service initialized")
@@ -127,6 +136,55 @@ public final class FirebaseCharacterQuizService: CharacterQuizServiceProtocol, @
         #endif
 
         return try await localService.generateSampleResult(for: franchise)
+    }
+
+    // MARK: - Quiz History
+
+    public func saveQuizResult(_ result: CharacterQuizResult) async throws {
+        var history = try await getQuizHistory()
+
+        // Add new result at the beginning (newest first)
+        history.insert(result, at: 0)
+
+        // Limit history to maxHistoryCount results
+        if history.count > maxHistoryCount {
+            history = Array(history.prefix(maxHistoryCount))
+        }
+
+        // Persist to UserDefaults
+        let data = try JSONEncoder().encode(history)
+        defaults.set(data, forKey: historyKey)
+
+        #if DEBUG
+        print("[FirebaseCharacterQuiz] Saved quiz result. History count: \(history.count)")
+        #endif
+    }
+
+    public func getQuizHistory() async throws -> [CharacterQuizResult] {
+        guard let data = defaults.data(forKey: historyKey) else {
+            return []
+        }
+
+        do {
+            let history = try JSONDecoder().decode([CharacterQuizResult].self, from: data)
+            // Ensure history is sorted by date (newest first)
+            return history.sorted { $0.analyzedAt > $1.analyzedAt }
+        } catch {
+            #if DEBUG
+            print("[FirebaseCharacterQuiz] Failed to decode quiz history: \(error)")
+            #endif
+            return []
+        }
+    }
+
+    public func getLatestResult() async throws -> CharacterQuizResult? {
+        let history = try await getQuizHistory()
+        return history.first
+    }
+
+    public func getLatestResult(for franchise: Franchise) async throws -> CharacterQuizResult? {
+        let history = try await getQuizHistory()
+        return history.first { $0.franchise == franchise }
     }
 
     // MARK: - Private Helpers

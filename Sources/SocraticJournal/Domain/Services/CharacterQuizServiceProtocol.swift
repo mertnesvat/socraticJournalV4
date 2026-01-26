@@ -24,6 +24,25 @@ public protocol CharacterQuizServiceProtocol: Sendable {
 
     /// Returns the minimum number of entries required for analysis
     var minimumEntriesRequired: Int { get }
+
+    // MARK: - Quiz History
+
+    /// Saves a quiz result to persistent storage
+    /// - Parameter result: The quiz result to save
+    func saveQuizResult(_ result: CharacterQuizResult) async throws
+
+    /// Retrieves all quiz history, sorted by date (newest first)
+    /// - Returns: Array of all saved quiz results
+    func getQuizHistory() async throws -> [CharacterQuizResult]
+
+    /// Returns the most recent quiz result across all franchises
+    /// - Returns: The latest quiz result, or nil if no history exists
+    func getLatestResult() async throws -> CharacterQuizResult?
+
+    /// Returns the most recent quiz result for a specific franchise
+    /// - Parameter franchise: The franchise to filter by
+    /// - Returns: The latest result for that franchise, or nil if none exists
+    func getLatestResult(for franchise: Franchise) async throws -> CharacterQuizResult?
 }
 
 /// Errors that can occur during character quiz analysis

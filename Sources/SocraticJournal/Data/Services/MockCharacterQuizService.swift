@@ -14,7 +14,65 @@ public final class MockCharacterQuizService: CharacterQuizServiceProtocol, @unch
     /// Simulated delay for realistic preview experience (in seconds)
     private let simulatedDelay: UInt64 = 2_000_000_000 // 2 seconds
 
-    public init() {}
+    /// In-memory storage for quiz history (used in previews/tests)
+    private var quizHistory: [CharacterQuizResult] = []
+
+    /// Whether to use sample history for previews
+    private let useSampleHistory: Bool
+
+    public init(useSampleHistory: Bool = false) {
+        self.useSampleHistory = useSampleHistory
+
+        if useSampleHistory {
+            // Pre-populate with sample history for previews
+            self.quizHistory = Self.createSampleHistory()
+        }
+    }
+
+    /// Creates sample quiz history for preview purposes
+    private static func createSampleHistory() -> [CharacterQuizResult] {
+        let calendar = Calendar.current
+        let now = Date()
+
+        return [
+            // Most recent - Star Wars
+            CharacterQuizResult(
+                franchise: .starWars,
+                matches: [
+                    CharacterMatchEntry(
+                        character: .obiWan,
+                        confidencePercentage: 88,
+                        explanation: "Your reflections demonstrate the patience and wisdom of Obi-Wan Kenobi."
+                    ),
+                    CharacterMatchEntry(
+                        character: .luke,
+                        confidencePercentage: 75,
+                        explanation: "There's a hopeful idealism in your journal entries that echoes Luke Skywalker."
+                    )
+                ],
+                analyzedAt: calendar.date(byAdding: .day, value: -2, to: now) ?? now,
+                journalEntriesUsed: 8
+            ),
+            // Older - Lord of the Rings
+            CharacterQuizResult(
+                franchise: .lordOfTheRings,
+                matches: [
+                    CharacterMatchEntry(
+                        character: .gandalf,
+                        confidencePercentage: 82,
+                        explanation: "Your journal entries reveal a deep wisdom and tendency to guide others."
+                    ),
+                    CharacterMatchEntry(
+                        character: .aragorn,
+                        confidencePercentage: 71,
+                        explanation: "There's a quiet strength in your reflections, reminiscent of Aragorn."
+                    )
+                ],
+                analyzedAt: calendar.date(byAdding: .day, value: -7, to: now) ?? now,
+                journalEntriesUsed: 6
+            )
+        ]
+    }
 
     // MARK: - CharacterQuizServiceProtocol
 
@@ -57,6 +115,33 @@ public final class MockCharacterQuizService: CharacterQuizServiceProtocol, @unch
             analyzedAt: Date(),
             journalEntriesUsed: 10
         )
+    }
+
+    // MARK: - Quiz History
+
+    public func saveQuizResult(_ result: CharacterQuizResult) async throws {
+        // Insert at beginning (newest first)
+        quizHistory.insert(result, at: 0)
+
+        // Keep only last 20 results
+        if quizHistory.count > 20 {
+            quizHistory = Array(quizHistory.prefix(20))
+        }
+    }
+
+    public func getQuizHistory() async throws -> [CharacterQuizResult] {
+        // Return sorted by date (newest first)
+        return quizHistory.sorted { $0.analyzedAt > $1.analyzedAt }
+    }
+
+    public func getLatestResult() async throws -> CharacterQuizResult? {
+        return quizHistory.max { $0.analyzedAt < $1.analyzedAt }
+    }
+
+    public func getLatestResult(for franchise: Franchise) async throws -> CharacterQuizResult? {
+        return quizHistory
+            .filter { $0.franchise == franchise }
+            .max { $0.analyzedAt < $1.analyzedAt }
     }
 
     // MARK: - Private Helpers
