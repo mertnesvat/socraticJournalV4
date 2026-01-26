@@ -11,19 +11,24 @@ public struct SelfDiscoveryTabView: View {
     private let repository: JournalRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol?
+    private let characterQuizService: CharacterQuizServiceProtocol
     @State private var characterDiscoveryViewModel: CharacterDiscoveryViewModel
     @State private var readyLettersCount: Int = 0
     @State private var showingLettersList: Bool = false
+    @State private var showingCharacterQuiz: Bool = false
+    @State private var lastCharacterQuizResult: CharacterQuizResult?
     @Environment(ThemeManager.self) private var themeManager
 
     public init(
         repository: JournalRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
-        notificationService: NotificationServiceProtocol? = nil
+        notificationService: NotificationServiceProtocol? = nil,
+        characterQuizService: CharacterQuizServiceProtocol = FirebaseCharacterQuizService.shared
     ) {
         self.repository = repository
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
+        self.characterQuizService = characterQuizService
         _characterDiscoveryViewModel = State(initialValue: CharacterDiscoveryViewModel(
             repository: repository,
             analysisService: FirebasePersonalityAnalysisService.shared
@@ -36,7 +41,10 @@ public struct SelfDiscoveryTabView: View {
                 .navigationTitle("Discover")
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar { toolbarContent }
-                .task { await loadReadyLettersCount() }
+                .task {
+                    await loadReadyLettersCount()
+                    await loadLastCharacterQuizResult()
+                }
                 .fullScreenCover(isPresented: $showingLettersList) {
                     // Reload ready letters count when letters list is dismissed
                     Task {
@@ -55,6 +63,25 @@ public struct SelfDiscoveryTabView: View {
                     .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
                 }
+                .fullScreenCover(isPresented: $showingCharacterQuiz) {
+                    // Reload last quiz result when quiz is dismissed
+                    Task {
+                        await loadLastCharacterQuizResult()
+                    }
+                } content: {
+                    CharacterQuizFlowView(
+                        repository: repository,
+                        quizService: characterQuizService,
+                        onDismiss: { result in
+                            if let result = result {
+                                lastCharacterQuizResult = result
+                            }
+                            showingCharacterQuiz = false
+                        }
+                    )
+                    .environment(themeManager)
+                    .preferredColorScheme(themeManager.colorScheme)
+                }
         }
     }
 
@@ -67,20 +94,30 @@ public struct SelfDiscoveryTabView: View {
         }
     }
 
+    private func loadLastCharacterQuizResult() async {
+        // TODO: Load from repository when quiz history feature is implemented
+        // For now, result is only stored in memory during session
+    }
+
     @ViewBuilder
     private var content: some View {
         ScrollView {
             VStack(spacing: 24) {
-                // Future Letters Section
-                FutureLettersSection(readyCount: readyLettersCount) {
-                    showingLettersList = true
-                }
-
-                // Section Header for Character Discovery
+                // Section 1: Character Discovery (personality analysis)
                 sectionHeader
 
                 // Character Discovery Content (embedded, not modal)
                 CharacterDiscoveryContentView(viewModel: characterDiscoveryViewModel)
+
+                // Section 2: Character Quiz (NEW)
+                CharacterQuizSection(lastResult: lastCharacterQuizResult) {
+                    showingCharacterQuiz = true
+                }
+
+                // Section 3: Future Letters
+                FutureLettersSection(readyCount: readyLettersCount) {
+                    showingLettersList = true
+                }
 
                 // Extra bottom padding to account for tab bar
                 Spacer(minLength: 100)
@@ -91,6 +128,7 @@ public struct SelfDiscoveryTabView: View {
         .refreshable {
             await characterDiscoveryViewModel.loadData()
             await loadReadyLettersCount()
+            await loadLastCharacterQuizResult()
         }
     }
 
