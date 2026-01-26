@@ -11,7 +11,6 @@ import SwiftUI
 public struct HomeTabView: View {
     @Bindable var viewModel: HomeViewModel
     @State private var showingLettersList: Bool = false
-    @State private var showingCharacterDiscovery: Bool = false
     @State private var showingWisdomQuotes: Bool = false
     @State private var showingSettings: Bool = false
     @State private var selectedSession: JournalSession?
@@ -56,16 +55,6 @@ public struct HomeTabView: View {
                         repository: repository,
                         notificationService: notificationService,
                         settingsRepository: settingsRepository
-                    )
-                    .environment(themeManager)
-                    .preferredColorScheme(themeManager.colorScheme)
-                }
-                .fullScreenCover(isPresented: $showingCharacterDiscovery) {
-                    CharacterDiscoveryView(
-                        viewModel: CharacterDiscoveryViewModel(
-                            repository: repository,
-                            analysisService: FirebasePersonalityAnalysisService.shared
-                        )
                     )
                     .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
@@ -263,15 +252,6 @@ public struct HomeTabView: View {
 
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
-            Button {
-                showingCharacterDiscovery = true
-            } label: {
-                Image(systemName: "person.crop.circle")
-                    .font(.title3)
-            }
-        }
-
         ToolbarItem(placement: .topBarTrailing) {
             HStack(spacing: 16) {
                 Button {
