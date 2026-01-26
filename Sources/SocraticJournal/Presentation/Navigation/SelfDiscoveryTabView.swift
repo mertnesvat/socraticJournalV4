@@ -75,17 +75,32 @@ public struct SelfDiscoveryTabView: View {
     private var mainContent: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Header
-                headerSection
-                    .padding(.horizontal)
+                if viewModel.totalEntries == 0 {
+                    emptyStateView
+                } else if !viewModel.isUnlocked {
+                    // Progress state (1-4 entries)
+                    progressHeaderView
+                        .padding(.horizontal)
 
-                // Personality Profile Card
-                personalityCard
-                    .padding(.horizontal)
+                    // Show cards with locked state
+                    personalityCard
+                        .padding(.horizontal)
 
-                // Character Match Card
-                characterMatchCard
-                    .padding(.horizontal)
+                    characterMatchCard
+                        .padding(.horizontal)
+                } else {
+                    // Unlocked state
+                    Text("Explore who you are through your journal entries")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal)
+
+                    personalityCard
+                        .padding(.horizontal)
+
+                    characterMatchCard
+                        .padding(.horizontal)
+                }
 
                 // Extra bottom spacing for tab bar
                 Spacer(minLength: 100)
@@ -95,41 +110,106 @@ public struct SelfDiscoveryTabView: View {
         .background(Color(uiColor: .systemGroupedBackground))
     }
 
-    private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Explore who you are through your journal entries")
-                .font(.subheadline)
+    private var emptyStateView: some View {
+        VStack(spacing: 24) {
+            Spacer()
+
+            // Sparkles icon
+            Image(systemName: "sparkles")
+                .font(.system(size: 64))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [.purple, .blue],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+
+            Text("Discover Yourself")
+                .font(.title)
+                .fontWeight(.bold)
+
+            Text("Start journaling to unlock powerful insights about your personality and find your fictional character match.")
+                .font(.body)
                 .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32)
 
-            if !viewModel.isUnlocked {
-                HStack(spacing: 8) {
-                    Image(systemName: "lock.fill")
-                        .font(.caption)
-                        .foregroundStyle(.orange)
+            // Feature previews
+            VStack(spacing: 16) {
+                FeaturePreviewRow(
+                    icon: "brain.head.profile",
+                    color: .purple,
+                    title: "Personality Profile",
+                    description: "Big Five analysis from your entries"
+                )
 
-                    Text("\(viewModel.totalEntries)/5 sessions to unlock insights")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                FeaturePreviewRow(
+                    icon: "theatermasks.fill",
+                    color: .blue,
+                    title: "Character Match",
+                    description: "Find your LOTR, HP, or Star Wars match"
+                )
+            }
+            .padding(.horizontal)
+            .padding(.top, 8)
 
-                    Spacer()
+            // Call to action
+            VStack(spacing: 8) {
+                Text("Complete 5 journal sessions to unlock")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
 
-                    // Progress bar
-                    GeometryReader { geo in
-                        ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: 2)
-                                .fill(Color.secondary.opacity(0.2))
-                                .frame(height: 4)
-
-                            RoundedRectangle(cornerRadius: 2)
-                                .fill(Color.orange)
-                                .frame(width: geo.size.width * viewModel.unlockProgress, height: 4)
-                        }
+                HStack(spacing: 4) {
+                    ForEach(0..<5, id: \.self) { _ in
+                        Circle()
+                            .fill(Color.secondary.opacity(0.3))
+                            .frame(width: 10, height: 10)
                     }
-                    .frame(width: 60, height: 4)
                 }
-                .padding(.top, 4)
+            }
+            .padding(.top, 16)
+
+            Spacer()
+            Spacer()
+        }
+        .padding()
+    }
+
+    private var progressHeaderView: some View {
+        VStack(spacing: 16) {
+            // Progress circles
+            HStack(spacing: 8) {
+                ForEach(0..<5, id: \.self) { index in
+                    Circle()
+                        .fill(index < viewModel.totalEntries ? Color.accentColor : Color.secondary.opacity(0.3))
+                        .frame(width: 16, height: 16)
+                        .overlay(
+                            Group {
+                                if index < viewModel.totalEntries {
+                                    Image(systemName: "checkmark")
+                                        .font(.system(size: 8, weight: .bold))
+                                        .foregroundStyle(.white)
+                                }
+                            }
+                        )
+                }
+            }
+
+            // Progress text
+            VStack(spacing: 4) {
+                Text("\(5 - viewModel.totalEntries) more session\(5 - viewModel.totalEntries == 1 ? "" : "s") to unlock")
+                    .font(.headline)
+
+                Text("Keep journaling to discover your personality insights")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
             }
         }
+        .padding()
+        .background(Color(uiColor: .secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     private var personalityCard: some View {
@@ -237,6 +317,42 @@ struct DiscoveryFeatureCard: View {
         .background(Color(uiColor: .systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+    }
+}
+
+/// Preview row for locked features in the empty state
+struct FeaturePreviewRow: View {
+    let icon: String
+    let color: Color
+    let title: String
+    let description: String
+
+    var body: some View {
+        HStack(spacing: 16) {
+            Image(systemName: icon)
+                .font(.title2)
+                .foregroundStyle(color)
+                .frame(width: 32)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+
+                Text(description)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Image(systemName: "lock.fill")
+                .font(.caption)
+                .foregroundStyle(.orange)
+        }
+        .padding()
+        .background(Color(uiColor: .secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
