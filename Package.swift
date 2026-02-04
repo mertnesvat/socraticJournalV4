@@ -15,8 +15,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.0.0"),
-        .package(url: "https://github.com/AppsFlyerSDK/AppsFlyerFramework.git", from: "6.15.0"),
-        .package(url: "https://github.com/superwall/Superwall-iOS.git", from: "4.0.0")
+        .package(url: "https://github.com/AppsFlyerSDK/AppsFlyerFramework.git", from: "6.15.0")
     ],
     targets: [
         .target(
@@ -26,8 +25,7 @@ let package = Package(
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseFunctions", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
-                .product(name: "AppsFlyerLib", package: "AppsFlyerFramework"),
-                .product(name: "SuperwallKit", package: "Superwall-iOS")
+                .product(name: "AppsFlyerLib", package: "AppsFlyerFramework")
             ],
             path: "Sources/SocraticJournal",
             resources: [

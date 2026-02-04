@@ -6,7 +6,6 @@
 import SwiftUI
 import UserNotifications
 import FirebaseCore
-import SuperwallKit
 
 /// Main entry point for the Socratic Journal app
 @main
@@ -16,9 +15,7 @@ public struct SocraticJournalApp: App {
     private let notificationService: NotificationServiceProtocol = LocalNotificationService()
     private let analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
     private let appReviewService: AppReviewService = AppReviewService.shared
-    private let subscriptionService: SubscriptionServiceProtocol = SuperwallService.shared
     @State private var themeManager = ThemeManager.shared
-    @State private var superwallService = SuperwallService.shared
     @State private var showOnboarding: Bool = false
     @State private var hasRequestedATT: Bool = false
 
@@ -28,9 +25,6 @@ public struct SocraticJournalApp: App {
 
         // Configure Firebase (must be called before using any Firebase services)
         FirebaseApp.configure()
-
-        // Configure Superwall for subscription management
-        SuperwallService.shared.configure()
 
         // Configure Firebase Messaging
         FirebaseNotificationService.shared.configure()
@@ -59,7 +53,6 @@ public struct SocraticJournalApp: App {
                 notificationService: notificationService
             )
             .environment(themeManager)
-            .environment(superwallService)
             .preferredColorScheme(themeManager.colorScheme)
             .task {
                 await themeManager.loadTheme()
