@@ -77,22 +77,36 @@ public final class SettingsViewModel {
         notificationPermissionStatus == .denied
     }
 
+    // MARK: - Subscription State
+
+    private(set) var subscriptionStatus: SubscriptionStatus = .free
+    private(set) var isRestoringPurchases: Bool = false
+    var showPaywall: Bool = false
+
+    /// Formatted expiry date for display
+    var subscriptionExpiryDisplay: String? {
+        settings.formattedSubscriptionExpiry
+    }
+
     // MARK: - Dependencies
 
     public let settingsRepository: SettingsRepositoryProtocol
     public let journalRepository: JournalRepositoryProtocol
     public let notificationService: NotificationServiceProtocol?
+    public let subscriptionService: SubscriptionServiceProtocol?
 
     // MARK: - Init
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
         journalRepository: JournalRepositoryProtocol,
-        notificationService: NotificationServiceProtocol? = nil
+        notificationService: NotificationServiceProtocol? = nil,
+        subscriptionService: SubscriptionServiceProtocol? = nil
     ) {
         self.settingsRepository = settingsRepository
         self.journalRepository = journalRepository
         self.notificationService = notificationService
+        self.subscriptionService = subscriptionService
     }
 
     // MARK: - Actions
@@ -106,6 +120,13 @@ public final class SettingsViewModel {
             // Check notification permission status
             if let service = notificationService {
                 notificationPermissionStatus = await service.getPermissionStatus()
+            }
+            // Load subscription status
+            if let subscriptionService = subscriptionService {
+                subscriptionStatus = await subscriptionService.currentStatus()
+                // Update settings with latest status
+                settings.updateSubscriptionState(from: subscriptionStatus)
+                try await settingsRepository.saveSettings(settings)
             }
         } catch {
             self.error = error
@@ -261,6 +282,51 @@ public final class SettingsViewModel {
     public func resetOnboarding() async {
         settings.hasCompletedOnboarding = false
         await saveSettings()
+    }
+
+    // MARK: - Subscription Actions
+
+    /// Shows the paywall sheet
+    public func showUpgradePaywall() {
+        showPaywall = true
+    }
+
+    /// Opens App Store subscription management
+    public func openSubscriptionManagement() {
+        if let url = URL(string: "https://apps.apple.com/account/subscriptions") {
+            UIApplication.shared.open(url)
+        }
+    }
+
+    /// Restores purchases from the App Store
+    public func restorePurchases() async {
+        guard let service = subscriptionService, !isRestoringPurchases else { return }
+
+        isRestoringPurchases = true
+
+        do {
+            let status = try await service.restorePurchases()
+            subscriptionStatus = status
+            settings.updateSubscriptionState(from: status)
+            try await settingsRepository.saveSettings(settings)
+        } catch {
+            self.error = error
+        }
+
+        isRestoringPurchases = false
+    }
+
+    /// Refreshes subscription status after paywall dismissal
+    public func refreshSubscriptionStatus() async {
+        guard let service = subscriptionService else { return }
+
+        subscriptionStatus = await service.currentStatus()
+        settings.updateSubscriptionState(from: subscriptionStatus)
+        do {
+            try await settingsRepository.saveSettings(settings)
+        } catch {
+            self.error = error
+        }
     }
 }
 #endif

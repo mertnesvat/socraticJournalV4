@@ -59,13 +59,36 @@ targets:
       path: SocraticJournal.entitlements
       properties:
         aps-environment: development
+        com.apple.developer.in-app-payments:
+          - merchant.com.StudioNext.socraticJournal
+
+  SocraticJournalTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests/SocraticJournalTests
+        excludes:
+          - "**/.DS_Store"
+    dependencies:
+      - target: SocraticJournal
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournal.tests
+        GENERATE_INFOPLIST_FILE: YES
 
 schemes:
   SocraticJournal:
     build:
       targets:
         SocraticJournal: all
+        SocraticJournalTests: [test]
     run:
       config: Debug
+      storeKitConfiguration: Configuration/Configuration.storekit
+    test:
+      config: Debug
+      storeKitConfiguration: Configuration/Configuration.storekit
+      targets:
+        - SocraticJournalTests
     archive:
       config: Release

@@ -67,6 +67,20 @@ public struct SettingsView: View {
                     .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
                 }
+                .sheet(isPresented: $viewModel.showPaywall) {
+                    if let subscriptionService = viewModel.subscriptionService {
+                        PaywallView(
+                            viewModel: PaywallViewModel(
+                                subscriptionService: subscriptionService
+                            )
+                        )
+                        .environment(themeManager)
+                        .preferredColorScheme(themeManager.colorScheme)
+                        .onDisappear {
+                            Task { await viewModel.refreshSubscriptionStatus() }
+                        }
+                    }
+                }
                 .overlay {
                     if viewModel.showClearDataSuccess {
                         successOverlay
@@ -112,6 +126,22 @@ public struct SettingsView: View {
                         notificationsDenied: viewModel.notificationsDenied,
                         onOpenSettings: {
                             viewModel.openNotificationSettings()
+                        }
+                    )
+
+                    // Subscription section
+                    SubscriptionSettingsView(
+                        subscriptionStatus: viewModel.subscriptionStatus,
+                        expiryDate: viewModel.subscriptionExpiryDisplay,
+                        isRestoring: viewModel.isRestoringPurchases,
+                        onUpgrade: {
+                            viewModel.showUpgradePaywall()
+                        },
+                        onManage: {
+                            viewModel.openSubscriptionManagement()
+                        },
+                        onRestore: {
+                            Task { await viewModel.restorePurchases() }
                         }
                     )
 
