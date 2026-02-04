@@ -17,6 +17,8 @@ public struct HomeTabView: View {
     private let repository: JournalRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol?
+    private let subscriptionService: SubscriptionServiceProtocol?
+    private let analyticsService: AnalyticsServiceProtocol?
     private let onStatsCardTapped: (() -> Void)?
 
     public init(
@@ -24,12 +26,16 @@ public struct HomeTabView: View {
         repository: JournalRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
         notificationService: NotificationServiceProtocol? = nil,
+        subscriptionService: SubscriptionServiceProtocol? = nil,
+        analyticsService: AnalyticsServiceProtocol? = nil,
         onStatsCardTapped: (() -> Void)? = nil
     ) {
         self.viewModel = viewModel
         self.repository = repository
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
+        self.subscriptionService = subscriptionService
+        self.analyticsService = analyticsService
         self.onStatsCardTapped = onStatsCardTapped
     }
 
@@ -56,7 +62,9 @@ public struct HomeTabView: View {
                         viewModel: SettingsViewModel(
                             settingsRepository: settingsRepository,
                             journalRepository: repository,
-                            notificationService: notificationService
+                            notificationService: notificationService,
+                            subscriptionService: subscriptionService,
+                            analyticsService: analyticsService
                         )
                     )
                     .environment(themeManager)

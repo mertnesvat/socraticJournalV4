@@ -60,12 +60,33 @@ targets:
       properties:
         aps-environment: development
 
+  SocraticJournalTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests/SocraticJournalTests
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournalTests
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: SocraticJournal
+
 schemes:
   SocraticJournal:
     build:
       targets:
         SocraticJournal: all
+        SocraticJournalTests: [test]
     run:
       config: Debug
+      storeKitConfiguration: Configuration/StoreKit.storekit
+    test:
+      config: Debug
+      targets:
+        - SocraticJournalTests
+      storeKitConfiguration: Configuration/StoreKit.storekit
     archive:
       config: Release

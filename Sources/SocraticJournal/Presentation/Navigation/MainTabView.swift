@@ -21,6 +21,8 @@ public struct MainTabView: View {
     private let repository: JournalRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol?
+    private let subscriptionService: SubscriptionServiceProtocol?
+    private let analyticsService: AnalyticsServiceProtocol?
 
     // HomeViewModel shared to trigger reload after session
     @State private var homeViewModel: HomeViewModel
@@ -28,11 +30,15 @@ public struct MainTabView: View {
     public init(
         repository: JournalRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
-        notificationService: NotificationServiceProtocol? = nil
+        notificationService: NotificationServiceProtocol? = nil,
+        subscriptionService: SubscriptionServiceProtocol? = nil,
+        analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         self.repository = repository
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
+        self.subscriptionService = subscriptionService
+        self.analyticsService = analyticsService
         _homeViewModel = State(initialValue: HomeViewModel(repository: repository))
     }
 
@@ -45,6 +51,8 @@ public struct MainTabView: View {
                     repository: repository,
                     settingsRepository: settingsRepository,
                     notificationService: notificationService,
+                    subscriptionService: subscriptionService,
+                    analyticsService: analyticsService,
                     onStatsCardTapped: {
                         selectedTab = .statistics
                     }

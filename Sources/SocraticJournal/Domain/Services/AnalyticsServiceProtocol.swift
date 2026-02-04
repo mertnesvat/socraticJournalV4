@@ -52,6 +52,21 @@ public enum AnalyticsEvent: String, Sendable {
     // App review
     case appReviewRequested = "app_review_requested"
     case appReviewCompleted = "app_review_completed"
+
+    // Subscription events
+    case paywallViewed = "paywall_viewed"
+    case paywallDismissed = "paywall_dismissed"
+    case paywallProductsLoaded = "paywall_products_loaded"
+    case paywallProductsLoadFailed = "paywall_products_load_failed"
+    case paywallProductSelected = "paywall_product_selected"
+    case paywallPurchaseStarted = "paywall_purchase_started"
+    case paywallPurchaseCompleted = "paywall_purchase_completed"
+    case paywallPurchaseFailed = "paywall_purchase_failed"
+    case paywallPurchaseCancelled = "paywall_purchase_cancelled"
+    case paywallRestoreStarted = "paywall_restore_started"
+    case paywallRestoreCompleted = "paywall_restore_completed"
+    case paywallRestoreFailed = "paywall_restore_failed"
+    case subscriptionRestored = "subscription_restored"
 }
 
 /// Analytics parameter keys
