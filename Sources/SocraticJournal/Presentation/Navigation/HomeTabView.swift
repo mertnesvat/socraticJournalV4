@@ -56,7 +56,8 @@ public struct HomeTabView: View {
                         viewModel: SettingsViewModel(
                             settingsRepository: settingsRepository,
                             journalRepository: repository,
-                            notificationService: notificationService
+                            notificationService: notificationService,
+                            subscriptionService: StoreKitSubscriptionService.shared
                         )
                     )
                     .environment(themeManager)

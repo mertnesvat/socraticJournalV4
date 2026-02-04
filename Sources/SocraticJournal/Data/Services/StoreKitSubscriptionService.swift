@@ -11,6 +11,11 @@ import os.log
 /// Handles product fetching, purchases, transaction verification, and status management
 @MainActor
 public final class StoreKitSubscriptionService: SubscriptionServiceProtocol {
+    // MARK: - Shared Instance
+
+    /// Shared instance for app-wide subscription management
+    public static let shared = StoreKitSubscriptionService()
+
     // MARK: - Properties
 
     private let logger = Logger(subsystem: "com.StudioNext.socraticJournal", category: "Subscription")

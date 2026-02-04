@@ -115,7 +115,8 @@ public struct HomeView: View {
                         viewModel: SettingsViewModel(
                             settingsRepository: settingsRepository,
                             journalRepository: repository,
-                            notificationService: notificationService
+                            notificationService: notificationService,
+                            subscriptionService: StoreKitSubscriptionService.shared
                         )
                     )
                     .environment(themeManager)
