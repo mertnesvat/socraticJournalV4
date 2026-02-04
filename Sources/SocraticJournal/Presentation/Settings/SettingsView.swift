@@ -115,6 +115,9 @@ public struct SettingsView: View {
                         }
                     )
 
+                    // Subscription section
+                    SubscriptionSettingsView()
+
                     // Features section
                     FeaturesSettingsView(
                         onWisdomQuotesTapped: {

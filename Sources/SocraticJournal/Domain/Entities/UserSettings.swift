@@ -14,6 +14,21 @@ public struct UserSettings: Codable, Sendable, Equatable {
     public var hasCompletedOnboarding: Bool
     public var hasDismissedSampleData: Bool
 
+    // MARK: - Subscription State
+
+    /// Expiry date of the current subscription, nil for free users
+    public var subscriptionExpiryDate: Date?
+    /// Product ID of the active subscription, nil for free users
+    public var activeProductId: String?
+    /// Last time subscription status was checked (for cache invalidation)
+    public var lastSubscriptionCheck: Date?
+
+    /// Computed property indicating if user has premium access
+    public var isPremium: Bool {
+        guard let expiryDate = subscriptionExpiryDate else { return false }
+        return expiryDate > Date()
+    }
+
     public init(
         themeMode: ThemeMode = .system,
         letterRemindersEnabled: Bool = true,
@@ -21,7 +36,10 @@ public struct UserSettings: Codable, Sendable, Equatable {
         dailyReminderHour: Int = 9,
         dailyReminderMinute: Int = 0,
         hasCompletedOnboarding: Bool = false,
-        hasDismissedSampleData: Bool = false
+        hasDismissedSampleData: Bool = false,
+        subscriptionExpiryDate: Date? = nil,
+        activeProductId: String? = nil,
+        lastSubscriptionCheck: Date? = nil
     ) {
         self.themeMode = themeMode
         self.letterRemindersEnabled = letterRemindersEnabled
@@ -30,6 +48,9 @@ public struct UserSettings: Codable, Sendable, Equatable {
         self.dailyReminderMinute = dailyReminderMinute
         self.hasCompletedOnboarding = hasCompletedOnboarding
         self.hasDismissedSampleData = hasDismissedSampleData
+        self.subscriptionExpiryDate = subscriptionExpiryDate
+        self.activeProductId = activeProductId
+        self.lastSubscriptionCheck = lastSubscriptionCheck
     }
 
     // Custom decoder to handle backwards compatibility with existing saved settings
@@ -42,6 +63,10 @@ public struct UserSettings: Codable, Sendable, Equatable {
         dailyReminderMinute = try container.decodeIfPresent(Int.self, forKey: .dailyReminderMinute) ?? 0
         hasCompletedOnboarding = try container.decodeIfPresent(Bool.self, forKey: .hasCompletedOnboarding) ?? false
         hasDismissedSampleData = try container.decodeIfPresent(Bool.self, forKey: .hasDismissedSampleData) ?? false
+        // Subscription fields - defaults to nil for backwards compatibility
+        subscriptionExpiryDate = try container.decodeIfPresent(Date.self, forKey: .subscriptionExpiryDate)
+        activeProductId = try container.decodeIfPresent(String.self, forKey: .activeProductId)
+        lastSubscriptionCheck = try container.decodeIfPresent(Date.self, forKey: .lastSubscriptionCheck)
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -52,6 +77,9 @@ public struct UserSettings: Codable, Sendable, Equatable {
         case dailyReminderMinute
         case hasCompletedOnboarding
         case hasDismissedSampleData
+        case subscriptionExpiryDate
+        case activeProductId
+        case lastSubscriptionCheck
     }
 
     /// Default settings
