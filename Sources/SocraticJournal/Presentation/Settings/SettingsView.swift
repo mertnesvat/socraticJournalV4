@@ -78,6 +78,10 @@ public struct SettingsView: View {
                         )
                         .environment(themeManager)
                         .preferredColorScheme(themeManager.colorScheme)
+                    } else {
+                        // Fallback when subscription service is not available
+                        subscriptionUnavailableView
+                            .preferredColorScheme(themeManager.colorScheme)
                     }
                 }
                 .overlay {
@@ -200,6 +204,49 @@ public struct SettingsView: View {
             .background(.ultraThinMaterial)
             .clipShape(Capsule())
             .padding(.bottom, 40)
+        }
+    }
+
+    private var subscriptionUnavailableView: some View {
+        NavigationStack {
+            VStack(spacing: 24) {
+                Image(systemName: "exclamationmark.triangle")
+                    .font(.system(size: 48))
+                    .foregroundStyle(.orange)
+
+                VStack(spacing: 8) {
+                    Text("Subscriptions Unavailable")
+                        .font(.headline)
+
+                    Text("The subscription service is not available right now. Please try again later.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+
+                Button("Dismiss") {
+                    showingPaywall = false
+                }
+                .font(.headline)
+                .frame(width: 160, height: 44)
+                .background(Color.accentColor)
+                .foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(uiColor: .systemGroupedBackground))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        showingPaywall = false
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.body.weight(.medium))
+                    }
+                }
+            }
         }
     }
 

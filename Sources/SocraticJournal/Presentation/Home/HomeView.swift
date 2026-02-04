@@ -19,17 +19,23 @@ public struct HomeView: View {
     private let repository: JournalRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol?
+    private let subscriptionService: SubscriptionServiceProtocol?
+    private let analyticsService: AnalyticsServiceProtocol?
 
     public init(
         viewModel: HomeViewModel,
         repository: JournalRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
-        notificationService: NotificationServiceProtocol? = nil
+        notificationService: NotificationServiceProtocol? = nil,
+        subscriptionService: SubscriptionServiceProtocol? = nil,
+        analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         _viewModel = State(initialValue: viewModel)
         self.repository = repository
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
+        self.subscriptionService = subscriptionService
+        self.analyticsService = analyticsService
     }
 
     public var body: some View {
@@ -115,7 +121,9 @@ public struct HomeView: View {
                         viewModel: SettingsViewModel(
                             settingsRepository: settingsRepository,
                             journalRepository: repository,
-                            notificationService: notificationService
+                            notificationService: notificationService,
+                            subscriptionService: subscriptionService,
+                            analyticsService: analyticsService
                         )
                     )
                     .environment(themeManager)

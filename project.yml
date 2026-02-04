@@ -82,9 +82,11 @@ schemes:
         SocraticJournalTests: [test]
     run:
       config: Debug
+      storeKitConfiguration: Configuration/StoreKit.storekit
     test:
       config: Debug
       targets:
         - SocraticJournalTests
+      storeKitConfiguration: Configuration/StoreKit.storekit
     archive:
       config: Release

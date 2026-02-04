@@ -30,6 +30,9 @@ public final class PaywallViewModel {
     /// Current error if any
     private(set) var error: SubscriptionError?
 
+    /// Tracks whether error should be shown as alert (only for purchase/restore, not product loading)
+    private(set) var showErrorAsAlert: Bool = false
+
     /// Whether the purchase was successful
     private(set) var purchaseSucceeded: Bool = false
 
@@ -59,10 +62,12 @@ public final class PaywallViewModel {
         currentStatus.isPremium
     }
 
-    /// Whether there's an error to display (excludes cancellation)
+    /// Whether there's an error to display as an alert (only for purchase/restore errors, not product loading)
     var hasDisplayableError: Bool {
         guard let error = error else { return false }
-        return error.shouldShowToUser
+        // Only show alert for purchase/restore errors (showErrorAsAlert must be true)
+        // Product loading errors are shown inline in the error view, never as alerts
+        return showErrorAsAlert && error.shouldShowToUser
     }
 
     /// User-friendly error message
@@ -94,6 +99,7 @@ public final class PaywallViewModel {
 
         isLoadingProducts = true
         error = nil
+        showErrorAsAlert = false
 
         do {
             // Fetch products and current status in parallel
@@ -150,6 +156,7 @@ public final class PaywallViewModel {
 
         isPurchasing = true
         error = nil
+        showErrorAsAlert = true
         purchaseSucceeded = false
 
         analyticsService?.logEvent(.paywallPurchaseStarted, parameters: [
@@ -206,6 +213,7 @@ public final class PaywallViewModel {
 
         isRestoring = true
         error = nil
+        showErrorAsAlert = true
 
         analyticsService?.logEvent(.paywallRestoreStarted, parameters: nil)
 
@@ -247,6 +255,7 @@ public final class PaywallViewModel {
     /// Clears the current error
     public func clearError() {
         error = nil
+        showErrorAsAlert = false
     }
 
     /// Logs that the paywall was viewed

@@ -13,6 +13,7 @@ public struct SocraticJournalApp: App {
     private let repository: JournalRepositoryProtocol = InMemoryJournalRepository()
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()
     private let notificationService: NotificationServiceProtocol = LocalNotificationService()
+    private let subscriptionService: SubscriptionServiceProtocol = StoreKitSubscriptionService()
     private let analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
     private let appReviewService: AppReviewService = AppReviewService.shared
     @State private var themeManager = ThemeManager.shared
@@ -50,7 +51,9 @@ public struct SocraticJournalApp: App {
             MainTabView(
                 repository: repository,
                 settingsRepository: settingsRepository,
-                notificationService: notificationService
+                notificationService: notificationService,
+                subscriptionService: subscriptionService,
+                analyticsService: analyticsService
             )
             .environment(themeManager)
             .preferredColorScheme(themeManager.colorScheme)
