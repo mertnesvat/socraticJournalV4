@@ -20,6 +20,14 @@ public final class SettingsViewModel {
     var showClearDataConfirmation: Bool = false
     var showPermissionDeniedAlert: Bool = false
 
+    // MARK: - Subscription State
+
+    private(set) var subscriptionStatus: SubscriptionStatus = .free
+    private(set) var isRestoringPurchases: Bool = false
+    private(set) var restoreError: SubscriptionError?
+    var showRestoreSuccessMessage: Bool = false
+    var showRestoreNoSubscriptionMessage: Bool = false
+
     // MARK: - Computed Properties
 
     var themeMode: ThemeMode {
@@ -77,22 +85,33 @@ public final class SettingsViewModel {
         notificationPermissionStatus == .denied
     }
 
+    /// Formatted subscription expiry date for display
+    var formattedSubscriptionExpiry: String? {
+        settings.formattedSubscriptionExpiry
+    }
+
     // MARK: - Dependencies
 
     public let settingsRepository: SettingsRepositoryProtocol
     public let journalRepository: JournalRepositoryProtocol
     public let notificationService: NotificationServiceProtocol?
+    public let subscriptionService: SubscriptionServiceProtocol?
+    public let analyticsService: AnalyticsServiceProtocol?
 
     // MARK: - Init
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
         journalRepository: JournalRepositoryProtocol,
-        notificationService: NotificationServiceProtocol? = nil
+        notificationService: NotificationServiceProtocol? = nil,
+        subscriptionService: SubscriptionServiceProtocol? = nil,
+        analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         self.settingsRepository = settingsRepository
         self.journalRepository = journalRepository
         self.notificationService = notificationService
+        self.subscriptionService = subscriptionService
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Actions
@@ -106,6 +125,11 @@ public final class SettingsViewModel {
             // Check notification permission status
             if let service = notificationService {
                 notificationPermissionStatus = await service.getPermissionStatus()
+            }
+            // Load subscription status
+            if let subscriptionService = subscriptionService {
+                subscriptionStatus = await subscriptionService.currentStatus()
+                settings.updateSubscription(from: subscriptionStatus)
             }
         } catch {
             self.error = error
@@ -260,6 +284,58 @@ public final class SettingsViewModel {
     /// Reset onboarding flag so user can replay the onboarding flow
     public func resetOnboarding() async {
         settings.hasCompletedOnboarding = false
+        await saveSettings()
+    }
+
+    // MARK: - Subscription Actions
+
+    /// Restore previous purchases
+    public func restorePurchases() async {
+        guard let service = subscriptionService else { return }
+        guard !isRestoringPurchases else { return }
+
+        isRestoringPurchases = true
+        restoreError = nil
+
+        do {
+            let status = try await service.restorePurchases()
+            subscriptionStatus = status
+            settings.updateSubscription(from: status)
+            await saveSettings()
+
+            if status.isPremium {
+                showRestoreSuccessMessage = true
+                analyticsService?.logEvent(.subscriptionRestored, parameters: nil)
+                // Auto-hide after delay
+                try? await Task.sleep(for: .seconds(2))
+                showRestoreSuccessMessage = false
+            } else {
+                showRestoreNoSubscriptionMessage = true
+                try? await Task.sleep(for: .seconds(2))
+                showRestoreNoSubscriptionMessage = false
+            }
+        } catch let error as SubscriptionError {
+            restoreError = error
+        } catch {
+            restoreError = .unknown(error.localizedDescription)
+        }
+
+        isRestoringPurchases = false
+    }
+
+    /// Open App Store subscription management
+    public func openSubscriptionManagement() {
+        if let url = URL(string: "https://apps.apple.com/account/subscriptions") {
+            UIApplication.shared.open(url)
+        }
+    }
+
+    /// Refresh subscription status from the service
+    public func refreshSubscriptionStatus() async {
+        guard let service = subscriptionService else { return }
+
+        subscriptionStatus = await service.currentStatus()
+        settings.updateSubscription(from: subscriptionStatus)
         await saveSettings()
     }
 }

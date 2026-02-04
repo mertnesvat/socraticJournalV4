@@ -17,6 +17,7 @@ public struct SettingsView: View {
     @State private var viewModel: SettingsViewModel
     @State private var showingExportView: Bool = false
     @State private var showingWisdomQuotes: Bool = false
+    @State private var showingPaywall: Bool = false
 
     public init(viewModel: SettingsViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -67,6 +68,18 @@ public struct SettingsView: View {
                     .environment(themeManager)
                     .preferredColorScheme(themeManager.colorScheme)
                 }
+                .sheet(isPresented: $showingPaywall) {
+                    if let subscriptionService = viewModel.subscriptionService {
+                        PaywallView(
+                            viewModel: PaywallViewModel(
+                                subscriptionService: subscriptionService,
+                                analyticsService: viewModel.analyticsService
+                            )
+                        )
+                        .environment(themeManager)
+                        .preferredColorScheme(themeManager.colorScheme)
+                    }
+                }
                 .overlay {
                     if viewModel.showClearDataSuccess {
                         successOverlay
@@ -112,6 +125,24 @@ public struct SettingsView: View {
                         notificationsDenied: viewModel.notificationsDenied,
                         onOpenSettings: {
                             viewModel.openNotificationSettings()
+                        }
+                    )
+
+                    // Subscription section
+                    SubscriptionSettingsView(
+                        subscriptionStatus: viewModel.subscriptionStatus,
+                        expiryDate: viewModel.formattedSubscriptionExpiry,
+                        isRestoring: viewModel.isRestoringPurchases,
+                        onUpgradeTapped: {
+                            showingPaywall = true
+                        },
+                        onRestoreTapped: {
+                            Task {
+                                await viewModel.restorePurchases()
+                            }
+                        },
+                        onManageSubscriptionTapped: {
+                            viewModel.openSubscriptionManagement()
                         }
                     )
 
