@@ -4,15 +4,13 @@
 
 #if os(iOS)
 import SwiftUI
-import SwiftData
 import UserNotifications
 import FirebaseCore
 
 /// Main entry point for the Socratic Journal app
 @main
 public struct SocraticJournalApp: App {
-    private let modelContainer: ModelContainer
-    private let repository: JournalRepositoryProtocol
+    private let repository: JournalRepositoryProtocol = InMemoryJournalRepository()
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()
     private let notificationService: NotificationServiceProtocol = LocalNotificationService()
     private let subscriptionService: SubscriptionServiceProtocol = StoreKitSubscriptionService()
@@ -23,22 +21,6 @@ public struct SocraticJournalApp: App {
     @State private var hasRequestedATT: Bool = false
 
     public init() {
-        // Configure SwiftData model container
-        let schema = Schema([
-            JournalSessionModel.self,
-            ExchangeModel.self,
-            FutureLetterModel.self
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
-            self.modelContainer = container
-            self.repository = SwiftDataJournalRepository(modelContainer: container)
-        } catch {
-            fatalError("Failed to create ModelContainer: \(error)")
-        }
-
         // Log environment configuration at startup
         AppEnvironment.logConfiguration()
 
