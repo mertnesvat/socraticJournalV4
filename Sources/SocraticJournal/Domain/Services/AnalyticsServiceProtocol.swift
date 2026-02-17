@@ -26,6 +26,21 @@ public enum AnalyticsEvent: String, Sendable {
     case sessionCompleted = "session_completed"
     case sessionAbandoned = "session_abandoned"
     case clarityScoreReceived = "clarity_score_received"
+
+    // Session funnel events (fine-grained)
+    case questionShown = "question_shown"
+    case answerSubmitted = "answer_submitted"
+    case answerSkipped = "answer_skipped"
+    case followUpGenerationStarted = "follow_up_generation_started"
+    case followUpGenerationCompleted = "follow_up_generation_completed"
+    case followUpGenerationFailed = "follow_up_generation_failed"
+    case insightGenerationStarted = "insight_generation_started"
+    case insightGenerationCompleted = "insight_generation_completed"
+    case insightGenerationFailed = "insight_generation_failed"
+    case insightViewed = "insight_viewed"
+    case sessionPhaseTimeout = "session_phase_timeout"
+
+    // Legacy session events (deprecated - use new fine-grained events)
     case sessionQuestionShown = "session_question_shown"
     case sessionAnswerSubmitted = "session_answer_submitted"
     case sessionQuestionSkipped = "session_question_skipped"
@@ -93,4 +108,12 @@ public enum AnalyticsParameter: String, Sendable {
     case responseTime = "response_time_ms"
     case errorType = "error_type"
     case phase = "phase"
+
+    // New funnel analytics parameters
+    case questionNumber = "question_number"
+    case questionId = "question_id"
+    case timeToAnswerSeconds = "time_to_answer_seconds"
+    case latencySeconds = "latency_seconds"
+    case totalQuestionsAnswered = "total_questions_answered"
+    case elapsedSeconds = "elapsed_seconds"
 }
