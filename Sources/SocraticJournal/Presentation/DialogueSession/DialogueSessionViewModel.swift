@@ -134,11 +134,34 @@ public final class DialogueSessionViewModel {
         do {
             currentQuestion = try await questionService.generateNextQuestion(previousExchanges: exchanges)
             phase = .awaitingAnswer
+
+            // Analytics: Question shown to user
+            analyticsService.logEvent(.sessionQuestionShown, parameters: [
+                AnalyticsParameter.sessionId.rawValue: session.id,
+                AnalyticsParameter.questionIndex.rawValue: currentQuestionIndex,
+                AnalyticsParameter.questionText.rawValue: currentQuestion
+            ])
         } catch {
             self.error = error
+
+            // Analytics: Error during question generation
+            analyticsService.logEvent(.sessionError, parameters: [
+                AnalyticsParameter.sessionId.rawValue: session.id,
+                AnalyticsParameter.errorType.rawValue: "question_generation_failed",
+                AnalyticsParameter.phase.rawValue: "load_question",
+                AnalyticsParameter.questionIndex.rawValue: currentQuestionIndex
+            ])
+
             // Use a fallback first question if generation fails
             currentQuestion = "What's on your mind today?"
             phase = .awaitingAnswer
+
+            // Analytics: Question shown (fallback)
+            analyticsService.logEvent(.sessionQuestionShown, parameters: [
+                AnalyticsParameter.sessionId.rawValue: session.id,
+                AnalyticsParameter.questionIndex.rawValue: currentQuestionIndex,
+                AnalyticsParameter.questionText.rawValue: currentQuestion
+            ])
         }
 
         isLoading = false
@@ -152,12 +175,29 @@ public final class DialogueSessionViewModel {
         // Generate exchange ID upfront for offline queue tracking
         let exchangeId = UUID().uuidString
 
+        // Analytics: Track answer submission or skip
+        if isSkipped {
+            analyticsService.logEvent(.sessionQuestionSkipped, parameters: [
+                AnalyticsParameter.sessionId.rawValue: session.id,
+                AnalyticsParameter.questionIndex.rawValue: currentQuestionIndex
+            ])
+        } else {
+            analyticsService.logEvent(.sessionAnswerSubmitted, parameters: [
+                AnalyticsParameter.sessionId.rawValue: session.id,
+                AnalyticsParameter.questionIndex.rawValue: currentQuestionIndex,
+                AnalyticsParameter.answerLength.rawValue: answer.count
+            ])
+        }
+
         phase = .processingAnswer
         isLoading = true
         error = nil
 
         do {
             // Generate AI responses in sequence for visual flow
+            // Track response time for follow-up generation
+            let followUpStartTime = Date()
+
             // 1. Reaction (with Firebase integration and offline support)
             phase = .showingReaction
             currentReaction = await generateReactionWithFallback(
@@ -178,12 +218,28 @@ public final class DialogueSessionViewModel {
                 exchangeId: exchangeId
             )
 
+            // Calculate follow-up generation time
+            let followUpResponseTime = Int(Date().timeIntervalSince(followUpStartTime) * 1000)
+
+            // Analytics: Follow-up generated (reaction + clarity mirror)
+            analyticsService.logEvent(.sessionFollowUpGenerated, parameters: [
+                AnalyticsParameter.sessionId.rawValue: session.id,
+                AnalyticsParameter.questionIndex.rawValue: currentQuestionIndex,
+                AnalyticsParameter.responseTime.rawValue: followUpResponseTime
+            ])
+
             // Brief pause
             try await Task.sleep(nanoseconds: 1_500_000_000)
 
             // 3. Insight Card (generated locally, no offline queue needed)
             phase = .showingInsightCard
             currentInsightCard = try await questionService.generateInsightCard(answer: answer)
+
+            // Analytics: Insight viewed
+            analyticsService.logEvent(.sessionInsightViewed, parameters: [
+                AnalyticsParameter.sessionId.rawValue: session.id,
+                AnalyticsParameter.questionIndex.rawValue: currentQuestionIndex
+            ])
 
             // Create the exchange with the pre-generated ID
             let exchange = Exchange(
@@ -201,6 +257,22 @@ public final class DialogueSessionViewModel {
 
         } catch {
             self.error = error
+
+            // Analytics: Error during answer processing
+            let errorDescription: String
+            if let firebaseError = error as? FirebaseFunctionsError {
+                errorDescription = "firebase_\(firebaseError)"
+            } else {
+                errorDescription = error.localizedDescription
+            }
+
+            analyticsService.logEvent(.sessionError, parameters: [
+                AnalyticsParameter.sessionId.rawValue: session.id,
+                AnalyticsParameter.errorType.rawValue: errorDescription,
+                AnalyticsParameter.phase.rawValue: "process_answer",
+                AnalyticsParameter.questionIndex.rawValue: currentQuestionIndex
+            ])
+
             // Create exchange with fallback responses (using the same exchange ID)
             let exchange = Exchange(
                 id: exchangeId,

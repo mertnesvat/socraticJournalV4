@@ -26,6 +26,12 @@ public enum AnalyticsEvent: String, Sendable {
     case sessionCompleted = "session_completed"
     case sessionAbandoned = "session_abandoned"
     case clarityScoreReceived = "clarity_score_received"
+    case sessionQuestionShown = "session_question_shown"
+    case sessionAnswerSubmitted = "session_answer_submitted"
+    case sessionQuestionSkipped = "session_question_skipped"
+    case sessionFollowUpGenerated = "session_follow_up_generated"
+    case sessionInsightViewed = "session_insight_viewed"
+    case sessionError = "session_error"
 
     // Letter events
     case letterComposed = "letter_composed"
@@ -81,4 +87,10 @@ public enum AnalyticsParameter: String, Sendable {
     case sessionCount = "session_count"
     case streakDays = "streak_days"
     case promptCount = "prompt_count"
+    case questionIndex = "question_index"
+    case questionText = "question_text"
+    case answerLength = "answer_length"
+    case responseTime = "response_time_ms"
+    case errorType = "error_type"
+    case phase = "phase"
 }
