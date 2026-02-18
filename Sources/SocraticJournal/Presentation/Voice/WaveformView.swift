@@ -28,6 +28,10 @@ public struct WaveformView: View {
     let barCount: Int
     /// Spacing between bars.
     let barSpacing: CGFloat
+    /// Optional playback progress (0.0 ... 1.0). When set, bars before the progress
+    /// point use `activeColor` and bars after use `inactiveColor`. `nil` means no
+    /// progress overlay (all bars use `activeColor` in static mode).
+    let progress: CGFloat?
 
     // MARK: - Init
 
@@ -38,7 +42,8 @@ public struct WaveformView: View {
         activeColor: Color = CircleTheme.waveformActive,
         inactiveColor: Color = CircleTheme.waveformInactive,
         barCount: Int = 40,
-        barSpacing: CGFloat = 2.0
+        barSpacing: CGFloat = 2.0,
+        progress: CGFloat? = nil
     ) {
         self.amplitudes = amplitudes
         self.isLive = isLive
@@ -47,6 +52,7 @@ public struct WaveformView: View {
         self.inactiveColor = inactiveColor
         self.barCount = barCount
         self.barSpacing = barSpacing
+        self.progress = progress
     }
 
     // MARK: - Body
@@ -121,6 +127,11 @@ public struct WaveformView: View {
         if isLive {
             let filledBars = min(amplitudes.count, barCount)
             return index <= filledBars ? activeColor : inactiveColor
+        } else if let progress {
+            // Progress overlay mode: bars before the progress point are active,
+            // bars after are inactive.
+            let progressBarIndex = Int(progress * CGFloat(barCount))
+            return index < progressBarIndex ? activeColor : inactiveColor
         } else {
             return activeColor
         }
@@ -143,6 +154,16 @@ public struct WaveformView: View {
         amplitudes: Array(MockVoiceRecordingService.sampleWaveformData.prefix(20)),
         isLive: true,
         liveAmplitude: 0.6
+    )
+    .frame(height: 60)
+    .padding()
+}
+
+#Preview("Playback Progress") {
+    WaveformView(
+        amplitudes: MockVoiceRecordingService.sampleWaveformData,
+        isLive: false,
+        progress: 0.4
     )
     .frame(height: 60)
     .padding()
