@@ -5,129 +5,56 @@
 #if os(iOS)
 import SwiftUI
 
-/// Tab selection options for main navigation
-public enum MainTab: Int, CaseIterable {
-    case home
-    case selfDiscovery
-    case statistics
-}
-
-/// Main tab container with native tab bar and floating plus button
+/// Placeholder main view for Circle app
+/// This will be replaced with the real home feed in Feature 6
 public struct MainTabView: View {
-    @State private var selectedTab: MainTab = .home
-    @State private var showingNewSession: Bool = false
     @Environment(ThemeManager.self) private var themeManager
 
-    private let repository: JournalRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
-    private let notificationService: NotificationServiceProtocol?
     private let subscriptionService: SubscriptionServiceProtocol?
     private let analyticsService: AnalyticsServiceProtocol?
 
-    // HomeViewModel shared to trigger reload after session
-    @State private var homeViewModel: HomeViewModel
-
     public init(
-        repository: JournalRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
-        notificationService: NotificationServiceProtocol? = nil,
         subscriptionService: SubscriptionServiceProtocol? = nil,
         analyticsService: AnalyticsServiceProtocol? = nil
     ) {
-        self.repository = repository
         self.settingsRepository = settingsRepository
-        self.notificationService = notificationService
         self.subscriptionService = subscriptionService
         self.analyticsService = analyticsService
-        _homeViewModel = State(initialValue: HomeViewModel(repository: repository))
     }
 
     public var body: some View {
-        ZStack(alignment: .bottom) {
-            // Native TabView with liquid glass effect
-            TabView(selection: $selectedTab) {
-                HomeTabView(
-                    viewModel: homeViewModel,
-                    repository: repository,
-                    settingsRepository: settingsRepository,
-                    notificationService: notificationService,
-                    subscriptionService: subscriptionService,
-                    analyticsService: analyticsService,
-                    onStatsCardTapped: {
-                        selectedTab = .statistics
-                    }
-                )
-                .tabItem {
-                    Label("Home", systemImage: "house.fill")
-                }
-                .tag(MainTab.home)
+        NavigationStack {
+            VStack(spacing: 24) {
+                Spacer()
 
-                SelfDiscoveryTabView(
-                    repository: repository,
-                    settingsRepository: settingsRepository,
-                    notificationService: notificationService
-                )
-                .tabItem {
-                    Label("Discover", systemImage: "sparkles")
-                }
-                .tag(MainTab.selfDiscovery)
+                Text("💬")
+                    .font(.system(size: 80))
 
-                StatisticsTabView(
-                    viewModel: StatisticsViewModel(repository: repository)
-                )
-                .tabItem {
-                    Label("Stats", systemImage: "chart.bar.fill")
-                }
-                .tag(MainTab.statistics)
+                Text("Circle")
+                    .font(.largeTitle.bold())
+
+                Text("Voice-first connection\nwith the people who matter")
+                    .font(.title3)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+
+                Spacer()
+
+                Text("Building something beautiful...")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
             }
-
-            // Floating Plus Button above tab bar
-            floatingPlusButton
-                .padding(.bottom, 60) // Position above tab bar
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .fullScreenCover(isPresented: $showingNewSession) {
-            // Reload data when session is dismissed
-            Task {
-                await homeViewModel.loadData()
-            }
-        } content: {
-            DialogueSessionView(
-                viewModel: DialogueSessionViewModel(
-                    questionService: FirebaseQuestionService.shared,
-                    repository: repository
-                ),
-                repository: repository
-            )
-            .environment(themeManager)
-            .preferredColorScheme(themeManager.colorScheme)
-        }
-    }
-
-    private var floatingPlusButton: some View {
-        Button {
-            showingNewSession = true
-        } label: {
-            ZStack {
-                Circle()
-                    .fill(Color.accentColor)
-                    .frame(width: 56, height: 56)
-                    .shadow(color: Color.accentColor.opacity(0.4), radius: 8, x: 0, y: 4)
-
-                Image(systemName: "plus")
-                    .font(.system(size: 24, weight: .semibold))
-                    .foregroundStyle(.white)
-            }
-        }
-        .accessibilityLabel("Start new session")
     }
 }
 
 #Preview {
-    let repository = InMemoryJournalRepository()
-    let settingsRepository = UserDefaultsSettingsRepository()
-    return MainTabView(
-        repository: repository,
-        settingsRepository: settingsRepository
+    MainTabView(
+        settingsRepository: UserDefaultsSettingsRepository()
     )
     .environment(ThemeManager.shared)
 }

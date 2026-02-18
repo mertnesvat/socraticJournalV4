@@ -7,7 +7,7 @@ import Foundation
 import UserNotifications
 import UIKit
 
-/// Local notification service implementation using UNUserNotificationCenter
+/// Local notification service using UNUserNotificationCenter
 public final class LocalNotificationService: NotificationServiceProtocol, @unchecked Sendable {
     private let notificationCenter: UNUserNotificationCenter
 
@@ -19,51 +19,46 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
     // MARK: - Setup
 
     private func setupNotificationCategories() {
-        // Letter ready actions
-        let openLetterAction = UNNotificationAction(
-            identifier: NotificationAction.openLetter,
-            title: "Read Letter",
+        let respondAction = UNNotificationAction(
+            identifier: NotificationAction.respond,
+            title: "Record Response",
             options: [.foreground]
         )
 
-        let letterReadyCategory = UNNotificationCategory(
-            identifier: NotificationCategory.letterReady,
-            actions: [openLetterAction],
-            intentIdentifiers: [],
-            options: [.customDismissAction]
-        )
-
-        // Daily reminder actions
-        let startSessionAction = UNNotificationAction(
-            identifier: NotificationAction.startSession,
-            title: "Start Journaling",
+        let listenAction = UNNotificationAction(
+            identifier: NotificationAction.listen,
+            title: "Listen",
             options: [.foreground]
         )
 
         let snoozeAction = UNNotificationAction(
             identifier: NotificationAction.snooze,
-            title: "Remind in 1 Hour",
+            title: "Remind Later",
             options: []
         )
 
-        let dailyReminderCategory = UNNotificationCategory(
-            identifier: NotificationCategory.dailyReminder,
-            actions: [startSessionAction, snoozeAction],
+        let promptCategory = UNNotificationCategory(
+            identifier: NotificationCategory.dailyPrompt,
+            actions: [respondAction, snoozeAction],
             intentIdentifiers: [],
             options: [.customDismissAction]
         )
 
-        notificationCenter.setNotificationCategories([letterReadyCategory, dailyReminderCategory])
+        let nudgeCategory = UNNotificationCategory(
+            identifier: NotificationCategory.nudge,
+            actions: [respondAction, listenAction],
+            intentIdentifiers: [],
+            options: [.customDismissAction]
+        )
+
+        notificationCenter.setNotificationCategories([promptCategory, nudgeCategory])
     }
 
     // MARK: - Permission
 
     public func requestPermission() async -> Bool {
         do {
-            let granted = try await notificationCenter.requestAuthorization(
-                options: [.alert, .sound, .badge]
-            )
-            return granted
+            return try await notificationCenter.requestAuthorization(options: [.alert, .sound, .badge])
         } catch {
             print("Failed to request notification permission: \(error)")
             return false
@@ -73,79 +68,31 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
     public func getPermissionStatus() async -> NotificationPermissionStatus {
         let settings = await notificationCenter.notificationSettings()
         switch settings.authorizationStatus {
-        case .notDetermined:
-            return .notDetermined
-        case .denied:
-            return .denied
-        case .authorized:
-            return .authorized
-        case .provisional:
-            return .provisional
-        case .ephemeral:
-            return .authorized
-        @unknown default:
-            return .notDetermined
+        case .notDetermined: return .notDetermined
+        case .denied: return .denied
+        case .authorized: return .authorized
+        case .provisional: return .provisional
+        case .ephemeral: return .authorized
+        @unknown default: return .notDetermined
         }
     }
 
-    // MARK: - Letter Notifications
+    // MARK: - Prompt Reminder
 
-    public func scheduleLetterUnlock(letter: FutureLetter) async throws {
-        // Only schedule for sealed letters with future delivery dates
-        guard letter.status == .sealed else { return }
-        guard letter.deliveryDate > Date() else { return }
-
-        // Check permission first
+    public func schedulePromptReminder(circleName: String, circleId: UUID, hour: Int, minute: Int) async throws {
         let status = await getPermissionStatus()
         guard status == .authorized || status == .provisional else { return }
 
-        let content = UNMutableNotificationContent()
-        content.title = "A Letter from Your Past Self"
-        content.body = "Your letter is ready to be opened. Take a moment to read what past you had to say."
-        content.sound = .default
-        content.badge = 1
-        content.categoryIdentifier = NotificationCategory.letterReady
-        content.userInfo = ["letterId": letter.id]
-
-        // Create trigger for the delivery date
-        let triggerDate = Calendar.current.dateComponents(
-            [.year, .month, .day, .hour, .minute],
-            from: letter.deliveryDate
-        )
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
-
-        let request = UNNotificationRequest(
-            identifier: NotificationIdentifier.forLetter(letter.id),
-            content: content,
-            trigger: trigger
-        )
-
-        try await notificationCenter.add(request)
-    }
-
-    public func cancelLetterNotification(letterId: String) async {
-        let identifier = NotificationIdentifier.forLetter(letterId)
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
-        notificationCenter.removeDeliveredNotifications(withIdentifiers: [identifier])
-    }
-
-    // MARK: - Daily Reminder
-
-    public func scheduleDailyReminder(hour: Int, minute: Int) async throws {
-        // Check permission first
-        let status = await getPermissionStatus()
-        guard status == .authorized || status == .provisional else { return }
-
-        // Cancel any existing daily reminder
-        await cancelDailyReminder()
+        // Cancel existing prompt notification for this circle
+        await cancelCircleNotifications(circleId: circleId)
 
         let content = UNMutableNotificationContent()
-        content.title = "Time for Reflection"
-        content.body = "Take a few minutes to journal with Socrates and explore your thoughts."
+        content.title = "Today's Question is Ready"
+        content.body = "Your circle \(circleName) has a new question. Record your answer!"
         content.sound = .default
-        content.categoryIdentifier = NotificationCategory.dailyReminder
+        content.categoryIdentifier = NotificationCategory.dailyPrompt
+        content.userInfo = ["circleId": circleId.uuidString]
 
-        // Create repeating daily trigger
         var dateComponents = DateComponents()
         dateComponents.hour = hour
         dateComponents.minute = minute
@@ -153,7 +100,7 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
 
         let request = UNNotificationRequest(
-            identifier: NotificationIdentifier.dailyReminder,
+            identifier: NotificationIdentifier.forPrompt(circleId),
             content: content,
             trigger: trigger
         )
@@ -161,44 +108,42 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
         try await notificationCenter.add(request)
     }
 
-    public func cancelDailyReminder() async {
-        notificationCenter.removePendingNotificationRequests(
-            withIdentifiers: [NotificationIdentifier.dailyReminder]
-        )
-        notificationCenter.removeDeliveredNotifications(
-            withIdentifiers: [NotificationIdentifier.dailyReminder]
-        )
-    }
+    // MARK: - Nudge
 
-    // MARK: - Reschedule
-
-    public func rescheduleAllNotifications(letters: [FutureLetter], settings: UserSettings) async {
-        // Check permission first
+    public func scheduleNudge(circleName: String, circleId: UUID, delayHours: Int) async throws {
         let status = await getPermissionStatus()
         guard status == .authorized || status == .provisional else { return }
 
-        // Reschedule letter notifications for sealed letters with letter reminders enabled
-        if settings.letterRemindersEnabled {
-            for letter in letters where letter.status == .sealed && letter.deliveryDate > Date() {
-                do {
-                    try await scheduleLetterUnlock(letter: letter)
-                } catch {
-                    print("Failed to reschedule letter notification for \(letter.id): \(error)")
-                }
-            }
-        }
+        let content = UNMutableNotificationContent()
+        content.title = "Your Circle is Waiting"
+        content.body = "\(circleName) wants to hear from you today."
+        content.sound = .default
+        content.categoryIdentifier = NotificationCategory.nudge
+        content.userInfo = ["circleId": circleId.uuidString]
 
-        // Reschedule daily reminder if enabled
-        if settings.dailyReminderEnabled {
-            do {
-                try await scheduleDailyReminder(
-                    hour: settings.dailyReminderHour,
-                    minute: settings.dailyReminderMinute
-                )
-            } catch {
-                print("Failed to reschedule daily reminder: \(error)")
-            }
-        }
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: TimeInterval(delayHours * 3600),
+            repeats: false
+        )
+
+        let request = UNNotificationRequest(
+            identifier: NotificationIdentifier.forNudge(circleId),
+            content: content,
+            trigger: trigger
+        )
+
+        try await notificationCenter.add(request)
+    }
+
+    // MARK: - Cancellation
+
+    public func cancelCircleNotifications(circleId: UUID) async {
+        let identifiers = [
+            NotificationIdentifier.forPrompt(circleId),
+            NotificationIdentifier.forNudge(circleId)
+        ]
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
+        notificationCenter.removeDeliveredNotifications(withIdentifiers: identifiers)
     }
 
     public func removeAllPendingNotifications() async {
@@ -207,25 +152,6 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
     }
 
     // MARK: - Helpers
-
-    /// Schedule a snooze reminder for 1 hour from now
-    public func scheduleSnoozeReminder() async throws {
-        let content = UNMutableNotificationContent()
-        content.title = "Time for Reflection"
-        content.body = "Ready to journal now? Socrates is waiting."
-        content.sound = .default
-        content.categoryIdentifier = NotificationCategory.dailyReminder
-
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600, repeats: false)
-
-        let request = UNNotificationRequest(
-            identifier: "snooze-reminder",
-            content: content,
-            trigger: trigger
-        )
-
-        try await notificationCenter.add(request)
-    }
 
     /// Clear the badge count
     public func clearBadge() async {

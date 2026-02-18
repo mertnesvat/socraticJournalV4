@@ -15,70 +15,56 @@ public enum NotificationPermissionStatus: Sendable {
 /// Protocol for scheduling and managing notifications
 public protocol NotificationServiceProtocol: Sendable {
     /// Request notification permissions from the user
-    /// - Returns: True if permission was granted, false otherwise
     func requestPermission() async -> Bool
 
     /// Get current notification permission status
     func getPermissionStatus() async -> NotificationPermissionStatus
 
-    /// Schedule a notification for when a letter is ready to be read
-    /// - Parameter letter: The future letter to schedule notification for
-    func scheduleLetterUnlock(letter: FutureLetter) async throws
-
-    /// Cancel a previously scheduled letter unlock notification
-    /// - Parameter letterId: The ID of the letter whose notification should be cancelled
-    func cancelLetterNotification(letterId: String) async
-
-    /// Schedule a daily journaling reminder at the specified time
+    /// Schedule a daily prompt reminder for a circle
     /// - Parameters:
+    ///   - circleName: Name of the circle (for notification text)
+    ///   - circleId: ID of the circle
     ///   - hour: Hour component (0-23)
     ///   - minute: Minute component (0-59)
-    func scheduleDailyReminder(hour: Int, minute: Int) async throws
+    func schedulePromptReminder(circleName: String, circleId: UUID, hour: Int, minute: Int) async throws
 
-    /// Cancel the daily reminder notification
-    func cancelDailyReminder() async
-
-    /// Reschedule all pending notifications (called on app launch)
+    /// Schedule a nudge reminder if user hasn't responded
     /// - Parameters:
-    ///   - letters: All letters that may need notifications
-    ///   - settings: Current user settings for daily reminder
-    func rescheduleAllNotifications(letters: [FutureLetter], settings: UserSettings) async
+    ///   - circleName: Name of the circle
+    ///   - circleId: ID of the circle
+    ///   - delayHours: Hours after prompt to send nudge
+    func scheduleNudge(circleName: String, circleId: UUID, delayHours: Int) async throws
+
+    /// Cancel all notifications for a specific circle
+    func cancelCircleNotifications(circleId: UUID) async
 
     /// Remove all pending notifications
     func removeAllPendingNotifications() async
 }
 
-/// Notification identifiers for the app
+/// Notification identifiers
 public enum NotificationIdentifier {
-    /// Prefix for letter unlock notifications
-    public static let letterPrefix = "letter-unlock-"
+    public static let promptPrefix = "circle-prompt-"
+    public static let nudgePrefix = "circle-nudge-"
 
-    /// Identifier for daily reminder notification
-    public static let dailyReminder = "daily-journaling-reminder"
+    public static func forPrompt(_ circleId: UUID) -> String {
+        return "\(promptPrefix)\(circleId.uuidString)"
+    }
 
-    /// Generate letter notification identifier from letter ID
-    public static func forLetter(_ letterId: String) -> String {
-        return "\(letterPrefix)\(letterId)"
+    public static func forNudge(_ circleId: UUID) -> String {
+        return "\(nudgePrefix)\(circleId.uuidString)"
     }
 }
 
 /// Notification category identifiers
 public enum NotificationCategory {
-    /// Category for letter unlock notifications
-    public static let letterReady = "LETTER_READY"
-
-    /// Category for daily reminder notifications
-    public static let dailyReminder = "DAILY_REMINDER"
+    public static let dailyPrompt = "DAILY_PROMPT"
+    public static let nudge = "NUDGE"
 }
 
 /// Notification action identifiers
 public enum NotificationAction {
-    /// Action to open the letter
-    public static let openLetter = "OPEN_LETTER"
-
-    /// Action to start a new journal session
-    public static let startSession = "START_SESSION"
-
-    /// Action to snooze the reminder
-    public static let snooze = "SNOOZE_REMINDER"
+    public static let respond = "RESPOND"
+    public static let listen = "LISTEN"
+    public static let snooze = "SNOOZE"
 }
