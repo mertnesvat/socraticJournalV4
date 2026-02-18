@@ -15,6 +15,7 @@ public struct SocraticJournalApp: App {
     private let subscriptionService: SubscriptionServiceProtocol = StoreKitSubscriptionService()
     private let analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
     private let appReviewService: AppReviewService = AppReviewService.shared
+    private let circleRepository: CircleRepositoryProtocol = LocalCircleRepository()
     @State private var themeManager = ThemeManager.shared
 
     // MARK: - Auth
@@ -63,6 +64,7 @@ public struct SocraticJournalApp: App {
                 settingsRepository: settingsRepository,
                 subscriptionService: subscriptionService,
                 analyticsService: analyticsService,
+                circleRepository: circleRepository,
                 authState: authState
             )
         } else {

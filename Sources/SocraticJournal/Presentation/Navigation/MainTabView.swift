@@ -5,59 +5,50 @@
 #if os(iOS)
 import SwiftUI
 
-/// Placeholder main view for Circle app
-/// This will be replaced with the real home feed in Feature 6
+/// Main tab view for the Circle app
 public struct MainTabView: View {
     @Environment(ThemeManager.self) private var themeManager
 
     private let settingsRepository: SettingsRepositoryProtocol
     private let subscriptionService: SubscriptionServiceProtocol?
     private let analyticsService: AnalyticsServiceProtocol?
+    private let circleRepository: CircleRepositoryProtocol
     @Bindable private var authState: AuthState
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
         subscriptionService: SubscriptionServiceProtocol? = nil,
         analyticsService: AnalyticsServiceProtocol? = nil,
+        circleRepository: CircleRepositoryProtocol,
         authState: AuthState
     ) {
         self.settingsRepository = settingsRepository
         self.subscriptionService = subscriptionService
         self.analyticsService = analyticsService
+        self.circleRepository = circleRepository
         self.authState = authState
     }
 
-    private var greeting: String {
-        if let name = authState.currentUser?.displayName {
-            return "Hey, \(name)"
+    public var body: some View {
+        TabView {
+            circlesTab
+                .tabItem {
+                    Label("Circles", systemImage: "person.2.circle.fill")
+                }
         }
-        return "Circle"
     }
 
-    public var body: some View {
-        NavigationStack {
-            VStack(spacing: 24) {
-                Spacer()
-
-                Text("💬")
-                    .font(.system(size: 80))
-
-                Text(greeting)
-                    .font(.largeTitle.bold())
-
-                Text("Voice-first connection\nwith the people who matter")
-                    .font(.title3)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-
-                Spacer()
-
-                Text("Building something beautiful...")
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
-            }
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+    @ViewBuilder
+    private var circlesTab: some View {
+        if let userId = authState.currentUser?.id {
+            CircleListView(
+                viewModel: CirclesViewModel(
+                    repository: circleRepository,
+                    currentUserId: userId
+                )
+            )
+        } else {
+            ProgressView()
         }
     }
 }
@@ -65,6 +56,7 @@ public struct MainTabView: View {
 #Preview {
     MainTabView(
         settingsRepository: UserDefaultsSettingsRepository(),
+        circleRepository: LocalCircleRepository(),
         authState: AuthState(service: LocalAuthService())
     )
     .environment(ThemeManager.shared)

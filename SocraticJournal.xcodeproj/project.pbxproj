@@ -23,6 +23,7 @@
 		2AFCA9C3386D8579C89D2523 /* OfflineSyncHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */; };
 		2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A36AC1AC2633D53C43FE99 /* Environment.swift */; };
 		2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */; };
+		2D034306C0F38DE4B63AC387 /* LocalVoiceNoteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BBC661AA807DC250740DB2 /* LocalVoiceNoteRepository.swift */; };
 		31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */; };
 		3BCE20D54AE96A3872A4890B /* AppReviewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE01830F0959A72723F0DD /* AppReviewService.swift */; };
 		3E99696F432DD663C972D484 /* VoiceRecordingServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B335DF33C3770C048FAE5BE9 /* VoiceRecordingServiceProtocol.swift */; };
@@ -32,6 +33,7 @@
 		43C98F90392DF4FAF14C8794 /* OfflineSyncQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90870259354CA1249E7674EA /* OfflineSyncQueue.swift */; };
 		489A62C48FDE5B01B77CCC67 /* VoiceNoteRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C3E36C64CA98F12CEE2798 /* VoiceNoteRepositoryProtocol.swift */; };
 		4DEF2A590438AE3A23B46936 /* LocalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3CCE3056C48C78EAF1729A /* LocalAuthService.swift */; };
+		520886B15CCFBC6C5A16C89B /* VoiceRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2905188578F370EB9E021BE7 /* VoiceRecorderViewModel.swift */; };
 		54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */; };
 		55B60718FE227BEA19D64946 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */; };
 		58B70FC528D7610DBD6280B4 /* VoiceNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215BA6856F7C2E5D2A843D15 /* VoiceNote.swift */; };
@@ -39,24 +41,33 @@
 		5B625522F67DED65EA09CBA1 /* MockSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88051AB8352D615CE378228 /* MockSettingsRepository.swift */; };
 		5BEAEBCBD02CB45FB73DE005 /* PromptRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CA5A2CF2D5926B62853E8 /* PromptRepositoryProtocol.swift */; };
 		5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4B1E73960A7489D123CF41 /* UserSettings.swift */; };
+		665A65AD4720AC7E6F1DB1D1 /* VoiceRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC513C5B51CAE32B2E1E101 /* VoiceRecorderView.swift */; };
+		6B2EA9640CC56AB667B0E24A /* CircleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426BB1C53ED9DDC99F974448 /* CircleListView.swift */; };
+		7A4A78DC842853D92EBD40A4 /* CirclesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F0D007AB619D14EF80236E /* CirclesViewModel.swift */; };
 		7E55D38D6BCA0E51D0F45013 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1439E1ED4A0277B8F3670D92 /* FirebaseAnalytics */; };
 		81091E373EF2A53EFFF913E4 /* AppsFlyerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D029C25B681B5461B571644 /* AppsFlyerService.swift */; };
 		8217B4E5F4C6E1AE25579F53 /* TranscriptionServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4337983EBCAF0BF340D59ADE /* TranscriptionServiceProtocol.swift */; };
 		85A6BB1CEF18A306B05B72AD /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */; };
+		904B33ED1D5BE64EFBA20964 /* LocalAudioPlaybackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7AB507F3F1CD45929A26B1 /* LocalAudioPlaybackService.swift */; };
 		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
 		A523E5F334F9E4E071C18047 /* BackendStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E102341D4D6B4D043E4BFE8 /* BackendStatusView.swift */; };
 		A7AA81467CD32AAC065DA9C1 /* DailyPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8FEB604EE15266F187C41 /* DailyPrompt.swift */; };
 		AFBBA19E9186A341DA95E6E0 /* BackendHealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */; };
+		B70620E0F3788BF42AB3B336 /* VoiceNotePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4325ACA51DE4E214B4F76B /* VoiceNotePlayerView.swift */; };
 		BDD288FBA2DB2666DB6EBFE6 /* SubscriptionIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46BB41237613A138296486F /* SubscriptionIntegrationTests.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
+		C6B8F7DD0FC810A84E6422E2 /* LocalCircleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D1F21B3BB65BA30BF56A43 /* LocalCircleRepository.swift */; };
 		D521D0641873E4748F6889DE /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D7E650D2665C4ACDB70224 /* AuthState.swift */; };
 		D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */; };
 		D6081F0B24B69FC0BFCCC4ED /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */; };
+		D70067E9EA4E889DB59EC3E5 /* CircleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D5DAB5CE24160101862B94 /* CircleDetailView.swift */; };
 		DD7D0FA52753BE5E9DB2CF29 /* MockSubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4002A04471CAD29B8C550469 /* MockSubscriptionService.swift */; };
 		DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */; };
 		E6557B5D6506F21E3E8C8B85 /* CircleRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA27B6F55DA6FDBFE7485BBD /* CircleRepositoryProtocol.swift */; };
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
+		F5995238059071E504283D13 /* LocalVoiceRecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4192D3068127FC7B8F2C6F7 /* LocalVoiceRecordingService.swift */; };
 		F6ED4FF6A1746D06455250C8 /* CircleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620091ACA7098AFCD2B9281F /* CircleUser.swift */; };
+		F77E51E72A9FA72726E2F9BB /* CreateCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF8AA61DFEC81AD0994ECA /* CreateCircleView.swift */; };
 		FA20C1717E5605AE4CABB7A5 /* CircleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1201ED724FFEBA996B1763C /* CircleGroup.swift */; };
 		FD764235B722DD5F364C9850 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7427E0C3061E854EE474F549 /* FirebaseMessaging */; };
 		FFD6A44603614E7B7C030FAC /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 20CC8584D9C7E0C1B74D5D56 /* FirebaseFunctions */; };
@@ -76,18 +87,24 @@
 		0B1DCA1BD05A6C77FD0365B9 /* StoreKitSubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitSubscriptionService.swift; sourceTree = "<group>"; };
 		0F0EB282F5B9DEFA60836B7A /* CreateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileView.swift; sourceTree = "<group>"; };
 		215BA6856F7C2E5D2A843D15 /* VoiceNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNote.swift; sourceTree = "<group>"; };
+		2905188578F370EB9E021BE7 /* VoiceRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecorderViewModel.swift; sourceTree = "<group>"; };
+		29D5DAB5CE24160101862B94 /* CircleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleDetailView.swift; sourceTree = "<group>"; };
 		2AF6558BB5A721E5415193CE /* PromptGenerationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptGenerationServiceProtocol.swift; sourceTree = "<group>"; };
 		38D7E650D2665C4ACDB70224 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
 		3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepositoryProtocol.swift; sourceTree = "<group>"; };
 		3C3CCE3056C48C78EAF1729A /* LocalAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthService.swift; sourceTree = "<group>"; };
 		3D029C25B681B5461B571644 /* AppsFlyerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerService.swift; sourceTree = "<group>"; };
 		3E102341D4D6B4D043E4BFE8 /* BackendStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendStatusView.swift; sourceTree = "<group>"; };
+		3ECF8AA61DFEC81AD0994ECA /* CreateCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCircleView.swift; sourceTree = "<group>"; };
 		4002A04471CAD29B8C550469 /* MockSubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSubscriptionService.swift; sourceTree = "<group>"; };
 		41BCDC0924026E683288C6B4 /* PaywallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModel.swift; sourceTree = "<group>"; };
+		426BB1C53ED9DDC99F974448 /* CircleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleListView.swift; sourceTree = "<group>"; };
 		4337983EBCAF0BF340D59ADE /* TranscriptionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionServiceProtocol.swift; sourceTree = "<group>"; };
 		46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
+		48BBC661AA807DC250740DB2 /* LocalVoiceNoteRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVoiceNoteRepository.swift; sourceTree = "<group>"; };
 		4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSyncHandler.swift; sourceTree = "<group>"; };
 		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		57D1F21B3BB65BA30BF56A43 /* LocalCircleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCircleRepository.swift; sourceTree = "<group>"; };
 		5FDE01830F0959A72723F0DD /* AppReviewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewService.swift; sourceTree = "<group>"; };
 		620091ACA7098AFCD2B9281F /* CircleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleUser.swift; sourceTree = "<group>"; };
 		6719F2C4BA1905FC6028A92B /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
@@ -95,11 +112,13 @@
 		6CC02A1182B94FB55F6FA910 /* SubscriptionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionServiceProtocol.swift; sourceTree = "<group>"; };
 		788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSettingsRepository.swift; sourceTree = "<group>"; };
 		7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalApp.swift; sourceTree = "<group>"; };
+		7E7AB507F3F1CD45929A26B1 /* LocalAudioPlaybackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAudioPlaybackService.swift; sourceTree = "<group>"; };
 		84DB170DB3684DD41520F4D4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		866D24687A212E487100395D /* AuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceProtocol.swift; sourceTree = "<group>"; };
 		90870259354CA1249E7674EA /* OfflineSyncQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSyncQueue.swift; sourceTree = "<group>"; };
 		970A0693B76E2682C1F3E360 /* CircleMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleMember.swift; sourceTree = "<group>"; };
 		98DEC87C4C78120D2D66BF2D /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		9BC513C5B51CAE32B2E1E101 /* VoiceRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecorderView.swift; sourceTree = "<group>"; };
 		9F4B1E73960A7489D123CF41 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		A9C3E36C64CA98F12CEE2798 /* VoiceNoteRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNoteRepositoryProtocol.swift; sourceTree = "<group>"; };
@@ -114,6 +133,7 @@
 		C09C8B1A5BD382943CF68DD5 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		CBFCD947C02302577DE3EC06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF92EF5F314A4CC8478E991C /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		D4192D3068127FC7B8F2C6F7 /* LocalVoiceRecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVoiceRecordingService.swift; sourceTree = "<group>"; };
 		D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendHealthService.swift; sourceTree = "<group>"; };
 		DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E1201ED724FFEBA996B1763C /* CircleGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleGroup.swift; sourceTree = "<group>"; };
@@ -124,7 +144,9 @@
 		E88051AB8352D615CE378228 /* MockSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsRepository.swift; sourceTree = "<group>"; };
 		EE742B3A435A8412095FE829 /* PaywallViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModelTests.swift; sourceTree = "<group>"; };
 		F68CA5A2CF2D5926B62853E8 /* PromptRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptRepositoryProtocol.swift; sourceTree = "<group>"; };
+		F6F0D007AB619D14EF80236E /* CirclesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirclesViewModel.swift; sourceTree = "<group>"; };
 		F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		FA4325ACA51DE4E214B4F76B /* VoiceNotePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNotePlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +230,8 @@
 		4469CCD33893F35E046D9B9D /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				57D1F21B3BB65BA30BF56A43 /* LocalCircleRepository.swift */,
+				48BBC661AA807DC250740DB2 /* LocalVoiceNoteRepository.swift */,
 				788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */,
 			);
 			path = Repositories;
@@ -236,6 +260,17 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
+		619EFD1C7FA18B26FE556F18 /* Circles */ = {
+			isa = PBXGroup;
+			children = (
+				29D5DAB5CE24160101862B94 /* CircleDetailView.swift */,
+				426BB1C53ED9DDC99F974448 /* CircleListView.swift */,
+				F6F0D007AB619D14EF80236E /* CirclesViewModel.swift */,
+				3ECF8AA61DFEC81AD0994ECA /* CreateCircleView.swift */,
+			);
+			path = Circles;
+			sourceTree = "<group>";
+		};
 		62B7D518CABCCA266EEB90F5 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +290,16 @@
 				4002A04471CAD29B8C550469 /* MockSubscriptionService.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		775A2E922A6B5CA021BCA134 /* Voice */ = {
+			isa = PBXGroup;
+			children = (
+				FA4325ACA51DE4E214B4F76B /* VoiceNotePlayerView.swift */,
+				9BC513C5B51CAE32B2E1E101 /* VoiceRecorderView.swift */,
+				2905188578F370EB9E021BE7 /* VoiceRecorderViewModel.swift */,
+			);
+			path = Voice;
 			sourceTree = "<group>";
 		};
 		7DBE6F1459754CEC4DAED18F /* Navigation */ = {
@@ -340,8 +385,10 @@
 				38D7E650D2665C4ACDB70224 /* AuthState.swift */,
 				D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */,
 				AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */,
+				7E7AB507F3F1CD45929A26B1 /* LocalAudioPlaybackService.swift */,
 				3C3CCE3056C48C78EAF1729A /* LocalAuthService.swift */,
 				C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */,
+				D4192D3068127FC7B8F2C6F7 /* LocalVoiceRecordingService.swift */,
 				F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */,
 				4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */,
 				90870259354CA1249E7674EA /* OfflineSyncQueue.swift */,
@@ -363,10 +410,12 @@
 			isa = PBXGroup;
 			children = (
 				D80A916BE4998E1BAB0F8BB0 /* Auth */,
+				619EFD1C7FA18B26FE556F18 /* Circles */,
 				B04C0B8D7BF9B1BAF80E4F32 /* Components */,
 				7DBE6F1459754CEC4DAED18F /* Navigation */,
 				0277DB7634FC77C715A88789 /* Paywall */,
 				3292427AC674B121CCABA44F /* Theme */,
+				775A2E922A6B5CA021BCA134 /* Voice */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -497,16 +546,24 @@
 				D521D0641873E4748F6889DE /* AuthState.swift in Sources */,
 				AFBBA19E9186A341DA95E6E0 /* BackendHealthService.swift in Sources */,
 				A523E5F334F9E4E071C18047 /* BackendStatusView.swift in Sources */,
+				D70067E9EA4E889DB59EC3E5 /* CircleDetailView.swift in Sources */,
 				FA20C1717E5605AE4CABB7A5 /* CircleGroup.swift in Sources */,
+				6B2EA9640CC56AB667B0E24A /* CircleListView.swift in Sources */,
 				26C7116DD7EB78C79CD2F22E /* CircleMember.swift in Sources */,
 				E6557B5D6506F21E3E8C8B85 /* CircleRepositoryProtocol.swift in Sources */,
 				F6ED4FF6A1746D06455250C8 /* CircleUser.swift in Sources */,
+				7A4A78DC842853D92EBD40A4 /* CirclesViewModel.swift in Sources */,
+				F77E51E72A9FA72726E2F9BB /* CreateCircleView.swift in Sources */,
 				256087C77A2BAC2E5ED711F0 /* CreateProfileView.swift in Sources */,
 				A7AA81467CD32AAC065DA9C1 /* DailyPrompt.swift in Sources */,
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
+				904B33ED1D5BE64EFBA20964 /* LocalAudioPlaybackService.swift in Sources */,
 				4DEF2A590438AE3A23B46936 /* LocalAuthService.swift in Sources */,
+				C6B8F7DD0FC810A84E6422E2 /* LocalCircleRepository.swift in Sources */,
 				2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */,
+				2D034306C0F38DE4B63AC387 /* LocalVoiceNoteRepository.swift in Sources */,
+				F5995238059071E504283D13 /* LocalVoiceRecordingService.swift in Sources */,
 				2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */,
 				31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */,
 				54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */,
@@ -527,7 +584,10 @@
 				E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */,
 				5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */,
 				58B70FC528D7610DBD6280B4 /* VoiceNote.swift in Sources */,
+				B70620E0F3788BF42AB3B336 /* VoiceNotePlayerView.swift in Sources */,
 				489A62C48FDE5B01B77CCC67 /* VoiceNoteRepositoryProtocol.swift in Sources */,
+				665A65AD4720AC7E6F1DB1D1 /* VoiceRecorderView.swift in Sources */,
+				520886B15CCFBC6C5A16C89B /* VoiceRecorderViewModel.swift in Sources */,
 				3E99696F432DD663C972D484 /* VoiceRecordingServiceProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
