@@ -13,6 +13,7 @@ public struct SocraticJournalApp: App {
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()
     private let subscriptionService: SubscriptionServiceProtocol = StoreKitSubscriptionService()
     @State private var themeManager = ThemeManager.shared
+    @State private var hasCompletedOnboarding = true // default true, loaded in .task
 
     // Circle services (all mock/local — Firebase swapped later)
     private let authService = MockAuthService()
@@ -32,22 +33,40 @@ public struct SocraticJournalApp: App {
 
     public var body: some Scene {
         WindowGroup {
-            CircleRootView(
-                circleRepository: circleRepository,
-                authService: authService,
-                promptRepository: promptRepository,
-                promptService: promptService,
-                voiceNoteRepository: voiceNoteRepository,
-                audioService: audioService,
-                audioStorageService: audioStorageService,
-                userProfileRepository: userProfileRepository,
-                currentUserId: MockAuthService.mockUsers[0].id
-            )
+            Group {
+                if hasCompletedOnboarding {
+                    CircleRootView(
+                        circleRepository: circleRepository,
+                        authService: authService,
+                        promptRepository: promptRepository,
+                        promptService: promptService,
+                        voiceNoteRepository: voiceNoteRepository,
+                        audioService: audioService,
+                        audioStorageService: audioStorageService,
+                        userProfileRepository: userProfileRepository,
+                        currentUserId: MockAuthService.mockUsers[0].id
+                    )
+                } else {
+                    OnboardingView(
+                        settingsRepository: settingsRepository,
+                        circleRepository: circleRepository,
+                        authService: authService,
+                        currentUserId: MockAuthService.mockUsers[0].id,
+                        onComplete: {
+                            withAnimation {
+                                hasCompletedOnboarding = true
+                            }
+                        }
+                    )
+                }
+            }
             .environment(themeManager)
             .preferredColorScheme(themeManager.colorScheme)
             .task {
                 await themeManager.loadTheme()
                 await authService.autoSignInIfNeeded()
+                let settings = (try? await settingsRepository.getSettings()) ?? .default
+                hasCompletedOnboarding = settings.hasCompletedOnboarding
             }
         }
     }
