@@ -18,6 +18,13 @@ public struct SocraticJournalApp: App {
     private let circleRepository: CircleRepositoryProtocol = LocalCircleRepository()
     @State private var themeManager = ThemeManager.shared
 
+    // MARK: - Home Feed Services
+    private let promptRepository: PromptRepositoryProtocol = LocalPromptRepository()
+    private let promptGenerationService: PromptGenerationServiceProtocol = LocalPromptGenerationService()
+    private let voiceNoteRepository: VoiceNoteRepositoryProtocol = LocalVoiceNoteRepository()
+    private let voiceRecordingService: VoiceRecordingServiceProtocol = LocalVoiceRecordingService()
+    private let playbackService: AudioPlaybackServiceProtocol = LocalAudioPlaybackService()
+
     // MARK: - Auth
 
     @State private var authState = AuthState(service: LocalAuthService())
@@ -84,6 +91,11 @@ public struct SocraticJournalApp: App {
                 subscriptionService: subscriptionService,
                 analyticsService: analyticsService,
                 circleRepository: circleRepository,
+                promptRepository: promptRepository,
+                promptGenerationService: promptGenerationService,
+                voiceNoteRepository: voiceNoteRepository,
+                voiceRecordingService: voiceRecordingService,
+                playbackService: playbackService,
                 authState: authState
             )
         }

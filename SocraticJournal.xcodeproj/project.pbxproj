@@ -51,6 +51,7 @@
 		7A4A78DC842853D92EBD40A4 /* CirclesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F0D007AB619D14EF80236E /* CirclesViewModel.swift */; };
 		7E55D38D6BCA0E51D0F45013 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1439E1ED4A0277B8F3670D92 /* FirebaseAnalytics */; };
 		81091E373EF2A53EFFF913E4 /* AppsFlyerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D029C25B681B5461B571644 /* AppsFlyerService.swift */; };
+		820A8F166BA0E7A25B150AC8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA5D013746FC29B516ADE8B /* HomeViewModel.swift */; };
 		8217B4E5F4C6E1AE25579F53 /* TranscriptionServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4337983EBCAF0BF340D59ADE /* TranscriptionServiceProtocol.swift */; };
 		85A6BB1CEF18A306B05B72AD /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */; };
 		904B33ED1D5BE64EFBA20964 /* LocalAudioPlaybackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7AB507F3F1CD45929A26B1 /* LocalAudioPlaybackService.swift */; };
@@ -58,8 +59,11 @@
 		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
 		A523E5F334F9E4E071C18047 /* BackendStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E102341D4D6B4D043E4BFE8 /* BackendStatusView.swift */; };
 		A7AA81467CD32AAC065DA9C1 /* DailyPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8FEB604EE15266F187C41 /* DailyPrompt.swift */; };
+		AACF46FCED951E64A94F3235 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA0DB79E028261D57D98467 /* HomeView.swift */; };
 		AFBBA19E9186A341DA95E6E0 /* BackendHealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */; };
 		B303DA86D265E5DBA41DDF71 /* prompt_bank.json in Resources */ = {isa = PBXBuildFile; fileRef = 51654B2814D7C0EA0146B7BF /* prompt_bank.json */; };
+		B65089569502D1023AA799F0 /* NotificationSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161FA2B6F823935359E6E615 /* NotificationSettingsViewModel.swift */; };
+		B6C4177CA3AAAA61979EBFF1 /* CircleNotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A532668D831634CFABB5B61 /* CircleNotificationScheduler.swift */; };
 		B70620E0F3788BF42AB3B336 /* VoiceNotePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4325ACA51DE4E214B4F76B /* VoiceNotePlayerView.swift */; };
 		BDD288FBA2DB2666DB6EBFE6 /* SubscriptionIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46BB41237613A138296486F /* SubscriptionIntegrationTests.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
@@ -74,6 +78,7 @@
 		DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */; };
 		E6557B5D6506F21E3E8C8B85 /* CircleRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA27B6F55DA6FDBFE7485BBD /* CircleRepositoryProtocol.swift */; };
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
+		ED64831EE7A3BB885FCD89EE /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778DC1691FDB142A3D24B8BE /* NotificationSettingsView.swift */; };
 		F5995238059071E504283D13 /* LocalVoiceRecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4192D3068127FC7B8F2C6F7 /* LocalVoiceRecordingService.swift */; };
 		F6ED4FF6A1746D06455250C8 /* CircleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620091ACA7098AFCD2B9281F /* CircleUser.swift */; };
 		F77E51E72A9FA72726E2F9BB /* CreateCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF8AA61DFEC81AD0994ECA /* CreateCircleView.swift */; };
@@ -96,9 +101,11 @@
 /* Begin PBXFileReference section */
 		0B1DCA1BD05A6C77FD0365B9 /* StoreKitSubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitSubscriptionService.swift; sourceTree = "<group>"; };
 		0F0EB282F5B9DEFA60836B7A /* CreateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileView.swift; sourceTree = "<group>"; };
+		161FA2B6F823935359E6E615 /* NotificationSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsViewModel.swift; sourceTree = "<group>"; };
 		215BA6856F7C2E5D2A843D15 /* VoiceNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNote.swift; sourceTree = "<group>"; };
 		2905188578F370EB9E021BE7 /* VoiceRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecorderViewModel.swift; sourceTree = "<group>"; };
 		29D5DAB5CE24160101862B94 /* CircleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleDetailView.swift; sourceTree = "<group>"; };
+		2A532668D831634CFABB5B61 /* CircleNotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleNotificationScheduler.swift; sourceTree = "<group>"; };
 		2AF6558BB5A721E5415193CE /* PromptGenerationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptGenerationServiceProtocol.swift; sourceTree = "<group>"; };
 		2CE057998AF7AC87E462E812 /* DailyPromptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPromptViewModel.swift; sourceTree = "<group>"; };
 		34941691029031638914C8E1 /* LocalPromptGenerationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPromptGenerationService.swift; sourceTree = "<group>"; };
@@ -125,6 +132,7 @@
 		6719F2C4BA1905FC6028A92B /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		6A07E910B300F8BA4C4769BE /* SocraticJournalTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SocraticJournalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CC02A1182B94FB55F6FA910 /* SubscriptionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionServiceProtocol.swift; sourceTree = "<group>"; };
+		778DC1691FDB142A3D24B8BE /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
 		788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSettingsRepository.swift; sourceTree = "<group>"; };
 		7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalApp.swift; sourceTree = "<group>"; };
 		7CCF83080F593B837007EC1D /* TranscriptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptView.swift; sourceTree = "<group>"; };
@@ -141,8 +149,10 @@
 		A9C3E36C64CA98F12CEE2798 /* VoiceNoteRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNoteRepositoryProtocol.swift; sourceTree = "<group>"; };
 		AA27B6F55DA6FDBFE7485BBD /* CircleRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleRepositoryProtocol.swift; sourceTree = "<group>"; };
 		AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsService.swift; sourceTree = "<group>"; };
+		ABA0DB79E028261D57D98467 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AC19C5D594724411CC94E8EB /* TranscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionViewModel.swift; sourceTree = "<group>"; };
 		AD00AFE4BF4F24240FDB0677 /* SubscriptionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionServiceTests.swift; sourceTree = "<group>"; };
+		AEA5D013746FC29B516ADE8B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceProtocol.swift; sourceTree = "<group>"; };
 		B335DF33C3770C048FAE5BE9 /* VoiceRecordingServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecordingServiceProtocol.swift; sourceTree = "<group>"; };
 		B3D8FEB604EE15266F187C41 /* DailyPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPrompt.swift; sourceTree = "<group>"; };
@@ -201,6 +211,15 @@
 				7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		0A7D89DB9B7D4AA46EE297DA /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				778DC1691FDB142A3D24B8BE /* NotificationSettingsView.swift */,
+				161FA2B6F823935359E6E615 /* NotificationSettingsViewModel.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		0C91325F30896478BA27DD2D /* Prompts */ = {
@@ -371,6 +390,15 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		9E214058FE0248D23B2EAAD5 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				ABA0DB79E028261D57D98467 /* HomeView.swift */,
+				AEA5D013746FC29B516ADE8B /* HomeViewModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		A077F516DDE32664C794136A = {
 			isa = PBXGroup;
 			children = (
@@ -426,6 +454,7 @@
 				3D029C25B681B5461B571644 /* AppsFlyerService.swift */,
 				38D7E650D2665C4ACDB70224 /* AuthState.swift */,
 				D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */,
+				2A532668D831634CFABB5B61 /* CircleNotificationScheduler.swift */,
 				AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */,
 				7E7AB507F3F1CD45929A26B1 /* LocalAudioPlaybackService.swift */,
 				3C3CCE3056C48C78EAF1729A /* LocalAuthService.swift */,
@@ -456,10 +485,12 @@
 				D80A916BE4998E1BAB0F8BB0 /* Auth */,
 				619EFD1C7FA18B26FE556F18 /* Circles */,
 				B04C0B8D7BF9B1BAF80E4F32 /* Components */,
+				9E214058FE0248D23B2EAAD5 /* Home */,
 				7DBE6F1459754CEC4DAED18F /* Navigation */,
 				165EBEA269EA38D7418DCC61 /* Onboarding */,
 				0277DB7634FC77C715A88789 /* Paywall */,
 				0C91325F30896478BA27DD2D /* Prompts */,
+				0A7D89DB9B7D4AA46EE297DA /* Settings */,
 				3292427AC674B121CCABA44F /* Theme */,
 				775A2E922A6B5CA021BCA134 /* Voice */,
 			);
@@ -597,6 +628,7 @@
 				FA20C1717E5605AE4CABB7A5 /* CircleGroup.swift in Sources */,
 				6B2EA9640CC56AB667B0E24A /* CircleListView.swift in Sources */,
 				26C7116DD7EB78C79CD2F22E /* CircleMember.swift in Sources */,
+				B6C4177CA3AAAA61979EBFF1 /* CircleNotificationScheduler.swift in Sources */,
 				E6557B5D6506F21E3E8C8B85 /* CircleRepositoryProtocol.swift in Sources */,
 				F6ED4FF6A1746D06455250C8 /* CircleUser.swift in Sources */,
 				7A4A78DC842853D92EBD40A4 /* CirclesViewModel.swift in Sources */,
@@ -606,6 +638,8 @@
 				220A7D1CB6D3C36D969F591B /* DailyPromptViewModel.swift in Sources */,
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
+				AACF46FCED951E64A94F3235 /* HomeView.swift in Sources */,
+				820A8F166BA0E7A25B150AC8 /* HomeViewModel.swift in Sources */,
 				904B33ED1D5BE64EFBA20964 /* LocalAudioPlaybackService.swift in Sources */,
 				4DEF2A590438AE3A23B46936 /* LocalAuthService.swift in Sources */,
 				C6B8F7DD0FC810A84E6422E2 /* LocalCircleRepository.swift in Sources */,
@@ -618,6 +652,8 @@
 				2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */,
 				31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */,
 				54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */,
+				ED64831EE7A3BB885FCD89EE /* NotificationSettingsView.swift in Sources */,
+				B65089569502D1023AA799F0 /* NotificationSettingsViewModel.swift in Sources */,
 				2AFCA9C3386D8579C89D2523 /* OfflineSyncHandler.swift in Sources */,
 				43C98F90392DF4FAF14C8794 /* OfflineSyncQueue.swift in Sources */,
 				D4052CE44F43F0F480B3632E /* OnboardingView.swift in Sources */,
