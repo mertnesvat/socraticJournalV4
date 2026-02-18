@@ -155,6 +155,17 @@ public final class CircleFeedViewModel {
                 }
                 return a.member.displayName < b.member.displayName
             }
+
+            // Update widget data when viewing today's feed
+            if isToday {
+                updateWidgetData(
+                    circle: circle,
+                    prompt: prompt,
+                    responses: responses,
+                    members: circle.members,
+                    voiceNotes: items.compactMap { $0.voiceNote }
+                )
+            }
         } catch {
             self.error = error
         }
@@ -217,6 +228,33 @@ public final class CircleFeedViewModel {
     /// Clear error state.
     func clearError() {
         error = nil
+    }
+
+    // MARK: - Widget Integration
+
+    /// Write the current feed state to the widget's shared App Group container.
+    private func updateWidgetData(
+        circle: Circle,
+        prompt: Prompt?,
+        responses: [VoiceResponse],
+        members: [CircleMember],
+        voiceNotes: [VoiceNote]
+    ) {
+        // Build a transcript lookup from voice notes
+        var transcripts: [UUID: String] = [:]
+        for note in voiceNotes {
+            if let transcript = note.transcript {
+                transcripts[note.id] = transcript
+            }
+        }
+
+        WidgetDataProvider.shared.updateWidgetData(
+            circle: circle,
+            prompt: prompt,
+            responses: responses,
+            members: members,
+            transcripts: transcripts
+        )
     }
 }
 #endif
