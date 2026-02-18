@@ -9,6 +9,7 @@ import os.log
 
 /// ViewModel for voice recording flow
 /// Manages recording state, microphone permissions, and live audio levels
+/// Optionally auto-transcribes recordings when a transcription service is provided
 @Observable
 @MainActor
 public final class VoiceRecorderViewModel {
@@ -28,18 +29,27 @@ public final class VoiceRecorderViewModel {
     public private(set) var audioLevels: [Float] = Array(repeating: 0.1, count: 40)
     public private(set) var permissionDenied = false
     public private(set) var permissionGranted = false
+    /// Whether a transcription is currently in progress after recording
+    public private(set) var isTranscribing = false
+    /// The most recently transcribed text (nil if transcription not yet done or failed)
+    public private(set) var lastTranscript: String?
 
     // MARK: - Private
 
     private let recordingService: VoiceRecordingServiceProtocol
+    private let transcriptionService: TranscriptionServiceProtocol?
     private var meterTimer: Timer?
     private var currentRecordingURL: URL?
     private let logger = Logger(subsystem: "com.StudioNext.socraticJournal", category: "VoiceRecorder")
 
     // MARK: - Init
 
-    public init(recordingService: VoiceRecordingServiceProtocol) {
+    public init(
+        recordingService: VoiceRecordingServiceProtocol,
+        transcriptionService: TranscriptionServiceProtocol? = nil
+    ) {
         self.recordingService = recordingService
+        self.transcriptionService = transcriptionService
     }
 
     // MARK: - Permissions
@@ -148,6 +158,41 @@ public final class VoiceRecorderViewModel {
         updated.removeFirst()
         updated.append(newLevel)
         audioLevels = updated
+    }
+
+    // MARK: - Transcription
+
+    /// Asynchronously transcribe a recorded audio file
+    /// Does not block - fires and updates state when complete
+    /// - Parameter audioURL: The URL of the recorded audio file
+    /// - Returns: The transcribed text, or nil if transcription is unavailable or failed
+    public func transcribeRecording(audioURL: URL) async -> String? {
+        guard let transcriptionService = transcriptionService else {
+            return nil
+        }
+
+        isTranscribing = true
+        lastTranscript = nil
+
+        // Request permission if needed (lazy — first attempt only)
+        let hasPermission = await transcriptionService.requestPermission()
+        guard hasPermission else {
+            isTranscribing = false
+            logger.info("Speech recognition permission not granted, skipping transcription")
+            return nil
+        }
+
+        let transcript = await transcriptionService.transcribe(audioURL: audioURL)
+        lastTranscript = transcript
+        isTranscribing = false
+
+        if let transcript = transcript {
+            logger.info("Transcription complete: \(transcript.prefix(50))...")
+        } else {
+            logger.info("Transcription returned no result")
+        }
+
+        return transcript
     }
 }
 #endif

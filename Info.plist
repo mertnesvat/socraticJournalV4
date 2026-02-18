@@ -39,6 +39,10 @@
     <false/>
     <key>NSUserTrackingUsageDescription</key>
     <string>We use this to measure the effectiveness of our marketing campaigns and improve your app experience.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Socratic Journal needs microphone access to record voice notes for your journal entries.</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>Socratic Journal uses on-device speech recognition to transcribe your voice notes into text.</string>
     <key>FirebaseUseEmulator</key>
     <string>$(FIREBASE_USE_EMULATOR)</string>
     <key>FirebaseEmulatorHost</key>
