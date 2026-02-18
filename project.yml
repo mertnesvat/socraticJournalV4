@@ -69,6 +69,12 @@ targets:
     type: app-extension
     platform: iOS
     deploymentTarget: "17.0"
+    info:
+      path: Sources/CircleWidget/Info.plist
+      properties:
+        CFBundleDisplayName: Circle Widget
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
     sources:
       - path: Sources/CircleWidget
         excludes:
@@ -78,7 +84,6 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournal.CircleWidget
         INFOPLIST_KEY_CFBundleDisplayName: Circle Widget
         INFOPLIST_KEY_NSWidgetWantsLocation: false
-        GENERATE_INFOPLIST_FILE: YES
         MARKETING_VERSION: "1.3.0"
         CURRENT_PROJECT_VERSION: "9"
         SWIFT_EMIT_LOC_STRINGS: YES

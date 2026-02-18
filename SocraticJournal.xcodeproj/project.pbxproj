@@ -184,6 +184,7 @@
 		AC19C5D594724411CC94E8EB /* TranscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionViewModel.swift; sourceTree = "<group>"; };
 		AD00AFE4BF4F24240FDB0677 /* SubscriptionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionServiceTests.swift; sourceTree = "<group>"; };
 		AEA5D013746FC29B516ADE8B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		B1F3F601892801E5E1EB1C67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceProtocol.swift; sourceTree = "<group>"; };
 		B335DF33C3770C048FAE5BE9 /* VoiceRecordingServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecordingServiceProtocol.swift; sourceTree = "<group>"; };
 		B3D8FEB604EE15266F187C41 /* DailyPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPrompt.swift; sourceTree = "<group>"; };
@@ -272,6 +273,7 @@
 			children = (
 				EB4208D08BF4903825A7DB3F /* CircleWidget.entitlements */,
 				4A571700CDB8911D29FAFA9E /* CircleWidget.swift */,
+				B1F3F601892801E5E1EB1C67 /* Info.plist */,
 			);
 			name = CircleWidget;
 			path = Sources/CircleWidget;
@@ -791,7 +793,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Sources/CircleWidget/CircleWidget.entitlements;
 				CURRENT_PROJECT_VERSION = 9;
-				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sources/CircleWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Circle Widget";
 				INFOPLIST_KEY_NSWidgetWantsLocation = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -990,7 +992,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Sources/CircleWidget/CircleWidget.entitlements;
 				CURRENT_PROJECT_VERSION = 9;
-				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sources/CircleWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Circle Widget";
 				INFOPLIST_KEY_NSWidgetWantsLocation = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
