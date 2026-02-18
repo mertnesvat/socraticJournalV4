@@ -8,8 +8,10 @@ import SwiftUI
 /// Displays all circles for the current user.
 /// Shows a warm empty state CTA when no circles exist.
 struct CircleListView: View {
+    @Environment(ServiceContainer.self) private var services
     @State private var viewModel: CircleListViewModel
     @State private var selectedCircle: Circle?
+    @State private var detailCircle: Circle?
     private let circleService: CircleServiceProtocol
 
     init(viewModel: CircleListViewModel, circleService: CircleServiceProtocol) {
@@ -34,10 +36,24 @@ struct CircleListView: View {
             )
         }
         .navigationDestination(item: $selectedCircle) { circle in
+            CircleFeedView(
+                viewModel: CircleFeedViewModel(
+                    responseService: services.responseService,
+                    promptService: services.promptService,
+                    circleService: services.circleService,
+                    voicePlaybackService: services.voicePlaybackService,
+                    voiceRecordingService: services.voiceRecordingService,
+                    authService: services.authService,
+                    circle: circle
+                )
+            )
+        }
+        .navigationDestination(item: $detailCircle) { circle in
             CircleDetailView(
                 viewModel: CircleDetailViewModel(
                     circle: circle,
-                    circleService: circleService
+                    circleService: circleService,
+                    promptService: services.promptService
                 ),
                 circleService: circleService
             )
@@ -136,7 +152,14 @@ struct CircleListView: View {
                 Button {
                     selectedCircle = circle
                 } label: {
-                    CircleRowView(circle: circle)
+                    CircleRowView(circle: circle, currentStreak: viewModel.currentStreak(for: circle.id))
+                }
+                .contextMenu {
+                    Button {
+                        detailCircle = circle
+                    } label: {
+                        Label("Circle Settings", systemImage: "gearshape")
+                    }
                 }
                 .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
             }
@@ -165,9 +188,10 @@ struct CircleListView: View {
 
 // MARK: - Circle Row
 
-/// A single row displaying a circle's icon, name, and member count.
+/// A single row displaying a circle's icon, name, member count, and streak.
 private struct CircleRowView: View {
     let circle: Circle
+    var currentStreak: Int = 0
 
     var body: some View {
         HStack(spacing: 14) {
@@ -182,11 +206,15 @@ private struct CircleRowView: View {
                     .foregroundStyle(CircleTheme.warmAmber)
             }
 
-            // Name and member count
+            // Name, member count, and streak
             VStack(alignment: .leading, spacing: 3) {
-                Text(circle.name)
-                    .font(.body.weight(.semibold))
-                    .foregroundStyle(.primary)
+                HStack(spacing: 6) {
+                    Text(circle.name)
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.primary)
+
+                    CircleStreakView(currentStreak: currentStreak, longestStreak: currentStreak, isCompact: true)
+                }
 
                 Text("\(circle.memberCount) member\(circle.memberCount == 1 ? "" : "s")")
                     .font(.caption)
