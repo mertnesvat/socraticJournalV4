@@ -19,13 +19,19 @@ public final class CirclesViewModel {
     // MARK: - Dependencies
 
     private let repository: CircleRepositoryProtocol
+    private let notificationScheduler: CircleNotificationScheduler?
     let currentUserId: UUID
 
     // MARK: - Init
 
-    public init(repository: CircleRepositoryProtocol, currentUserId: UUID) {
+    public init(
+        repository: CircleRepositoryProtocol,
+        currentUserId: UUID,
+        notificationScheduler: CircleNotificationScheduler? = nil
+    ) {
         self.repository = repository
         self.currentUserId = currentUserId
+        self.notificationScheduler = notificationScheduler
     }
 
     // MARK: - Actions
@@ -44,6 +50,8 @@ public final class CirclesViewModel {
     func createCircle(name: String, emoji: String) async throws -> CircleGroup {
         let newCircle = try await repository.create(name: name, emoji: emoji, creatorId: currentUserId)
         circles.insert(newCircle, at: 0)
+        // Schedule notifications for the newly created circle
+        await notificationScheduler?.scheduleForCircle(newCircle)
         return newCircle
     }
 
@@ -51,6 +59,8 @@ public final class CirclesViewModel {
         do {
             try await repository.delete(id: id)
             circles.removeAll { $0.id == id }
+            // Cancel notifications for the deleted circle
+            await notificationScheduler?.cancelForCircle(circleId: id)
         } catch {
             self.error = error
         }
