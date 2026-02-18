@@ -35,6 +35,8 @@ targets:
       - path: GoogleService-Info.plist
         buildPhase: resources
         type: file
+    resources:
+      - path: Sources/SocraticJournal/Resources/prompt_bank.json
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournal
