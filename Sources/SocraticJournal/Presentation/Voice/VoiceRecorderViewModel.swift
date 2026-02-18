@@ -40,6 +40,8 @@ public final class VoiceRecorderViewModel {
     private(set) var error: Error?
     /// Bindable from the view so SwiftUI `.alert(isPresented:)` can dismiss it.
     var showPermissionAlert: Bool = false
+    /// Whether the transcription is currently in progress.
+    private(set) var isTranscribing: Bool = false
 
     /// Formatted elapsed time (MM:SS).
     var formattedDuration: String {
@@ -74,6 +76,7 @@ public final class VoiceRecorderViewModel {
     // MARK: - Dependencies
 
     private let voiceRecordingService: VoiceRecordingServiceProtocol
+    private let transcriptionService: TranscriptionServiceProtocol?
     private let circleId: UUID?
     private let promptId: UUID?
     private let maxDuration: TimeInterval = 60.0
@@ -95,10 +98,12 @@ public final class VoiceRecorderViewModel {
 
     public init(
         voiceRecordingService: VoiceRecordingServiceProtocol,
+        transcriptionService: TranscriptionServiceProtocol? = nil,
         circleId: UUID? = nil,
         promptId: UUID? = nil
     ) {
         self.voiceRecordingService = voiceRecordingService
+        self.transcriptionService = transcriptionService
         self.circleId = circleId
         self.promptId = promptId
     }
@@ -138,6 +143,7 @@ public final class VoiceRecorderViewModel {
     }
 
     /// Stop recording and transition to done state.
+    /// Automatically triggers background transcription if a transcription service is available.
     func stopRecording() async {
         autoStopTimer?.invalidate()
         autoStopTimer = nil
@@ -146,9 +152,43 @@ public final class VoiceRecorderViewModel {
             lightImpact.impactOccurred()
             let voiceNote = try await voiceRecordingService.stopRecording()
             state = .done(voiceNote)
+
+            // Trigger transcription in the background (never blocks the flow)
+            if let transcriptionService {
+                await transcribeVoiceNote(voiceNote, using: transcriptionService)
+            }
         } catch {
             self.error = error
             state = .idle
+        }
+    }
+
+    /// Transcribe the given voice note in the background.
+    /// Updates the VoiceNote's transcript property and refreshes state on completion.
+    /// Failures are silently ignored so they never block the recording flow.
+    private func transcribeVoiceNote(
+        _ voiceNote: VoiceNote,
+        using service: TranscriptionServiceProtocol
+    ) async {
+        // Request permission if not yet authorized
+        if !service.isAvailable {
+            let granted = await service.requestPermission()
+            guard granted else { return }
+        }
+
+        isTranscribing = true
+        defer { isTranscribing = false }
+
+        do {
+            let transcript = try await service.transcribe(audioURL: voiceNote.fileURL)
+            // Update the voice note with the transcript
+            voiceNote.transcript = transcript
+            // Re-set state to trigger UI update with the transcript
+            if case .done(let current) = state, current.id == voiceNote.id {
+                state = .done(voiceNote)
+            }
+        } catch {
+            // Transcription failure is non-fatal; the recording is still valid
         }
     }
 

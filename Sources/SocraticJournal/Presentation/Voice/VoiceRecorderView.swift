@@ -238,6 +238,25 @@ public struct VoiceRecorderView: View {
             }
             .accessibilityLabel(viewModel.isPlaying ? "Pause playback" : "Preview recording")
 
+            // Transcription status
+            if viewModel.isTranscribing {
+                HStack(spacing: 6) {
+                    ProgressView()
+                        .controlSize(.small)
+                    Text("Transcribing...")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .transition(.opacity)
+            } else if let transcript = voiceNote.transcript, !transcript.isEmpty {
+                TranscriptSnippetView(
+                    transcript: transcript,
+                    duration: voiceNote.duration
+                )
+                .padding(.horizontal)
+                .transition(.opacity)
+            }
+
             // Action buttons
             HStack(spacing: 20) {
                 // Re-record

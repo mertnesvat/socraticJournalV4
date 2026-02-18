@@ -23,6 +23,8 @@ public final class VoiceNote {
     public var promptId: UUID?
     /// The user who recorded this note.
     public var userId: UUID?
+    /// Speech-to-text transcript of the audio, populated after transcription completes.
+    public var transcript: String?
 
     /// Absolute file URL computed from the stored relative path.
     public var fileURL: URL {
@@ -38,7 +40,8 @@ public final class VoiceNote {
         createdAt: Date = Date(),
         circleId: UUID? = nil,
         promptId: UUID? = nil,
-        userId: UUID? = nil
+        userId: UUID? = nil,
+        transcript: String? = nil
     ) {
         self.id = id
         self.filePath = filePath
@@ -48,5 +51,6 @@ public final class VoiceNote {
         self.circleId = circleId
         self.promptId = promptId
         self.userId = userId
+        self.transcript = transcript
     }
 }
