@@ -18,6 +18,7 @@
 		164CBF0AA31A693A19CEDB4D /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C8B1A5BD382943CF68DD5 /* Subscription.swift */; };
 		2353327B27450AF113EF609F /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF92EF5F314A4CC8478E991C /* ThemeManager.swift */; };
 		2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */; };
+		256087C77A2BAC2E5ED711F0 /* CreateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0EB282F5B9DEFA60836B7A /* CreateProfileView.swift */; };
 		26C7116DD7EB78C79CD2F22E /* CircleMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970A0693B76E2682C1F3E360 /* CircleMember.swift */; };
 		2AFCA9C3386D8579C89D2523 /* OfflineSyncHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */; };
 		2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A36AC1AC2633D53C43FE99 /* Environment.swift */; };
@@ -30,6 +31,7 @@
 		40DB66C3830BF575B1904170 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBFCD947C02302577DE3EC06 /* Assets.xcassets */; };
 		43C98F90392DF4FAF14C8794 /* OfflineSyncQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90870259354CA1249E7674EA /* OfflineSyncQueue.swift */; };
 		489A62C48FDE5B01B77CCC67 /* VoiceNoteRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C3E36C64CA98F12CEE2798 /* VoiceNoteRepositoryProtocol.swift */; };
+		4DEF2A590438AE3A23B46936 /* LocalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3CCE3056C48C78EAF1729A /* LocalAuthService.swift */; };
 		54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */; };
 		55B60718FE227BEA19D64946 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */; };
 		58B70FC528D7610DBD6280B4 /* VoiceNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215BA6856F7C2E5D2A843D15 /* VoiceNote.swift */; };
@@ -47,6 +49,7 @@
 		AFBBA19E9186A341DA95E6E0 /* BackendHealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */; };
 		BDD288FBA2DB2666DB6EBFE6 /* SubscriptionIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46BB41237613A138296486F /* SubscriptionIntegrationTests.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
+		D521D0641873E4748F6889DE /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D7E650D2665C4ACDB70224 /* AuthState.swift */; };
 		D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */; };
 		D6081F0B24B69FC0BFCCC4ED /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */; };
 		DD7D0FA52753BE5E9DB2CF29 /* MockSubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4002A04471CAD29B8C550469 /* MockSubscriptionService.swift */; };
@@ -71,9 +74,12 @@
 
 /* Begin PBXFileReference section */
 		0B1DCA1BD05A6C77FD0365B9 /* StoreKitSubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitSubscriptionService.swift; sourceTree = "<group>"; };
+		0F0EB282F5B9DEFA60836B7A /* CreateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileView.swift; sourceTree = "<group>"; };
 		215BA6856F7C2E5D2A843D15 /* VoiceNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNote.swift; sourceTree = "<group>"; };
 		2AF6558BB5A721E5415193CE /* PromptGenerationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptGenerationServiceProtocol.swift; sourceTree = "<group>"; };
+		38D7E650D2665C4ACDB70224 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
 		3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepositoryProtocol.swift; sourceTree = "<group>"; };
+		3C3CCE3056C48C78EAF1729A /* LocalAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthService.swift; sourceTree = "<group>"; };
 		3D029C25B681B5461B571644 /* AppsFlyerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerService.swift; sourceTree = "<group>"; };
 		3E102341D4D6B4D043E4BFE8 /* BackendStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendStatusView.swift; sourceTree = "<group>"; };
 		4002A04471CAD29B8C550469 /* MockSubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSubscriptionService.swift; sourceTree = "<group>"; };
@@ -318,13 +324,23 @@
 			path = Subscription;
 			sourceTree = "<group>";
 		};
+		D80A916BE4998E1BAB0F8BB0 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				0F0EB282F5B9DEFA60836B7A /* CreateProfileView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		E303FF20EFB3AE9FC13B314B /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				5FDE01830F0959A72723F0DD /* AppReviewService.swift */,
 				3D029C25B681B5461B571644 /* AppsFlyerService.swift */,
+				38D7E650D2665C4ACDB70224 /* AuthState.swift */,
 				D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */,
 				AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */,
+				3C3CCE3056C48C78EAF1729A /* LocalAuthService.swift */,
 				C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */,
 				F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */,
 				4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */,
@@ -346,6 +362,7 @@
 		F5A48B827BC923E14D4F087D /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				D80A916BE4998E1BAB0F8BB0 /* Auth */,
 				B04C0B8D7BF9B1BAF80E4F32 /* Components */,
 				7DBE6F1459754CEC4DAED18F /* Navigation */,
 				0277DB7634FC77C715A88789 /* Paywall */,
@@ -477,15 +494,18 @@
 				3BCE20D54AE96A3872A4890B /* AppReviewService.swift in Sources */,
 				81091E373EF2A53EFFF913E4 /* AppsFlyerService.swift in Sources */,
 				0E3266C4EADE46E3BCBAFF1B /* AuthServiceProtocol.swift in Sources */,
+				D521D0641873E4748F6889DE /* AuthState.swift in Sources */,
 				AFBBA19E9186A341DA95E6E0 /* BackendHealthService.swift in Sources */,
 				A523E5F334F9E4E071C18047 /* BackendStatusView.swift in Sources */,
 				FA20C1717E5605AE4CABB7A5 /* CircleGroup.swift in Sources */,
 				26C7116DD7EB78C79CD2F22E /* CircleMember.swift in Sources */,
 				E6557B5D6506F21E3E8C8B85 /* CircleRepositoryProtocol.swift in Sources */,
 				F6ED4FF6A1746D06455250C8 /* CircleUser.swift in Sources */,
+				256087C77A2BAC2E5ED711F0 /* CreateProfileView.swift in Sources */,
 				A7AA81467CD32AAC065DA9C1 /* DailyPrompt.swift in Sources */,
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
+				4DEF2A590438AE3A23B46936 /* LocalAuthService.swift in Sources */,
 				2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */,
 				2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */,
 				31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */,

@@ -13,15 +13,25 @@ public struct MainTabView: View {
     private let settingsRepository: SettingsRepositoryProtocol
     private let subscriptionService: SubscriptionServiceProtocol?
     private let analyticsService: AnalyticsServiceProtocol?
+    @Bindable private var authState: AuthState
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
         subscriptionService: SubscriptionServiceProtocol? = nil,
-        analyticsService: AnalyticsServiceProtocol? = nil
+        analyticsService: AnalyticsServiceProtocol? = nil,
+        authState: AuthState
     ) {
         self.settingsRepository = settingsRepository
         self.subscriptionService = subscriptionService
         self.analyticsService = analyticsService
+        self.authState = authState
+    }
+
+    private var greeting: String {
+        if let name = authState.currentUser?.displayName {
+            return "Hey, \(name)"
+        }
+        return "Circle"
     }
 
     public var body: some View {
@@ -32,7 +42,7 @@ public struct MainTabView: View {
                 Text("💬")
                     .font(.system(size: 80))
 
-                Text("Circle")
+                Text(greeting)
                     .font(.largeTitle.bold())
 
                 Text("Voice-first connection\nwith the people who matter")
@@ -54,7 +64,8 @@ public struct MainTabView: View {
 
 #Preview {
     MainTabView(
-        settingsRepository: UserDefaultsSettingsRepository()
+        settingsRepository: UserDefaultsSettingsRepository(),
+        authState: AuthState(service: LocalAuthService())
     )
     .environment(ThemeManager.shared)
 }
