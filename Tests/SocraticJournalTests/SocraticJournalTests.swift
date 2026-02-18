@@ -1,6 +1,14 @@
+// SocraticJournalTests.swift
+// Circle
+// Copyright 2024 StudioNext
+
 import Testing
 @testable import SocraticJournal
 
-@Test func testVersion() async throws {
-    #expect(SocraticJournal.version == "1.0.0")
+@Test func userSettingsDefaults() {
+    let settings = UserSettings.default
+    #expect(settings.themeMode == .system)
+    #expect(settings.hasCompletedOnboarding == false)
+    #expect(settings.dailyReminderEnabled == false)
+    #expect(settings.isPremium == false)
 }

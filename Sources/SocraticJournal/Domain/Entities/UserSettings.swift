@@ -1,5 +1,5 @@
 // UserSettings.swift
-// SocraticJournal
+// Circle
 // Copyright 2024 StudioNext
 
 import Foundation
@@ -7,12 +7,10 @@ import Foundation
 /// Represents user app settings and preferences
 public struct UserSettings: Codable, Sendable, Equatable {
     public var themeMode: ThemeMode
-    public var letterRemindersEnabled: Bool
+    public var hasCompletedOnboarding: Bool
     public var dailyReminderEnabled: Bool
     public var dailyReminderHour: Int
     public var dailyReminderMinute: Int
-    public var hasCompletedOnboarding: Bool
-    public var hasDismissedSampleData: Bool
 
     // MARK: - Subscription State
 
@@ -33,84 +31,39 @@ public struct UserSettings: Codable, Sendable, Equatable {
 
     public init(
         themeMode: ThemeMode = .system,
-        letterRemindersEnabled: Bool = true,
-        dailyReminderEnabled: Bool = false,
-        dailyReminderHour: Int = 9,
-        dailyReminderMinute: Int = 0,
         hasCompletedOnboarding: Bool = false,
-        hasDismissedSampleData: Bool = false,
+        dailyReminderEnabled: Bool = false,
+        dailyReminderHour: Int = 19,
+        dailyReminderMinute: Int = 0,
         subscriptionExpiryDate: Date? = nil,
         activeProductId: String? = nil,
         lastSubscriptionCheck: Date? = nil
     ) {
         self.themeMode = themeMode
-        self.letterRemindersEnabled = letterRemindersEnabled
+        self.hasCompletedOnboarding = hasCompletedOnboarding
         self.dailyReminderEnabled = dailyReminderEnabled
         self.dailyReminderHour = dailyReminderHour
         self.dailyReminderMinute = dailyReminderMinute
-        self.hasCompletedOnboarding = hasCompletedOnboarding
-        self.hasDismissedSampleData = hasDismissedSampleData
         self.subscriptionExpiryDate = subscriptionExpiryDate
         self.activeProductId = activeProductId
         self.lastSubscriptionCheck = lastSubscriptionCheck
     }
 
-    // Custom decoder to handle backwards compatibility with existing saved settings
+    // Custom decoder for backwards compatibility
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         themeMode = try container.decodeIfPresent(ThemeMode.self, forKey: .themeMode) ?? .system
-        letterRemindersEnabled = try container.decodeIfPresent(Bool.self, forKey: .letterRemindersEnabled) ?? true
-        dailyReminderEnabled = try container.decodeIfPresent(Bool.self, forKey: .dailyReminderEnabled) ?? false
-        dailyReminderHour = try container.decodeIfPresent(Int.self, forKey: .dailyReminderHour) ?? 9
-        dailyReminderMinute = try container.decodeIfPresent(Int.self, forKey: .dailyReminderMinute) ?? 0
         hasCompletedOnboarding = try container.decodeIfPresent(Bool.self, forKey: .hasCompletedOnboarding) ?? false
-        hasDismissedSampleData = try container.decodeIfPresent(Bool.self, forKey: .hasDismissedSampleData) ?? false
-
-        // New subscription fields - backwards compatible with nil defaults
+        dailyReminderEnabled = try container.decodeIfPresent(Bool.self, forKey: .dailyReminderEnabled) ?? false
+        dailyReminderHour = try container.decodeIfPresent(Int.self, forKey: .dailyReminderHour) ?? 19
+        dailyReminderMinute = try container.decodeIfPresent(Int.self, forKey: .dailyReminderMinute) ?? 0
         subscriptionExpiryDate = try container.decodeIfPresent(Date.self, forKey: .subscriptionExpiryDate)
         activeProductId = try container.decodeIfPresent(String.self, forKey: .activeProductId)
         lastSubscriptionCheck = try container.decodeIfPresent(Date.self, forKey: .lastSubscriptionCheck)
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case themeMode
-        case letterRemindersEnabled
-        case dailyReminderEnabled
-        case dailyReminderHour
-        case dailyReminderMinute
-        case hasCompletedOnboarding
-        case hasDismissedSampleData
-        case subscriptionExpiryDate
-        case activeProductId
-        case lastSubscriptionCheck
-    }
-
     /// Default settings
     public static let `default` = UserSettings()
-
-    /// Formatted reminder time for display
-    public var formattedReminderTime: String {
-        let hour = dailyReminderHour
-        let minute = dailyReminderMinute
-        let ampm = hour >= 12 ? "PM" : "AM"
-        let displayHour = hour == 0 ? 12 : (hour > 12 ? hour - 12 : hour)
-        return String(format: "%d:%02d %@", displayHour, minute, ampm)
-    }
-
-    /// Date representation of reminder time for DatePicker
-    public var reminderTime: Date {
-        var components = DateComponents()
-        components.hour = dailyReminderHour
-        components.minute = dailyReminderMinute
-        return Calendar.current.date(from: components) ?? Date()
-    }
-
-    /// Updates reminder time from a Date
-    public mutating func setReminderTime(from date: Date) {
-        let components = Calendar.current.dateComponents([.hour, .minute], from: date)
-        dailyReminderHour = components.hour ?? 9
-        dailyReminderMinute = components.minute ?? 0
-    }
 
     // MARK: - Subscription Helpers
 
@@ -128,27 +81,6 @@ public struct UserSettings: Codable, Sendable, Equatable {
             activeProductId = lastProductId
         }
         lastSubscriptionCheck = Date()
-    }
-
-    /// Formatted subscription expiry date for display
-    public var formattedSubscriptionExpiry: String? {
-        guard let expiryDate = subscriptionExpiryDate else { return nil }
-
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter.string(from: expiryDate)
-    }
-
-    /// Returns the subscription period based on active product ID
-    public var subscriptionPeriod: SubscriptionPeriod? {
-        guard let productId = activeProductId else { return nil }
-        if productId.contains("monthly") {
-            return .monthly
-        } else if productId.contains("yearly") {
-            return .yearly
-        }
-        return nil
     }
 }
 
