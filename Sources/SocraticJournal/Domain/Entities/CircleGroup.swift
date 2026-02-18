@@ -6,7 +6,7 @@ import Foundation
 
 /// Represents a circle of close people who share daily prompts
 /// Named CircleGroup to avoid conflict with SwiftUI's Circle shape
-public struct CircleGroup: Codable, Sendable, Equatable, Identifiable {
+public struct CircleGroup: Codable, Sendable, Equatable, Identifiable, Hashable {
     public let id: UUID
     public var name: String
     public var emoji: String
