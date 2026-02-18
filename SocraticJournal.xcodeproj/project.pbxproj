@@ -39,6 +39,7 @@
 		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
 		9FD04A5424D0EAE498445DED /* InMemoryUserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62FA04FA2A1DDD97CC0D56D /* InMemoryUserProfileRepository.swift */; };
 		A7AA81467CD32AAC065DA9C1 /* DailyPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8FEB604EE15266F187C41 /* DailyPrompt.swift */; };
+		B613113DFF7F835DE01B16F3 /* InviteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6B6B541A2BD886955E46A /* InviteView.swift */; };
 		BACDC9592B4329EB184E85E8 /* AudioServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BCF242F2B726503D99625B /* AudioServiceProtocol.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
 		D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */; };
@@ -96,6 +97,7 @@
 		CC75B0361FD959298F2FBDD8 /* AudioStorageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStorageServiceProtocol.swift; sourceTree = "<group>"; };
 		CF92EF5F314A4CC8478E991C /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E0C6B6B541A2BD886955E46A /* InviteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteView.swift; sourceTree = "<group>"; };
 		E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournal.swift; sourceTree = "<group>"; };
 		E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalTests.swift; sourceTree = "<group>"; };
 		E62FA04FA2A1DDD97CC0D56D /* InMemoryUserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryUserProfileRepository.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				15F81D12495CC675444794ED /* CircleListView.swift */,
 				01AEFC507C565CBCB263B90D /* CircleListViewModel.swift */,
 				1E9C92B530470AD51E389E6B /* CircleRootView.swift */,
+				E0C6B6B541A2BD886955E46A /* InviteView.swift */,
 			);
 			path = Circle;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				DA20A0C5A4D7A3C2CEE63AB0 /* InMemoryCircleRepository.swift in Sources */,
 				9FD04A5424D0EAE498445DED /* InMemoryUserProfileRepository.swift in Sources */,
+				B613113DFF7F835DE01B16F3 /* InviteView.swift in Sources */,
 				51FF9C320E29F798A0DA000B /* LocalAudioStorageService.swift in Sources */,
 				7CD08DDDBAF3E984E51A4C35 /* MockAuthService.swift in Sources */,
 				54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */,
