@@ -9,14 +9,20 @@ import FirebaseCore
 /// Main entry point for the Circle app
 @main
 public struct SocraticJournalApp: App {
+    // Infrastructure (kept from Socratic Journal)
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()
     private let subscriptionService: SubscriptionServiceProtocol = StoreKitSubscriptionService()
-    private let authService: MockAuthService = MockAuthService()
+    @State private var themeManager = ThemeManager.shared
+
+    // Circle services (all mock/local — Firebase swapped later)
+    private let authService = MockAuthService()
     private let userProfileRepository: UserProfileRepositoryProtocol = InMemoryUserProfileRepository()
     private let circleRepository: CircleRepositoryProtocol = InMemoryCircleRepository()
-    private let audioService: AudioService = AudioService()
+    private let voiceNoteRepository: VoiceNoteRepositoryProtocol = InMemoryVoiceNoteRepository()
+    private let promptRepository: PromptRepositoryProtocol = InMemoryPromptRepository()
+    private let audioService = AudioService()
     private let audioStorageService: AudioStorageServiceProtocol = LocalAudioStorageService()
-    @State private var themeManager = ThemeManager.shared
+    private let promptService: PromptGenerationServiceProtocol = LocalPromptGenerationService()
 
     public init() {
         AppEnvironment.logConfiguration()
@@ -29,6 +35,12 @@ public struct SocraticJournalApp: App {
             CircleRootView(
                 circleRepository: circleRepository,
                 authService: authService,
+                promptRepository: promptRepository,
+                promptService: promptService,
+                voiceNoteRepository: voiceNoteRepository,
+                audioService: audioService,
+                audioStorageService: audioStorageService,
+                userProfileRepository: userProfileRepository,
                 currentUserId: MockAuthService.mockUsers[0].id
             )
             .environment(themeManager)
