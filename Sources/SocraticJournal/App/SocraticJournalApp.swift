@@ -24,6 +24,7 @@ public struct SocraticJournalApp: App {
     private let audioService = AudioService()
     private let audioStorageService: AudioStorageServiceProtocol = LocalAudioStorageService()
     private let promptService: PromptGenerationServiceProtocol = LocalPromptGenerationService()
+    private let transcriptionService: TranscriptionServiceProtocol = AppleTranscriptionService()
 
     public init() {
         AppEnvironment.logConfiguration()
@@ -44,6 +45,7 @@ public struct SocraticJournalApp: App {
                         audioService: audioService,
                         audioStorageService: audioStorageService,
                         userProfileRepository: userProfileRepository,
+                        transcriptionService: transcriptionService,
                         currentUserId: MockAuthService.mockUsers[0].id
                     )
                 } else {

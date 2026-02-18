@@ -14,6 +14,7 @@ struct RecordingView: View {
     let audioStorageService: AudioStorageServiceProtocol
     let voiceNoteRepository: VoiceNoteRepositoryProtocol
     let promptRepository: PromptRepositoryProtocol
+    let transcriptionService: TranscriptionServiceProtocol?
     let onRecorded: () -> Void
 
     @State private var isRecording = false
@@ -184,9 +185,17 @@ struct RecordingView: View {
                 from: url, circleId: circle.id, promptId: prompt.id, userId: currentUserId
             )
             let waveform = try await audioService.extractWaveform(from: url, samples: 30)
+
+            // Transcribe in background — don't block send on failure
+            var transcript: String?
+            if let transcriptionService {
+                transcript = try? await transcriptionService.transcribe(audioURL: url)
+            }
+
             let voiceNote = VoiceNote(
                 circleId: circle.id, promptId: prompt.id, authorId: currentUserId,
-                audioURL: remotePath, duration: duration, waveformData: waveform
+                audioURL: remotePath, duration: duration, transcript: transcript,
+                waveformData: waveform
             )
             try await voiceNoteRepository.saveVoiceNote(voiceNote)
             try await promptRepository.incrementResponseCount(promptId: prompt.id)

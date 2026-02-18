@@ -31,6 +31,7 @@ public final class CircleFeedViewModel {
     let audioService: AudioServiceProtocol
     let audioStorageService: AudioStorageServiceProtocol
     let userProfileRepository: UserProfileRepositoryProtocol
+    let transcriptionService: TranscriptionServiceProtocol?
 
     // MARK: - Init
 
@@ -43,7 +44,8 @@ public final class CircleFeedViewModel {
         voiceNoteRepository: VoiceNoteRepositoryProtocol,
         audioService: AudioServiceProtocol,
         audioStorageService: AudioStorageServiceProtocol,
-        userProfileRepository: UserProfileRepositoryProtocol
+        userProfileRepository: UserProfileRepositoryProtocol,
+        transcriptionService: TranscriptionServiceProtocol? = nil
     ) {
         self.circleId = circleId
         self.currentUserId = currentUserId
@@ -54,6 +56,7 @@ public final class CircleFeedViewModel {
         self.audioService = audioService
         self.audioStorageService = audioStorageService
         self.userProfileRepository = userProfileRepository
+        self.transcriptionService = transcriptionService
     }
 
     // MARK: - Actions

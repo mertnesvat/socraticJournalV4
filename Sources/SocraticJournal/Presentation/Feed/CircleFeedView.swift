@@ -37,6 +37,7 @@ struct CircleFeedView: View {
                     audioStorageService: viewModel.audioStorageService,
                     voiceNoteRepository: viewModel.voiceNoteRepository,
                     promptRepository: viewModel.promptRepository,
+                    transcriptionService: viewModel.transcriptionService,
                     onRecorded: {
                         showRecording = false
                         Task { await viewModel.loadFeed() }

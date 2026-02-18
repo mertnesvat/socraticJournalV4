@@ -15,6 +15,7 @@ struct CircleRootView: View {
     let audioService: AudioServiceProtocol
     let audioStorageService: AudioStorageServiceProtocol
     let userProfileRepository: UserProfileRepositoryProtocol
+    let transcriptionService: TranscriptionServiceProtocol?
     let currentUserId: String
 
     var body: some View {
@@ -36,7 +37,8 @@ struct CircleRootView: View {
                             voiceNoteRepository: voiceNoteRepository,
                             audioService: audioService,
                             audioStorageService: audioStorageService,
-                            userProfileRepository: userProfileRepository
+                            userProfileRepository: userProfileRepository,
+                            transcriptionService: transcriptionService
                         )
                     )
                 }
