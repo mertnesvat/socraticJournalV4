@@ -57,10 +57,38 @@ targets:
         product: FirebaseMessaging
       - package: AppsFlyerFramework
         product: AppsFlyerLib
+      - target: CircleWidget
     entitlements:
       path: SocraticJournal.entitlements
       properties:
         aps-environment: development
+        com.apple.security.application-groups:
+          - group.com.StudioNext.socraticJournal
+
+  CircleWidget:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: Sources/CircleWidget
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournal.CircleWidget
+        INFOPLIST_KEY_CFBundleDisplayName: Circle Widget
+        INFOPLIST_KEY_NSWidgetWantsLocation: false
+        GENERATE_INFOPLIST_FILE: YES
+        MARKETING_VERSION: "1.3.0"
+        CURRENT_PROJECT_VERSION: "9"
+        SWIFT_EMIT_LOC_STRINGS: YES
+        TARGETED_DEVICE_FAMILY: "1,2"
+    entitlements:
+      path: Sources/CircleWidget/CircleWidget.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.StudioNext.socraticJournal
+    dependencies: []
 
   SocraticJournalTests:
     type: bundle.unit-test
@@ -81,6 +109,7 @@ schemes:
     build:
       targets:
         SocraticJournal: all
+        CircleWidget: all
         SocraticJournalTests: [test]
     run:
       config: Debug
@@ -90,5 +119,13 @@ schemes:
       targets:
         - SocraticJournalTests
       storeKitConfiguration: Configuration/StoreKit.storekit
+    archive:
+      config: Release
+  CircleWidget:
+    build:
+      targets:
+        CircleWidget: all
+    run:
+      config: Debug
     archive:
       config: Release

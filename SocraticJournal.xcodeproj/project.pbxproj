@@ -22,6 +22,7 @@
 		2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */; };
 		256087C77A2BAC2E5ED711F0 /* CreateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0EB282F5B9DEFA60836B7A /* CreateProfileView.swift */; };
 		26C7116DD7EB78C79CD2F22E /* CircleMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970A0693B76E2682C1F3E360 /* CircleMember.swift */; };
+		26FDBAC0667AE19FADD7AFC9 /* CircleWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1C9796310D22C6A63C907B9F /* CircleWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2AFCA9C3386D8579C89D2523 /* OfflineSyncHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */; };
 		2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A36AC1AC2633D53C43FE99 /* Environment.swift */; };
 		2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */; };
@@ -38,8 +39,10 @@
 		43C98F90392DF4FAF14C8794 /* OfflineSyncQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90870259354CA1249E7674EA /* OfflineSyncQueue.swift */; };
 		489A62C48FDE5B01B77CCC67 /* VoiceNoteRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C3E36C64CA98F12CEE2798 /* VoiceNoteRepositoryProtocol.swift */; };
 		4DEF2A590438AE3A23B46936 /* LocalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3CCE3056C48C78EAF1729A /* LocalAuthService.swift */; };
+		4F6B7EB9207AE83BD53E56F6 /* VoiceQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA476A5B1F161418C139722E /* VoiceQuality.swift */; };
 		520886B15CCFBC6C5A16C89B /* VoiceRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2905188578F370EB9E021BE7 /* VoiceRecorderViewModel.swift */; };
 		54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */; };
+		559CAABDB003755AFB6EC348 /* CircleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A571700CDB8911D29FAFA9E /* CircleWidget.swift */; };
 		55B60718FE227BEA19D64946 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */; };
 		58B70FC528D7610DBD6280B4 /* VoiceNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215BA6856F7C2E5D2A843D15 /* VoiceNote.swift */; };
 		5B4EFE058F2587059FFF78A7 /* SocraticJournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */; };
@@ -54,12 +57,14 @@
 		820A8F166BA0E7A25B150AC8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA5D013746FC29B516ADE8B /* HomeViewModel.swift */; };
 		8217B4E5F4C6E1AE25579F53 /* TranscriptionServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4337983EBCAF0BF340D59ADE /* TranscriptionServiceProtocol.swift */; };
 		85A6BB1CEF18A306B05B72AD /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */; };
+		861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */; };
 		904B33ED1D5BE64EFBA20964 /* LocalAudioPlaybackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7AB507F3F1CD45929A26B1 /* LocalAudioPlaybackService.swift */; };
 		9646D560E3B12883A0C36CC7 /* LocalPromptRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5B4220BDDC5F0CC07A11AD /* LocalPromptRepository.swift */; };
 		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
 		A523E5F334F9E4E071C18047 /* BackendStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E102341D4D6B4D043E4BFE8 /* BackendStatusView.swift */; };
 		A7AA81467CD32AAC065DA9C1 /* DailyPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8FEB604EE15266F187C41 /* DailyPrompt.swift */; };
 		AACF46FCED951E64A94F3235 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA0DB79E028261D57D98467 /* HomeView.swift */; };
+		ADD5E47BA6F509E1971C2F68 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD8C93CD1BA319578E26AB /* WidgetDataProvider.swift */; };
 		AFBBA19E9186A341DA95E6E0 /* BackendHealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */; };
 		B303DA86D265E5DBA41DDF71 /* prompt_bank.json in Resources */ = {isa = PBXBuildFile; fileRef = 51654B2814D7C0EA0146B7BF /* prompt_bank.json */; };
 		B65089569502D1023AA799F0 /* NotificationSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161FA2B6F823935359E6E615 /* NotificationSettingsViewModel.swift */; };
@@ -68,6 +73,7 @@
 		BDD288FBA2DB2666DB6EBFE6 /* SubscriptionIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46BB41237613A138296486F /* SubscriptionIntegrationTests.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
 		C6B8F7DD0FC810A84E6422E2 /* LocalCircleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D1F21B3BB65BA30BF56A43 /* LocalCircleRepository.swift */; };
+		C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5D235EA9156B100C8E539A /* SettingsView.swift */; };
 		CF7F87EF059788615B884C99 /* PromptHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8FACA6CBFEC8D8B53DC732 /* PromptHistoryView.swift */; };
 		D4052CE44F43F0F480B3632E /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F693D0BCEB429E84EC84249D /* OnboardingView.swift */; };
 		D521D0641873E4748F6889DE /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D7E650D2665C4ACDB70224 /* AuthState.swift */; };
@@ -89,6 +95,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0375A57AFE2FF62B9A180C84 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7FF74F5214AC04FA8666FBBB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4573EE95510A4B8328CB1AA;
+			remoteInfo = CircleWidget;
+		};
 		3F3DD2C6E8C1E83EF08BC056 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7FF74F5214AC04FA8666FBBB /* Project object */;
@@ -98,10 +111,26 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		FD3EFBCC0E43D97BF06FFD77 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				26FDBAC0667AE19FADD7AFC9 /* CircleWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		04DD8C93CD1BA319578E26AB /* WidgetDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataProvider.swift; sourceTree = "<group>"; };
 		0B1DCA1BD05A6C77FD0365B9 /* StoreKitSubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitSubscriptionService.swift; sourceTree = "<group>"; };
 		0F0EB282F5B9DEFA60836B7A /* CreateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileView.swift; sourceTree = "<group>"; };
 		161FA2B6F823935359E6E615 /* NotificationSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsViewModel.swift; sourceTree = "<group>"; };
+		1C9796310D22C6A63C907B9F /* CircleWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = CircleWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		215BA6856F7C2E5D2A843D15 /* VoiceNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNote.swift; sourceTree = "<group>"; };
 		2905188578F370EB9E021BE7 /* VoiceRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecorderViewModel.swift; sourceTree = "<group>"; };
 		29D5DAB5CE24160101862B94 /* CircleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleDetailView.swift; sourceTree = "<group>"; };
@@ -122,10 +151,12 @@
 		4337983EBCAF0BF340D59ADE /* TranscriptionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionServiceProtocol.swift; sourceTree = "<group>"; };
 		46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
 		48BBC661AA807DC250740DB2 /* LocalVoiceNoteRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVoiceNoteRepository.swift; sourceTree = "<group>"; };
+		4A571700CDB8911D29FAFA9E /* CircleWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleWidget.swift; sourceTree = "<group>"; };
 		4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSyncHandler.swift; sourceTree = "<group>"; };
 		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51654B2814D7C0EA0146B7BF /* prompt_bank.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = prompt_bank.json; sourceTree = "<group>"; };
 		57D1F21B3BB65BA30BF56A43 /* LocalCircleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCircleRepository.swift; sourceTree = "<group>"; };
+		58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		5FDE01830F0959A72723F0DD /* AppReviewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewService.swift; sourceTree = "<group>"; };
 		620091ACA7098AFCD2B9281F /* CircleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleUser.swift; sourceTree = "<group>"; };
 		646E9B883322392687E07C04 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
@@ -163,6 +194,7 @@
 		CF92EF5F314A4CC8478E991C /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		D4192D3068127FC7B8F2C6F7 /* LocalVoiceRecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVoiceRecordingService.swift; sourceTree = "<group>"; };
 		D6C852C953E4DEB20E8A638F /* BackendHealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendHealthService.swift; sourceTree = "<group>"; };
+		DA476A5B1F161418C139722E /* VoiceQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceQuality.swift; sourceTree = "<group>"; };
 		DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DF8FACA6CBFEC8D8B53DC732 /* PromptHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptHistoryView.swift; sourceTree = "<group>"; };
 		E1201ED724FFEBA996B1763C /* CircleGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleGroup.swift; sourceTree = "<group>"; };
@@ -171,6 +203,8 @@
 		E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalTests.swift; sourceTree = "<group>"; };
 		E7A36AC1AC2633D53C43FE99 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		E88051AB8352D615CE378228 /* MockSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsRepository.swift; sourceTree = "<group>"; };
+		EB4208D08BF4903825A7DB3F /* CircleWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CircleWidget.entitlements; sourceTree = "<group>"; };
+		EC5D235EA9156B100C8E539A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		EE742B3A435A8412095FE829 /* PaywallViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModelTests.swift; sourceTree = "<group>"; };
 		F68CA5A2CF2D5926B62853E8 /* PromptRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptRepositoryProtocol.swift; sourceTree = "<group>"; };
 		F693D0BCEB429E84EC84249D /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -218,6 +252,8 @@
 			children = (
 				778DC1691FDB142A3D24B8BE /* NotificationSettingsView.swift */,
 				161FA2B6F823935359E6E615 /* NotificationSettingsViewModel.swift */,
+				EC5D235EA9156B100C8E539A /* SettingsView.swift */,
+				58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -229,6 +265,16 @@
 				DF8FACA6CBFEC8D8B53DC732 /* PromptHistoryView.swift */,
 			);
 			path = Prompts;
+			sourceTree = "<group>";
+		};
+		165B6A958A9983C3A55F7566 /* CircleWidget */ = {
+			isa = PBXGroup;
+			children = (
+				EB4208D08BF4903825A7DB3F /* CircleWidget.entitlements */,
+				4A571700CDB8911D29FAFA9E /* CircleWidget.swift */,
+			);
+			name = CircleWidget;
+			path = Sources/CircleWidget;
 			sourceTree = "<group>";
 		};
 		165EBEA269EA38D7418DCC61 /* Onboarding */ = {
@@ -299,6 +345,7 @@
 		59D69EF141D9FE3F51EE009A /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				1C9796310D22C6A63C907B9F /* CircleWidget.appex */,
 				5116538D9F07FF35490DCEC7 /* SocraticJournal.app */,
 				6A07E910B300F8BA4C4769BE /* SocraticJournalTests.xctest */,
 			);
@@ -315,6 +362,7 @@
 				C09C8B1A5BD382943CF68DD5 /* Subscription.swift */,
 				9F4B1E73960A7489D123CF41 /* UserSettings.swift */,
 				215BA6856F7C2E5D2A843D15 /* VoiceNote.swift */,
+				DA476A5B1F161418C139722E /* VoiceQuality.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -403,6 +451,7 @@
 			isa = PBXGroup;
 			children = (
 				DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */,
+				165B6A958A9983C3A55F7566 /* CircleWidget */,
 				94ACDA6074BCA45E656DA2B4 /* Configuration */,
 				1939C2C2FC3281E95516289F /* SocraticJournal */,
 				A9FB2C518662F19D6CAB9CA0 /* SocraticJournalTests */,
@@ -466,6 +515,7 @@
 				4C5DE926B735BC8B2CFEDA76 /* OfflineSyncHandler.swift */,
 				90870259354CA1249E7674EA /* OfflineSyncQueue.swift */,
 				0B1DCA1BD05A6C77FD0365B9 /* StoreKitSubscriptionService.swift */,
+				04DD8C93CD1BA319578E26AB /* WidgetDataProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -507,10 +557,12 @@
 				8ECAD0DA53B9EF636A573B00 /* Sources */,
 				1B7C62B3C7FF8CAC68174086 /* Resources */,
 				70D95131945F0495DA866702 /* Frameworks */,
+				FD3EFBCC0E43D97BF06FFD77 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B8A36DE62BAF6B4280D23DE2 /* PBXTargetDependency */,
 			);
 			name = SocraticJournal;
 			packageProductDependencies = (
@@ -542,6 +594,23 @@
 			productReference = 6A07E910B300F8BA4C4769BE /* SocraticJournalTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		F4573EE95510A4B8328CB1AA /* CircleWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 395A59B6E1643779A7BC0C10 /* Build configuration list for PBXNativeTarget "CircleWidget" */;
+			buildPhases = (
+				04983AD39642EBAF8EFEBB5E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CircleWidget;
+			packageProductDependencies = (
+			);
+			productName = CircleWidget;
+			productReference = 1C9796310D22C6A63C907B9F /* CircleWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -556,6 +625,10 @@
 						ProvisioningStyle = Automatic;
 					};
 					7CFF6DB8DE828147AE0D43B9 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					F4573EE95510A4B8328CB1AA = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
@@ -579,6 +652,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				F4573EE95510A4B8328CB1AA /* CircleWidget */,
 				4F597517012D1D2069CFA905 /* SocraticJournal */,
 				7CFF6DB8DE828147AE0D43B9 /* SocraticJournalTests */,
 			);
@@ -599,6 +673,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		04983AD39642EBAF8EFEBB5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				559CAABDB003755AFB6EC348 /* CircleWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2E5BA0C1FEE88C1B404D5CAC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -664,6 +746,8 @@
 				CF7F87EF059788615B884C99 /* PromptHistoryView.swift in Sources */,
 				5BEAEBCBD02CB45FB73DE005 /* PromptRepositoryProtocol.swift in Sources */,
 				D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */,
+				C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */,
+				861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */,
 				060DCDE2F8D2095C6DA7AC4E /* SocraticJournal.swift in Sources */,
 				C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */,
 				105776FB75A44B06D5CEF3DE /* StoreKitSubscriptionService.swift in Sources */,
@@ -678,9 +762,11 @@
 				58B70FC528D7610DBD6280B4 /* VoiceNote.swift in Sources */,
 				B70620E0F3788BF42AB3B336 /* VoiceNotePlayerView.swift in Sources */,
 				489A62C48FDE5B01B77CCC67 /* VoiceNoteRepositoryProtocol.swift in Sources */,
+				4F6B7EB9207AE83BD53E56F6 /* VoiceQuality.swift in Sources */,
 				665A65AD4720AC7E6F1DB1D1 /* VoiceRecorderView.swift in Sources */,
 				520886B15CCFBC6C5A16C89B /* VoiceRecorderViewModel.swift in Sources */,
 				3E99696F432DD663C972D484 /* VoiceRecordingServiceProtocol.swift in Sources */,
+				ADD5E47BA6F509E1971C2F68 /* WidgetDataProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -692,9 +778,36 @@
 			target = 4F597517012D1D2069CFA905 /* SocraticJournal */;
 			targetProxy = 3F3DD2C6E8C1E83EF08BC056 /* PBXContainerItemProxy */;
 		};
+		B8A36DE62BAF6B4280D23DE2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4573EE95510A4B8328CB1AA /* CircleWidget */;
+			targetProxy = 0375A57AFE2FF62B9A180C84 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0A36C9713736B9FFAA9F4EFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Sources/CircleWidget/CircleWidget.entitlements;
+				CURRENT_PROJECT_VERSION = 9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Circle Widget";
+				INFOPLIST_KEY_NSWidgetWantsLocation = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.StudioNext.socraticJournal.CircleWidget;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		50F0FF5527EE4D354A424945 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -872,6 +985,28 @@
 			};
 			name = Release;
 		};
+		C4E728838296441A528D2A09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Sources/CircleWidget/CircleWidget.entitlements;
+				CURRENT_PROJECT_VERSION = 9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Circle Widget";
+				INFOPLIST_KEY_NSWidgetWantsLocation = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.StudioNext.socraticJournal.CircleWidget;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		F85E7616DED84A9C7CD6AD50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -892,6 +1027,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		395A59B6E1643779A7BC0C10 /* Build configuration list for PBXNativeTarget "CircleWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4E728838296441A528D2A09 /* Debug */,
+				0A36C9713736B9FFAA9F4EFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		4D6ECD6302407144E3536991 /* Build configuration list for PBXNativeTarget "SocraticJournal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
