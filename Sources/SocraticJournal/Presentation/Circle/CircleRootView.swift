@@ -5,34 +5,22 @@
 #if os(iOS)
 import SwiftUI
 
-/// Root view for the Circle app — placeholder until feed is built
+/// Root view for the Circle app — routes to circle list or placeholder
 struct CircleRootView: View {
+    let circleRepository: CircleRepositoryProtocol
+    let authService: AuthServiceProtocol
+    let currentUserId: String
+
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                Spacer()
-
-                Image(systemName: "circle.hexagongrid.fill")
-                    .font(.system(size: 80))
-                    .foregroundStyle(.blue.gradient)
-
-                Text("Circle")
-                    .font(.largeTitle.bold())
-
-                Text("Hear the voices of people who matter")
-                    .font(.title3)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 40)
-
-                Spacer()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            CircleListView(
+                viewModel: CircleListViewModel(
+                    circleRepository: circleRepository,
+                    authService: authService,
+                    currentUserId: currentUserId
+                )
+            )
         }
     }
-}
-
-#Preview {
-    CircleRootView()
 }
 #endif

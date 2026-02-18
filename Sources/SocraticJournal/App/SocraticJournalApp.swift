@@ -13,6 +13,9 @@ public struct SocraticJournalApp: App {
     private let subscriptionService: SubscriptionServiceProtocol = StoreKitSubscriptionService()
     private let authService: MockAuthService = MockAuthService()
     private let userProfileRepository: UserProfileRepositoryProtocol = InMemoryUserProfileRepository()
+    private let circleRepository: CircleRepositoryProtocol = InMemoryCircleRepository()
+    private let audioService: AudioService = AudioService()
+    private let audioStorageService: AudioStorageServiceProtocol = LocalAudioStorageService()
     @State private var themeManager = ThemeManager.shared
 
     public init() {
@@ -23,13 +26,17 @@ public struct SocraticJournalApp: App {
 
     public var body: some Scene {
         WindowGroup {
-            CircleRootView()
-                .environment(themeManager)
-                .preferredColorScheme(themeManager.colorScheme)
-                .task {
-                    await themeManager.loadTheme()
-                    await authService.autoSignInIfNeeded()
-                }
+            CircleRootView(
+                circleRepository: circleRepository,
+                authService: authService,
+                currentUserId: MockAuthService.mockUsers[0].id
+            )
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
+            .task {
+                await themeManager.loadTheme()
+                await authService.autoSignInIfNeeded()
+            }
         }
     }
 }
