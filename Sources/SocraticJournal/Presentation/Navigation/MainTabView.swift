@@ -70,12 +70,17 @@ public struct MainTabView: View {
                     voiceNoteRepository: voiceNoteRepository,
                     voiceRecordingService: voiceRecordingService,
                     playbackService: playbackService,
-                    currentUserId: userId
+                    currentUserId: userId,
+                    analyticsService: analyticsService
                 ),
                 voiceRecordingService: voiceRecordingService,
                 playbackService: playbackService,
                 voiceNoteRepository: voiceNoteRepository,
-                circleRepository: circleRepository
+                circleRepository: circleRepository,
+                settingsRepository: settingsRepository,
+                subscriptionService: subscriptionService,
+                analyticsService: analyticsService,
+                authState: authState
             )
         } else {
             ProgressView()
@@ -88,7 +93,8 @@ public struct MainTabView: View {
             CircleListView(
                 viewModel: CirclesViewModel(
                     repository: circleRepository,
-                    currentUserId: userId
+                    currentUserId: userId,
+                    analyticsService: analyticsService
                 )
             )
         } else {

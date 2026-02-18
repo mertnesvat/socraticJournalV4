@@ -24,6 +24,14 @@ public struct HomeView: View {
     private let voiceNoteRepository: VoiceNoteRepositoryProtocol
     private let circleRepository: CircleRepositoryProtocol
 
+    // MARK: - Dependencies (passed to settings)
+
+    private let settingsRepository: SettingsRepositoryProtocol
+    private let subscriptionService: SubscriptionServiceProtocol?
+    private let notificationScheduler: CircleNotificationScheduler?
+    private let analyticsService: AnalyticsServiceProtocol?
+    private let authState: AuthState
+
     // MARK: - Init
 
     public init(
@@ -31,13 +39,23 @@ public struct HomeView: View {
         voiceRecordingService: VoiceRecordingServiceProtocol,
         playbackService: AudioPlaybackServiceProtocol,
         voiceNoteRepository: VoiceNoteRepositoryProtocol,
-        circleRepository: CircleRepositoryProtocol
+        circleRepository: CircleRepositoryProtocol,
+        settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository(),
+        subscriptionService: SubscriptionServiceProtocol? = nil,
+        notificationScheduler: CircleNotificationScheduler? = nil,
+        analyticsService: AnalyticsServiceProtocol? = nil,
+        authState: AuthState
     ) {
         _viewModel = State(initialValue: viewModel)
         self.voiceRecordingService = voiceRecordingService
         self.playbackService = playbackService
         self.voiceNoteRepository = voiceNoteRepository
         self.circleRepository = circleRepository
+        self.settingsRepository = settingsRepository
+        self.subscriptionService = subscriptionService
+        self.notificationScheduler = notificationScheduler
+        self.analyticsService = analyticsService
+        self.authState = authState
     }
 
     // MARK: - Body
@@ -63,6 +81,22 @@ public struct HomeView: View {
                             repository: circleRepository,
                             currentUserId: viewModel.currentUserId
                         )
+                    )
+                }
+                .navigationDestination(isPresented: $showingSettings) {
+                    SettingsView(
+                        viewModel: SettingsViewModel(
+                            authState: authState,
+                            settingsRepository: settingsRepository,
+                            circleRepository: circleRepository,
+                            notificationScheduler: notificationScheduler,
+                            subscriptionService: subscriptionService
+                        ),
+                        circleRepository: circleRepository,
+                        subscriptionService: subscriptionService,
+                        notificationScheduler: notificationScheduler,
+                        analyticsService: analyticsService,
+                        currentUserId: viewModel.currentUserId
                     )
                 }
                 .alert("Something went wrong", isPresented: Binding(
@@ -614,7 +648,8 @@ public struct HomeView: View {
 
                     VoiceRecorderView(
                         viewModel: VoiceRecorderViewModel(
-                            recordingService: voiceRecordingService
+                            recordingService: voiceRecordingService,
+                            analyticsService: analyticsService
                         ),
                         circleId: viewModel.selectedCircle?.id ?? UUID(),
                         promptId: prompt.id,
@@ -722,6 +757,7 @@ public struct HomeView: View {
 // MARK: - Preview
 
 #Preview {
+    let authState = AuthState(service: LocalAuthService())
     HomeView(
         viewModel: HomeViewModel(
             circleRepository: LocalCircleRepository(),
@@ -735,7 +771,9 @@ public struct HomeView: View {
         voiceRecordingService: LocalVoiceRecordingService(),
         playbackService: LocalAudioPlaybackService(),
         voiceNoteRepository: LocalVoiceNoteRepository(),
-        circleRepository: LocalCircleRepository()
+        circleRepository: LocalCircleRepository(),
+        settingsRepository: UserDefaultsSettingsRepository(),
+        authState: authState
     )
     .environment(ThemeManager.shared)
 }
