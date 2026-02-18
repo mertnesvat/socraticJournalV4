@@ -7,10 +7,8 @@ import Foundation
 /// Protocol defining analytics tracking capabilities
 public protocol AnalyticsServiceProtocol: Sendable {
     /// Log a custom analytics event
-    /// - Parameters:
-    ///   - event: The event type to log
-    ///   - parameters: Optional additional parameters
-    func logEvent(_ event: AnalyticsEvent, parameters: [String: Any]?)
+    /// - Parameter event: The event to log (contains name and parameters)
+    func logEvent(_ event: AnalyticsEvent)
 
     /// Set a user property for analytics segmentation
     /// - Parameters:
@@ -19,101 +17,158 @@ public protocol AnalyticsServiceProtocol: Sendable {
     func setUserProperty(_ name: String, value: String?)
 }
 
-/// Analytics events tracked in the app
-public enum AnalyticsEvent: String, Sendable {
-    // Session events
-    case sessionStarted = "session_started"
-    case sessionCompleted = "session_completed"
-    case sessionAbandoned = "session_abandoned"
-    case clarityScoreReceived = "clarity_score_received"
+/// Analytics events tracked in the Circle app
+public enum AnalyticsEvent: Sendable {
+    // Profile
+    case profileCreated
+    case profileEdited
 
-    // Session funnel events (fine-grained)
-    case questionShown = "question_shown"
-    case answerSubmitted = "answer_submitted"
-    case answerSkipped = "answer_skipped"
-    case followUpGenerationStarted = "follow_up_generation_started"
-    case followUpGenerationCompleted = "follow_up_generation_completed"
-    case followUpGenerationFailed = "follow_up_generation_failed"
-    case insightGenerationStarted = "insight_generation_started"
-    case insightGenerationCompleted = "insight_generation_completed"
-    case insightGenerationFailed = "insight_generation_failed"
-    case insightViewed = "insight_viewed"
-    case sessionPhaseTimeout = "session_phase_timeout"
+    // Circle
+    case circleCreated(memberCount: Int)
+    case circleMemberAdded
+    case circleLeft
+    case circleDeleted
 
-    // Legacy session events (deprecated - use new fine-grained events)
-    case sessionQuestionShown = "session_question_shown"
-    case sessionAnswerSubmitted = "session_answer_submitted"
-    case sessionQuestionSkipped = "session_question_skipped"
-    case sessionFollowUpGenerated = "session_follow_up_generated"
-    case sessionInsightViewed = "session_insight_viewed"
-    case sessionError = "session_error"
+    // Prompts
+    case promptGenerated(tier: String)
+    case promptViewed(circleId: String)
+    case promptResponded(circleId: String)
+    case promptSkipped(circleId: String)
 
-    // Letter events
-    case letterComposed = "letter_composed"
-    case letterUnlocked = "letter_unlocked"
-    case letterViewed = "letter_viewed"
-    case letterPromptsRequested = "letter_prompts_requested"
+    // Voice
+    case voiceNoteRecorded(duration: TimeInterval)
+    case voiceNotePlayed
+    case voiceNoteReplayed
+    case voiceNotePlayAll(count: Int)
 
-    // Onboarding events
-    case onboardingStarted = "onboarding_started"
-    case onboardingCompleted = "onboarding_completed"
-    case onboardingSkipped = "onboarding_skipped"
+    // Transcript
+    case transcriptViewed
+    case transcriptExpanded
 
-    // Settings events
-    case notificationEnabled = "notification_enabled"
-    case notificationDisabled = "notification_disabled"
-    case themeChanged = "theme_changed"
+    // Widget
+    case widgetTapped
+    case widgetConfigured
 
-    // Feature engagement
-    case characterDiscoveryViewed = "character_discovery_viewed"
-    case wisdomQuotesViewed = "wisdom_quotes_viewed"
-    case statisticsViewed = "statistics_viewed"
-    case exportDataRequested = "export_data_requested"
+    // Onboarding
+    case onboardingStepViewed(step: Int)
+    case onboardingCompleted
+    case onboardingSkipped
 
-    // App review
-    case appReviewRequested = "app_review_requested"
-    case appReviewCompleted = "app_review_completed"
+    // Notifications
+    case notificationPermissionGranted
+    case notificationPermissionDenied
+    case notificationTapped
 
-    // Subscription events
-    case paywallViewed = "paywall_viewed"
-    case paywallDismissed = "paywall_dismissed"
-    case paywallProductsLoaded = "paywall_products_loaded"
-    case paywallProductsLoadFailed = "paywall_products_load_failed"
-    case paywallProductSelected = "paywall_product_selected"
-    case paywallPurchaseStarted = "paywall_purchase_started"
-    case paywallPurchaseCompleted = "paywall_purchase_completed"
-    case paywallPurchaseFailed = "paywall_purchase_failed"
-    case paywallPurchaseCancelled = "paywall_purchase_cancelled"
-    case paywallRestoreStarted = "paywall_restore_started"
-    case paywallRestoreCompleted = "paywall_restore_completed"
-    case paywallRestoreFailed = "paywall_restore_failed"
-    case subscriptionRestored = "subscription_restored"
+    // Subscription events (kept from existing paywall)
+    case paywallViewed
+    case paywallDismissed
+    case paywallProductsLoaded
+    case paywallProductsLoadFailed
+    case paywallProductSelected
+    case paywallPurchaseStarted
+    case paywallPurchaseCompleted
+    case paywallPurchaseFailed
+    case paywallPurchaseCancelled
+    case paywallRestoreStarted
+    case paywallRestoreCompleted
+    case paywallRestoreFailed
+
+    /// The string event name sent to Firebase Analytics
+    public var name: String {
+        switch self {
+        // Profile
+        case .profileCreated: return "profile_created"
+        case .profileEdited: return "profile_edited"
+
+        // Circle
+        case .circleCreated: return "circle_created"
+        case .circleMemberAdded: return "circle_member_added"
+        case .circleLeft: return "circle_left"
+        case .circleDeleted: return "circle_deleted"
+
+        // Prompts
+        case .promptGenerated: return "prompt_generated"
+        case .promptViewed: return "prompt_viewed"
+        case .promptResponded: return "prompt_responded"
+        case .promptSkipped: return "prompt_skipped"
+
+        // Voice
+        case .voiceNoteRecorded: return "voice_note_recorded"
+        case .voiceNotePlayed: return "voice_note_played"
+        case .voiceNoteReplayed: return "voice_note_replayed"
+        case .voiceNotePlayAll: return "voice_note_play_all"
+
+        // Transcript
+        case .transcriptViewed: return "transcript_viewed"
+        case .transcriptExpanded: return "transcript_expanded"
+
+        // Widget
+        case .widgetTapped: return "widget_tapped"
+        case .widgetConfigured: return "widget_configured"
+
+        // Onboarding
+        case .onboardingStepViewed: return "onboarding_step_viewed"
+        case .onboardingCompleted: return "onboarding_completed"
+        case .onboardingSkipped: return "onboarding_skipped"
+
+        // Notifications
+        case .notificationPermissionGranted: return "notification_permission_granted"
+        case .notificationPermissionDenied: return "notification_permission_denied"
+        case .notificationTapped: return "notification_tapped"
+
+        // Subscription
+        case .paywallViewed: return "paywall_viewed"
+        case .paywallDismissed: return "paywall_dismissed"
+        case .paywallProductsLoaded: return "paywall_products_loaded"
+        case .paywallProductsLoadFailed: return "paywall_products_load_failed"
+        case .paywallProductSelected: return "paywall_product_selected"
+        case .paywallPurchaseStarted: return "paywall_purchase_started"
+        case .paywallPurchaseCompleted: return "paywall_purchase_completed"
+        case .paywallPurchaseFailed: return "paywall_purchase_failed"
+        case .paywallPurchaseCancelled: return "paywall_purchase_cancelled"
+        case .paywallRestoreStarted: return "paywall_restore_started"
+        case .paywallRestoreCompleted: return "paywall_restore_completed"
+        case .paywallRestoreFailed: return "paywall_restore_failed"
+        }
+    }
+
+    /// Associated parameters dictionary for the event
+    public var parameters: [String: Any] {
+        switch self {
+        // Circle
+        case .circleCreated(let memberCount):
+            return ["member_count": memberCount]
+
+        // Prompts
+        case .promptGenerated(let tier):
+            return ["tier": tier]
+        case .promptViewed(let circleId):
+            return ["circle_id": circleId]
+        case .promptResponded(let circleId):
+            return ["circle_id": circleId]
+        case .promptSkipped(let circleId):
+            return ["circle_id": circleId]
+
+        // Voice
+        case .voiceNoteRecorded(let duration):
+            return ["duration_seconds": duration]
+        case .voiceNotePlayAll(let count):
+            return ["count": count]
+
+        // Onboarding
+        case .onboardingStepViewed(let step):
+            return ["step": step]
+
+        // All events with no associated parameters
+        default:
+            return [:]
+        }
+    }
 }
 
-/// Analytics parameter keys
-public enum AnalyticsParameter: String, Sendable {
-    case sessionId = "session_id"
-    case clarityScore = "clarity_score"
-    case scoreCategory = "score_category"
-    case exchangeCount = "exchange_count"
-    case letterId = "letter_id"
-    case letterDuration = "letter_duration_days"
-    case themeMode = "theme_mode"
-    case sessionCount = "session_count"
-    case streakDays = "streak_days"
-    case promptCount = "prompt_count"
-    case questionIndex = "question_index"
-    case questionText = "question_text"
-    case answerLength = "answer_length"
-    case responseTime = "response_time_ms"
-    case errorType = "error_type"
-    case phase = "phase"
-
-    // New funnel analytics parameters
-    case questionNumber = "question_number"
-    case questionId = "question_id"
-    case timeToAnswerSeconds = "time_to_answer_seconds"
-    case latencySeconds = "latency_seconds"
-    case totalQuestionsAnswered = "total_questions_answered"
-    case elapsedSeconds = "elapsed_seconds"
+/// User property keys for analytics segmentation
+public enum AnalyticsUserProperty: String, Sendable {
+    case circleCount = "circle_count"
+    case totalVoiceNotesSent = "total_voice_notes_sent"
+    case currentStreakDays = "current_streak_days"
 }

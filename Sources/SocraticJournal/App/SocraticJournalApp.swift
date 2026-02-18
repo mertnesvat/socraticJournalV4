@@ -72,13 +72,14 @@ public struct SocraticJournalApp: App {
     private var rootView: some View {
         if !authState.isAuthenticated {
             // Step 1: Not authenticated -> create profile
-            CreateProfileView(authState: authState)
+            CreateProfileView(authState: authState, analyticsService: analyticsService)
         } else if !hasCompletedOnboarding {
             // Step 2: Authenticated but hasn't completed onboarding
             OnboardingView(
                 viewModel: OnboardingViewModel(
                     circleRepository: circleRepository,
-                    authState: authState
+                    authState: authState,
+                    analyticsService: analyticsService
                 ),
                 onComplete: {
                     hasCompletedOnboarding = true

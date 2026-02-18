@@ -14,7 +14,11 @@ import UserNotifications
 public final class OnboardingViewModel {
     // MARK: - Page State
 
-    var currentPage: Int = 0
+    var currentPage: Int = 0 {
+        didSet {
+            analyticsService?.logEvent(.onboardingStepViewed(step: currentPage))
+        }
+    }
 
     // MARK: - Circle Creation State (Screen 3)
 
@@ -29,6 +33,7 @@ public final class OnboardingViewModel {
 
     private let circleRepository: CircleRepositoryProtocol
     private let authState: AuthState
+    private let analyticsService: AnalyticsServiceProtocol?
 
     // MARK: - Constants
 
@@ -57,9 +62,14 @@ public final class OnboardingViewModel {
 
     // MARK: - Init
 
-    public init(circleRepository: CircleRepositoryProtocol, authState: AuthState) {
+    public init(
+        circleRepository: CircleRepositoryProtocol,
+        authState: AuthState,
+        analyticsService: AnalyticsServiceProtocol? = nil
+    ) {
         self.circleRepository = circleRepository
         self.authState = authState
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Actions
@@ -84,7 +94,20 @@ public final class OnboardingViewModel {
 
     func requestNotificationPermission() async {
         let center = UNUserNotificationCenter.current()
-        _ = try? await center.requestAuthorization(options: [.alert, .badge, .sound])
+        let granted = (try? await center.requestAuthorization(options: [.alert, .badge, .sound])) ?? false
+        if granted {
+            analyticsService?.logEvent(.notificationPermissionGranted)
+        } else {
+            analyticsService?.logEvent(.notificationPermissionDenied)
+        }
+    }
+
+    /// Skip circle creation on the create-circle screen
+    func skipCircleCreation() {
+        circleName = ""
+        memberNames = []
+        analyticsService?.logEvent(.onboardingSkipped)
+        advancePage()
     }
 
     /// Creates a circle if user filled in details on page 3, then marks onboarding complete.
@@ -98,6 +121,8 @@ public final class OnboardingViewModel {
 
         // Mark onboarding as completed in UserDefaults
         UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
+
+        analyticsService?.logEvent(.onboardingCompleted)
     }
 
     // MARK: - Private
@@ -127,6 +152,10 @@ public final class OnboardingViewModel {
                 )
                 try await circleRepository.addMember(member, to: circle.id)
             }
+
+            // Total members = creator (1) + simulated members
+            let totalMembers = 1 + memberNames.count
+            analyticsService?.logEvent(.circleCreated(memberCount: totalMembers))
         } catch {
             circleCreationError = error.localizedDescription
         }

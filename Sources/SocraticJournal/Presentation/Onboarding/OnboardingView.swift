@@ -266,9 +266,7 @@ public struct OnboardingView: View {
 
                 // Skip link
                 Button {
-                    viewModel.circleName = ""
-                    viewModel.memberNames = []
-                    viewModel.advancePage()
+                    viewModel.skipCircleCreation()
                 } label: {
                     Text("Skip for now")
                         .font(.subheadline)

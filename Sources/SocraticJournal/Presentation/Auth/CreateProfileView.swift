@@ -11,9 +11,11 @@ public struct CreateProfileView: View {
     @Bindable private var authState: AuthState
     @State private var displayName: String = ""
     @FocusState private var nameFocused: Bool
+    private let analyticsService: AnalyticsServiceProtocol?
 
-    public init(authState: AuthState) {
+    public init(authState: AuthState, analyticsService: AnalyticsServiceProtocol? = nil) {
         self.authState = authState
+        self.analyticsService = analyticsService
     }
 
     private var isNameValid: Bool {
@@ -86,6 +88,9 @@ public struct CreateProfileView: View {
         guard name.count >= 2 else { return }
         Task {
             await authState.createProfile(name: name)
+            if authState.isAuthenticated {
+                analyticsService?.logEvent(.profileCreated)
+            }
         }
     }
 }

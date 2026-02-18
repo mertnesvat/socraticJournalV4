@@ -20,6 +20,7 @@ public final class CirclesViewModel {
 
     private let repository: CircleRepositoryProtocol
     private let notificationScheduler: CircleNotificationScheduler?
+    private let analyticsService: AnalyticsServiceProtocol?
     let currentUserId: UUID
 
     // MARK: - Init
@@ -27,11 +28,13 @@ public final class CirclesViewModel {
     public init(
         repository: CircleRepositoryProtocol,
         currentUserId: UUID,
-        notificationScheduler: CircleNotificationScheduler? = nil
+        notificationScheduler: CircleNotificationScheduler? = nil,
+        analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         self.repository = repository
         self.currentUserId = currentUserId
         self.notificationScheduler = notificationScheduler
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Actions
@@ -41,6 +44,11 @@ public final class CirclesViewModel {
         error = nil
         do {
             circles = try await repository.fetchAll(userId: currentUserId)
+            // Update user property with circle count
+            analyticsService?.setUserProperty(
+                AnalyticsUserProperty.circleCount.rawValue,
+                value: "\(circles.count)"
+            )
         } catch {
             self.error = error
         }
@@ -52,6 +60,12 @@ public final class CirclesViewModel {
         circles.insert(newCircle, at: 0)
         // Schedule notifications for the newly created circle
         await notificationScheduler?.scheduleForCircle(newCircle)
+        // Log analytics: circle created with initial member count (just the creator)
+        analyticsService?.logEvent(.circleCreated(memberCount: 1))
+        analyticsService?.setUserProperty(
+            AnalyticsUserProperty.circleCount.rawValue,
+            value: "\(circles.count)"
+        )
         return newCircle
     }
 
@@ -61,6 +75,11 @@ public final class CirclesViewModel {
             circles.removeAll { $0.id == id }
             // Cancel notifications for the deleted circle
             await notificationScheduler?.cancelForCircle(circleId: id)
+            analyticsService?.logEvent(.circleDeleted)
+            analyticsService?.setUserProperty(
+                AnalyticsUserProperty.circleCount.rawValue,
+                value: "\(circles.count)"
+            )
         } catch {
             self.error = error
         }
@@ -85,6 +104,7 @@ public final class CirclesViewModel {
                     selectedCircle = updated
                 }
             }
+            analyticsService?.logEvent(.circleMemberAdded)
         } catch {
             self.error = error
         }

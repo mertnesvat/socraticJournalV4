@@ -34,16 +34,13 @@ public final class AppReviewService: @unchecked Sendable {
     // MARK: - Properties
 
     private let userDefaults: UserDefaults
-    private let analyticsService: AnalyticsServiceProtocol
 
     // MARK: - Init
 
     public init(
-        userDefaults: UserDefaults = .standard,
-        analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
+        userDefaults: UserDefaults = .standard
     ) {
         self.userDefaults = userDefaults
-        self.analyticsService = analyticsService
     }
 
     // MARK: - Session Tracking
@@ -127,11 +124,6 @@ public final class AppReviewService: @unchecked Sendable {
         // Update last prompt date
         lastReviewPromptDate = Date()
 
-        // Log analytics
-        analyticsService.logEvent(.appReviewRequested, parameters: [
-            AnalyticsParameter.sessionCount.rawValue: completedSessionCount
-        ])
-
         // Request the review
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             SKStoreReviewController.requestReview(in: windowScene)
@@ -143,10 +135,6 @@ public final class AppReviewService: @unchecked Sendable {
     @MainActor
     public func forceRequestReview() {
         lastReviewPromptDate = Date()
-
-        analyticsService.logEvent(.appReviewRequested, parameters: [
-            AnalyticsParameter.sessionCount.rawValue: completedSessionCount
-        ])
 
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             SKStoreReviewController.requestReview(in: windowScene)

@@ -28,6 +28,7 @@ public final class NotificationSettingsViewModel {
     private let repository: CircleRepositoryProtocol
     private let scheduler: CircleNotificationScheduler
     private let notificationService: NotificationServiceProtocol
+    private let analyticsService: AnalyticsServiceProtocol?
     private let currentUserId: UUID
 
     // MARK: - Init
@@ -36,12 +37,14 @@ public final class NotificationSettingsViewModel {
         repository: CircleRepositoryProtocol,
         scheduler: CircleNotificationScheduler,
         notificationService: NotificationServiceProtocol = LocalNotificationService(),
-        currentUserId: UUID
+        currentUserId: UUID,
+        analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         self.repository = repository
         self.scheduler = scheduler
         self.notificationService = notificationService
         self.currentUserId = currentUserId
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Actions
@@ -75,9 +78,11 @@ public final class NotificationSettingsViewModel {
         let granted = await notificationService.requestPermission()
         if granted {
             permissionStatus = .authorized
+            analyticsService?.logEvent(.notificationPermissionGranted)
             // Schedule for all non-muted circles now that we have permission
             await scheduler.rescheduleAll(circles: circles)
         } else {
+            analyticsService?.logEvent(.notificationPermissionDenied)
             await checkPermission()
         }
     }

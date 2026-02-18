@@ -117,15 +117,11 @@ public final class PaywallViewModel {
             }
 
             logger.info("Loaded \(fetchedProducts.count) products")
-            analyticsService?.logEvent(.paywallProductsLoaded, parameters: [
-                "product_count": fetchedProducts.count
-            ])
+            analyticsService?.logEvent(.paywallProductsLoaded)
         } catch let subscriptionError as SubscriptionError {
             self.error = subscriptionError
             logger.error("Failed to load products: \(subscriptionError.localizedDescription)")
-            analyticsService?.logEvent(.paywallProductsLoadFailed, parameters: [
-                "error": subscriptionError.localizedDescription
-            ])
+            analyticsService?.logEvent(.paywallProductsLoadFailed)
         } catch {
             self.error = .unknown(error.localizedDescription)
             logger.error("Unknown error loading products: \(error.localizedDescription)")
@@ -137,10 +133,7 @@ public final class PaywallViewModel {
     /// Selects a product for purchase
     public func selectProduct(_ product: SubscriptionProduct) {
         selectedProduct = product
-        analyticsService?.logEvent(.paywallProductSelected, parameters: [
-            "product_id": product.id,
-            "period": product.period.rawValue
-        ])
+        analyticsService?.logEvent(.paywallProductSelected)
     }
 
     /// Purchases the selected product
@@ -159,9 +152,7 @@ public final class PaywallViewModel {
         showErrorAsAlert = true
         purchaseSucceeded = false
 
-        analyticsService?.logEvent(.paywallPurchaseStarted, parameters: [
-            "product_id": product.id
-        ])
+        analyticsService?.logEvent(.paywallPurchaseStarted)
 
         do {
             let status = try await subscriptionService.purchase(product)
@@ -170,10 +161,7 @@ public final class PaywallViewModel {
 
             if purchaseSucceeded {
                 logger.info("Purchase successful for \(product.id)")
-                analyticsService?.logEvent(.paywallPurchaseCompleted, parameters: [
-                    "product_id": product.id,
-                    "period": product.period.rawValue
-                ])
+                analyticsService?.logEvent(.paywallPurchaseCompleted)
             }
 
             isPurchasing = false
@@ -185,15 +173,10 @@ public final class PaywallViewModel {
             // Don't log cancellation as an error
             if case .purchaseCancelled = subscriptionError {
                 logger.info("User cancelled purchase")
-                analyticsService?.logEvent(.paywallPurchaseCancelled, parameters: [
-                    "product_id": product.id
-                ])
+                analyticsService?.logEvent(.paywallPurchaseCancelled)
             } else {
                 logger.error("Purchase failed: \(subscriptionError.localizedDescription)")
-                analyticsService?.logEvent(.paywallPurchaseFailed, parameters: [
-                    "product_id": product.id,
-                    "error": subscriptionError.localizedDescription
-                ])
+                analyticsService?.logEvent(.paywallPurchaseFailed)
             }
 
             return false
@@ -215,7 +198,7 @@ public final class PaywallViewModel {
         error = nil
         showErrorAsAlert = true
 
-        analyticsService?.logEvent(.paywallRestoreStarted, parameters: nil)
+        analyticsService?.logEvent(.paywallRestoreStarted)
 
         do {
             let status = try await subscriptionService.restorePurchases()
@@ -224,14 +207,10 @@ public final class PaywallViewModel {
             if status.isPremium {
                 purchaseSucceeded = true
                 logger.info("Subscription restored successfully")
-                analyticsService?.logEvent(.paywallRestoreCompleted, parameters: [
-                    "has_subscription": true
-                ])
+                analyticsService?.logEvent(.paywallRestoreCompleted)
             } else {
                 logger.info("No subscription to restore")
-                analyticsService?.logEvent(.paywallRestoreCompleted, parameters: [
-                    "has_subscription": false
-                ])
+                analyticsService?.logEvent(.paywallRestoreCompleted)
             }
 
             isRestoring = false
@@ -240,9 +219,7 @@ public final class PaywallViewModel {
             self.error = subscriptionError
             isRestoring = false
             logger.error("Restore failed: \(subscriptionError.localizedDescription)")
-            analyticsService?.logEvent(.paywallRestoreFailed, parameters: [
-                "error": subscriptionError.localizedDescription
-            ])
+            analyticsService?.logEvent(.paywallRestoreFailed)
             return false
         } catch {
             self.error = .unknown(error.localizedDescription)
@@ -260,14 +237,12 @@ public final class PaywallViewModel {
 
     /// Logs that the paywall was viewed
     public func logPaywallViewed() {
-        analyticsService?.logEvent(.paywallViewed, parameters: nil)
+        analyticsService?.logEvent(.paywallViewed)
     }
 
     /// Logs that the paywall was dismissed
     public func logPaywallDismissed() {
-        analyticsService?.logEvent(.paywallDismissed, parameters: [
-            "purchased": purchaseSucceeded
-        ])
+        analyticsService?.logEvent(.paywallDismissed)
     }
 }
 #endif

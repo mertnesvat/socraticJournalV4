@@ -38,6 +38,7 @@ public final class VoiceRecorderViewModel {
 
     private let recordingService: VoiceRecordingServiceProtocol
     private let transcriptionService: TranscriptionServiceProtocol?
+    private let analyticsService: AnalyticsServiceProtocol?
     private var meterTimer: Timer?
     private var currentRecordingURL: URL?
     private let logger = Logger(subsystem: "com.StudioNext.socraticJournal", category: "VoiceRecorder")
@@ -46,10 +47,12 @@ public final class VoiceRecorderViewModel {
 
     public init(
         recordingService: VoiceRecordingServiceProtocol,
-        transcriptionService: TranscriptionServiceProtocol? = nil
+        transcriptionService: TranscriptionServiceProtocol? = nil,
+        analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         self.recordingService = recordingService
         self.transcriptionService = transcriptionService
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Permissions
@@ -103,8 +106,10 @@ public final class VoiceRecorderViewModel {
 
         stopMeteringTimer()
         let url = recordingService.stopRecording()
+        let recordedDuration = currentDuration
         isRecording = false
-        logger.info("Stopped recording, duration: \(self.currentDuration, format: .fixed(precision: 1))s")
+        logger.info("Stopped recording, duration: \(recordedDuration, format: .fixed(precision: 1))s")
+        analyticsService?.logEvent(.voiceNoteRecorded(duration: recordedDuration))
         return url
     }
 

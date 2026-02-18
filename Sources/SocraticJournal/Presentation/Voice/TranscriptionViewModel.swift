@@ -23,15 +23,18 @@ public final class TranscriptionViewModel {
 
     private let transcriptionService: TranscriptionServiceProtocol
     private let voiceNoteRepository: VoiceNoteRepositoryProtocol
+    private let analyticsService: AnalyticsServiceProtocol?
 
     // MARK: - Init
 
     public init(
         transcriptionService: TranscriptionServiceProtocol,
-        voiceNoteRepository: VoiceNoteRepositoryProtocol
+        voiceNoteRepository: VoiceNoteRepositoryProtocol,
+        analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         self.transcriptionService = transcriptionService
         self.voiceNoteRepository = voiceNoteRepository
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Permission
@@ -104,6 +107,7 @@ public final class TranscriptionViewModel {
         // Update voice note with transcript
         var updatedNote = voiceNote
         updatedNote.transcript = transcript
+        analyticsService?.logEvent(.transcriptViewed)
 
         // Persist the updated voice note
         do {

@@ -5,6 +5,7 @@
 #if os(iOS)
 import Foundation
 import SwiftUI
+import WidgetKit
 
 /// ViewModel for the Home Feed — the daily circle experience.
 /// Manages circles, today's prompt, voice notes, and the "respond first to unlock" mechanic.
@@ -66,6 +67,7 @@ public final class HomeViewModel {
     private let voiceNoteRepository: VoiceNoteRepositoryProtocol
     private let voiceRecordingService: VoiceRecordingServiceProtocol
     private let playbackService: AudioPlaybackServiceProtocol
+    private let analyticsService: AnalyticsServiceProtocol?
     let currentUserId: UUID
 
     // MARK: - Init
@@ -77,7 +79,8 @@ public final class HomeViewModel {
         voiceNoteRepository: VoiceNoteRepositoryProtocol,
         voiceRecordingService: VoiceRecordingServiceProtocol,
         playbackService: AudioPlaybackServiceProtocol,
-        currentUserId: UUID
+        currentUserId: UUID,
+        analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         self.circleRepository = circleRepository
         self.promptRepository = promptRepository
@@ -86,6 +89,7 @@ public final class HomeViewModel {
         self.voiceRecordingService = voiceRecordingService
         self.playbackService = playbackService
         self.currentUserId = currentUserId
+        self.analyticsService = analyticsService
     }
 
     // MARK: - Actions
@@ -112,6 +116,7 @@ public final class HomeViewModel {
         }
 
         isLoading = false
+        updateWidget()
     }
 
     /// Switch to a different circle and reload prompt + voice notes
@@ -156,6 +161,7 @@ public final class HomeViewModel {
 
             // Load voice notes for this prompt
             if let prompt = todayPrompt {
+                analyticsService?.logEvent(.promptViewed(circleId: circle.id.uuidString))
                 voiceNotes = try await voiceNoteRepository.fetchForPrompt(promptId: prompt.id)
             }
         } catch {
@@ -184,6 +190,11 @@ public final class HomeViewModel {
         do {
             try await promptRepository.update(prompt)
             todayPrompt = prompt
+            updateWidget()
+
+            if let circle = selectedCircle {
+                analyticsService?.logEvent(.promptResponded(circleId: circle.id.uuidString))
+            }
         } catch {
             self.error = error.localizedDescription
         }
@@ -195,6 +206,7 @@ public final class HomeViewModel {
 
         do {
             voiceNotes = try await voiceNoteRepository.fetchForPrompt(promptId: prompt.id)
+            updateWidget()
         } catch {
             self.error = error.localizedDescription
         }
@@ -211,6 +223,7 @@ public final class HomeViewModel {
         guard !notes.isEmpty else { return }
 
         isPlayingAll = true
+        analyticsService?.logEvent(.voiceNotePlayAll(count: notes.count))
 
         let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
 
@@ -222,6 +235,7 @@ public final class HomeViewModel {
 
             do {
                 try playbackService.play(url: audioURL)
+                analyticsService?.logEvent(.voiceNotePlayed)
 
                 // Wait for playback to finish
                 while playbackService.isPlaying && isPlayingAll {
@@ -242,6 +256,19 @@ public final class HomeViewModel {
         isPlayingAll = false
         playbackService.stop()
         currentlyPlayingIndex = nil
+    }
+
+    // MARK: - Widget Integration
+
+    /// Push the latest circle state to the widget via shared UserDefaults.
+    private func updateWidget() {
+        guard let circle = selectedCircle else { return }
+        WidgetDataProvider.shared.updateWidgetData(
+            circle: circle,
+            prompt: todayPrompt,
+            members: members,
+            voiceNotes: voiceNotes
+        )
     }
 
     /// Clear the current error
