@@ -12,6 +12,11 @@ public struct UserSettings: Codable, Sendable, Equatable {
     public var dailyReminderMinute: Int
     public var hasCompletedOnboarding: Bool
 
+    // MARK: - Per-Circle Notification Settings
+
+    /// Per-circle notification settings keyed by circle UUID string.
+    public var circleNotificationSettings: [CircleNotificationSetting]
+
     // MARK: - Subscription State
 
     public var subscriptionExpiryDate: Date?
@@ -29,6 +34,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
         dailyReminderHour: Int = 18,
         dailyReminderMinute: Int = 0,
         hasCompletedOnboarding: Bool = false,
+        circleNotificationSettings: [CircleNotificationSetting] = [],
         subscriptionExpiryDate: Date? = nil,
         activeProductId: String? = nil,
         lastSubscriptionCheck: Date? = nil
@@ -38,6 +44,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
         self.dailyReminderHour = dailyReminderHour
         self.dailyReminderMinute = dailyReminderMinute
         self.hasCompletedOnboarding = hasCompletedOnboarding
+        self.circleNotificationSettings = circleNotificationSettings
         self.subscriptionExpiryDate = subscriptionExpiryDate
         self.activeProductId = activeProductId
         self.lastSubscriptionCheck = lastSubscriptionCheck
@@ -50,6 +57,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
         dailyReminderHour = try container.decodeIfPresent(Int.self, forKey: .dailyReminderHour) ?? 18
         dailyReminderMinute = try container.decodeIfPresent(Int.self, forKey: .dailyReminderMinute) ?? 0
         hasCompletedOnboarding = try container.decodeIfPresent(Bool.self, forKey: .hasCompletedOnboarding) ?? false
+        circleNotificationSettings = try container.decodeIfPresent([CircleNotificationSetting].self, forKey: .circleNotificationSettings) ?? []
         subscriptionExpiryDate = try container.decodeIfPresent(Date.self, forKey: .subscriptionExpiryDate)
         activeProductId = try container.decodeIfPresent(String.self, forKey: .activeProductId)
         lastSubscriptionCheck = try container.decodeIfPresent(Date.self, forKey: .lastSubscriptionCheck)
@@ -70,6 +78,28 @@ public struct UserSettings: Codable, Sendable, Equatable {
         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
         dailyReminderHour = components.hour ?? 18
         dailyReminderMinute = components.minute ?? 0
+    }
+
+    // MARK: - Circle Notification Helpers
+
+    /// Get the notification setting for a specific circle, or create a default one.
+    public func circleNotificationSetting(for circleId: UUID) -> CircleNotificationSetting {
+        circleNotificationSettings.first { $0.circleId == circleId }
+            ?? CircleNotificationSetting(circleId: circleId)
+    }
+
+    /// Update or insert a circle notification setting.
+    public mutating func setCircleNotificationSetting(_ setting: CircleNotificationSetting) {
+        if let index = circleNotificationSettings.firstIndex(where: { $0.circleId == setting.circleId }) {
+            circleNotificationSettings[index] = setting
+        } else {
+            circleNotificationSettings.append(setting)
+        }
+    }
+
+    /// Remove notification settings for a circle (e.g., when a circle is deleted).
+    public mutating func removeCircleNotificationSetting(for circleId: UUID) {
+        circleNotificationSettings.removeAll { $0.circleId == circleId }
     }
 
     // MARK: - Subscription Helpers

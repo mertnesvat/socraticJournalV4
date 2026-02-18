@@ -12,8 +12,15 @@ public struct SettingsView: View {
     @State private var viewModel: SettingsViewModel
     @State private var showingPaywall: Bool = false
 
-    public init(viewModel: SettingsViewModel) {
+    /// Optional circle notification settings view model, provided when circle service is available.
+    private let circleNotificationViewModel: CircleNotificationSettingsViewModel?
+
+    public init(
+        viewModel: SettingsViewModel,
+        circleNotificationViewModel: CircleNotificationSettingsViewModel? = nil
+    ) {
         _viewModel = State(initialValue: viewModel)
+        self.circleNotificationViewModel = circleNotificationViewModel
     }
 
     public var body: some View {
@@ -81,6 +88,13 @@ public struct SettingsView: View {
                             viewModel.openNotificationSettings()
                         }
                     )
+
+                    // Per-Circle Notification Settings
+                    if let circleNotificationViewModel {
+                        CircleNotificationSettingsView(
+                            viewModel: circleNotificationViewModel
+                        )
+                    }
 
                     // Subscription
                     SubscriptionSettingsView(

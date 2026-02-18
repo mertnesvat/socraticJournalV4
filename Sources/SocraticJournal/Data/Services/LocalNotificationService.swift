@@ -36,7 +36,14 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
             options: [.customDismissAction]
         )
 
-        notificationCenter.setNotificationCategories([dailyPromptCategory])
+        let circlePromptCategory = UNNotificationCategory(
+            identifier: NotificationCategory.circlePrompt,
+            actions: [recordAction, snoozeAction],
+            intentIdentifiers: [],
+            options: [.customDismissAction]
+        )
+
+        notificationCenter.setNotificationCategories([dailyPromptCategory, circlePromptCategory])
     }
 
     // MARK: - Permission
@@ -62,7 +69,7 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
         }
     }
 
-    // MARK: - Daily Prompt Reminder
+    // MARK: - Daily Prompt Reminder (Global)
 
     public func scheduleDailyReminder(hour: Int, minute: Int) async throws {
         let status = await getPermissionStatus()
@@ -104,11 +111,75 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
         notificationCenter.removeAllDeliveredNotifications()
     }
 
-    /// Clear the badge count
-    public func clearBadge() async {
-        await MainActor.run {
-            UIApplication.shared.applicationIconBadgeNumber = 0
+    // MARK: - Circle-Specific Notifications
+
+    public func scheduleCirclePrompt(
+        circleId: UUID,
+        circleName: String,
+        circleIcon: String,
+        hour: Int,
+        minute: Int,
+        promptSnippet: String
+    ) async throws {
+        let status = await getPermissionStatus()
+        guard status == .authorized || status == .provisional else { return }
+
+        // Cancel any existing notification for this circle first
+        await cancelCircleNotifications(for: circleId)
+
+        let content = UNMutableNotificationContent()
+        content.title = "\(circleName)"
+        // Truncate prompt to first 50 characters
+        let truncatedPrompt = promptSnippet.count > 50
+            ? String(promptSnippet.prefix(50)) + "..."
+            : promptSnippet
+        content.body = "Today's Circle question: \(truncatedPrompt)"
+        content.subtitle = circleName
+        content.sound = .default
+        content.categoryIdentifier = NotificationCategory.circlePrompt
+
+        // Store circle ID in userInfo for deep-link handling
+        content.userInfo = [
+            "circleId": circleId.uuidString,
+            "circleName": circleName,
+            "circleIcon": circleIcon
+        ]
+
+        var dateComponents = DateComponents()
+        dateComponents.hour = hour
+        dateComponents.minute = minute
+
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        let identifier = NotificationIdentifier.circlePrompt(for: circleId)
+        let request = UNNotificationRequest(
+            identifier: identifier,
+            content: content,
+            trigger: trigger
+        )
+
+        try await notificationCenter.add(request)
+    }
+
+    public func cancelCircleNotifications(for circleId: UUID) async {
+        let identifier = NotificationIdentifier.circlePrompt(for: circleId)
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
+        notificationCenter.removeDeliveredNotifications(withIdentifiers: [identifier])
+    }
+
+    // MARK: - Badge Management
+
+    public func setBadgeCount(_ count: Int) async {
+        if #available(iOS 16.0, *) {
+            try? await notificationCenter.setBadgeCount(count)
+        } else {
+            await MainActor.run {
+                UIApplication.shared.applicationIconBadgeNumber = count
+            }
         }
+    }
+
+    public func clearBadge() async {
+        await setBadgeCount(0)
     }
 }
 #endif
