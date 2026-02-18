@@ -8,17 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		0047B39B7559AD5B4D2A724A /* ThemeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */; };
+		00BD0A7F0FCAFE7BCA284FBE /* PromptServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954792CE266244AF7025458E /* PromptServiceProtocol.swift */; };
 		02D06FF8D4BC95040F9B673D /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6719F2C4BA1905FC6028A92B /* PaywallView.swift */; };
 		05995DAF8F22AC7406D89DEC /* SubscriptionServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC02A1182B94FB55F6FA910 /* SubscriptionServiceProtocol.swift */; };
 		0758B37FCCE8AFB3EC8DFA3A /* PaywallViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE742B3A435A8412095FE829 /* PaywallViewModelTests.swift */; };
 		09579202D2F45AF44CB87FEE /* SubscriptionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD00AFE4BF4F24240FDB0677 /* SubscriptionServiceTests.swift */; };
 		09C07880A4685FF85EF4D1CA /* ProfileSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AA69E0887AA90C7547CEC5 /* ProfileSetupView.swift */; };
+		0D01991D1CC87794FBD51B33 /* prompts.json in Resources */ = {isa = PBXBuildFile; fileRef = A51BCFC64B63BCE6B6FC268D /* prompts.json */; };
 		0E3266C4EADE46E3BCBAFF1B /* AuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866D24687A212E487100395D /* AuthServiceProtocol.swift */; };
 		105776FB75A44B06D5CEF3DE /* StoreKitSubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1DCA1BD05A6C77FD0365B9 /* StoreKitSubscriptionService.swift */; };
 		11D711353ACD6D6B016CF184 /* CircleServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403DA0D7414AD73CC5E21817 /* CircleServiceProtocol.swift */; };
 		164CBF0AA31A693A19CEDB4D /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C8B1A5BD382943CF68DD5 /* Subscription.swift */; };
 		16BD357CEF2E3F0D16082049 /* MockCircleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E833D3E2D01D9F1D02D1BE5E /* MockCircleService.swift */; };
 		1C5E181D416956CEA3375BCC /* CircleTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697D685868D88B07F7B173DE /* CircleTheme.swift */; };
+		220A7D1CB6D3C36D969F591B /* DailyPromptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE057998AF7AC87E462E812 /* DailyPromptViewModel.swift */; };
 		2353327B27450AF113EF609F /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF92EF5F314A4CC8478E991C /* ThemeManager.swift */; };
 		26C7116DD7EB78C79CD2F22E /* CircleMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970A0693B76E2682C1F3E360 /* CircleMember.swift */; };
 		2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A36AC1AC2633D53C43FE99 /* Environment.swift */; };
@@ -35,8 +38,10 @@
 		41086F7B297A92D463435F21 /* ServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF63B06E3C026D191EEEF36 /* ServiceContainer.swift */; };
 		43EC089841BBCBBD60E9CBE6 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEBBD43B96AB5D5C8AC8ED8 /* Circle.swift */; };
 		478FBA03D1ECF927B332B05A /* CircleRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C2AF970932029E8556A917 /* CircleRootView.swift */; };
+		4818FB84A41312BB342137D5 /* MockVoicePlaybackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E8A39FFDCEAD33B8369970 /* MockVoicePlaybackService.swift */; };
 		4C8F454419D18C5240734795 /* MockVoiceRecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813E302E667B7AF5B8D2934E /* MockVoiceRecordingService.swift */; };
 		4DEF2A590438AE3A23B46936 /* LocalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3CCE3056C48C78EAF1729A /* LocalAuthService.swift */; };
+		51E623D1DA7C57F85C4C1895 /* VoiceNotePlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833EAF5E9D01662D64AB060C /* VoiceNotePlayerViewModel.swift */; };
 		520886B15CCFBC6C5A16C89B /* VoiceRecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2905188578F370EB9E021BE7 /* VoiceRecorderViewModel.swift */; };
 		54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */; };
 		58B70FC528D7610DBD6280B4 /* VoiceNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215BA6856F7C2E5D2A843D15 /* VoiceNote.swift */; };
@@ -44,28 +49,38 @@
 		5B625522F67DED65EA09CBA1 /* MockSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88051AB8352D615CE378228 /* MockSettingsRepository.swift */; };
 		5CA75F4F8068EBFD806933EE /* LocalCircleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48BD47C83C72E62E9B5FDEB /* LocalCircleService.swift */; };
 		5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4B1E73960A7489D123CF41 /* UserSettings.swift */; };
+		5F8DEA78FE09A9A08481F379 /* LocalPromptService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7976BED29C47319F0280A19E /* LocalPromptService.swift */; };
 		665A65AD4720AC7E6F1DB1D1 /* VoiceRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC513C5B51CAE32B2E1E101 /* VoiceRecorderView.swift */; };
 		6B2EA9640CC56AB667B0E24A /* CircleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426BB1C53ED9DDC99F974448 /* CircleListView.swift */; };
 		750C7134099FFCB45B778119 /* PreviewSubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA4F548C28875B0EDBCE95A /* PreviewSubscriptionService.swift */; };
+		777BC3EA826C208C66418167 /* AddMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3500D7A14A1EE1C465E960F /* AddMemberViewModel.swift */; };
 		7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */; };
 		7CD08DDDBAF3E984E51A4C35 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5676EF29ED41EAA384E775 /* MockAuthService.swift */; };
 		7DBF429DEE841C05502907A3 /* ConsoleAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C5672C4767878153A189EA /* ConsoleAnalyticsService.swift */; };
 		861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */; };
+		8B4AD6E61A6ABB37ACC0C6E7 /* LocalVoicePlaybackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525045B8312D89B622CA1F16 /* LocalVoicePlaybackService.swift */; };
+		9DC66AD46CF22E7A454E7F26 /* VoicePlaybackServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AADFD67F8FA30E2992C9CC /* VoicePlaybackServiceProtocol.swift */; };
 		A67DCAD245144762F118080C /* InitialsAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DFF234640714804682C74E /* InitialsAvatarView.swift */; };
 		AEDF63BC3725F51F035390F8 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4135972CA8CCEC7C21BC1C7E /* WaveformView.swift */; };
+		B70620E0F3788BF42AB3B336 /* VoiceNotePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4325ACA51DE4E214B4F76B /* VoiceNotePlayerView.swift */; };
 		BDD288FBA2DB2666DB6EBFE6 /* SubscriptionIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46BB41237613A138296486F /* SubscriptionIntegrationTests.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
 		C9EDC049AB6DD96FDAABF91D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9004754BBF0511296A6FAF /* User.swift */; };
 		C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5D235EA9156B100C8E539A /* SettingsView.swift */; };
+		CAB2E748FC7D124B348B1EE2 /* MockPromptService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AC019D10C900131DC58965 /* MockPromptService.swift */; };
+		CF039B3A4CEB78EED158D3C5 /* AddMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67CFD0FF0B9087B0B764104 /* AddMemberView.swift */; };
+		CF7F87EF059788615B884C99 /* PromptHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8FACA6CBFEC8D8B53DC732 /* PromptHistoryView.swift */; };
 		D56B6AC559A9D1CF16C0AC7C /* CircleListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F75E0196914B5C8F7B2CA47 /* CircleListViewModel.swift */; };
 		D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */; };
 		D70067E9EA4E889DB59EC3E5 /* CircleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D5DAB5CE24160101862B94 /* CircleDetailView.swift */; };
 		DD7D0FA52753BE5E9DB2CF29 /* MockSubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4002A04471CAD29B8C550469 /* MockSubscriptionService.swift */; };
 		DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */; };
+		DED95D078694267E93F55AE0 /* Prompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8953CA1A3ACC1ABAC1D8D0 /* Prompt.swift */; };
 		E4431D8F7E40B5260823E0A4 /* CircleDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705C7816D481E3AB5AF9F8DB /* CircleDetailViewModel.swift */; };
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
 		F5995238059071E504283D13 /* LocalVoiceRecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4192D3068127FC7B8F2C6F7 /* LocalVoiceRecordingService.swift */; };
 		F77E51E72A9FA72726E2F9BB /* CreateCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECF8AA61DFEC81AD0994ECA /* CreateCircleView.swift */; };
+		FB825D54B565AEFCE4F90BD9 /* DailyPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8DE1A8A3493D2B0CE18C5B /* DailyPromptView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,10 +96,12 @@
 /* Begin PBXFileReference section */
 		0B1DCA1BD05A6C77FD0365B9 /* StoreKitSubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitSubscriptionService.swift; sourceTree = "<group>"; };
 		0DF63B06E3C026D191EEEF36 /* ServiceContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceContainer.swift; sourceTree = "<group>"; };
+		1A8953CA1A3ACC1ABAC1D8D0 /* Prompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompt.swift; sourceTree = "<group>"; };
 		1CBE2C9FB0E30C3223ACB86C /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
 		215BA6856F7C2E5D2A843D15 /* VoiceNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNote.swift; sourceTree = "<group>"; };
 		2905188578F370EB9E021BE7 /* VoiceRecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecorderViewModel.swift; sourceTree = "<group>"; };
 		29D5DAB5CE24160101862B94 /* CircleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleDetailView.swift; sourceTree = "<group>"; };
+		2CE057998AF7AC87E462E812 /* DailyPromptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPromptViewModel.swift; sourceTree = "<group>"; };
 		3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepositoryProtocol.swift; sourceTree = "<group>"; };
 		3C3CCE3056C48C78EAF1729A /* LocalAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthService.swift; sourceTree = "<group>"; };
 		3ECF8AA61DFEC81AD0994ECA /* CreateCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCircleView.swift; sourceTree = "<group>"; };
@@ -94,33 +111,43 @@
 		41BCDC0924026E683288C6B4 /* PaywallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModel.swift; sourceTree = "<group>"; };
 		426BB1C53ED9DDC99F974448 /* CircleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleListView.swift; sourceTree = "<group>"; };
 		43C5672C4767878153A189EA /* ConsoleAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleAnalyticsService.swift; sourceTree = "<group>"; };
+		44AADFD67F8FA30E2992C9CC /* VoicePlaybackServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicePlaybackServiceProtocol.swift; sourceTree = "<group>"; };
 		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		525045B8312D89B622CA1F16 /* LocalVoicePlaybackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVoicePlaybackService.swift; sourceTree = "<group>"; };
 		58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		5C12B75E1386FCED80B06B37 /* SubscriptionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionSettingsView.swift; sourceTree = "<group>"; };
 		5F75E0196914B5C8F7B2CA47 /* CircleListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleListViewModel.swift; sourceTree = "<group>"; };
 		5FDE01830F0959A72723F0DD /* AppReviewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewService.swift; sourceTree = "<group>"; };
 		62AA69E0887AA90C7547CEC5 /* ProfileSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupView.swift; sourceTree = "<group>"; };
 		6719F2C4BA1905FC6028A92B /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		68AC019D10C900131DC58965 /* MockPromptService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPromptService.swift; sourceTree = "<group>"; };
 		697D685868D88B07F7B173DE /* CircleTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTheme.swift; sourceTree = "<group>"; };
 		6A07E910B300F8BA4C4769BE /* SocraticJournalTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SocraticJournalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CC02A1182B94FB55F6FA910 /* SubscriptionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionServiceProtocol.swift; sourceTree = "<group>"; };
 		6CEBBD43B96AB5D5C8AC8ED8 /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		705C7816D481E3AB5AF9F8DB /* CircleDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleDetailViewModel.swift; sourceTree = "<group>"; };
 		788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSettingsRepository.swift; sourceTree = "<group>"; };
+		7976BED29C47319F0280A19E /* LocalPromptService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPromptService.swift; sourceTree = "<group>"; };
 		7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalApp.swift; sourceTree = "<group>"; };
 		7D5676EF29ED41EAA384E775 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
 		813E302E667B7AF5B8D2934E /* MockVoiceRecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVoiceRecordingService.swift; sourceTree = "<group>"; };
+		833EAF5E9D01662D64AB060C /* VoiceNotePlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNotePlayerViewModel.swift; sourceTree = "<group>"; };
 		84DB170DB3684DD41520F4D4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		85E8A39FFDCEAD33B8369970 /* MockVoicePlaybackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVoicePlaybackService.swift; sourceTree = "<group>"; };
 		866D24687A212E487100395D /* AuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceProtocol.swift; sourceTree = "<group>"; };
+		954792CE266244AF7025458E /* PromptServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptServiceProtocol.swift; sourceTree = "<group>"; };
 		970A0693B76E2682C1F3E360 /* CircleMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleMember.swift; sourceTree = "<group>"; };
 		98DEC87C4C78120D2D66BF2D /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		9BC513C5B51CAE32B2E1E101 /* VoiceRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecorderView.swift; sourceTree = "<group>"; };
 		9F4B1E73960A7489D123CF41 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
+		A51BCFC64B63BCE6B6FC268D /* prompts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = prompts.json; sourceTree = "<group>"; };
+		AB8DE1A8A3493D2B0CE18C5B /* DailyPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPromptView.swift; sourceTree = "<group>"; };
 		AD00AFE4BF4F24240FDB0677 /* SubscriptionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionServiceTests.swift; sourceTree = "<group>"; };
 		B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceProtocol.swift; sourceTree = "<group>"; };
 		B335DF33C3770C048FAE5BE9 /* VoiceRecordingServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecordingServiceProtocol.swift; sourceTree = "<group>"; };
 		B46BB41237613A138296486F /* SubscriptionIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionIntegrationTests.swift; sourceTree = "<group>"; };
+		B67CFD0FF0B9087B0B764104 /* AddMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberView.swift; sourceTree = "<group>"; };
 		BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelectorView.swift; sourceTree = "<group>"; };
 		C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationService.swift; sourceTree = "<group>"; };
 		C09C8B1A5BD382943CF68DD5 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
@@ -129,6 +156,8 @@
 		CBFCD947C02302577DE3EC06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF92EF5F314A4CC8478E991C /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		D4192D3068127FC7B8F2C6F7 /* LocalVoiceRecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVoiceRecordingService.swift; sourceTree = "<group>"; };
+		DF8FACA6CBFEC8D8B53DC732 /* PromptHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptHistoryView.swift; sourceTree = "<group>"; };
+		E3500D7A14A1EE1C465E960F /* AddMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemberViewModel.swift; sourceTree = "<group>"; };
 		E48BD47C83C72E62E9B5FDEB /* LocalCircleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCircleService.swift; sourceTree = "<group>"; };
 		E4C2AF970932029E8556A917 /* CircleRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleRootView.swift; sourceTree = "<group>"; };
 		E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceProtocol.swift; sourceTree = "<group>"; };
@@ -142,6 +171,7 @@
 		EE742B3A435A8412095FE829 /* PaywallViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModelTests.swift; sourceTree = "<group>"; };
 		F782BF4BCB8611080CE7218E /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		FA4325ACA51DE4E214B4F76B /* VoiceNotePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNotePlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -174,6 +204,16 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		0C91325F30896478BA27DD2D /* Prompts */ = {
+			isa = PBXGroup;
+			children = (
+				AB8DE1A8A3493D2B0CE18C5B /* DailyPromptView.swift */,
+				2CE057998AF7AC87E462E812 /* DailyPromptViewModel.swift */,
+				DF8FACA6CBFEC8D8B53DC732 /* PromptHistoryView.swift */,
+			);
+			path = Prompts;
+			sourceTree = "<group>";
+		};
 		1939C2C2FC3281E95516289F /* SocraticJournal */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,7 +234,9 @@
 				866D24687A212E487100395D /* AuthServiceProtocol.swift */,
 				403DA0D7414AD73CC5E21817 /* CircleServiceProtocol.swift */,
 				B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */,
+				954792CE266244AF7025458E /* PromptServiceProtocol.swift */,
 				6CC02A1182B94FB55F6FA910 /* SubscriptionServiceProtocol.swift */,
+				44AADFD67F8FA30E2992C9CC /* VoicePlaybackServiceProtocol.swift */,
 				B335DF33C3770C048FAE5BE9 /* VoiceRecordingServiceProtocol.swift */,
 			);
 			path = Services;
@@ -204,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				CBFCD947C02302577DE3EC06 /* Assets.xcassets */,
+				A51BCFC64B63BCE6B6FC268D /* prompts.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -239,6 +282,7 @@
 			children = (
 				6CEBBD43B96AB5D5C8AC8ED8 /* Circle.swift */,
 				970A0693B76E2682C1F3E360 /* CircleMember.swift */,
+				1A8953CA1A3ACC1ABAC1D8D0 /* Prompt.swift */,
 				C09C8B1A5BD382943CF68DD5 /* Subscription.swift */,
 				EC9004754BBF0511296A6FAF /* User.swift */,
 				9F4B1E73960A7489D123CF41 /* UserSettings.swift */,
@@ -250,6 +294,8 @@
 		619EFD1C7FA18B26FE556F18 /* Circles */ = {
 			isa = PBXGroup;
 			children = (
+				B67CFD0FF0B9087B0B764104 /* AddMemberView.swift */,
+				E3500D7A14A1EE1C465E960F /* AddMemberViewModel.swift */,
 				29D5DAB5CE24160101862B94 /* CircleDetailView.swift */,
 				705C7816D481E3AB5AF9F8DB /* CircleDetailViewModel.swift */,
 				426BB1C53ED9DDC99F974448 /* CircleListView.swift */,
@@ -280,6 +326,8 @@
 		775A2E922A6B5CA021BCA134 /* Voice */ = {
 			isa = PBXGroup;
 			children = (
+				FA4325ACA51DE4E214B4F76B /* VoiceNotePlayerView.swift */,
+				833EAF5E9D01662D64AB060C /* VoiceNotePlayerViewModel.swift */,
 				9BC513C5B51CAE32B2E1E101 /* VoiceRecorderView.swift */,
 				2905188578F370EB9E021BE7 /* VoiceRecorderViewModel.swift */,
 				4135972CA8CCEC7C21BC1C7E /* WaveformView.swift */,
@@ -370,9 +418,13 @@
 				3C3CCE3056C48C78EAF1729A /* LocalAuthService.swift */,
 				E48BD47C83C72E62E9B5FDEB /* LocalCircleService.swift */,
 				C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */,
+				7976BED29C47319F0280A19E /* LocalPromptService.swift */,
+				525045B8312D89B622CA1F16 /* LocalVoicePlaybackService.swift */,
 				D4192D3068127FC7B8F2C6F7 /* LocalVoiceRecordingService.swift */,
 				7D5676EF29ED41EAA384E775 /* MockAuthService.swift */,
 				E833D3E2D01D9F1D02D1BE5E /* MockCircleService.swift */,
+				68AC019D10C900131DC58965 /* MockPromptService.swift */,
+				85E8A39FFDCEAD33B8369970 /* MockVoicePlaybackService.swift */,
 				813E302E667B7AF5B8D2934E /* MockVoiceRecordingService.swift */,
 				F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */,
 				CBA4F548C28875B0EDBCE95A /* PreviewSubscriptionService.swift */,
@@ -409,6 +461,7 @@
 				B04C0B8D7BF9B1BAF80E4F32 /* Components */,
 				7DBE6F1459754CEC4DAED18F /* Navigation */,
 				0277DB7634FC77C715A88789 /* Paywall */,
+				0C91325F30896478BA27DD2D /* Prompts */,
 				0A7D89DB9B7D4AA46EE297DA /* Settings */,
 				3292427AC674B121CCABA44F /* Theme */,
 				775A2E922A6B5CA021BCA134 /* Voice */,
@@ -500,6 +553,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40DB66C3830BF575B1904170 /* Assets.xcassets in Resources */,
+				0D01991D1CC87794FBD51B33 /* prompts.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +578,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */,
+				CF039B3A4CEB78EED158D3C5 /* AddMemberView.swift in Sources */,
+				777BC3EA826C208C66418167 /* AddMemberViewModel.swift in Sources */,
 				DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */,
 				3BCE20D54AE96A3872A4890B /* AppReviewService.swift in Sources */,
 				0E3266C4EADE46E3BCBAFF1B /* AuthServiceProtocol.swift in Sources */,
@@ -538,15 +594,21 @@
 				1C5E181D416956CEA3375BCC /* CircleTheme.swift in Sources */,
 				7DBF429DEE841C05502907A3 /* ConsoleAnalyticsService.swift in Sources */,
 				F77E51E72A9FA72726E2F9BB /* CreateCircleView.swift in Sources */,
+				FB825D54B565AEFCE4F90BD9 /* DailyPromptView.swift in Sources */,
+				220A7D1CB6D3C36D969F591B /* DailyPromptViewModel.swift in Sources */,
 				3F28E26281FA6A2F09FA38C3 /* EmojiPickerView.swift in Sources */,
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				A67DCAD245144762F118080C /* InitialsAvatarView.swift in Sources */,
 				4DEF2A590438AE3A23B46936 /* LocalAuthService.swift in Sources */,
 				5CA75F4F8068EBFD806933EE /* LocalCircleService.swift in Sources */,
 				2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */,
+				5F8DEA78FE09A9A08481F379 /* LocalPromptService.swift in Sources */,
+				8B4AD6E61A6ABB37ACC0C6E7 /* LocalVoicePlaybackService.swift in Sources */,
 				F5995238059071E504283D13 /* LocalVoiceRecordingService.swift in Sources */,
 				7CD08DDDBAF3E984E51A4C35 /* MockAuthService.swift in Sources */,
 				16BD357CEF2E3F0D16082049 /* MockCircleService.swift in Sources */,
+				CAB2E748FC7D124B348B1EE2 /* MockPromptService.swift in Sources */,
+				4818FB84A41312BB342137D5 /* MockVoicePlaybackService.swift in Sources */,
 				4C8F454419D18C5240734795 /* MockVoiceRecordingService.swift in Sources */,
 				31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */,
 				54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */,
@@ -556,6 +618,9 @@
 				750C7134099FFCB45B778119 /* PreviewSubscriptionService.swift in Sources */,
 				09C07880A4685FF85EF4D1CA /* ProfileSetupView.swift in Sources */,
 				38D9CC7A8C7643BE6C44E629 /* ProfileSetupViewModel.swift in Sources */,
+				DED95D078694267E93F55AE0 /* Prompt.swift in Sources */,
+				CF7F87EF059788615B884C99 /* PromptHistoryView.swift in Sources */,
+				00BD0A7F0FCAFE7BCA284FBE /* PromptServiceProtocol.swift in Sources */,
 				41086F7B297A92D463435F21 /* ServiceContainer.swift in Sources */,
 				D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */,
 				C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */,
@@ -571,6 +636,9 @@
 				E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */,
 				5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */,
 				58B70FC528D7610DBD6280B4 /* VoiceNote.swift in Sources */,
+				B70620E0F3788BF42AB3B336 /* VoiceNotePlayerView.swift in Sources */,
+				51E623D1DA7C57F85C4C1895 /* VoiceNotePlayerViewModel.swift in Sources */,
+				9DC66AD46CF22E7A454E7F26 /* VoicePlaybackServiceProtocol.swift in Sources */,
 				665A65AD4720AC7E6F1DB1D1 /* VoiceRecorderView.swift in Sources */,
 				520886B15CCFBC6C5A16C89B /* VoiceRecorderViewModel.swift in Sources */,
 				3E99696F432DD663C972D484 /* VoiceRecordingServiceProtocol.swift in Sources */,

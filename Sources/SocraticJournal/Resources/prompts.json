@@ -1,0 +1,1204 @@
+{
+  "prompts": [
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000001",
+      "text": "What are you grateful for today?",
+      "category": "gratitude",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000002",
+      "text": "Who is someone you appreciate but haven't told recently?",
+      "category": "gratitude",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000003",
+      "text": "What's a small thing someone did for you recently that meant more than they know?",
+      "category": "gratitude",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000004",
+      "text": "What's a lesson you're grateful you learned the hard way?",
+      "category": "gratitude",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000005",
+      "text": "What part of your daily routine do you secretly love?",
+      "category": "gratitude",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000006",
+      "text": "What's something in nature that took your breath away recently?",
+      "category": "gratitude",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000007",
+      "text": "Who made your day a little brighter recently?",
+      "category": "gratitude",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000008",
+      "text": "What's a struggle that turned into something you're now thankful for?",
+      "category": "gratitude",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000009",
+      "text": "What's a relationship in your life that you don't express enough gratitude for?",
+      "category": "gratitude",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000010",
+      "text": "If you could thank one person from your past, who would it be and why?",
+      "category": "gratitude",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000011",
+      "text": "What's a comfort you have now that you once dreamed about?",
+      "category": "gratitude",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000012",
+      "text": "What's the best compliment you've ever received?",
+      "category": "gratitude",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000013",
+      "text": "What's something you take for granted that others might not have?",
+      "category": "gratitude",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000014",
+      "text": "What's a piece of advice someone gave you that changed your perspective?",
+      "category": "gratitude",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000015",
+      "text": "What's a simple pleasure that never fails to lift your mood?",
+      "category": "gratitude",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000016",
+      "text": "What's a book, movie, or song you're grateful exists?",
+      "category": "gratitude",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000017",
+      "text": "What's something about this season or time of year you truly appreciate?",
+      "category": "gratitude",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000018",
+      "text": "What's a mistake someone forgave you for that you're deeply grateful about?",
+      "category": "gratitude",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000019",
+      "text": "What's a personal strength you've developed that you're proud of?",
+      "category": "gratitude",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000020",
+      "text": "Who is the most underrated person in your life?",
+      "category": "gratitude",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000021",
+      "text": "What's a tradition you love and would miss if it stopped?",
+      "category": "gratitude",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000022",
+      "text": "What's something about your home that makes you feel safe?",
+      "category": "gratitude",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000023",
+      "text": "What's the most meaningful gift you've ever received?",
+      "category": "gratitude",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000024",
+      "text": "When was the last time you felt truly lucky?",
+      "category": "gratitude",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0001-4000-a000-000000000025",
+      "text": "What's something about your body you're learning to appreciate?",
+      "category": "gratitude",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000001",
+      "text": "What's been on your mind the most this week?",
+      "category": "reflection",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000002",
+      "text": "If you could relive one day from last year, which would it be?",
+      "category": "reflection",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000003",
+      "text": "What's something you believed strongly five years ago that you no longer do?",
+      "category": "reflection",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000004",
+      "text": "What's one thing you'd tell your younger self?",
+      "category": "reflection",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000005",
+      "text": "What decision are you most proud of making?",
+      "category": "reflection",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000006",
+      "text": "What's something you've changed your mind about recently?",
+      "category": "reflection",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000007",
+      "text": "What has been your biggest personal growth moment this year?",
+      "category": "reflection",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000008",
+      "text": "What's a pattern in your life you've only recently noticed?",
+      "category": "reflection",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000009",
+      "text": "What's the bravest thing you've done this year?",
+      "category": "reflection",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000010",
+      "text": "What's something you've outgrown but haven't let go of yet?",
+      "category": "reflection",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000011",
+      "text": "What's a turning point in your life you didn't recognize at the time?",
+      "category": "reflection",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000012",
+      "text": "How do you handle disappointment differently now than you used to?",
+      "category": "reflection",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000013",
+      "text": "What's something you wish you spent more time doing?",
+      "category": "reflection",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000014",
+      "text": "What's a boundary you've set recently that felt hard but necessary?",
+      "category": "reflection",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000015",
+      "text": "If your life had a theme song right now, what would it be?",
+      "category": "reflection",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000016",
+      "text": "What does success mean to you today versus five years ago?",
+      "category": "reflection",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000017",
+      "text": "What's a conversation that stayed with you long after it ended?",
+      "category": "reflection",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000018",
+      "text": "What's the hardest lesson you've had to learn more than once?",
+      "category": "reflection",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000019",
+      "text": "What does your ideal ordinary day look like?",
+      "category": "reflection",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000020",
+      "text": "How are you different from the person you were a year ago?",
+      "category": "reflection",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000021",
+      "text": "What's something you need to forgive yourself for?",
+      "category": "reflection",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000022",
+      "text": "What's one thing you'd change about how you spend your weekends?",
+      "category": "reflection",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000023",
+      "text": "What's an assumption people make about you that isn't true?",
+      "category": "reflection",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000024",
+      "text": "What's a question you've been avoiding asking yourself?",
+      "category": "reflection",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-a000-000000000025",
+      "text": "What season of life are you in right now?",
+      "category": "reflection",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000001",
+      "text": "What's something you've been carrying this week that you haven't told anyone?",
+      "category": "vulnerability",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000002",
+      "text": "When was the last time you felt truly understood by someone?",
+      "category": "vulnerability",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000003",
+      "text": "What's a fear you don't talk about?",
+      "category": "vulnerability",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000004",
+      "text": "What do you need right now that you're afraid to ask for?",
+      "category": "vulnerability",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000005",
+      "text": "What's something about yourself you're still learning to accept?",
+      "category": "vulnerability",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000006",
+      "text": "What's the loneliest you've felt recently?",
+      "category": "vulnerability",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000007",
+      "text": "What do you wish you had more time for?",
+      "category": "vulnerability",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000008",
+      "text": "When was the last time you felt overwhelmed?",
+      "category": "vulnerability",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000009",
+      "text": "What's an insecurity that still affects how you show up?",
+      "category": "vulnerability",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000010",
+      "text": "What's a compliment you have trouble believing about yourself?",
+      "category": "vulnerability",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000011",
+      "text": "What's something you pretend doesn't bother you, but it does?",
+      "category": "vulnerability",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000012",
+      "text": "What's the hardest part of your week?",
+      "category": "vulnerability",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000013",
+      "text": "When do you feel most like yourself?",
+      "category": "vulnerability",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000014",
+      "text": "What's a truth about yourself you've only recently admitted?",
+      "category": "vulnerability",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000015",
+      "text": "What makes you feel most vulnerable?",
+      "category": "vulnerability",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000016",
+      "text": "What's a dream you've been too scared to say out loud?",
+      "category": "vulnerability",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000017",
+      "text": "What's something you've never fully processed?",
+      "category": "vulnerability",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000018",
+      "text": "What's a worry that keeps you up at night?",
+      "category": "vulnerability",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000019",
+      "text": "What's something about adulthood nobody warned you about?",
+      "category": "vulnerability",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000020",
+      "text": "What do you struggle to ask for help with?",
+      "category": "vulnerability",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000021",
+      "text": "What's an emotion you've been avoiding lately?",
+      "category": "vulnerability",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000022",
+      "text": "What do you wish people knew about you without having to explain?",
+      "category": "vulnerability",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000023",
+      "text": "What's a part of your story you rarely share?",
+      "category": "vulnerability",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000024",
+      "text": "What relationship in your life needs the most attention right now?",
+      "category": "vulnerability",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-a000-000000000025",
+      "text": "What do you wish you could say to someone in this circle but haven't found the words?",
+      "category": "vulnerability",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000001",
+      "text": "What's your earliest memory with someone in this circle?",
+      "category": "sharedMemories",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000002",
+      "text": "What's the funniest thing that's ever happened when we were all together?",
+      "category": "sharedMemories",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000003",
+      "text": "What's a trip or adventure you'll never forget with someone here?",
+      "category": "sharedMemories",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000004",
+      "text": "What's a tradition or inside joke we share that always makes you smile?",
+      "category": "sharedMemories",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000005",
+      "text": "What's a moment when someone in this circle really showed up for you?",
+      "category": "sharedMemories",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000006",
+      "text": "What's a holiday memory with people in this circle that stands out?",
+      "category": "sharedMemories",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000007",
+      "text": "When did you first realize this circle was important to you?",
+      "category": "sharedMemories",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000008",
+      "text": "What's the best meal we've ever shared?",
+      "category": "sharedMemories",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000009",
+      "text": "What's a challenge we went through together that made us closer?",
+      "category": "sharedMemories",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000010",
+      "text": "What's something you learned from someone in this circle?",
+      "category": "sharedMemories",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000011",
+      "text": "What's a photo from our time together that you love?",
+      "category": "sharedMemories",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000012",
+      "text": "What's a conversation with someone here that changed how you think?",
+      "category": "sharedMemories",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000013",
+      "text": "What's a moment when someone here surprised you in the best way?",
+      "category": "sharedMemories",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000014",
+      "text": "What's something about our relationship that's grown over time?",
+      "category": "sharedMemories",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000015",
+      "text": "What's a difficult moment with someone here that ultimately strengthened your bond?",
+      "category": "sharedMemories",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000016",
+      "text": "What's the most random thing we've done together on a whim?",
+      "category": "sharedMemories",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000017",
+      "text": "What's a habit or phrase you picked up from someone in this circle?",
+      "category": "sharedMemories",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000018",
+      "text": "What's something you know about someone here that most people don't?",
+      "category": "sharedMemories",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000019",
+      "text": "What's a time when someone in this circle made you feel truly seen?",
+      "category": "sharedMemories",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000020",
+      "text": "If you could freeze one moment we shared together, which would it be?",
+      "category": "sharedMemories",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000021",
+      "text": "What's the best late-night conversation you've had with someone here?",
+      "category": "sharedMemories",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000022",
+      "text": "What's something embarrassing that happened to you with someone here that you can laugh about now?",
+      "category": "sharedMemories",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000023",
+      "text": "What's a gift someone in this circle gave you that you still treasure?",
+      "category": "sharedMemories",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000024",
+      "text": "What's the first thing that comes to mind when you think of someone in this circle?",
+      "category": "sharedMemories",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-a000-000000000025",
+      "text": "What's an unspoken understanding you share with someone in this circle?",
+      "category": "sharedMemories",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000001",
+      "text": "What's something you're looking forward to this month?",
+      "category": "futureHopes",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000002",
+      "text": "Where do you see yourself in five years?",
+      "category": "futureHopes",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000003",
+      "text": "What's a goal you're working toward that excites you?",
+      "category": "futureHopes",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000004",
+      "text": "What kind of person do you want to become?",
+      "category": "futureHopes",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000005",
+      "text": "What's one thing you'd like to do together as a circle this year?",
+      "category": "futureHopes",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000006",
+      "text": "What's a dream you've been quietly working toward?",
+      "category": "futureHopes",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000007",
+      "text": "If money were no object, what would you do with your time?",
+      "category": "futureHopes",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000008",
+      "text": "What's a skill you'd love to master someday?",
+      "category": "futureHopes",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000009",
+      "text": "What's a place you've always wanted to visit and why?",
+      "category": "futureHopes",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000010",
+      "text": "What's an experience you want to have before you're too old to enjoy it?",
+      "category": "futureHopes",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000011",
+      "text": "What do you hope your life looks like in one year?",
+      "category": "futureHopes",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000012",
+      "text": "What's something you want to build or create?",
+      "category": "futureHopes",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000013",
+      "text": "What does your dream morning routine look like?",
+      "category": "futureHopes",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000014",
+      "text": "What's a change you want to make in your life but keep putting off?",
+      "category": "futureHopes",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000015",
+      "text": "What legacy do you want to leave behind?",
+      "category": "futureHopes",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000016",
+      "text": "What's something you want your future self to remember about this chapter?",
+      "category": "futureHopes",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000017",
+      "text": "If you could guarantee one thing about your future, what would it be?",
+      "category": "futureHopes",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000018",
+      "text": "What's a relationship you hope to deepen in the coming year?",
+      "category": "futureHopes",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000019",
+      "text": "What's a fear about the future you're trying to let go of?",
+      "category": "futureHopes",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000020",
+      "text": "What's a promise you want to make to yourself right now?",
+      "category": "futureHopes",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000021",
+      "text": "What would you do differently if you knew you couldn't fail?",
+      "category": "futureHopes",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000022",
+      "text": "What kind of energy do you want to bring into next month?",
+      "category": "futureHopes",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000023",
+      "text": "What's a life milestone you're quietly hoping for?",
+      "category": "futureHopes",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000024",
+      "text": "What do you want to be known for?",
+      "category": "futureHopes",
+      "depth": 4
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-a000-000000000025",
+      "text": "If you could write a letter to your future self, what would you say?",
+      "category": "futureHopes",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000001",
+      "text": "What made you laugh today?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000002",
+      "text": "What song has been stuck in your head?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000003",
+      "text": "What's the best thing you ate this week?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000004",
+      "text": "Share a photo from your camera roll that makes you smile.",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000005",
+      "text": "What's something small that went right today?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000006",
+      "text": "What's the weather like where you are and how does it make you feel?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000007",
+      "text": "What's the last thing that made you stop and take a picture?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000008",
+      "text": "What are you having for dinner tonight?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000009",
+      "text": "What's the highlight of your day so far?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000010",
+      "text": "What are you watching, reading, or listening to right now?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000011",
+      "text": "What's a conversation you had today that stuck with you?",
+      "category": "dailyMoments",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000012",
+      "text": "What's something you noticed today that you usually walk past?",
+      "category": "dailyMoments",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000013",
+      "text": "What's the last random act of kindness you witnessed or did?",
+      "category": "dailyMoments",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000014",
+      "text": "What made you feel proud of yourself today?",
+      "category": "dailyMoments",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000015",
+      "text": "What's the most interesting thing you learned this week?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000016",
+      "text": "What's your current go-to comfort show or movie?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000017",
+      "text": "What's something that annoyed you today that you can now laugh about?",
+      "category": "dailyMoments",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000018",
+      "text": "What was the first thing you thought about when you woke up today?",
+      "category": "dailyMoments",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000019",
+      "text": "What's the best part about where you are right now?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000020",
+      "text": "What's something you did today just for yourself?",
+      "category": "dailyMoments",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000021",
+      "text": "What's a small win you had this week?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000022",
+      "text": "What's the view from your window right now?",
+      "category": "dailyMoments",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000023",
+      "text": "What's a decision you made today that felt right?",
+      "category": "dailyMoments",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000024",
+      "text": "What's the last thing that genuinely surprised you?",
+      "category": "dailyMoments",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-a000-000000000025",
+      "text": "What's your energy level like right now, honestly?",
+      "category": "dailyMoments",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000001",
+      "text": "What's the most ridiculous thing you've ever done?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000002",
+      "text": "What's your most unpopular opinion?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000003",
+      "text": "If you could have dinner with any person, living or dead, who would it be?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000004",
+      "text": "What's a hill you'll die on that nobody else cares about?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000005",
+      "text": "What's a guilty pleasure you'd never give up?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000006",
+      "text": "If you could swap lives with anyone for a day, who would you choose?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000007",
+      "text": "What's the worst fashion trend you ever participated in?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000008",
+      "text": "What's your go-to karaoke song?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000009",
+      "text": "What's a talent you have that most people don't know about?",
+      "category": "playful",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000010",
+      "text": "What's the most embarrassing song on your playlist?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000011",
+      "text": "If you had to eat one food for the rest of your life, what would it be?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000012",
+      "text": "What's the weirdest dream you've had recently?",
+      "category": "playful",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000013",
+      "text": "What's an irrational pet peeve you have?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000014",
+      "text": "What's the best prank you've ever pulled or been a victim of?",
+      "category": "playful",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000015",
+      "text": "If you could have any superpower, what would you choose?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000016",
+      "text": "What's a word you always mispronounce or misspell?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000017",
+      "text": "What fictional world would you want to live in?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000018",
+      "text": "What's the most useless fact you know?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000019",
+      "text": "If you could master any musical instrument overnight, which one?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000020",
+      "text": "What's the most spontaneous thing you've ever done?",
+      "category": "playful",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000021",
+      "text": "What's a weird food combination you love that others find strange?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000022",
+      "text": "What's the most binge-worthy show you've watched in one sitting?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000023",
+      "text": "If you could time travel, would you go to the past or the future?",
+      "category": "playful",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000024",
+      "text": "What's the last thing you googled that was kind of embarrassing?",
+      "category": "playful",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-a000-000000000025",
+      "text": "What's something everyone should try at least once?",
+      "category": "playful",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000001",
+      "text": "What's a song that always takes you back to a specific moment?",
+      "category": "nostalgia",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000002",
+      "text": "What's a childhood memory that still makes you happy?",
+      "category": "nostalgia",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000003",
+      "text": "What's a smell that instantly transports you to another time?",
+      "category": "nostalgia",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000004",
+      "text": "What was your favorite thing to do as a kid?",
+      "category": "nostalgia",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000005",
+      "text": "What's the best birthday you've ever had?",
+      "category": "nostalgia",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000006",
+      "text": "What's a TV show or movie from your childhood that shaped you?",
+      "category": "nostalgia",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000007",
+      "text": "What's the first concert or live event you ever attended?",
+      "category": "nostalgia",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000008",
+      "text": "What's a game you used to play that you haven't thought about in years?",
+      "category": "nostalgia",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000009",
+      "text": "What's a place from your past that you wish you could visit again?",
+      "category": "nostalgia",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000010",
+      "text": "What was your favorite family tradition growing up?",
+      "category": "nostalgia",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000011",
+      "text": "Who was your hero when you were a kid?",
+      "category": "nostalgia",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000012",
+      "text": "What's a food that reminds you of home?",
+      "category": "nostalgia",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000013",
+      "text": "What's a phase you went through that you find funny now?",
+      "category": "nostalgia",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000014",
+      "text": "What's a toy or object from childhood you wish you still had?",
+      "category": "nostalgia",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000015",
+      "text": "What's a friendship from your past that you miss?",
+      "category": "nostalgia",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000016",
+      "text": "What did you want to be when you grew up?",
+      "category": "nostalgia",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000017",
+      "text": "What's a summer you'll never forget?",
+      "category": "nostalgia",
+      "depth": 2
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000018",
+      "text": "What's a saying or piece of advice from a grandparent or elder that stuck with you?",
+      "category": "nostalgia",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000019",
+      "text": "What's a school memory that always makes you smile?",
+      "category": "nostalgia",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000020",
+      "text": "What's the first book that really captivated you?",
+      "category": "nostalgia",
+      "depth": 1
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000021",
+      "text": "What's a family recipe that carries meaning for you?",
+      "category": "nostalgia",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000022",
+      "text": "What's a trip from your youth that shaped who you are?",
+      "category": "nostalgia",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000023",
+      "text": "If you could change one thing about how you were raised, what would it be?",
+      "category": "nostalgia",
+      "depth": 5
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000024",
+      "text": "What's a moment from your teenage years you wish you could relive?",
+      "category": "nostalgia",
+      "depth": 3
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-a000-000000000025",
+      "text": "What's a tradition you had growing up that you want to pass on?",
+      "category": "nostalgia",
+      "depth": 4
+    }
+  ]
+}

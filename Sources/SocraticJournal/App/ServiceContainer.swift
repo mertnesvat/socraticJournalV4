@@ -18,7 +18,9 @@ public final class ServiceContainer {
     public let notificationService: NotificationServiceProtocol
     public let authService: AuthServiceProtocol
     public let voiceRecordingService: VoiceRecordingServiceProtocol
+    public let voicePlaybackService: VoicePlaybackServiceProtocol
     public let circleService: CircleServiceProtocol
+    public let promptService: PromptServiceProtocol
 
     /// The SwiftData model container shared across the app.
     public let modelContainer: ModelContainer
@@ -30,7 +32,9 @@ public final class ServiceContainer {
         notificationService: NotificationServiceProtocol? = nil,
         authService: AuthServiceProtocol? = nil,
         voiceRecordingService: VoiceRecordingServiceProtocol? = nil,
+        voicePlaybackService: VoicePlaybackServiceProtocol? = nil,
         circleService: CircleServiceProtocol? = nil,
+        promptService: PromptServiceProtocol? = nil,
         modelContainer: ModelContainer? = nil
     ) {
         let container: ModelContainer
@@ -39,7 +43,7 @@ public final class ServiceContainer {
         } else {
             do {
                 container = try ModelContainer(
-                    for: User.self, VoiceNote.self, Circle.self, CircleMember.self
+                    for: User.self, VoiceNote.self, Circle.self, CircleMember.self, Prompt.self
                 )
             } catch {
                 fatalError("Failed to create ModelContainer: \(error)")
@@ -55,7 +59,9 @@ public final class ServiceContainer {
         let auth = authService ?? LocalAuthService(modelContainer: container)
         self.authService = auth
         self.voiceRecordingService = voiceRecordingService ?? LocalVoiceRecordingService(modelContainer: container)
+        self.voicePlaybackService = voicePlaybackService ?? LocalVoicePlaybackService()
         self.circleService = circleService ?? LocalCircleService(modelContainer: container, authService: auth)
+        self.promptService = promptService ?? LocalPromptService(modelContainer: container)
     }
 }
 
