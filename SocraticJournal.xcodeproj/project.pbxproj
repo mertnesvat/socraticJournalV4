@@ -29,10 +29,12 @@
 		5BEAEBCBD02CB45FB73DE005 /* PromptRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CA5A2CF2D5926B62853E8 /* PromptRepositoryProtocol.swift */; };
 		5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4B1E73960A7489D123CF41 /* UserSettings.swift */; };
 		6B16CBC34E0C7AA9F6C5D4BA /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FEFFD8D29BD86DA776003F /* UserProfile.swift */; };
+		7CD08DDDBAF3E984E51A4C35 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5676EF29ED41EAA384E775 /* MockAuthService.swift */; };
 		7E55D38D6BCA0E51D0F45013 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1439E1ED4A0277B8F3670D92 /* FirebaseAnalytics */; };
 		8217B4E5F4C6E1AE25579F53 /* TranscriptionServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4337983EBCAF0BF340D59ADE /* TranscriptionServiceProtocol.swift */; };
 		85A6BB1CEF18A306B05B72AD /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */; };
 		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
+		9FD04A5424D0EAE498445DED /* InMemoryUserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62FA04FA2A1DDD97CC0D56D /* InMemoryUserProfileRepository.swift */; };
 		A7AA81467CD32AAC065DA9C1 /* DailyPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8FEB604EE15266F187C41 /* DailyPrompt.swift */; };
 		BACDC9592B4329EB184E85E8 /* AudioServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BCF242F2B726503D99625B /* AudioServiceProtocol.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
@@ -67,6 +69,7 @@
 		788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSettingsRepository.swift; sourceTree = "<group>"; };
 		7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalApp.swift; sourceTree = "<group>"; };
 		7A6B8ABF3D33700FF6724BDE /* UserProfileRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRepositoryProtocol.swift; sourceTree = "<group>"; };
+		7D5676EF29ED41EAA384E775 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
 		84DB170DB3684DD41520F4D4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		866D24687A212E487100395D /* AuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceProtocol.swift; sourceTree = "<group>"; };
 		970A0693B76E2682C1F3E360 /* CircleMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleMember.swift; sourceTree = "<group>"; };
@@ -85,6 +88,7 @@
 		DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournal.swift; sourceTree = "<group>"; };
 		E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalTests.swift; sourceTree = "<group>"; };
+		E62FA04FA2A1DDD97CC0D56D /* InMemoryUserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryUserProfileRepository.swift; sourceTree = "<group>"; };
 		E7A36AC1AC2633D53C43FE99 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		F68CA5A2CF2D5926B62853E8 /* PromptRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptRepositoryProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -161,6 +165,7 @@
 		4469CCD33893F35E046D9B9D /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				E62FA04FA2A1DDD97CC0D56D /* InMemoryUserProfileRepository.swift */,
 				788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */,
 			);
 			path = Repositories;
@@ -251,6 +256,7 @@
 		E303FF20EFB3AE9FC13B314B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				7D5676EF29ED41EAA384E775 /* MockAuthService.swift */,
 				0B1DCA1BD05A6C77FD0365B9 /* StoreKitSubscriptionService.swift */,
 			);
 			path = Services;
@@ -396,6 +402,8 @@
 				120027CDF4399D998417B8E1 /* CircleRootView.swift in Sources */,
 				A7AA81467CD32AAC065DA9C1 /* DailyPrompt.swift in Sources */,
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
+				9FD04A5424D0EAE498445DED /* InMemoryUserProfileRepository.swift in Sources */,
+				7CD08DDDBAF3E984E51A4C35 /* MockAuthService.swift in Sources */,
 				54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */,
 				3F6CFF029369A7FAA00E283D /* PromptGenerationServiceProtocol.swift in Sources */,
 				5BEAEBCBD02CB45FB73DE005 /* PromptRepositoryProtocol.swift in Sources */,

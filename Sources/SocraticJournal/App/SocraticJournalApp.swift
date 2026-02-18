@@ -11,6 +11,8 @@ import FirebaseCore
 public struct SocraticJournalApp: App {
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()
     private let subscriptionService: SubscriptionServiceProtocol = StoreKitSubscriptionService()
+    private let authService: MockAuthService = MockAuthService()
+    private let userProfileRepository: UserProfileRepositoryProtocol = InMemoryUserProfileRepository()
     @State private var themeManager = ThemeManager.shared
 
     public init() {
@@ -26,6 +28,7 @@ public struct SocraticJournalApp: App {
                 .preferredColorScheme(themeManager.colorScheme)
                 .task {
                     await themeManager.loadTheme()
+                    await authService.autoSignInIfNeeded()
                 }
         }
     }
