@@ -3,6 +3,7 @@
 // Copyright 2024 StudioNext
 
 #if os(iOS)
+import SwiftData
 import SwiftUI
 
 @main
@@ -20,6 +21,7 @@ public struct SocraticJournalApp: App {
             CircleRootView()
                 .environment(services)
                 .environment(themeManager)
+                .modelContainer(services.modelContainer)
                 .preferredColorScheme(themeManager.colorScheme)
                 .task {
                     await themeManager.loadTheme()

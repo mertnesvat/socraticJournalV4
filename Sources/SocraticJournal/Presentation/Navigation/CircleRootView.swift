@@ -6,18 +6,36 @@
 import SwiftUI
 
 /// Root navigation view for the Circle app.
-/// Single-stack navigation centered around the daily circle feed.
+/// Shows ProfileSetupView when not authenticated, CircleHomeView when signed in.
 public struct CircleRootView: View {
     @Environment(ServiceContainer.self) private var services
     @Environment(ThemeManager.self) private var themeManager
     @State private var showSettings = false
-    @State private var showCreateCircle = false
 
     public var body: some View {
+        Group {
+            if services.authService.isAuthenticated {
+                authenticatedContent
+            } else {
+                ProfileSetupView(
+                    viewModel: ProfileSetupViewModel(
+                        authService: services.authService
+                    )
+                )
+            }
+        }
+    }
+
+    // MARK: - Authenticated Content
+
+    private var authenticatedContent: some View {
         NavigationStack {
             CircleHomeView()
                 .navigationTitle("Circle")
                 .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        profileButton
+                    }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             showSettings = true
@@ -41,11 +59,24 @@ public struct CircleRootView: View {
                 }
         }
     }
+
+    @ViewBuilder
+    private var profileButton: some View {
+        if let user = services.authService.currentUser {
+            HStack(spacing: 8) {
+                InitialsAvatarView(user: user, size: 28)
+
+                Text(user.displayName.split(separator: " ").first.map(String.init) ?? user.displayName)
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.primary)
+            }
+        }
+    }
 }
 
 // MARK: - Circle Home (Placeholder)
 
-/// Placeholder home screen — will be replaced by the Circle Response Feed in Feature 8.
+/// Placeholder home screen -- will be replaced by the Circle Response Feed in Feature 8.
 struct CircleHomeView: View {
     @State private var showCreateCircle = false
 
@@ -114,7 +145,7 @@ struct CircleHomeView: View {
         }
         .background(Color(uiColor: .systemGroupedBackground))
         .sheet(isPresented: $showCreateCircle) {
-            // Placeholder — will be implemented in Feature 3
+            // Placeholder -- will be implemented in Feature 3
             NavigationStack {
                 VStack(spacing: 16) {
                     Image(systemName: "hammer.fill")
@@ -140,9 +171,15 @@ struct CircleHomeView: View {
     }
 }
 
-#Preview {
+#Preview("Authenticated") {
     CircleRootView()
-        .environment(ServiceContainer())
+        .environment(ServiceContainer(authService: MockAuthService(isSignedIn: true)))
+        .environment(ThemeManager.shared)
+}
+
+#Preview("Not Authenticated") {
+    CircleRootView()
+        .environment(ServiceContainer(authService: MockAuthService(isSignedIn: false)))
         .environment(ThemeManager.shared)
 }
 #endif
