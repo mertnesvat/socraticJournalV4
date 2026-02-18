@@ -86,6 +86,18 @@ public final class CircleFeedViewModel {
                     userId: currentUserId, promptId: prompt.id
                 )
             }
+            // Update widget data
+            if let circle, let prompt = todaysPrompt {
+                WidgetDataService.write(WidgetDataService.WidgetData(
+                    circleName: circle.name,
+                    circleEmoji: circle.emoji,
+                    promptQuestion: prompt.question,
+                    promptCategory: prompt.category.displayName,
+                    responseCount: responses.count,
+                    memberCount: members.count,
+                    hasResponded: hasResponded
+                ))
+            }
         } catch {
             self.error = "Failed to load feed"
         }
