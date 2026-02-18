@@ -23,6 +23,18 @@ struct CircleDetailView: View {
             // Circle header
             circleHeaderSection
 
+            // Streak section
+            if viewModel.currentStreak > 0 || viewModel.longestStreak > 0 {
+                Section {
+                    CircleStreakView(
+                        currentStreak: viewModel.currentStreak,
+                        longestStreak: viewModel.longestStreak,
+                        isCompact: false
+                    )
+                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+                }
+            }
+
             // Members section
             membersSection
 

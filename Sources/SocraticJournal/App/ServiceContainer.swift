@@ -19,8 +19,10 @@ public final class ServiceContainer {
     public let authService: AuthServiceProtocol
     public let voiceRecordingService: VoiceRecordingServiceProtocol
     public let voicePlaybackService: VoicePlaybackServiceProtocol
+    public let transcriptionService: TranscriptionServiceProtocol
     public let circleService: CircleServiceProtocol
     public let promptService: PromptServiceProtocol
+    public let responseService: ResponseServiceProtocol
 
     /// The SwiftData model container shared across the app.
     public let modelContainer: ModelContainer
@@ -33,8 +35,10 @@ public final class ServiceContainer {
         authService: AuthServiceProtocol? = nil,
         voiceRecordingService: VoiceRecordingServiceProtocol? = nil,
         voicePlaybackService: VoicePlaybackServiceProtocol? = nil,
+        transcriptionService: TranscriptionServiceProtocol? = nil,
         circleService: CircleServiceProtocol? = nil,
         promptService: PromptServiceProtocol? = nil,
+        responseService: ResponseServiceProtocol? = nil,
         modelContainer: ModelContainer? = nil
     ) {
         let container: ModelContainer
@@ -43,7 +47,7 @@ public final class ServiceContainer {
         } else {
             do {
                 container = try ModelContainer(
-                    for: User.self, VoiceNote.self, Circle.self, CircleMember.self, Prompt.self
+                    for: User.self, VoiceNote.self, Circle.self, CircleMember.self, Prompt.self, VoiceResponse.self, PromptFeedback.self
                 )
             } catch {
                 fatalError("Failed to create ModelContainer: \(error)")
@@ -60,8 +64,10 @@ public final class ServiceContainer {
         self.authService = auth
         self.voiceRecordingService = voiceRecordingService ?? LocalVoiceRecordingService(modelContainer: container)
         self.voicePlaybackService = voicePlaybackService ?? LocalVoicePlaybackService()
+        self.transcriptionService = transcriptionService ?? LocalTranscriptionService()
         self.circleService = circleService ?? LocalCircleService(modelContainer: container, authService: auth)
         self.promptService = promptService ?? LocalPromptService(modelContainer: container)
+        self.responseService = responseService ?? LocalResponseService(modelContainer: container)
     }
 }
 

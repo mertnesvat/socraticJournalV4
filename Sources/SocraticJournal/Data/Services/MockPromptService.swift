@@ -59,6 +59,36 @@ public final class MockPromptService: PromptServiceProtocol {
         }
     }
 
+    // MARK: - Feedback
+
+    /// In-memory feedback storage for previews.
+    private var feedbackStore: [UUID: PromptRating] = [:]
+
+    public func submitFeedback(promptId: UUID, circleId: UUID, rating: PromptRating, category: PromptCategory) throws {
+        feedbackStore[promptId] = rating
+    }
+
+    public func getFeedback(promptId: UUID, circleId: UUID) throws -> PromptFeedback? {
+        guard let rating = feedbackStore[promptId] else { return nil }
+        return PromptFeedback(
+            promptId: promptId,
+            circleId: circleId,
+            rating: rating,
+            category: .dailyMoments
+        )
+    }
+
+    // MARK: - Streak
+
+    /// Mock streak values for previews.
+    public var mockCurrentStreak: Int = 5
+    public var mockLongestStreak: Int = 12
+    public var mockLastActiveDate: Date? = Date()
+
+    public func computeStreak(for circleId: UUID) throws -> (current: Int, longest: Int, lastActiveDate: Date?) {
+        return (current: mockCurrentStreak, longest: mockLongestStreak, lastActiveDate: mockLastActiveDate)
+    }
+
     // MARK: - Sample Data
 
     private static func makeSamplePrompts() -> [Prompt] {

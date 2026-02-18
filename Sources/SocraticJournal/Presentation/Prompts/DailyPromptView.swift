@@ -7,6 +7,7 @@ import SwiftUI
 
 /// Displays today's daily prompt for a circle.
 /// Supports both compact mode (for feed headers) and expanded mode (standalone).
+/// Includes prompt feedback (thumbs up/down) when a prompt is visible.
 struct DailyPromptView: View {
     @State private var viewModel: DailyPromptViewModel
     let isCompact: Bool
@@ -27,10 +28,25 @@ struct DailyPromptView: View {
             if viewModel.isLoading && viewModel.prompt == nil {
                 loadingView
             } else if let prompt = viewModel.prompt {
-                if isCompact {
-                    compactPromptCard(prompt)
-                } else {
-                    expandedPromptCard(prompt)
+                VStack(spacing: isCompact ? 8 : 12) {
+                    if isCompact {
+                        compactPromptCard(prompt)
+                    } else {
+                        expandedPromptCard(prompt)
+                    }
+
+                    // Prompt feedback
+                    if let circleId = prompt.circleId {
+                        PromptFeedbackView(
+                            viewModel: PromptFeedbackViewModel(
+                                promptService: viewModel.promptServiceRef,
+                                promptId: prompt.id,
+                                circleId: circleId,
+                                category: prompt.category
+                            )
+                        )
+                        .padding(.horizontal, isCompact ? 16 : 24)
+                    }
                 }
             } else if let error = viewModel.error {
                 errorView(error)

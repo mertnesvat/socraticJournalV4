@@ -25,6 +25,9 @@ public final class DailyPromptViewModel {
     private let promptService: PromptServiceProtocol
     private let circleId: UUID
 
+    /// Exposed for child views (e.g. PromptFeedbackView) that need the service reference.
+    var promptServiceRef: PromptServiceProtocol { promptService }
+
     // MARK: - Init
 
     public init(promptService: PromptServiceProtocol, circleId: UUID) {

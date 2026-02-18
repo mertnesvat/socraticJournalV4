@@ -17,6 +17,10 @@ public final class CircleDetailViewModel {
     private(set) var isLoading = false
     private(set) var error: Error?
 
+    // Streak state
+    private(set) var currentStreak: Int = 0
+    private(set) var longestStreak: Int = 0
+
     var isEditing = false
     var editName: String = ""
     var editIcon: String = ""
@@ -42,15 +46,17 @@ public final class CircleDetailViewModel {
     // MARK: - Dependencies
 
     private let circleService: CircleServiceProtocol
+    private let promptService: PromptServiceProtocol?
 
     /// Callback fired when the circle is deleted so the parent can pop navigation.
     var onDeleted: (() -> Void)?
 
     // MARK: - Init
 
-    public init(circle: Circle, circleService: CircleServiceProtocol) {
+    public init(circle: Circle, circleService: CircleServiceProtocol, promptService: PromptServiceProtocol? = nil) {
         self.circle = circle
         self.circleService = circleService
+        self.promptService = promptService
         self.editName = circle.name
         self.editIcon = circle.emojiIcon
     }
@@ -67,6 +73,19 @@ public final class CircleDetailViewModel {
             }
         } catch {
             self.error = error
+        }
+        loadStreak()
+    }
+
+    /// Load streak data for this circle using the prompt service.
+    func loadStreak() {
+        guard let promptService else { return }
+        do {
+            let streak = try promptService.computeStreak(for: circle.id)
+            currentStreak = streak.current
+            longestStreak = streak.longest
+        } catch {
+            // Streak is non-critical; silently fail
         }
     }
 

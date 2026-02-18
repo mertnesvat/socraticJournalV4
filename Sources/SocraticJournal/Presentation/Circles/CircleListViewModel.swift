@@ -18,19 +18,29 @@ public final class CircleListViewModel {
     private(set) var error: Error?
     var showCreateCircle = false
 
+    /// Streak data per circle keyed by circle ID.
+    private(set) var streaks: [UUID: Int] = [:]
+
     /// Whether there are no circles to display.
     var isEmpty: Bool {
         circles.isEmpty && !isLoading
     }
 
+    /// Get the current streak for a circle.
+    func currentStreak(for circleId: UUID) -> Int {
+        streaks[circleId] ?? 0
+    }
+
     // MARK: - Dependencies
 
     private let circleService: CircleServiceProtocol
+    private let promptService: PromptServiceProtocol?
 
     // MARK: - Init
 
-    public init(circleService: CircleServiceProtocol) {
+    public init(circleService: CircleServiceProtocol, promptService: PromptServiceProtocol? = nil) {
         self.circleService = circleService
+        self.promptService = promptService
     }
 
     // MARK: - Actions
@@ -41,10 +51,24 @@ public final class CircleListViewModel {
         error = nil
         do {
             circles = try await circleService.getCircles()
+            loadStreaks()
         } catch {
             self.error = error
         }
         isLoading = false
+    }
+
+    /// Load streak data for all loaded circles.
+    private func loadStreaks() {
+        guard let promptService else { return }
+        for circle in circles {
+            do {
+                let streak = try promptService.computeStreak(for: circle.id)
+                streaks[circle.id] = streak.current
+            } catch {
+                // Non-critical; skip
+            }
+        }
     }
 
     /// Delete a circle by its identifier.
