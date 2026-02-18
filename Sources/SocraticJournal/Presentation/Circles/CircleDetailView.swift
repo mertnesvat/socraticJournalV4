@@ -6,7 +6,8 @@
 import SwiftUI
 
 /// Detail view for a single circle.
-/// Shows circle info, member list, and management actions (edit, add member, delete).
+/// Shows circle info, member list with count indicator, share invite,
+/// and management actions (edit, add member, delete).
 struct CircleDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: CircleDetailViewModel
@@ -24,6 +25,9 @@ struct CircleDetailView: View {
 
             // Members section
             membersSection
+
+            // Share invite section
+            shareInviteSection
 
             // Danger zone
             dangerSection
@@ -48,7 +52,15 @@ struct CircleDetailView: View {
             viewModel.onDeleted = { dismiss() }
         }
         .sheet(isPresented: $viewModel.showAddMember) {
-            addMemberSheet
+            AddMemberView(
+                viewModel: AddMemberViewModel(
+                    circle: viewModel.circle,
+                    circleService: circleService
+                ),
+                onMemberAdded: {
+                    Task { await viewModel.refresh() }
+                }
+            )
         }
         .alert(
             "Delete Circle?",
@@ -110,7 +122,7 @@ struct CircleDetailView: View {
                     Text(viewModel.circle.name)
                         .font(.title3.weight(.semibold))
 
-                    Text("\(viewModel.circle.memberCount) member\(viewModel.circle.memberCount == 1 ? "" : "s")")
+                    Text("\(viewModel.circle.memberCount) of \(LocalCircleService.maxMembersPerCircle) members")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
@@ -123,7 +135,7 @@ struct CircleDetailView: View {
     // MARK: - Members Section
 
     private var membersSection: some View {
-        Section("Members") {
+        Section {
             ForEach(viewModel.sortedMembers) { member in
                 MemberRowView(member: member)
                     .swipeActions(edge: .trailing) {
@@ -165,7 +177,60 @@ struct CircleDetailView: View {
                         .foregroundStyle(.secondary)
                 }
             }
+        } header: {
+            HStack {
+                Text("Members")
+                Spacer()
+                Text("\(viewModel.circle.memberCount) of \(LocalCircleService.maxMembersPerCircle)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
+    }
+
+    // MARK: - Share Invite Section
+
+    private var shareInviteSection: some View {
+        Section {
+            ShareLink(
+                item: shareInviteText,
+                subject: Text("Join my Circle!"),
+                message: Text("Join my Circle!")
+            ) {
+                HStack(spacing: 12) {
+                    ZStack {
+                        SwiftUI.Circle()
+                            .fill(CircleTheme.warmAmber.opacity(0.15))
+                            .frame(width: 40, height: 40)
+
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.body.weight(.semibold))
+                            .foregroundStyle(CircleTheme.warmAmber)
+                    }
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Share Invite")
+                            .font(.body.weight(.medium))
+                            .foregroundStyle(.primary)
+
+                        Text("Invite friends to download Circle")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.tertiary)
+                }
+            }
+        }
+    }
+
+    /// The prepopulated share invite text.
+    private var shareInviteText: String {
+        "Join my Circle \"\(viewModel.circle.name)\"! Download Circle to stay connected through daily voice prompts. [App Store link placeholder]"
     }
 
     // MARK: - Danger Section
@@ -183,73 +248,6 @@ struct CircleDetailView: View {
                 }
             }
         }
-    }
-
-    // MARK: - Add Member Sheet
-
-    private var addMemberSheet: some View {
-        NavigationStack {
-            VStack(spacing: 24) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Member Name")
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(CircleTheme.warmBrown)
-
-                    TextField("e.g. Mom, Alex", text: $viewModel.newMemberName)
-                        .autocorrectionDisabled()
-                        .font(.body)
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(Color(uiColor: .systemBackground))
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(Color(uiColor: .separator), lineWidth: 1)
-                        )
-                }
-
-                Button {
-                    Task { await viewModel.addMember() }
-                } label: {
-                    Group {
-                        if viewModel.isLoading {
-                            ProgressView()
-                                .tint(.white)
-                        } else {
-                            Text("Add to Circle")
-                                .font(.headline)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 56)
-                    .foregroundStyle(.white)
-                    .background(
-                        LinearGradient(
-                            colors: !viewModel.newMemberName.trimmingCharacters(in: .whitespaces).isEmpty
-                                ? [CircleTheme.warmAmber, CircleTheme.warmOrange]
-                                : [Color.gray.opacity(0.4), Color.gray.opacity(0.3)],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                }
-                .disabled(viewModel.newMemberName.trimmingCharacters(in: .whitespaces).isEmpty || viewModel.isLoading)
-
-                Spacer()
-            }
-            .padding(.horizontal, 24)
-            .padding(.top, 16)
-            .navigationTitle("Add Member")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") { viewModel.showAddMember = false }
-                }
-            }
-        }
-        .presentationDetents([.medium])
     }
 }
 

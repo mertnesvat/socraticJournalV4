@@ -22,7 +22,6 @@ public final class CircleDetailViewModel {
     var editIcon: String = ""
 
     var showAddMember = false
-    var newMemberName: String = ""
     var showDeleteConfirmation = false
 
     /// Whether the circle has reached the maximum number of members.
@@ -103,26 +102,6 @@ public final class CircleDetailViewModel {
         editName = circle.name
         editIcon = circle.emojiIcon
         isEditing = false
-    }
-
-    /// Add a new member to the circle.
-    func addMember() async {
-        let trimmed = newMemberName.trimmingCharacters(in: .whitespaces)
-        guard !trimmed.isEmpty else {
-            error = CircleServiceError.invalidMemberName
-            return
-        }
-
-        isLoading = true
-        do {
-            let _ = try await circleService.addMember(to: circle.id, name: trimmed, avatarData: nil)
-            newMemberName = ""
-            showAddMember = false
-            await refresh()
-        } catch {
-            self.error = error
-        }
-        isLoading = false
     }
 
     /// Remove a member from the circle.
