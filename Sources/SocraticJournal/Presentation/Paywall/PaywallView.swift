@@ -91,7 +91,7 @@ public struct PaywallView: View {
         VStack(spacing: 12) {
             // App icon or branding
             ZStack {
-                Circle()
+                SwiftUI.Circle()
                     .fill(
                         LinearGradient(
                             colors: [.accentColor, .accentColor.opacity(0.7)],
@@ -314,7 +314,7 @@ public struct PaywallView: View {
     private var successView: some View {
         VStack(spacing: 24) {
             ZStack {
-                Circle()
+                SwiftUI.Circle()
                     .fill(Color.green.opacity(0.15))
                     .frame(width: 100, height: 100)
 
@@ -416,12 +416,12 @@ private struct ProductCard: View {
                 HStack {
                     // Radio button indicator
                     ZStack {
-                        Circle()
+                        SwiftUI.Circle()
                             .stroke(isSelected ? Color.accentColor : Color.gray.opacity(0.3), lineWidth: 2)
                             .frame(width: 24, height: 24)
 
                         if isSelected {
-                            Circle()
+                            SwiftUI.Circle()
                                 .fill(Color.accentColor)
                                 .frame(width: 14, height: 14)
                         }

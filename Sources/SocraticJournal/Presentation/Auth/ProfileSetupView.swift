@@ -90,7 +90,7 @@ public struct ProfileSetupView: View {
 
                     // Camera badge
                     ZStack {
-                        Circle()
+                        SwiftUI.Circle()
                             .fill(CircleTheme.warmAmber)
                             .frame(width: 30, height: 30)
 

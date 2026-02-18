@@ -43,7 +43,7 @@ public struct InitialsAvatarView: View {
             }
         }
         .frame(width: size, height: size)
-        .clipShape(Circle())
+        .clipShape(SwiftUI.Circle())
     }
 }
 

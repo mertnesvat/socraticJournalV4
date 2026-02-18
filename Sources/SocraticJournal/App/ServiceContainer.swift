@@ -8,7 +8,7 @@ import SwiftUI
 
 /// Dependency injection container holding all service protocol references.
 /// All services use local implementations. To swap to Firebase or any backend,
-/// change the initialization here — no UI changes needed.
+/// change the initialization here -- no UI changes needed.
 @Observable
 @MainActor
 public final class ServiceContainer {
@@ -17,6 +17,8 @@ public final class ServiceContainer {
     public let analyticsService: AnalyticsServiceProtocol
     public let notificationService: NotificationServiceProtocol
     public let authService: AuthServiceProtocol
+    public let voiceRecordingService: VoiceRecordingServiceProtocol
+    public let circleService: CircleServiceProtocol
 
     /// The SwiftData model container shared across the app.
     public let modelContainer: ModelContainer
@@ -27,6 +29,8 @@ public final class ServiceContainer {
         analyticsService: AnalyticsServiceProtocol? = nil,
         notificationService: NotificationServiceProtocol? = nil,
         authService: AuthServiceProtocol? = nil,
+        voiceRecordingService: VoiceRecordingServiceProtocol? = nil,
+        circleService: CircleServiceProtocol? = nil,
         modelContainer: ModelContainer? = nil
     ) {
         let container: ModelContainer
@@ -34,7 +38,9 @@ public final class ServiceContainer {
             container = modelContainer
         } else {
             do {
-                container = try ModelContainer(for: User.self)
+                container = try ModelContainer(
+                    for: User.self, VoiceNote.self, Circle.self, CircleMember.self
+                )
             } catch {
                 fatalError("Failed to create ModelContainer: \(error)")
             }
@@ -45,7 +51,11 @@ public final class ServiceContainer {
         self.subscriptionService = subscriptionService ?? StoreKitSubscriptionService()
         self.analyticsService = analyticsService ?? ConsoleAnalyticsService()
         self.notificationService = notificationService ?? LocalNotificationService()
-        self.authService = authService ?? LocalAuthService(modelContainer: container)
+
+        let auth = authService ?? LocalAuthService(modelContainer: container)
+        self.authService = auth
+        self.voiceRecordingService = voiceRecordingService ?? LocalVoiceRecordingService(modelContainer: container)
+        self.circleService = circleService ?? LocalCircleService(modelContainer: container, authService: auth)
     }
 }
 
