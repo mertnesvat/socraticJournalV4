@@ -22,6 +22,10 @@ public struct SocraticJournalApp: App {
 
     @State private var authState = AuthState(service: LocalAuthService())
 
+    // MARK: - Onboarding
+
+    @State private var hasCompletedOnboarding = UserDefaults.standard.bool(forKey: "hasCompletedOnboarding")
+
     public init() {
         // Log environment configuration at startup
         AppEnvironment.logConfiguration()
@@ -59,7 +63,22 @@ public struct SocraticJournalApp: App {
 
     @ViewBuilder
     private var rootView: some View {
-        if authState.isAuthenticated {
+        if !authState.isAuthenticated {
+            // Step 1: Not authenticated -> create profile
+            CreateProfileView(authState: authState)
+        } else if !hasCompletedOnboarding {
+            // Step 2: Authenticated but hasn't completed onboarding
+            OnboardingView(
+                viewModel: OnboardingViewModel(
+                    circleRepository: circleRepository,
+                    authState: authState
+                ),
+                onComplete: {
+                    hasCompletedOnboarding = true
+                }
+            )
+        } else {
+            // Step 3: Authenticated and onboarded -> main app
             MainTabView(
                 settingsRepository: settingsRepository,
                 subscriptionService: subscriptionService,
@@ -67,8 +86,6 @@ public struct SocraticJournalApp: App {
                 circleRepository: circleRepository,
                 authState: authState
             )
-        } else {
-            CreateProfileView(authState: authState)
         }
     }
 }
