@@ -74,9 +74,8 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournal.CircleWidget
-        GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: Circle Widget
-        INFOPLIST_KEY_NSWidgetWantsLocation: false
+        INFOPLIST_FILE: Sources/CircleWidget/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
         TARGETED_DEVICE_FAMILY: "1,2"
         MARKETING_VERSION: "1.3.0"
         CURRENT_PROJECT_VERSION: "9"
