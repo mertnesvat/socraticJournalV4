@@ -2,18 +2,6 @@
 // Configuration settings for Debug builds
 // Copyright 2024 StudioNext
 
-// MARK: - Firebase Configuration
-// Set to YES to use local emulator, NO for production
-FIREBASE_USE_EMULATOR = NO
-FIREBASE_EMULATOR_HOST = 127.0.0.1
-FIREBASE_FUNCTIONS_EMULATOR_PORT = 5001
-FIREBASE_FIRESTORE_EMULATOR_PORT = 8080
-FIREBASE_AUTH_EMULATOR_PORT = 9099
-
 // MARK: - Build Flags
-// Pass environment flag to Swift compiler
 SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEBUG
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) DEBUG=1
-
-// MARK: - Info.plist Values
-// These values can be accessed via Info.plist using $(FIREBASE_USE_EMULATOR)

@@ -111,7 +111,7 @@ public struct PaywallView: View {
                 .font(.title.bold())
                 .foregroundStyle(.primary)
 
-            Text("Get the most out of your journaling journey")
+            Text("Deepen your closest relationships")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -124,27 +124,27 @@ public struct PaywallView: View {
     private var featuresSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             FeatureRow(
-                icon: "infinity",
-                title: "Unlimited Sessions",
-                description: "Journal as much as you want, no limits"
+                icon: "person.3.fill",
+                title: "Unlimited Circles",
+                description: "Create as many circles as you need"
             )
 
             FeatureRow(
-                icon: "brain.head.profile",
-                title: "Advanced Insights",
-                description: "Deeper analysis of your reflections"
+                icon: "waveform",
+                title: "Extended Voice Notes",
+                description: "Record up to 60 seconds per response"
             )
 
             FeatureRow(
-                icon: "chart.line.uptrend.xyaxis",
-                title: "Progress Tracking",
-                description: "Track your emotional growth over time"
+                icon: "sparkles",
+                title: "Smart Prompts",
+                description: "AI prompts that deepen over time"
             )
 
             FeatureRow(
-                icon: "person.fill.questionmark",
-                title: "Character Discovery",
-                description: "Unlock personality insights"
+                icon: "widget.small",
+                title: "Home Screen Widget",
+                description: "Hear your people without opening the app"
             )
         }
         .padding()
@@ -485,24 +485,12 @@ private struct ProductCard: View {
 
 // MARK: - Preview
 
-#if DEBUG
 #Preview("Paywall") {
     PaywallView(
         viewModel: PaywallViewModel(
-            subscriptionService: MockSubscriptionService()
+            subscriptionService: PreviewSubscriptionService()
         )
     )
     .environment(ThemeManager.shared)
 }
-
-#Preview("Paywall - Dark Mode") {
-    PaywallView(
-        viewModel: PaywallViewModel(
-            subscriptionService: MockSubscriptionService()
-        )
-    )
-    .environment(ThemeManager.shared)
-    .preferredColorScheme(.dark)
-}
-#endif
 #endif

@@ -1,10 +1,10 @@
 ---
-base_branch: feature/firebase-production-deployment
+base_branch: feature/circle-pivot-1
 max_retries: 2
 visual_gate_enabled: true
 bundle_id: com.StudioNext.socraticJournal
 
-# Deep Quality Mode - enabled for paywall implementation (critical business logic)
+# Deep Quality Mode
 deep_quality_mode: true
 deep_quality_max_retries: 5
 deep_quality_visual_threshold: 0.85
@@ -12,429 +12,479 @@ deep_quality_min_test_coverage: 0.8
 deep_quality_review_gate: true
 ---
 
-# Feature Queue: Custom Paywall & Subscription System - Socratic Journal
+# Feature Queue: Circle — Voice-First Relationship Deepening App
 
-## Context
+## Vision
 
-The app currently has **no paywall or subscription infrastructure**. There is no Superwall SDK integrated (despite initial plans). This queue implements a complete native StoreKit 2 subscription system from scratch, following the app's existing Clean Architecture patterns.
+**One-liner:** A voice-first app that deepens your closest relationships through AI-prompted daily questions and home screen widgets — replacing 25 minutes of scrolling with 5 minutes of hearing the voices of people who matter.
 
-**Current State:**
-- No subscription service or paywall
-- No StoreKit integration (only SKStoreReviewController for app reviews)
-- Feature gating is engagement-based (journal entries unlock features)
-- No premium/subscription fields in UserSettings
-- No In-App Purchase entitlement in app capabilities
-- Settings shows theme, notifications, features, data management, about
+**Core Loop:**
+1. You create a circle (2-5 people: partner, best friend, parent, sibling)
+2. Every day, AI sends everyone in the circle the same prompt
+3. Each person responds with a 15-30 second voice note
+4. Responses appear on your home screen widget (waveform + transcript snippet)
+5. Tap to listen. Record yours. Done.
 
-**Target State:**
-- Native StoreKit 2 subscription system
-- Custom-designed paywall matching app aesthetic
-- Subscription management in Settings only (no aggressive paywalls)
-- Products correctly fetched from App Store
-- Comprehensive unit tests for subscription business logic
+**Why this works:** The AI prompt breaks social inertia (you'd never send "what went wrong today?" unprompted). The widget delivers connection passively (no app to open). The bounded format means no conversation to maintain. The AI deepens prompts over weeks.
 
-**Product IDs (from App Store Connect):**
-- Monthly: `com.StudioNext.socraticJournal.monthly`
-- Yearly: `com.StudioNext.socraticJournal.yearly`
+**Target Persona:** Jack, 34, PM in Arizona, married to a night-shift nurse, 4yo daughter. 90 minutes nightly scrolling, surrounded by surface interactions, marriage runs on logistics, friendships on memes.
 
-**Key Requirements:**
-- Paywall NOT shown during onboarding
-- Paywall NOT auto-shown after purchase
-- Subscription accessible only from Settings
-- All business logic must have unit tests
+## Current State
 
-**Existing Patterns to Follow:**
-- Clean Architecture: Protocol in Domain, Implementation in Data
-- MVVM with `@Observable @MainActor` ViewModels
-- UserDefaults for settings persistence (`UserDefaultsSettingsRepository`)
-- Swift Testing framework for tests (`@Test`, `#expect`)
-- UI styling: `RoundedRectangle(cornerRadius: 16)`, subtle shadows, `.systemBackground` colors
+This is a **complete pivot** from Socratic Journal (solo philosophical journaling) to Circle (multiplayer voice-first relationship deepening). The existing codebase provides:
+
+- **Reusable:** Clean Architecture patterns (Domain protocols → Data implementations → Presentation MVVM), `@Observable @MainActor` ViewModel pattern, ThemeManager, XcodeGen build system, StoreKit 2 subscriptions
+- **Strip away:** All journaling UI, dialogue sessions, character quizzes, personality analysis, wisdom quotes, self-discovery tab, statistics, letters, export, ALL Firebase service implementations
+- **Build new:** Local auth, circle management, voice recording/playback, local prompt engine, circle feed, home screen widget, new onboarding
+
+## Architecture Notes for Night Agent — LOCAL-FIRST, NO FIREBASE
+
+**CRITICAL: This build must have ZERO Firebase runtime dependencies.** All features use local implementations behind clean protocols. Firebase can be swapped in later via protocol conformance — but nothing in this build should import Firebase, call Firestore, or require network connectivity to function.
+
+**Pattern for every service:**
+```
+Domain/Services/SomeServiceProtocol.swift    ← Protocol (the contract)
+Data/Services/LocalSomeService.swift         ← Local implementation (SwiftData, files, bundled JSON)
+Data/Services/MockSomeService.swift          ← Mock for testing & previews
+# FUTURE (not now):
+Data/Services/FirebaseSomeService.swift      ← Firebase implementation (same protocol)
+```
+
+**Data persistence strategy:**
+- **User profile & circles:** SwiftData (on-device database, iOS 17+)
+- **Voice notes:** Local file storage in app's Documents directory
+- **Prompts:** Bundled JSON file with 200+ curated prompts + local rotation logic
+- **Transcripts:** Stored alongside voice note metadata in SwiftData
+- **Settings/preferences:** UserDefaults (reuse existing pattern)
+
+**What to REMOVE from the project:**
+- All `Firebase*Service.swift` files in `Data/Services/`
+- Firebase SPM dependencies from `project.yml` and `Package.swift` (FirebaseAnalytics, FirebaseFirestore, FirebaseFunctions, FirebaseMessaging)
+- `GoogleService-Info.plist`
+- `Firebase/` directory (Cloud Functions)
+- All Firebase imports and configuration in `SocraticJournalApp.swift`
+- AppsFlyer SDK and service
+- Any `AppEnvironment.Firebase.*` references
+
+**What to KEEP:**
+- ThemeManager, XcodeGen build system, build configurations
+- StoreKit 2 subscription system (it's already local/native)
+- The Clean Architecture folder structure pattern
+- `Configuration/` xcconfig files (strip Firebase variables)
+
+**Dependency injection approach:**
+- Create a simple `ServiceContainer` or `DependencyContainer` that holds protocol references
+- Pass via SwiftUI `.environment()` — same pattern as existing ThemeManager
+- ViewModels receive protocols via init injection
+- Swapping to Firebase later = change one line in the container
+
+**ViewModels use `@Observable @MainActor` pattern** — same as existing codebase.
+**Minimum iOS 17.0** — leverage SwiftData, Observable macro, modern SwiftUI.
+**Bundle ID stays** `com.StudioNext.socraticJournal`.
 
 ---
 
-### 1. Create Subscription Domain Layer
+### 1. App Shell Reset & Circle Navigation
 
-Create domain entities and protocols that define subscription state and operations following Clean Architecture principles.
+Strip ALL existing Socratic Journal code and create the new Circle app skeleton. Remove Firebase SDK entirely. This is a clean slate.
 
-**User Story:** As a developer, I need domain entities and protocols for subscription management so the subscription system follows the app's established architecture patterns.
+**User Story:** As a user opening Circle for the first time, I see a clean, focused app with a clear navigation structure that centers around my circles and today's prompt — not a cluttered journal app.
 
 **Acceptance Criteria:**
-- `SubscriptionStatus` enum: `.free`, `.premium(expiryDate: Date, productId: String)`, `.expired`
-- `SubscriptionProduct` struct: `id: String`, `displayName: String`, `displayPrice: String`, `period: SubscriptionPeriod`, `priceValue: Decimal`
-- `SubscriptionPeriod` enum: `.monthly`, `.yearly`
-- `SubscriptionServiceProtocol` with:
-  ```swift
-  func fetchProducts() async throws -> [SubscriptionProduct]
-  func purchase(_ product: SubscriptionProduct) async throws -> SubscriptionStatus
-  func restorePurchases() async throws -> SubscriptionStatus
-  func currentStatus() async -> SubscriptionStatus
-  var statusStream: AsyncStream<SubscriptionStatus> { get }
-  ```
-- `SubscriptionError` enum: `.productNotFound`, `.purchaseFailed(Error)`, `.purchaseCancelled`, `.notEntitled`, `.networkError`
-- All types are `Sendable`, `Codable` where appropriate, `Equatable`
+- Remove ALL existing presentation layer views (dialogue sessions, character quiz, personality analysis, wisdom quotes, letters, statistics, export, self-discovery tab, onboarding)
+- Remove ALL corresponding ViewModels, Domain entities, Domain protocols, and Data implementations that are Socratic Journal-specific
+- Remove ALL Firebase dependencies: strip FirebaseAnalytics, FirebaseFirestore, FirebaseFunctions, FirebaseMessaging from `project.yml` SPM packages
+- Remove `GoogleService-Info.plist`, `Firebase/` directory, all `Firebase*Service.swift` files
+- Remove AppsFlyer SDK and `AppsFlyerService.swift`
+- Remove Firebase configuration from `SocraticJournalApp.swift` app entry point
+- Clean `AppEnvironment.swift` — remove all Firebase-related environment variables
+- Clean xcconfig files — remove `FIREBASE_*` variables
+- Keep: ThemeManager, StoreKit 2 subscription system, `Configuration/` folder structure, XcodeGen `project.yml` structure
+- New navigation: single NavigationStack with a home screen as root
+- Navigation destinations: Home (circle feed) → Circle Detail → Profile/Settings
+- Placeholder views for each screen (real implementations come in later features)
+- App launches to home screen showing "Create your first circle" empty state
+- Warm, intimate color palette (not the existing Socratic blue/purple — think amber, warm grey, cream)
+- Create `ServiceContainer` with protocol-based dependency injection, passed via `.environment()`
+- App should build and run cleanly with ZERO Firebase imports after this feature
 
 **Priority:** 1
 **Dependencies:** None
 
-**Implementation Notes:**
-- Place entities in `Sources/SocraticJournal/Domain/Entities/Subscription.swift`
-- Place protocol in `Sources/SocraticJournal/Domain/Services/SubscriptionServiceProtocol.swift`
-- Follow patterns from `PersonalityAnalysisServiceProtocol.swift`
-
 ---
 
-### 2. Implement StoreKit 2 Subscription Service
+### 2. Local Authentication & User Profiles
 
-Create the StoreKit 2 implementation that fetches products, processes purchases, and manages subscription state.
+Create a local user identity system so the app knows who you are. No Firebase Auth — just on-device user profile with SwiftData.
 
-**User Story:** As a user, I want the app to correctly fetch subscription options from the App Store and process my purchases so that I can subscribe to premium features.
+**User Story:** As a user, I set up my name and optional profile photo on first launch so other circle members can see who I am when they listen to my voice notes.
 
 **Acceptance Criteria:**
-- `StoreKitSubscriptionService` implementing `SubscriptionServiceProtocol`
-- Uses StoreKit 2 `Product.products(for:)` to fetch products
-- Handles purchase flow with `product.purchase()`
-- Verifies transactions using `Transaction.currentEntitlement(for:)`
-- Listens for transaction updates via `Transaction.updates`
-- Persists subscription status to UserDefaults for offline access
-- Handles both sandbox and production environments
-- Proper error mapping to `SubscriptionError`
-- Transaction listener starts on init and runs in background
+- `AuthServiceProtocol` with: `currentUser`, `signIn(name:)`, `signOut()`, `deleteAccount()`, `isAuthenticated: Bool`
+- `User` entity: `id` (UUID), `displayName`, `avatarImageData` (optional), `createdAt`
+- `LocalAuthService` implementation using SwiftData for persistence
+- On first launch: simple profile setup screen (enter name, optional photo from camera roll)
+- Auth state persists across app launches via SwiftData
+- Profile edit screen accessible from settings: change name, change/remove photo
+- Initials avatar generated automatically when no photo is set (e.g., "JD" for "John Doe")
+- Sign out clears local data, returns to profile setup
+- Delete account removes all local data
+- Auth gate: no-profile users see setup screen, profiled users see home
+- `MockAuthService` for SwiftUI previews and tests
 
 **Priority:** 2
 **Dependencies:** Feature 1
 
-**Implementation Notes:**
-- Place in `Sources/SocraticJournal/Data/Services/StoreKitSubscriptionService.swift`
-- Use `@MainActor` for state updates
-- Store last known status in UserDefaults with key `subscription_status`
-- Log environment (sandbox vs production) similar to `AppEnvironment.logConfiguration()`
-
 ---
 
-### 3. Extend UserSettings with Subscription State
+### 3. Circle Creation & Management
 
-Add subscription-related fields to UserSettings for persistence and backwards compatibility.
+The core social unit — create a circle and manage its members. All data stored locally in SwiftData.
 
-**User Story:** As a developer, I need subscription state persisted in UserSettings so the app remembers the user's subscription status across launches.
+**User Story:** As a user, I can create a circle with a name (e.g., "Family", "College Crew") and see my circles listed, so I have a defined group to share voice notes with.
 
 **Acceptance Criteria:**
-- Add to `UserSettings`:
-  - `isPremium: Bool` (computed from status, default: false)
-  - `subscriptionExpiryDate: Date?` (nil for free users)
-  - `activeProductId: String?` (nil for free users)
-  - `lastSubscriptionCheck: Date?` (for cache invalidation)
-- Backwards compatible decoding (existing users don't crash)
-- New CodingKeys added with `decodeIfPresent` defaults
+- `CircleServiceProtocol` with: `createCircle(name:icon:)`, `getCircles()`, `getCircle(id:)`, `updateCircle(...)`, `deleteCircle(id:)`, `addMember(...)`, `removeMember(...)`
+- `Circle` entity in SwiftData: `id` (UUID), `name`, `emojiIcon`, `createdAt`, members relationship
+- `CircleMember` entity: `id`, `displayName`, `avatarImageData`, `joinedAt`, `isCurrentUser: Bool`
+- `LocalCircleService` implementation backed by SwiftData
+- Circle list view showing all circles with member count and emoji icon
+- Create circle flow: name + emoji picker
+- Circle detail view: see members with avatars, circle settings
+- Edit circle: rename, change emoji
+- Delete circle with confirmation
+- For this local-only build: "members" are created locally as placeholder profiles (e.g., user adds "Sarah" with initials — simulating what would be real users later)
+- Maximum 5 members per circle (including yourself)
+- Empty state when no circles exist: warm CTA to create first one
+- `MockCircleService` for previews and tests
 
 **Priority:** 3
-**Dependencies:** Feature 1
-
-**Implementation Notes:**
-- Modify `Sources/SocraticJournal/Domain/Entities/UserSettings.swift`
-- Follow existing `init(from decoder:)` pattern for migration safety
-- Consider computed property `isPremium` based on `subscriptionExpiryDate`
+**Dependencies:** Feature 2
 
 ---
 
-### 4. Design Custom Paywall View
+### 4. Circle Member Addition Flow
 
-Create an attractive paywall screen that matches the app's design language and clearly presents subscription options.
+How you add people to your circle in the local-only build. Simulates the future invite system.
 
-**User Story:** As a user, I want to see a beautiful paywall that clearly shows subscription options and their value so I can make an informed purchase decision.
+**User Story:** As a user, I can add members to my circle by entering their name, so I can start building my group even before the multiplayer backend exists.
 
 **Acceptance Criteria:**
-- `PaywallView` with:
-  - Header with app branding and value proposition
-  - Feature list showing what premium unlocks
-  - Product cards for monthly and yearly options
-  - "Best Value" badge on yearly option showing savings percentage
-  - Primary "Subscribe" button with loading state
-  - Secondary "Restore Purchases" link
-  - Terms of Service and Privacy Policy links
-  - Close button (X) in navigation bar
-- Loading state while fetching products
-- Error state with retry button
-- Matches app design:
-  - Card style: `RoundedRectangle(cornerRadius: 16)`
-  - Shadows: `.shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)`
-  - Accent gradient for primary CTA (like `StartSessionButton`)
-  - System colors: `.systemBackground`, `.secondarySystemBackground`
-- Works in both light and dark mode
-- Fully accessible (VoiceOver, Dynamic Type)
+- "Add member" button in circle detail view
+- Simple form: enter name, optional emoji/avatar
+- Member appears in circle immediately
+- Remove member with swipe-to-delete
+- Cannot exceed 5 members per circle
+- Each added member gets a simulated "voice note" capability (for the feed to work in demo mode, see Feature 8)
+- Future adapter note: this flow will be replaced by invite links + real user lookup when backend is added
+- Share sheet with "Invite to Circle" message (prepopulated text about the app — plants the seed even without deep links)
 
 **Priority:** 4
-**Dependencies:** Feature 1, Feature 2
-
-**Implementation Notes:**
-- Create `Sources/SocraticJournal/Presentation/Paywall/PaywallView.swift`
-- Reference `DiscoveryCard.swift` and `StartSessionButton.swift` for design patterns
-- Show percentage savings for yearly (e.g., "Save 40%")
+**Dependencies:** Feature 3
 
 ---
 
-### 5. Create PaywallViewModel
+### 5. Voice Recording Engine
 
-Create the ViewModel that manages paywall state, product selection, and purchase flow.
+The core input mechanism — recording short voice notes with a beautiful, confidence-building interface.
 
-**User Story:** As a developer, I need a ViewModel that encapsulates paywall business logic so the UI remains clean and the logic is testable.
+**User Story:** As a user, I can record a 15-30 second voice note response to today's prompt with a simple tap-and-talk interface that shows me a live waveform so I feel engaged, not awkward.
 
 **Acceptance Criteria:**
-- `PaywallViewModel` as `@Observable @MainActor` class
-- Properties:
-  - `products: [SubscriptionProduct]`
-  - `selectedProduct: SubscriptionProduct?` (defaults to yearly)
-  - `isLoadingProducts: Bool`
-  - `isPurchasing: Bool`
-  - `error: SubscriptionError?`
-  - `purchaseSucceeded: Bool`
-- Methods:
-  - `loadProducts() async`
-  - `selectProduct(_ product: SubscriptionProduct)`
-  - `purchase() async -> Bool`
-  - `restorePurchases() async -> Bool`
-- Dependency injection for `SubscriptionServiceProtocol`
-- Analytics logging for paywall events
+- `VoiceRecordingServiceProtocol` with: `startRecording()`, `stopRecording() -> VoiceNote`, `cancelRecording()`, `isRecording: Bool`, `currentAmplitude: Float` (for waveform)
+- `VoiceNote` entity: `id` (UUID), `fileURL` (local path), `duration`, `createdAt`, `circleId`, `promptId`, `userId`
+- `LocalVoiceRecordingService` using AVFoundation (`AVAudioRecorder`)
+- Tap-to-record button with animated state (idle → recording → done)
+- Live waveform visualization during recording (sample audio levels → animated bars/wave)
+- Recording timer showing elapsed seconds
+- Minimum 5 seconds, maximum 60 seconds (visual nudge at 30s: "that's perfect!" without stopping)
+- Playback preview after recording — listen back, re-record if not happy, or confirm
+- Audio format: AAC/M4A saved to app's Documents directory
+- Microphone permission request with warm explanation ("Circle needs your mic to record voice notes for your people")
+- Add `NSMicrophoneUsageDescription` to Info.plist
+- Works with AirPods/Bluetooth audio routing
+- Haptic feedback on record start/stop
+- Voice notes stored locally: `Documents/VoiceNotes/{circleId}/{date}/{noteId}.m4a`
+- `MockVoiceRecordingService` that returns pre-recorded samples for previews
 
 **Priority:** 5
-**Dependencies:** Feature 2, Feature 4
-
-**Implementation Notes:**
-- Place in `Sources/SocraticJournal/Presentation/Paywall/PaywallViewModel.swift`
-- Follow patterns from `SettingsViewModel.swift`
-- Log events: `paywall_viewed`, `product_selected`, `purchase_started`, `purchase_completed`, `purchase_failed`
+**Dependencies:** Feature 1
 
 ---
 
-### 6. Add Subscription Section to Settings
+### 6. Voice Note Playback & Local Storage
 
-Add a subscription management section to the Settings screen for viewing status and accessing the paywall.
+Play back voice notes with a polished audio experience. Everything stored and served from local files.
 
-**User Story:** As a user, I want to manage my subscription from Settings so I can view my status, upgrade, or restore purchases.
+**User Story:** As a user, I can listen to voice notes with smooth playback and waveform visualization, hearing the warmth of real voices.
 
 **Acceptance Criteria:**
-- `SubscriptionSettingsView` component showing:
-  - Current status: "Free" or "Premium" with badge
-  - Expiry date if subscribed (formatted nicely)
-  - "Upgrade to Premium" button if free (opens PaywallView as sheet)
-  - "Manage Subscription" link if premium (opens App Store subscription management)
-  - "Restore Purchases" button with loading state
-- Section added to `SettingsView` between Notifications and Features sections
-- Loading states during restore operation
-- Success/error feedback
+- `VoicePlaybackServiceProtocol` with: `play(voiceNote:)`, `pause()`, `stop()`, `seek(to:)`, `isPlaying: Bool`, `currentTime: TimeInterval`, `duration: TimeInterval`
+- `LocalVoicePlaybackService` using AVFoundation (`AVAudioPlayer`)
+- Playback with waveform visualization (generate waveform data from audio file on save)
+- Play/pause toggle with smooth animation
+- Scrubbing via drag on waveform
+- Speaker name and initials avatar shown alongside waveform
+- Audio session configuration: plays through speaker, respects silent mode toggle, mixes with other audio appropriately
+- Pre-generate waveform amplitude data when voice note is saved (store as `[Float]` array in metadata)
+- Voice note metadata stored in SwiftData: links to local file path, duration, waveform data, transcript (if available)
+- Handle missing/deleted files gracefully
+- `MockVoicePlaybackService` for previews
 
 **Priority:** 6
-**Dependencies:** Feature 4, Feature 5
-
-**Implementation Notes:**
-- Create `Sources/SocraticJournal/Presentation/Settings/Components/SubscriptionSettingsView.swift`
-- Add to `SettingsView.swift` content
-- App Store subscription URL: `https://apps.apple.com/account/subscriptions`
-- Use `UIApplication.shared.open()` for external links
+**Dependencies:** Feature 5
 
 ---
 
-### 7. Add In-App Purchase Entitlement
+### 7. Local Daily Prompt Engine
 
-Configure app entitlements and project settings to enable StoreKit functionality.
+A fully local prompt system using a curated, bundled prompt library. No cloud functions needed.
 
-**User Story:** As a developer, I need the app configured with In-App Purchase capability so StoreKit can process transactions.
+**User Story:** As a circle member, I see a fresh, thoughtful daily prompt that sparks genuine reflection — prompts that feel warm and specific, not generic icebreaker energy.
 
 **Acceptance Criteria:**
-- `SocraticJournal.entitlements` includes In-App Purchase capability
-- `project.yml` updated if needed for entitlement configuration
-- Project regenerates correctly with `xcodegen generate`
-- Builds successfully in both Debug and Release
+- `PromptServiceProtocol` with: `getTodaysPrompt(for circleId:) -> Prompt`, `getPromptHistory(for circleId:) -> [Prompt]`, `markPromptSeen(id:)`
+- `Prompt` entity: `id`, `text`, `category`, `depth` (1-5 scale), `dateAssigned`, `circleId`
+- `LocalPromptService` that selects from a bundled JSON prompt library
+- Bundled `prompts.json` with 200+ curated prompts organized by category and depth:
+  - Categories: gratitude, reflection, vulnerability, shared memories, future hopes, daily moments, playful, nostalgia
+  - Depth levels: 1 (light/safe) → 3 (moderate) → 5 (deep/vulnerable)
+- Prompt selection logic: no repeats within 90 days per circle, alternates categories, progresses depth over weeks
+- One prompt per circle per day (determined by date + circle ID as seed for consistency)
+- Prompt visible on home screen with warm typography and "Record your response" CTA
+- Prompt history view: see past prompts with dates
+- Example prompts at various depths:
+  - Depth 1: "What made you laugh today?"
+  - Depth 2: "What's a small thing someone did for you recently that meant more than they know?"
+  - Depth 3: "What's something you've been carrying this week that you haven't told anyone?"
+  - Depth 4: "When was the last time you felt truly understood by someone?"
+  - Depth 5: "What do you wish you could say to someone in this circle but haven't found the words?"
+- `MockPromptService` for previews and tests
 
 **Priority:** 7
-**Dependencies:** None
-
-**Implementation Notes:**
-- Update `SocraticJournal.entitlements` file
-- In-App Purchase capability doesn't require additional entitlement key (automatic with StoreKit import)
-- Verify with `xcodegen generate && xcodebuild build`
+**Dependencies:** Feature 3
 
 ---
 
-### 8. Create StoreKit Configuration for Testing
+### 8. Circle Response Feed
 
-Create StoreKit configuration file for local testing without App Store Connect.
+The main screen users interact with daily — see today's prompt and play responses.
 
-**User Story:** As a developer, I need a StoreKit configuration file so I can test subscription flows locally in Xcode.
+**User Story:** As a user opening the app, I immediately see today's prompt and who has responded, with a simple flow to listen to everyone and record my own — all in under 5 minutes.
 
 **Acceptance Criteria:**
-- `Configuration.storekit` file created with:
-  - Monthly subscription product (`com.StudioNext.socraticJournal.monthly`)
-  - Yearly subscription product (`com.StudioNext.socraticJournal.yearly`)
-  - Appropriate pricing for testing
-  - Subscription group defined
-- Can run subscription tests in Xcode simulator
-- Can trigger purchase flows, renewals, expiration in sandbox
+- `ResponseServiceProtocol` with: `getResponses(circleId:date:) -> [VoiceResponse]`, `saveResponse(voiceNote:prompt:)`, `markAsHeard(responseId:)`
+- `VoiceResponse` entity: `id`, `voiceNote` (relationship), `prompt` (relationship), `member` (relationship), `isHeard: Bool`, `createdAt`
+- `LocalResponseService` backed by SwiftData
+- Home screen layout:
+  - Top: today's prompt in warm, readable typography
+  - Middle: response cards for each circle member — avatar, name, waveform mini-preview, duration badge
+  - Bottom: "Record yours" floating CTA button
+- Visual indicator for unheard responses (subtle glow or badge dot)
+- Tap a response card → plays that voice note inline (no navigation, stays on feed)
+- Sequential playback option: play all responses in order (auto-advance)
+- Show who has responded vs. who hasn't (grey avatar for pending, without guilt language)
+- If user has multiple circles: segment control or horizontal pill selector at top
+- Past days accessible via horizontal date scroller
+- Pull-to-refresh gesture (for future backend sync — locally just re-fetches from SwiftData)
+- Empty state: "No responses yet today. Be the first!" with record CTA
+- For demo/local mode: include 2-3 sample voice notes bundled with the app so the feed isn't empty on first launch (attributed to sample members)
 
 **Priority:** 8
-**Dependencies:** None
-
-**Implementation Notes:**
-- Create in project root or Configuration folder
-- Configure subscription group for upgrade/downgrade
-- Set realistic test prices ($4.99/month, $29.99/year example)
+**Dependencies:** Feature 6, Feature 7
 
 ---
 
-### 9. Unit Tests for Subscription Service
+### 9. Speech-to-Text Transcription
 
-Create comprehensive unit tests for the subscription domain and service layer.
+Transcribe voice notes using on-device Apple Speech for text snippet previews.
 
-**User Story:** As a developer, I need unit tests for subscription logic to ensure correctness and prevent regressions.
+**User Story:** As a user, I can see a brief text transcript of each voice note so I can preview what someone said and so deaf/HoH users can participate fully.
 
 **Acceptance Criteria:**
-- `MockSubscriptionService` implementing `SubscriptionServiceProtocol`
-- `SubscriptionServiceTests.swift` testing:
-  - Product fetching (success with products, empty result, network error)
-  - Purchase flow (success, cancellation, failure)
-  - Restore purchases (found subscription, no subscription)
-  - Status transitions (free -> premium, premium -> expired)
-  - Expiry date validation
-- All tests use Swift Testing framework (`@Test`, `#expect`)
-- Tests pass with `xcodebuild test`
+- `TranscriptionServiceProtocol` with: `transcribe(audioURL:) async -> String?`
+- `LocalTranscriptionService` using Apple `Speech` framework (`SFSpeechRecognizer`) — fully on-device
+- Add `NSSpeechRecognitionUsageDescription` to Info.plist
+- Transcription runs automatically after recording completes (before user confirms send)
+- Transcript stored in SwiftData alongside voice note metadata
+- Show first ~15 words as snippet preview on response cards in the feed
+- Full transcript available via tap/expand on the response card
+- Fallback: if transcription fails or user denies permission, show "Voice note • [duration]" placeholder — never block the flow
+- Language: English initially
+- `MockTranscriptionService` that returns sample text for previews
 
 **Priority:** 9
-**Dependencies:** Feature 1, Feature 2
-
-**Implementation Notes:**
-- Place in `Tests/SocraticJournalTests/Subscription/`
-- Create `Mocks/MockSubscriptionService.swift`
-- Mock should allow configuring return values for each method
+**Dependencies:** Feature 6
 
 ---
 
-### 10. Unit Tests for PaywallViewModel
+### 10. Local Notifications
 
-Create unit tests for the PaywallViewModel business logic.
+Drive the daily habit loop with scheduled local notifications. No push notification server needed.
 
-**User Story:** As a developer, I need unit tests for the PaywallViewModel to verify state management and purchase flow logic.
+**User Story:** As a user, I get a gentle daily reminder with the prompt so I remember to participate, even without a backend sending push notifications.
 
 **Acceptance Criteria:**
-- `PaywallViewModelTests.swift` testing:
-  - Initial state (loading false, no products, no error)
-  - `loadProducts()` sets products and loading states correctly
-  - `loadProducts()` handles errors and sets error state
-  - `selectProduct()` updates selectedProduct
-  - `purchase()` transitions states correctly (isPurchasing, purchaseSucceeded)
-  - `purchase()` handles cancellation (no error shown)
-  - `purchase()` handles failure (error set)
-  - `restorePurchases()` success and failure cases
-- All tests pass
+- `NotificationServiceProtocol` with: `scheduleDailyPrompt(circle:time:)`, `cancelNotifications(circle:)`, `requestPermission() -> Bool`
+- `LocalNotificationService` using `UNUserNotificationCenter` (fully local, no FCM)
+- Daily scheduled notification at user-configurable time (default: 6 PM)
+- Notification content: "Today's Circle question: [prompt snippet]" with circle emoji
+- Notification tap opens app to today's prompt
+- Per-circle notification settings: enable/disable, custom time
+- Notification permission request during onboarding with warm explanation
+- Badge count management: increment on new prompt day, clear when app opens
+- Respect system notification settings
+- `MockNotificationService` for tests
+- Remove Firebase Cloud Messaging dependency entirely
 
 **Priority:** 10
-**Dependencies:** Feature 5, Feature 9
-
-**Implementation Notes:**
-- Place in `Tests/SocraticJournalTests/Subscription/PaywallViewModelTests.swift`
-- Use MockSubscriptionService for dependency injection
-- Test async state transitions
+**Dependencies:** Feature 7
 
 ---
 
-### 11. Unit Tests for Onboarding Flow
+### 11. Home Screen Widget
 
-Create unit tests to verify onboarding business logic and confirm no paywall appears.
+The passive connection surface — see your circle's responses without opening the app.
 
-**User Story:** As a developer, I need unit tests for onboarding to ensure the flow works correctly and no paywall interrupts it.
+**User Story:** As a user, I glance at my home screen and see a transcript snippet from someone I love, tap it and hear their voice — replacing the Instagram widget with something that actually makes me feel connected.
 
 **Acceptance Criteria:**
-- `OnboardingTests.swift` testing:
-  - `hasCompletedOnboarding` starts as false
-  - Completing onboarding sets `hasCompletedOnboarding` to true
-  - Analytics event logged on completion (`onboardingCompleted`)
-  - Skip button completes onboarding same as Continue
-  - Replay onboarding resets flag to false then shows again
-- Create `MockSettingsRepository` if not exists
-- Create `MockAnalyticsService` if not exists
-- Verify paywall is NOT triggered during onboarding (no paywall-related calls)
+- New WidgetKit extension target added to `project.yml` (XcodeGen)
+- App Group entitlement for data sharing between app and widget extension
+- Small widget (2x2): Circle emoji + name + latest response snippet (member name + first ~10 words of transcript)
+- Medium widget (4x2): Today's prompt text + 2-3 response previews with member names and transcript snippets
+- Tap any widget → opens app to today's prompt feed
+- Timeline provider refreshes when app writes new response data to shared container
+- Shared data format: JSON file in App Group container (lightweight, no SwiftData in widget)
+- Widget shows warm empty state if no responses yet: "Waiting for voices..." with circle name
+- Widget configuration intent: user chooses which circle to display
+- Warm visual design matching app palette — not default widget grey
+- Add `SocraticJournal.entitlements` App Group + update widget target entitlements
 
 **Priority:** 11
-**Dependencies:** None
-
-**Implementation Notes:**
-- Place in `Tests/SocraticJournalTests/OnboardingTests.swift`
-- Test business logic, not SwiftUI views
-- Create mocks in `Tests/SocraticJournalTests/Mocks/`
+**Dependencies:** Feature 8, Feature 9
 
 ---
 
-### 12. Integration Test: Full Purchase Flow
+### 12. Circle Onboarding Experience
 
-Create an integration test that verifies the complete subscription flow from paywall to settings display.
+A warm, story-driven onboarding that explains the concept and gets users to create their first circle.
 
-**User Story:** As a developer, I need an integration test to verify the end-to-end subscription flow works correctly.
+**User Story:** As a new user, I understand what Circle does and why it matters within 30 seconds, and I'm guided to create my first circle and add someone before I can overthink it.
 
 **Acceptance Criteria:**
-- Test verifies:
-  1. User starts as free (settings shows "Free")
-  2. Products load correctly in paywall
-  3. Purchase completes successfully
-  4. Settings now shows "Premium" with correct expiry
-  5. Relaunching app preserves premium status
-- Uses mock service to avoid actual App Store calls
-- Documents the expected user journey
+- 3-4 screen onboarding flow (not more — respect the user's time)
+- Screen 1: The problem — "Your closest people are one scroll away, but somehow unreachable"
+- Screen 2: The solution — "One question. Their voice. Every day."
+- Screen 3: How it works — visual showing: prompt arrives → you record → you listen → connection deepens
+- Screen 4: Profile setup (enter name, optional photo) → flows into "Create your first circle"
+- Skip option available but discouraged (no skip button until screen 3)
+- Warm color palette and micro-animations (scale, fade — not bouncy/playful)
+- After profile setup: immediately guided to create first circle and add a member
+- First prompt appears immediately after circle creation (don't make them wait until tomorrow)
+- Onboarding completion saved in UserDefaults
+- Analytics events (local, logged to console for now): `onboarding_screen_viewed(screen:)`, `onboarding_completed`, `onboarding_skipped(at_screen:)`
+- `hasCompletedOnboarding` flag gates onboarding display
 
 **Priority:** 12
-**Dependencies:** Feature 6, Feature 9, Feature 10
+**Dependencies:** Feature 2, Feature 3
 
-**Implementation Notes:**
-- Can be a documented manual test checklist if XCUITest is complex
-- Or create integration test in test target
-- Focus on state persistence and UI updates
+---
+
+### 13. Local Prompt Intelligence — Depth Progression
+
+The prompt engine gets smarter about pacing and depth over time, all computed locally.
+
+**User Story:** As a long-term user, I notice the prompts getting more personal and meaningful over weeks — they start light and safe, then gradually invite deeper sharing as the circle builds trust.
+
+**Acceptance Criteria:**
+- Extend `LocalPromptService` with depth progression logic
+- Depth progression based on circle age and response consistency:
+  - Week 1-2: Depth 1-2 only (light, safe, fun)
+  - Week 3-4: Depth 1-3 (introduce moderate vulnerability)
+  - Week 5-8: Depth 1-4 (deeper reflection)
+  - Week 9+: Full range 1-5 (deep, specific)
+- Category rotation: never repeat same category two days in a row
+- Energy alternation: if yesterday was deep/heavy, today should be lighter (and vice versa)
+- "Circle streak" tracking: consecutive days where at least one member responded
+- Streak visible in circle detail view (warm visualization, not gamified/pressuring)
+- If circle goes dormant (3+ days no responses from anyone), next prompt auto-selects depth 1 (re-engagement: light, easy, nostalgic)
+- Thumbs up/down on daily prompts — stored locally, influences future category weighting
+- All logic runs locally using circle metadata from SwiftData (creation date, response history, feedback)
+
+**Priority:** 13
+**Dependencies:** Feature 7
 
 ---
 
 ## Implementation Order
 
 ```
-Phase 1 - Foundation (Parallel)
-├── 1. Subscription Domain Layer
-├── 7. In-App Purchase Entitlement
-└── 8. StoreKit Configuration
+Phase 1 — Clean Slate
+└── 1. App Shell Reset (strip ALL old code + Firebase, new navigation skeleton)
 
-Phase 2 - Service Layer
-└── 2. StoreKit 2 Service (needs 1)
+Phase 2 — Identity
+└── 2. Local Auth & User Profiles (SwiftData, no Firebase Auth)
 
-Phase 3 - Persistence
-└── 3. UserSettings Extension (needs 1)
+Phase 3 — Social Core
+├── 3. Circle Creation & Management (SwiftData)
+└── 4. Circle Member Addition (local member profiles)
 
-Phase 4 - UI (Sequential)
-├── 4. Paywall View (needs 1, 2)
-├── 5. PaywallViewModel (needs 2, 4)
-└── 6. Settings Subscription Section (needs 4, 5)
+Phase 4 — Voice Engine
+├── 5. Voice Recording Engine (AVFoundation, local files)
+└── 6. Voice Playback & Local Storage (AVAudioPlayer, SwiftData metadata)
 
-Phase 5 - Testing (Parallel)
-├── 9. Subscription Service Tests (needs 1, 2)
-├── 10. PaywallViewModel Tests (needs 5, 9)
-├── 11. Onboarding Tests
-└── 12. Integration Test (needs 6, 9, 10)
+Phase 5 — Daily Loop
+├── 7. Local Prompt Engine (bundled JSON, local rotation logic)
+└── 8. Circle Response Feed (main screen, ties it all together)
+
+Phase 6 — Enhancement
+├── 9. Speech-to-Text Transcription (Apple Speech, on-device)
+├── 10. Local Notifications (UNUserNotificationCenter, no FCM)
+└── 11. Home Screen Widget (WidgetKit, App Group shared data)
+
+Phase 7 — Polish
+├── 12. Circle Onboarding Experience
+└── 13. Local Prompt Intelligence (depth progression)
 ```
 
-## Testing Checklist
+## Notes for Night Agent
 
-After implementation, verify:
+### ZERO FIREBASE — THIS IS THE #1 RULE
 
-- [ ] Products load from StoreKit configuration in simulator
-- [ ] Monthly subscription purchase flow completes
-- [ ] Yearly subscription purchase flow completes
-- [ ] Purchase cancellation handled (no error shown to user)
-- [ ] Purchase failure shows appropriate error
-- [ ] Restore purchases finds existing subscription
-- [ ] Restore purchases handles "no subscription" case
-- [ ] Subscription status persists after app restart
-- [ ] Settings shows correct status (Free/Premium)
-- [ ] Settings shows correct expiry date format
-- [ ] Paywall design matches app aesthetic
-- [ ] Paywall works in dark mode
-- [ ] Paywall is NOT shown during onboarding
-- [ ] Paywall is NOT auto-shown after purchase
-- [ ] "Manage Subscription" opens App Store
-- [ ] All unit tests pass
-- [ ] VoiceOver works on paywall
+- **Do NOT import any Firebase framework.** No `import FirebaseAuth`, no `import FirebaseFirestore`, no `import FirebaseFunctions`, no `import FirebaseMessaging`, no `import FirebaseAnalytics`.
+- **Remove Firebase SPM packages** from `project.yml` in Feature 1. The app must build with zero Firebase dependencies.
+- **Remove `GoogleService-Info.plist`** and the `Firebase/` directory.
+- **Remove AppsFlyer** SDK and service as well.
+- Every service follows the protocol adapter pattern: `Protocol → LocalImplementation`. Future Firebase implementations will conform to the same protocols.
+
+### Local-First Architecture
+
+- **SwiftData** for all structured data (users, circles, members, prompts, responses, transcripts)
+- **File system** for voice note audio files (`Documents/VoiceNotes/...`)
+- **Bundled JSON** for the prompt library (`prompts.json` in Resources)
+- **UserDefaults** for lightweight settings and flags (onboarding, notification prefs)
+- **App Group container** for widget data sharing (JSON file)
+
+### Protocol Adapter Pattern
+
+Every service must have a clean protocol so Firebase (or any backend) can be plugged in later with zero UI changes:
+
+```
+Protocol (Domain) → Local impl (Data) → ViewModel uses protocol only
+```
+
+Create a `ServiceContainer` or `AppDependencies` struct that holds all protocol references. Initialize with local implementations. Inject via SwiftUI `.environment()`. Swapping to Firebase later = change container initialization, nothing else.
+
+### Other Guidelines
+
+- **This is a FULL PIVOT** — aggressively delete old Socratic Journal code in Feature 1. Don't preserve backwards compatibility.
+- **Voice is core** — recording and playback must feel premium. Smooth waveforms, responsive controls, zero lag.
+- **Widget is the secret weapon** — invest in making it beautiful and reliable.
+- **Zero-friction design** — every interaction should take fewer taps than expected.
+- **Include sample data** — bundle 2-3 sample voice notes and a demo circle so the app isn't empty on first launch. The feed should look alive.
+- **Minimum iOS 17.0** — use SwiftData, Observable macro, modern SwiftUI, WidgetKit enhancements.
+- **Bundle ID stays** `com.StudioNext.socraticJournal`.
 
 ## Build Commands
 
@@ -448,16 +498,3 @@ xcodebuild build -scheme SocraticJournal -destination 'platform=iOS Simulator,na
 # Run tests
 xcodebuild test -scheme SocraticJournal -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
 ```
-
-## Notes for Night Agent
-
-- **Deep Quality Mode is ON** - This is business-critical payment functionality
-- Follow existing Clean Architecture patterns strictly
-- Use StoreKit 2 APIs only (not StoreKit 1)
-- Handle ALL error cases gracefully - payment code must be robust
-- Never show technical errors to users - map to friendly messages
-- Test with StoreKit configuration file before considering complete
-- Subscription status must persist offline
-- No aggressive paywall tactics - user accesses from Settings only
-- All new code must have unit tests
-- Premium features to gate can be determined later - focus on infrastructure first

@@ -40,7 +40,7 @@ public final class AppReviewService: @unchecked Sendable {
 
     public init(
         userDefaults: UserDefaults = .standard,
-        analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
+        analyticsService: AnalyticsServiceProtocol = ConsoleAnalyticsService()
     ) {
         self.userDefaults = userDefaults
         self.analyticsService = analyticsService
@@ -129,7 +129,7 @@ public final class AppReviewService: @unchecked Sendable {
 
         // Log analytics
         analyticsService.logEvent(.appReviewRequested, parameters: [
-            AnalyticsParameter.sessionCount.rawValue: completedSessionCount
+            "session_count": completedSessionCount
         ])
 
         // Request the review
@@ -145,7 +145,7 @@ public final class AppReviewService: @unchecked Sendable {
         lastReviewPromptDate = Date()
 
         analyticsService.logEvent(.appReviewRequested, parameters: [
-            AnalyticsParameter.sessionCount.rawValue: completedSessionCount
+            "session_count": completedSessionCount
         ])
 
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {

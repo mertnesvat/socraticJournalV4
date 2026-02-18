@@ -1,22 +1,15 @@
 // SettingsView.swift
-// SocraticJournal
+// Circle
 // Copyright 2024 StudioNext
 
 #if os(iOS)
 import SwiftUI
-
-/// Notification posted when user requests to replay onboarding
-public extension Notification.Name {
-    static let replayOnboarding = Notification.Name("com.socraticjournal.replayOnboarding")
-}
 
 /// Settings screen for app configuration
 public struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(ThemeManager.self) private var themeManager
     @State private var viewModel: SettingsViewModel
-    @State private var showingExportView: Bool = false
-    @State private var showingWisdomQuotes: Bool = false
     @State private var showingPaywall: Bool = false
 
     public init(viewModel: SettingsViewModel) {
@@ -30,16 +23,6 @@ public struct SettingsView: View {
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar { toolbarContent }
                 .task { await viewModel.loadSettings() }
-                .alert("Clear All Data", isPresented: $viewModel.showClearDataConfirmation) {
-                    Button("Cancel", role: .cancel) {}
-                    Button("Clear", role: .destructive) {
-                        Task {
-                            await viewModel.clearAllData()
-                        }
-                    }
-                } message: {
-                    Text("This will permanently delete all your journal sessions and letters. This action cannot be undone.")
-                }
                 .alert("Notifications Disabled", isPresented: $viewModel.showPermissionDeniedAlert) {
                     Button("Cancel", role: .cancel) {}
                     Button("Open Settings") {
@@ -47,26 +30,6 @@ public struct SettingsView: View {
                     }
                 } message: {
                     Text("To receive notifications, please enable them in Settings.")
-                }
-                .sheet(isPresented: $showingExportView) {
-                    ExportView(
-                        viewModel: ExportViewModel(
-                            exportService: JSONDataExportService(
-                                journalRepository: viewModel.journalRepository,
-                                settingsRepository: viewModel.settingsRepository
-                            )
-                        )
-                    )
-                    .preferredColorScheme(themeManager.colorScheme)
-                }
-                .fullScreenCover(isPresented: $showingWisdomQuotes) {
-                    WisdomQuotesView(
-                        viewModel: WisdomQuotesViewModel(
-                            quoteService: LocalWisdomQuoteService()
-                        )
-                    )
-                    .environment(themeManager)
-                    .preferredColorScheme(themeManager.colorScheme)
                 }
                 .sheet(isPresented: $showingPaywall) {
                     if let subscriptionService = viewModel.subscriptionService {
@@ -78,15 +41,6 @@ public struct SettingsView: View {
                         )
                         .environment(themeManager)
                         .preferredColorScheme(themeManager.colorScheme)
-                    } else {
-                        // Fallback when subscription service is not available
-                        subscriptionUnavailableView
-                            .preferredColorScheme(themeManager.colorScheme)
-                    }
-                }
-                .overlay {
-                    if viewModel.showClearDataSuccess {
-                        successOverlay
                     }
                 }
                 .preferredColorScheme(themeManager.colorScheme)
@@ -104,7 +58,7 @@ public struct SettingsView: View {
         } else {
             ScrollView {
                 VStack(spacing: 20) {
-                    // Appearance section
+                    // Appearance
                     ThemeSelectorView(
                         selectedTheme: Binding(
                             get: { viewModel.themeMode },
@@ -112,12 +66,8 @@ public struct SettingsView: View {
                         )
                     )
 
-                    // Notifications section
+                    // Notifications
                     NotificationSettingsView(
-                        letterRemindersEnabled: Binding(
-                            get: { viewModel.letterRemindersEnabled },
-                            set: { viewModel.letterRemindersEnabled = $0 }
-                        ),
                         dailyReminderEnabled: Binding(
                             get: { viewModel.dailyReminderEnabled },
                             set: { viewModel.dailyReminderEnabled = $0 }
@@ -132,7 +82,7 @@ public struct SettingsView: View {
                         }
                     )
 
-                    // Subscription section
+                    // Subscription
                     SubscriptionSettingsView(
                         subscriptionStatus: viewModel.subscriptionStatus,
                         expiryDate: viewModel.formattedSubscriptionExpiry,
@@ -150,36 +100,16 @@ public struct SettingsView: View {
                         }
                     )
 
-                    // Features section
-                    FeaturesSettingsView(
-                        onWisdomQuotesTapped: {
-                            showingWisdomQuotes = true
-                        }
-                    )
-
-                    // Data section
-                    DataManagementView(
-                        onExport: {
-                            showingExportView = true
-                        },
-                        onClearData: {
-                            viewModel.confirmClearData()
-                        }
-                    )
-
-                    // About section
+                    // About
                     AboutView(
-                        version: SocraticJournal.version,
+                        version: AppEnvironment.version,
                         onPrivacyPolicy: {
-                            openPrivacyPolicy()
+                            if let url = URL(string: "https://studionext.co.uk/socratic-privacy.html") {
+                                UIApplication.shared.open(url)
+                            }
                         },
                         onReplayOnboarding: {
-                            Task {
-                                await viewModel.resetOnboarding()
-                                dismiss()
-                                // Post notification to trigger onboarding display
-                                NotificationCenter.default.post(name: .replayOnboarding, object: nil)
-                            }
+                            // Will be wired up when onboarding is implemented
                         }
                     )
 
@@ -188,65 +118,6 @@ public struct SettingsView: View {
                 .padding()
             }
             .background(Color(uiColor: .systemGroupedBackground))
-        }
-    }
-
-    private var successOverlay: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundStyle(.green)
-                Text("All data cleared")
-                    .font(.subheadline.weight(.medium))
-            }
-            .padding()
-            .background(.ultraThinMaterial)
-            .clipShape(Capsule())
-            .padding(.bottom, 40)
-        }
-    }
-
-    private var subscriptionUnavailableView: some View {
-        NavigationStack {
-            VStack(spacing: 24) {
-                Image(systemName: "exclamationmark.triangle")
-                    .font(.system(size: 48))
-                    .foregroundStyle(.orange)
-
-                VStack(spacing: 8) {
-                    Text("Subscriptions Unavailable")
-                        .font(.headline)
-
-                    Text("The subscription service is not available right now. Please try again later.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                }
-
-                Button("Dismiss") {
-                    showingPaywall = false
-                }
-                .font(.headline)
-                .frame(width: 160, height: 44)
-                .background(Color.accentColor)
-                .foregroundStyle(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-            }
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(uiColor: .systemGroupedBackground))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        showingPaywall = false
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.body.weight(.medium))
-                    }
-                }
-            }
         }
     }
 
@@ -259,14 +130,6 @@ public struct SettingsView: View {
                 Image(systemName: "xmark")
                     .font(.body.weight(.medium))
             }
-        }
-    }
-
-    private func openPrivacyPolicy() {
-        // Privacy policy URL
-        let urlString = "https://studionext.co.uk/socratic-privacy.html"
-        if let url = URL(string: urlString) {
-            UIApplication.shared.open(url)
         }
     }
 }
@@ -285,9 +148,9 @@ struct ShareSheet: UIViewControllerRepresentable {
 #Preview {
     SettingsView(
         viewModel: SettingsViewModel(
-            settingsRepository: UserDefaultsSettingsRepository(),
-            journalRepository: InMemoryJournalRepository()
+            settingsRepository: UserDefaultsSettingsRepository()
         )
     )
+    .environment(ThemeManager.shared)
 }
 #endif

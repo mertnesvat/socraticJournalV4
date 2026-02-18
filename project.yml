@@ -16,14 +16,6 @@ settings:
     CODE_SIGN_STYLE: Automatic
     SWIFT_VERSION: "5.9"
 
-packages:
-  firebase-ios-sdk:
-    url: https://github.com/firebase/firebase-ios-sdk.git
-    from: "11.0.0"
-  AppsFlyerFramework:
-    url: https://github.com/AppsFlyerSDK/AppsFlyerFramework.git
-    from: "6.15.0"
-
 targets:
   SocraticJournal:
     type: application
@@ -32,29 +24,15 @@ targets:
       - path: Sources/SocraticJournal
         excludes:
           - "**/.DS_Store"
-      - path: GoogleService-Info.plist
-        buildPhase: resources
-        type: file
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournal
         INFOPLIST_FILE: Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         TARGETED_DEVICE_FAMILY: "1,2"
-        MARKETING_VERSION: "1.3.0"
-        CURRENT_PROJECT_VERSION: "9"
+        MARKETING_VERSION: "2.0.0"
+        CURRENT_PROJECT_VERSION: "1"
         GENERATE_INFOPLIST_FILE: NO
-    dependencies:
-      - package: firebase-ios-sdk
-        product: FirebaseAnalytics
-      - package: firebase-ios-sdk
-        product: FirebaseFirestore
-      - package: firebase-ios-sdk
-        product: FirebaseFunctions
-      - package: firebase-ios-sdk
-        product: FirebaseMessaging
-      - package: AppsFlyerFramework
-        product: AppsFlyerLib
     entitlements:
       path: SocraticJournal.entitlements
       properties:

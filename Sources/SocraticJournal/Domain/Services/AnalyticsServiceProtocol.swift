@@ -1,80 +1,29 @@
 // AnalyticsServiceProtocol.swift
-// SocraticJournal
+// Circle
 // Copyright 2024 StudioNext
 
 import Foundation
 
 /// Protocol defining analytics tracking capabilities
 public protocol AnalyticsServiceProtocol: Sendable {
-    /// Log a custom analytics event
-    /// - Parameters:
-    ///   - event: The event type to log
-    ///   - parameters: Optional additional parameters
     func logEvent(_ event: AnalyticsEvent, parameters: [String: Any]?)
-
-    /// Set a user property for analytics segmentation
-    /// - Parameters:
-    ///   - name: Property name
-    ///   - value: Property value (nil to clear)
     func setUserProperty(_ name: String, value: String?)
 }
 
 /// Analytics events tracked in the app
 public enum AnalyticsEvent: String, Sendable {
-    // Session events
-    case sessionStarted = "session_started"
-    case sessionCompleted = "session_completed"
-    case sessionAbandoned = "session_abandoned"
-    case clarityScoreReceived = "clarity_score_received"
-
-    // Session funnel events (fine-grained)
-    case questionShown = "question_shown"
-    case answerSubmitted = "answer_submitted"
-    case answerSkipped = "answer_skipped"
-    case followUpGenerationStarted = "follow_up_generation_started"
-    case followUpGenerationCompleted = "follow_up_generation_completed"
-    case followUpGenerationFailed = "follow_up_generation_failed"
-    case insightGenerationStarted = "insight_generation_started"
-    case insightGenerationCompleted = "insight_generation_completed"
-    case insightGenerationFailed = "insight_generation_failed"
-    case insightViewed = "insight_viewed"
-    case sessionPhaseTimeout = "session_phase_timeout"
-
-    // Legacy session events (deprecated - use new fine-grained events)
-    case sessionQuestionShown = "session_question_shown"
-    case sessionAnswerSubmitted = "session_answer_submitted"
-    case sessionQuestionSkipped = "session_question_skipped"
-    case sessionFollowUpGenerated = "session_follow_up_generated"
-    case sessionInsightViewed = "session_insight_viewed"
-    case sessionError = "session_error"
-
-    // Letter events
-    case letterComposed = "letter_composed"
-    case letterUnlocked = "letter_unlocked"
-    case letterViewed = "letter_viewed"
-    case letterPromptsRequested = "letter_prompts_requested"
-
-    // Onboarding events
+    // Onboarding
     case onboardingStarted = "onboarding_started"
     case onboardingCompleted = "onboarding_completed"
     case onboardingSkipped = "onboarding_skipped"
+    case onboardingScreenViewed = "onboarding_screen_viewed"
 
-    // Settings events
+    // Settings
     case notificationEnabled = "notification_enabled"
     case notificationDisabled = "notification_disabled"
     case themeChanged = "theme_changed"
 
-    // Feature engagement
-    case characterDiscoveryViewed = "character_discovery_viewed"
-    case wisdomQuotesViewed = "wisdom_quotes_viewed"
-    case statisticsViewed = "statistics_viewed"
-    case exportDataRequested = "export_data_requested"
-
-    // App review
-    case appReviewRequested = "app_review_requested"
-    case appReviewCompleted = "app_review_completed"
-
-    // Subscription events
+    // Subscription
     case paywallViewed = "paywall_viewed"
     case paywallDismissed = "paywall_dismissed"
     case paywallProductsLoaded = "paywall_products_loaded"
@@ -88,32 +37,27 @@ public enum AnalyticsEvent: String, Sendable {
     case paywallRestoreCompleted = "paywall_restore_completed"
     case paywallRestoreFailed = "paywall_restore_failed"
     case subscriptionRestored = "subscription_restored"
+
+    // Circle events (to be expanded)
+    case circleCreated = "circle_created"
+    case circleMemberAdded = "circle_member_added"
+    case voiceNoteRecorded = "voice_note_recorded"
+    case voiceNotePlayed = "voice_note_played"
+    case promptViewed = "prompt_viewed"
+    case promptFeedbackGiven = "prompt_feedback_given"
+
+    // App review
+    case appReviewRequested = "app_review_requested"
+    case appReviewCompleted = "app_review_completed"
 }
 
 /// Analytics parameter keys
 public enum AnalyticsParameter: String, Sendable {
-    case sessionId = "session_id"
-    case clarityScore = "clarity_score"
-    case scoreCategory = "score_category"
-    case exchangeCount = "exchange_count"
-    case letterId = "letter_id"
-    case letterDuration = "letter_duration_days"
+    case circleId = "circle_id"
+    case circleName = "circle_name"
+    case memberCount = "member_count"
+    case promptId = "prompt_id"
+    case voiceNoteDuration = "voice_note_duration"
     case themeMode = "theme_mode"
-    case sessionCount = "session_count"
-    case streakDays = "streak_days"
-    case promptCount = "prompt_count"
-    case questionIndex = "question_index"
-    case questionText = "question_text"
-    case answerLength = "answer_length"
-    case responseTime = "response_time_ms"
-    case errorType = "error_type"
-    case phase = "phase"
-
-    // New funnel analytics parameters
-    case questionNumber = "question_number"
-    case questionId = "question_id"
-    case timeToAnswerSeconds = "time_to_answer_seconds"
-    case latencySeconds = "latency_seconds"
-    case totalQuestionsAnswered = "total_questions_answered"
-    case elapsedSeconds = "elapsed_seconds"
+    case screenName = "screen_name"
 }

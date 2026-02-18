@@ -1,5 +1,5 @@
 // SettingsViewModel.swift
-// SocraticJournal
+// Circle
 // Copyright 2024 StudioNext
 
 #if os(iOS)
@@ -15,9 +15,7 @@ public final class SettingsViewModel {
     private(set) var settings: UserSettings = .default
     private(set) var isLoading: Bool = false
     private(set) var error: Error?
-    private(set) var showClearDataSuccess: Bool = false
     private(set) var notificationPermissionStatus: NotificationPermissionStatus = .notDetermined
-    var showClearDataConfirmation: Bool = false
     var showPermissionDeniedAlert: Bool = false
 
     // MARK: - Subscription State
@@ -25,8 +23,6 @@ public final class SettingsViewModel {
     private(set) var subscriptionStatus: SubscriptionStatus = .free
     private(set) var isRestoringPurchases: Bool = false
     private(set) var restoreError: SubscriptionError?
-    var showRestoreSuccessMessage: Bool = false
-    var showRestoreNoSubscriptionMessage: Bool = false
 
     // MARK: - Computed Properties
 
@@ -35,18 +31,6 @@ public final class SettingsViewModel {
         set {
             settings.themeMode = newValue
             Task { await saveSettings() }
-        }
-    }
-
-    var letterRemindersEnabled: Bool {
-        get { settings.letterRemindersEnabled }
-        set {
-            let newValue = newValue
-            settings.letterRemindersEnabled = newValue
-            Task {
-                await saveSettings()
-                await handleLetterRemindersChange(enabled: newValue)
-            }
         }
     }
 
@@ -75,17 +59,10 @@ public final class SettingsViewModel {
         }
     }
 
-    /// Whether notifications need permission request
-    var needsNotificationPermission: Bool {
-        notificationPermissionStatus == .notDetermined
-    }
-
-    /// Whether notifications are denied by the system
     var notificationsDenied: Bool {
         notificationPermissionStatus == .denied
     }
 
-    /// Formatted subscription expiry date for display
     var formattedSubscriptionExpiry: String? {
         settings.formattedSubscriptionExpiry
     }
@@ -93,7 +70,6 @@ public final class SettingsViewModel {
     // MARK: - Dependencies
 
     public let settingsRepository: SettingsRepositoryProtocol
-    public let journalRepository: JournalRepositoryProtocol
     public let notificationService: NotificationServiceProtocol?
     public let subscriptionService: SubscriptionServiceProtocol?
     public let analyticsService: AnalyticsServiceProtocol?
@@ -102,13 +78,11 @@ public final class SettingsViewModel {
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
-        journalRepository: JournalRepositoryProtocol,
         notificationService: NotificationServiceProtocol? = nil,
         subscriptionService: SubscriptionServiceProtocol? = nil,
         analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         self.settingsRepository = settingsRepository
-        self.journalRepository = journalRepository
         self.notificationService = notificationService
         self.subscriptionService = subscriptionService
         self.analyticsService = analyticsService
@@ -122,11 +96,9 @@ public final class SettingsViewModel {
 
         do {
             settings = try await settingsRepository.getSettings()
-            // Check notification permission status
             if let service = notificationService {
                 notificationPermissionStatus = await service.getPermissionStatus()
             }
-            // Load subscription status
             if let subscriptionService = subscriptionService {
                 subscriptionStatus = await subscriptionService.currentStatus()
                 settings.updateSubscription(from: subscriptionStatus)
@@ -146,68 +118,14 @@ public final class SettingsViewModel {
         }
     }
 
-    /// Request notification permission if not yet determined
-    public func requestNotificationPermission() async -> Bool {
-        guard let service = notificationService else { return false }
-
-        let granted = await service.requestPermission()
-        notificationPermissionStatus = await service.getPermissionStatus()
-        return granted
-    }
-
-    /// Handle letter reminders toggle change
-    private func handleLetterRemindersChange(enabled: Bool) async {
-        guard let service = notificationService else { return }
-
-        if enabled {
-            // Request permission if needed
-            if notificationPermissionStatus == .notDetermined {
-                let granted = await requestNotificationPermission()
-                if !granted {
-                    // Revert the toggle if permission denied
-                    settings.letterRemindersEnabled = false
-                    await saveSettings()
-                    return
-                }
-            } else if notificationPermissionStatus == .denied {
-                showPermissionDeniedAlert = true
-                settings.letterRemindersEnabled = false
-                await saveSettings()
-                return
-            }
-
-            // Schedule notifications for all sealed letters
-            do {
-                let letters = try await journalRepository.getAllLetters()
-                for letter in letters where letter.status == .sealed && letter.deliveryDate > Date() {
-                    try await service.scheduleLetterUnlock(letter: letter)
-                }
-            } catch {
-                self.error = error
-            }
-        } else {
-            // Cancel all letter notifications
-            do {
-                let letters = try await journalRepository.getAllLetters()
-                for letter in letters {
-                    await service.cancelLetterNotification(letterId: letter.id)
-                }
-            } catch {
-                self.error = error
-            }
-        }
-    }
-
-    /// Handle daily reminder toggle change
     private func handleDailyReminderChange(enabled: Bool) async {
         guard let service = notificationService else { return }
 
         if enabled {
-            // Request permission if needed
             if notificationPermissionStatus == .notDetermined {
-                let granted = await requestNotificationPermission()
+                let granted = await service.requestPermission()
+                notificationPermissionStatus = await service.getPermissionStatus()
                 if !granted {
-                    // Revert the toggle if permission denied
                     settings.dailyReminderEnabled = false
                     await saveSettings()
                     return
@@ -218,17 +136,14 @@ public final class SettingsViewModel {
                 await saveSettings()
                 return
             }
-
             await updateDailyReminder()
         } else {
             await service.cancelDailyReminder()
         }
     }
 
-    /// Update daily reminder with current time settings
     private func updateDailyReminder() async {
         guard let service = notificationService else { return }
-
         do {
             try await service.scheduleDailyReminder(
                 hour: settings.dailyReminderHour,
@@ -239,57 +154,14 @@ public final class SettingsViewModel {
         }
     }
 
-    public func confirmClearData() {
-        showClearDataConfirmation = true
-    }
-
-    public func clearAllData() async {
-        do {
-            // Cancel all notifications before clearing data
-            if let service = notificationService {
-                await service.removeAllPendingNotifications()
-            }
-
-            // Clear journal data (sessions and letters)
-            try await journalRepository.clearAllData()
-
-            // Mark sample data as dismissed so it won't reappear on restart
-            InMemoryJournalRepository.markSampleDataDismissed()
-
-            // Clear settings but preserve the hasDismissedSampleData flag
-            try await settingsRepository.clearAllData()
-
-            // Reset to default settings but mark that sample data was dismissed
-            settings = .default
-            settings.hasDismissedSampleData = true
-            try await settingsRepository.saveSettings(settings)
-
-            showClearDataSuccess = true
-
-            // Auto-hide success message
-            try? await Task.sleep(for: .seconds(2))
-            showClearDataSuccess = false
-        } catch {
-            self.error = error
-        }
-    }
-
-    /// Open system settings to enable notifications
     public func openNotificationSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url)
         }
     }
 
-    /// Reset onboarding flag so user can replay the onboarding flow
-    public func resetOnboarding() async {
-        settings.hasCompletedOnboarding = false
-        await saveSettings()
-    }
+    // MARK: - Subscription
 
-    // MARK: - Subscription Actions
-
-    /// Restore previous purchases
     public func restorePurchases() async {
         guard let service = subscriptionService else { return }
         guard !isRestoringPurchases else { return }
@@ -302,17 +174,8 @@ public final class SettingsViewModel {
             subscriptionStatus = status
             settings.updateSubscription(from: status)
             await saveSettings()
-
             if status.isPremium {
-                showRestoreSuccessMessage = true
                 analyticsService?.logEvent(.subscriptionRestored, parameters: nil)
-                // Auto-hide after delay
-                try? await Task.sleep(for: .seconds(2))
-                showRestoreSuccessMessage = false
-            } else {
-                showRestoreNoSubscriptionMessage = true
-                try? await Task.sleep(for: .seconds(2))
-                showRestoreNoSubscriptionMessage = false
             }
         } catch let error as SubscriptionError {
             restoreError = error
@@ -323,20 +186,10 @@ public final class SettingsViewModel {
         isRestoringPurchases = false
     }
 
-    /// Open App Store subscription management
     public func openSubscriptionManagement() {
         if let url = URL(string: "https://apps.apple.com/account/subscriptions") {
             UIApplication.shared.open(url)
         }
-    }
-
-    /// Refresh subscription status from the service
-    public func refreshSubscriptionStatus() async {
-        guard let service = subscriptionService else { return }
-
-        subscriptionStatus = await service.currentStatus()
-        settings.updateSubscription(from: subscriptionStatus)
-        await saveSettings()
     }
 }
 #endif

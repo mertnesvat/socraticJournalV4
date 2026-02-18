@@ -1,6 +1,10 @@
 import Testing
 @testable import SocraticJournal
 
-@Test func testVersion() async throws {
-    #expect(SocraticJournal.version == "1.0.0")
+@Test func testDefaultUserSettings() async throws {
+    let settings = UserSettings.default
+    #expect(settings.themeMode == .system)
+    #expect(settings.dailyReminderEnabled == false)
+    #expect(settings.hasCompletedOnboarding == false)
+    #expect(settings.isPremium == false)
 }
