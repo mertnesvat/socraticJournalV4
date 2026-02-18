@@ -6,13 +6,21 @@ module.exports = async ({ github, context, core }) => {
   const owner = context.repo.owner;
   const repo = context.repo.repo;
 
-  // Fetch PR diff and file list
-  const { data: files } = await github.rest.pulls.listFiles({
-    owner,
-    repo,
-    pull_number: prNumber,
-    per_page: 100,
-  });
+  // Fetch PR file list (paginated to handle large PRs)
+  let files = [];
+  let page = 1;
+  while (true) {
+    const { data: batch } = await github.rest.pulls.listFiles({
+      owner,
+      repo,
+      pull_number: prNumber,
+      per_page: 100,
+      page,
+    });
+    files = files.concat(batch);
+    if (batch.length < 100) break;
+    page++;
+  }
 
   const { data: pr } = await github.rest.pulls.get({
     owner,
@@ -26,8 +34,6 @@ module.exports = async ({ github, context, core }) => {
 
   // ── Analysis Results ────────────────────────────────────────────────
   const issues = [];
-  let complexityDeductions = 0;
-  let errorPronenessDeductions = 0;
 
   // ── Per-file analysis ───────────────────────────────────────────────
   const swiftFiles = [];
@@ -320,6 +326,13 @@ function analyzeTypeScript(file, addedLines, issues) {
       category: "ts-quality",
       severity: "info",
       message: `${consoleLogCount} \`console.log/debug/info\` call(s) in production code`,
+      file: file.filename,
+    });
+  if (missingErrorHandling > 3)
+    issues.push({
+      category: "ts-safety",
+      severity: "info",
+      message: `${missingErrorHandling} \`await\` call(s) without visible error handling`,
       file: file.filename,
     });
   if (todoCount > 0)
