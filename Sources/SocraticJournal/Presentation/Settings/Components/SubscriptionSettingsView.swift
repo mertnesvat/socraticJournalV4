@@ -31,49 +31,47 @@ public struct SubscriptionSettingsView: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            // Section Header
-            HStack {
-                Image(systemName: "crown.fill")
-                    .foregroundStyle(.orange)
-                Text("Subscription")
-                    .font(.headline)
-            }
+        VStack(spacing: 0) {
+            // Status row
+            statusRow
 
-            // Status Card
-            statusCard
+            HairlineDivider()
 
-            // Action Buttons
-            actionButtons
+            // Action rows
+            actionRows
         }
-        .padding()
-        .background(Color(uiColor: .systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+        .background(AppColors.surface)
+        .overlay(
+            Rectangle()
+                .stroke(AppColors.border, lineWidth: AppSpacing.gridGutter)
+        )
     }
 
-    // MARK: - Status Card
+    // MARK: - Status Row
 
-    @ViewBuilder
-    private var statusCard: some View {
+    private var statusRow: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                HStack(spacing: 8) {
-                    Text("Status")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: AppSpacing.xxs) {
+                Text("Status")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textTertiary)
+
+                HStack(spacing: AppSpacing.xs) {
+                    Text(subscriptionStatus.displayName)
+                        .font(AppTypography.headlineMedium)
+                        .foregroundStyle(AppColors.textPrimary)
 
                     statusBadge
                 }
 
                 if subscriptionStatus.isPremium, let expiryDate = expiryDate {
                     Text("Renews \(expiryDate)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppColors.textTertiary)
                 } else if case .expired = subscriptionStatus, let expiryDate = expiryDate {
                     Text("Expired \(expiryDate)")
-                        .font(.caption)
-                        .foregroundStyle(.red)
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppColors.error)
                 }
             }
 
@@ -82,18 +80,16 @@ public struct SubscriptionSettingsView: View {
             if subscriptionStatus.isPremium {
                 Image(systemName: "checkmark.seal.fill")
                     .font(.title2)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(AppColors.success)
             }
         }
-        .padding()
-        .background(Color(uiColor: .secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .padding(AppSpacing.cardPadding)
     }
 
     @ViewBuilder
     private var statusBadge: some View {
         Text(subscriptionStatus.displayName)
-            .font(.caption.bold())
+            .font(AppTypography.badge)
             .foregroundStyle(badgeTextColor)
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
@@ -104,80 +100,83 @@ public struct SubscriptionSettingsView: View {
     private var badgeTextColor: Color {
         switch subscriptionStatus {
         case .free:
-            return .secondary
+            return AppColors.textSecondary
         case .premium:
-            return .white
+            return AppColors.textOnAccent
         case .expired:
-            return .white
+            return AppColors.textOnAccent
         }
     }
 
     private var badgeBackgroundColor: Color {
         switch subscriptionStatus {
         case .free:
-            return Color(uiColor: .tertiarySystemFill)
+            return AppColors.border
         case .premium:
-            return .green
+            return AppColors.success
         case .expired:
-            return .red
+            return AppColors.error
         }
     }
 
-    // MARK: - Action Buttons
+    // MARK: - Action Rows
 
-    @ViewBuilder
-    private var actionButtons: some View {
-        VStack(spacing: 12) {
+    private var actionRows: some View {
+        VStack(spacing: 0) {
             if !subscriptionStatus.isPremium {
-                // Upgrade Button
+                // Upgrade row
                 Button(action: onUpgradeTapped) {
                     HStack {
-                        Image(systemName: "sparkles")
                         Text("Upgrade to Premium")
+                            .font(AppTypography.bodyBold)
+                            .foregroundStyle(AppColors.accent)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(AppTypography.caption)
+                            .foregroundStyle(AppColors.textTertiary)
                     }
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .foregroundStyle(.white)
-                    .background(
-                        LinearGradient(
-                            colors: [.accentColor, .accentColor.opacity(0.8)],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding(.horizontal, AppSpacing.cardPadding)
+                    .padding(.vertical, AppSpacing.md)
                 }
+                .buttonStyle(.plain)
+
+                HairlineDivider()
             } else {
-                // Manage Subscription Button (for premium users)
+                // Manage subscription row
                 Button(action: onManageSubscriptionTapped) {
                     HStack {
-                        Image(systemName: "gear")
                         Text("Manage Subscription")
+                            .font(AppTypography.body)
+                            .foregroundStyle(AppColors.accent)
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                            .font(AppTypography.caption)
+                            .foregroundStyle(AppColors.textTertiary)
                     }
-                    .font(.subheadline.weight(.medium))
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 44)
-                    .foregroundStyle(Color.accentColor)
-                    .background(Color.accentColor.opacity(0.1))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding(.horizontal, AppSpacing.cardPadding)
+                    .padding(.vertical, AppSpacing.md)
                 }
+                .buttonStyle(.plain)
+
+                HairlineDivider()
             }
 
-            // Restore Purchases (always available)
+            // Restore purchases row
             Button(action: onRestoreTapped) {
                 HStack {
                     if isRestoring {
                         ProgressView()
                             .scaleEffect(0.8)
-                    } else {
-                        Image(systemName: "arrow.clockwise")
                     }
                     Text("Restore Purchases")
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppColors.textSecondary)
+                    Spacer()
                 }
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .padding(.horizontal, AppSpacing.cardPadding)
+                .padding(.vertical, AppSpacing.md)
             }
+            .buttonStyle(.plain)
             .disabled(isRestoring)
         }
     }
@@ -196,8 +195,8 @@ public struct SubscriptionSettingsView: View {
             onManageSubscriptionTapped: {}
         )
     }
-    .padding()
-    .background(Color(uiColor: .systemGroupedBackground))
+    .padding(AppSpacing.screenPadding)
+    .background(AppColors.background)
 }
 
 #Preview("Premium User") {
@@ -214,8 +213,8 @@ public struct SubscriptionSettingsView: View {
             onManageSubscriptionTapped: {}
         )
     }
-    .padding()
-    .background(Color(uiColor: .systemGroupedBackground))
+    .padding(AppSpacing.screenPadding)
+    .background(AppColors.background)
 }
 
 #Preview("Expired User") {
@@ -232,7 +231,7 @@ public struct SubscriptionSettingsView: View {
             onManageSubscriptionTapped: {}
         )
     }
-    .padding()
-    .background(Color(uiColor: .systemGroupedBackground))
+    .padding(AppSpacing.screenPadding)
+    .background(AppColors.background)
 }
 #endif

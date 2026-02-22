@@ -5,7 +5,7 @@
 #if os(iOS)
 import SwiftUI
 
-/// Visual meter showing the opinion split on a question with a proportional bar and response count
+/// Visual meter showing the opinion split — large geometric donut ring with percentage
 public struct DisagreementMeter: View {
     let disagreementRatio: Double
     let responseCount: Int
@@ -16,72 +16,63 @@ public struct DisagreementMeter: View {
     }
 
     public var body: some View {
-        VStack(spacing: 10) {
-            // Percentage headline
-            Text(headlineText)
-                .font(.system(size: 14, weight: .semibold, design: .default))
-                .foregroundStyle(.white)
+        VStack(spacing: AppSpacing.lg) {
+            // Giant donut ring with percentage inside
+            ZStack {
+                GeometricRing(
+                    progress: disagreementRatio,
+                    size: 200,
+                    lineWidth: 28,
+                    accentColor: AppColors.accent,
+                    trackColor: AppColors.border
+                )
 
-            // Split bar
-            GeometryReader { geometry in
-                HStack(spacing: 2) {
-                    // Agree side (left)
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.blue)
-                        .frame(width: geometry.size.width * agreeRatio)
-
-                    // Disagree side (right)
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Color(red: 1.0, green: 0.42, blue: 0.42)) // Hot coral
-                        .frame(width: geometry.size.width * disagreementRatio)
-                }
+                // Percentage inside the ring
+                Text(percentageText)
+                    .font(AppTypography.stat)
+                    .foregroundStyle(AppColors.textPrimary)
             }
-            .frame(height: 8)
 
-            // Response count
-            Text(formattedResponseCount)
-                .font(.system(size: 12, weight: .regular, design: .default))
-                .foregroundStyle(Color.white.opacity(0.4))
+            // Response count below the ring
+            VStack(spacing: AppSpacing.xxs) {
+                Text(formattedResponseCount)
+                    .font(AppTypography.headlineMedium)
+                    .foregroundStyle(AppColors.textPrimary)
+
+                Text("responses")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textSecondary)
+            }
         }
-        .padding(.horizontal, 24)
+        .frame(maxWidth: .infinity)
     }
 
     // MARK: - Helpers
 
-    private var agreeRatio: Double {
-        max(0, 1.0 - disagreementRatio)
-    }
-
-    private var headlineText: String {
-        let percentage = Int(disagreementRatio * 100)
-        return "\(percentage)% disagree on this one"
+    private var percentageText: String {
+        "\(Int(disagreementRatio * 100))%"
     }
 
     private var formattedResponseCount: String {
-        if responseCount >= 1000 {
-            let thousands = Double(responseCount) / 1000.0
-            return String(format: "%.1fK people answered", thousands)
-        } else {
-            return "\(responseCount) people answered"
-        }
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.string(from: NSNumber(value: responseCount)) ?? "\(responseCount)"
     }
 }
 
 #Preview {
-    ZStack {
-        Color.black.ignoresSafeArea()
+    VStack(spacing: AppSpacing.sectionGap) {
+        DisagreementMeter(
+            disagreementRatio: 0.81,
+            responseCount: 1203
+        )
 
-        VStack(spacing: 32) {
-            DisagreementMeter(
-                disagreementRatio: 0.81,
-                responseCount: 1203
-            )
-
-            DisagreementMeter(
-                disagreementRatio: 0.45,
-                responseCount: 12400
-            )
-        }
+        DisagreementMeter(
+            disagreementRatio: 0.45,
+            responseCount: 12400
+        )
     }
+    .padding()
+    .background(AppColors.background)
 }
 #endif

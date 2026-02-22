@@ -5,75 +5,75 @@
 #if os(iOS)
 import SwiftUI
 
-/// Horizontal scroll of achievement badge cards for spicy take awards
+/// Grid of achievement badges — 3-column editorial icon grid
 struct AwardsBadgeView: View {
     let awards: [SpicyTakeAward]
 
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 3)
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Awards")
-                .font(.headline)
+        VStack(spacing: 0) {
+            SectionHeaderView("AWARDS")
 
             if awards.isEmpty {
                 emptyState
+                    .padding(.horizontal, AppSpacing.screenPadding)
             } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 12) {
-                        ForEach(awards) { award in
-                            awardBadge(award)
-                        }
+                awardsGrid
+                    .padding(.horizontal, AppSpacing.screenPadding)
+            }
+        }
+    }
+
+    // MARK: - Awards Grid
+
+    private var awardsGrid: some View {
+        LazyVGrid(columns: columns, spacing: 0) {
+            ForEach(Array(awards.enumerated()), id: \.element.id) { index, award in
+                GridCell(isAccented: index == 0) {
+                    VStack(spacing: AppSpacing.xs) {
+                        Image(systemName: award.category.sfSymbol)
+                            .font(.system(size: 24, weight: .light))
+                            .foregroundStyle(index == 0 ? AppColors.textOnAccent : AppColors.textPrimary)
+
+                        Text(award.category.displayTitle)
+                            .font(AppTypography.caption)
+                            .foregroundStyle(index == 0 ? AppColors.textOnAccent : AppColors.textSecondary)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2)
                     }
+                    .padding(.vertical, AppSpacing.lg)
+                }
+            }
+
+            // Fill remaining cells to complete the row
+            let remaining = (3 - (awards.count % 3)) % 3
+            ForEach(0..<remaining, id: \.self) { _ in
+                GridCell {
+                    Color.clear
+                        .frame(height: 80)
                 }
             }
         }
-        .padding()
-        .background(Color(uiColor: .secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
-    // MARK: - Subviews
-
-    private func awardBadge(_ award: SpicyTakeAward) -> some View {
-        VStack(spacing: 8) {
-            Text(award.category.emoji)
-                .font(.system(size: 32))
-
-            Text(award.category.displayTitle)
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.primary)
-                .multilineTextAlignment(.center)
-
-            Text("Week \(award.weekNumber)")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-        }
-        .padding(12)
-        .frame(width: 120, height: 110)
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(award.category.backgroundColor.opacity(0.15))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .strokeBorder(award.category.backgroundColor.opacity(0.3), lineWidth: 1)
-        )
-    }
+    // MARK: - Empty State
 
     private var emptyState: some View {
         HStack {
             Spacer()
-            VStack(spacing: 6) {
+            VStack(spacing: AppSpacing.xs) {
                 Image(systemName: "trophy")
-                    .font(.title2)
-                    .foregroundStyle(.secondary)
+                    .font(.system(size: 24, weight: .light))
+                    .foregroundStyle(AppColors.textTertiary)
                 Text("No awards yet")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .font(AppTypography.bodyBold)
+                    .foregroundStyle(AppColors.textSecondary)
                 Text("Keep sharing your takes!")
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textTertiary)
             }
-            .padding(.vertical, 12)
+            .padding(.vertical, AppSpacing.lg)
             Spacer()
         }
     }
@@ -84,9 +84,17 @@ struct AwardsBadgeView: View {
 extension SpicyTakeCategory {
     var emoji: String {
         switch self {
-        case .mostControversial: return "💥"
-        case .mostPassionate: return "🔥"
-        case .mostSurprising: return "😱"
+        case .mostControversial: return "!"
+        case .mostPassionate: return "^"
+        case .mostSurprising: return "?"
+        }
+    }
+
+    var sfSymbol: String {
+        switch self {
+        case .mostControversial: return "bolt.fill"
+        case .mostPassionate: return "flame"
+        case .mostSurprising: return "sparkles"
         }
     }
 
@@ -109,7 +117,6 @@ extension SpicyTakeCategory {
 
 #Preview {
     AwardsBadgeView(awards: MockDataProvider.awards)
-        .padding()
-        .background(Color(uiColor: .systemGroupedBackground))
+        .background(AppColors.background)
 }
 #endif

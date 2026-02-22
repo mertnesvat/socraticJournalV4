@@ -6,6 +6,7 @@
 import SwiftUI
 
 /// Displays a live countdown timer until the next daily question arrives (midnight)
+/// Minimal right-aligned caption style
 public struct CountdownTimer: View {
     let targetInterval: TimeInterval
 
@@ -17,22 +18,17 @@ public struct CountdownTimer: View {
     }
 
     public var body: some View {
-        VStack(spacing: 4) {
-            Text("Next question in")
-                .font(.system(size: 12, weight: .medium, design: .default))
-                .foregroundStyle(Color.white.opacity(0.4))
-
-            Text(formattedTime)
-                .font(.system(size: 20, weight: .semibold, design: .monospaced))
-                .foregroundStyle(Color.white.opacity(0.5))
-        }
-        .onAppear {
-            remainingSeconds = max(0, Int(targetInterval))
-            startTimer()
-        }
-        .onDisappear {
-            stopTimer()
-        }
+        Text("Next in \(formattedTime)")
+            .font(AppTypography.caption)
+            .foregroundStyle(AppColors.textTertiary)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .onAppear {
+                remainingSeconds = max(0, Int(targetInterval))
+                startTimer()
+            }
+            .onDisappear {
+                stopTimer()
+            }
     }
 
     // MARK: - Formatting
@@ -40,8 +36,12 @@ public struct CountdownTimer: View {
     private var formattedTime: String {
         let hours = remainingSeconds / 3600
         let minutes = (remainingSeconds % 3600) / 60
-        let seconds = remainingSeconds % 60
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        if hours > 0 {
+            return "\(hours)h \(minutes)m"
+        } else {
+            let seconds = remainingSeconds % 60
+            return "\(minutes)m \(seconds)s"
+        }
     }
 
     // MARK: - Timer
@@ -64,10 +64,8 @@ public struct CountdownTimer: View {
 }
 
 #Preview {
-    ZStack {
-        Color.black.ignoresSafeArea()
-
-        CountdownTimer(timeUntilNext: 43200) // 12 hours
-    }
+    CountdownTimer(timeUntilNext: 43200) // 12 hours
+        .padding(.horizontal, AppSpacing.screenPadding)
+        .background(AppColors.background)
 }
 #endif

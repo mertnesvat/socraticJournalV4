@@ -5,7 +5,7 @@
 #if os(iOS)
 import SwiftUI
 
-/// Bottom sheet displaying a friend's mini profile with stats and remove option
+/// Bottom sheet displaying a friend's mini profile — structured minimalism style
 public struct FriendProfileSheet: View {
     let friend: User
     let onRemoveFriend: () -> Void
@@ -41,92 +41,77 @@ public struct FriendProfileSheet: View {
     }
 
     public var body: some View {
-        VStack(spacing: 24) {
-            // Drag indicator handled by presentationDragIndicator
-
-            // Avatar
-            Circle()
-                .fill(avatarColor.opacity(0.3))
-                .frame(width: 80, height: 80)
-                .overlay(
-                    Text(initial)
-                        .font(.system(size: 32, weight: .semibold))
-                        .foregroundStyle(avatarColor)
-                )
-                .padding(.top, 8)
-
-            // Name and username
-            VStack(spacing: 4) {
+        VStack(spacing: 0) {
+            // Header — name and username, left-aligned
+            VStack(alignment: .leading, spacing: AppSpacing.xxs) {
                 Text(friend.displayName)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundStyle(.primary)
+                    .font(AppTypography.headline)
+                    .foregroundStyle(AppColors.textPrimary)
 
                 Text("@\(friend.username)")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textSecondary)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, AppSpacing.screenPadding)
+            .padding(.top, AppSpacing.lg)
+            .padding(.bottom, AppSpacing.lg)
+
+            HairlineDivider()
 
             // Stats row
             HStack(spacing: 0) {
                 statItem(
                     value: "\(sharedQuestionsCount)",
-                    label: "Shared Questions"
+                    label: "Shared"
                 )
 
-                Divider()
-                    .frame(height: 36)
+                HairlineDivider(axis: .vertical)
+                    .frame(height: 48)
 
                 statItem(
                     value: "\(agreementPercentage)%",
                     label: "Agree"
                 )
 
-                Divider()
-                    .frame(height: 36)
+                HairlineDivider(axis: .vertical)
+                    .frame(height: 48)
 
                 statItem(
-                    value: "\(sharedStreakDays) day",
-                    label: "Streak Together"
+                    value: "\(sharedStreakDays)",
+                    label: "Streak"
                 )
             }
-            .padding(.horizontal)
-            .padding(.vertical, 12)
-            .background(Color(.systemGray6))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding(.horizontal)
+            .padding(.vertical, AppSpacing.lg)
+
+            HairlineDivider()
 
             // Friend info
-            HStack(spacing: 16) {
+            HStack(spacing: AppSpacing.md) {
                 Label("\(friend.streakCount) day streak", systemImage: "flame.fill")
-                    .font(.subheadline)
-                    .foregroundStyle(.orange)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.warning)
 
                 Label("\(friend.friendCount) friends", systemImage: "person.2.fill")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textSecondary)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, AppSpacing.screenPadding)
+            .padding(.vertical, AppSpacing.md)
 
             Spacer()
 
-            // Remove Friend button
+            // Remove Friend — text link
             Button(role: .destructive) {
                 showingRemoveConfirmation = true
             } label: {
-                HStack {
-                    Image(systemName: "person.badge.minus")
-                    Text("Remove Friend")
-                }
-                .font(.body)
-                .fontWeight(.medium)
-                .foregroundStyle(.red)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(Color.red.opacity(0.1))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                Text("Remove Friend")
+                    .font(AppTypography.bodyBold)
+                    .foregroundStyle(AppColors.error)
             }
-            .padding(.horizontal)
-            .padding(.bottom, 16)
+            .buttonStyle(.plain)
+            .padding(.bottom, AppSpacing.xl)
             .confirmationDialog(
                 "Remove \(friend.displayName)?",
                 isPresented: $showingRemoveConfirmation,
@@ -140,18 +125,18 @@ public struct FriendProfileSheet: View {
                 Text("You will no longer see each other's answers. You can send a new friend request later.")
             }
         }
+        .background(AppColors.background)
     }
 
     private func statItem(value: String, label: String) -> some View {
-        VStack(spacing: 4) {
+        VStack(spacing: AppSpacing.xxs) {
             Text(value)
-                .font(.headline)
-                .fontWeight(.bold)
-                .foregroundStyle(.primary)
+                .font(AppTypography.statSmall)
+                .foregroundStyle(AppColors.textPrimary)
 
             Text(label)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .font(AppTypography.caption)
+                .foregroundStyle(AppColors.textSecondary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
         }

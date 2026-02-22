@@ -5,8 +5,8 @@
 #if os(iOS)
 import SwiftUI
 
-/// Animated vertical bar waveform that responds to audio amplitude levels.
-/// Supports live mode (recording with real-time amplitude) and static mode (playback with progress overlay).
+/// Bold geometric waveform with thick coral-red bars.
+/// Fewer bars (20) for a bolder look, 4pt width for visual weight.
 public struct AudioWaveformView: View {
     /// Array of amplitude values in the range 0...1
     let amplitudes: [Float]
@@ -18,10 +18,10 @@ public struct AudioWaveformView: View {
     var isAnimating: Bool = false
 
     /// Accent color for the waveform bars
-    var accentColor: Color = .blue
+    var accentColor: Color = AppColors.accent
 
     /// Number of bars to display
-    var barCount: Int = 35
+    var barCount: Int = 20
 
     /// Minimum bar height in points
     private let minBarHeight: CGFloat = 4
@@ -33,14 +33,14 @@ public struct AudioWaveformView: View {
     private let barWidth: CGFloat = 4
 
     /// Spacing between bars in points
-    private let barSpacing: CGFloat = 2
+    private let barSpacing: CGFloat = 3
 
     public init(
         amplitudes: [Float],
         progress: Double = 0,
         isAnimating: Bool = false,
-        accentColor: Color = .blue,
-        barCount: Int = 35
+        accentColor: Color = AppColors.accent,
+        barCount: Int = 20
     ) {
         self.amplitudes = amplitudes
         self.progress = progress
@@ -122,32 +122,32 @@ public struct AudioWaveformView: View {
     AudioWaveformView(
         amplitudes: [0.6],
         isAnimating: true,
-        accentColor: .blue,
-        barCount: 35
+        accentColor: AppColors.accent,
+        barCount: 20
     )
     .padding()
-    .background(Color.black)
+    .background(AppColors.backgroundDark)
 }
 
 #Preview("Playback Progress") {
     AudioWaveformView(
         amplitudes: [0.2, 0.5, 0.8, 0.3, 0.6, 0.9, 0.4, 0.7, 0.5, 0.3],
         progress: 0.4,
-        accentColor: .blue,
-        barCount: 35
+        accentColor: AppColors.accent,
+        barCount: 20
     )
     .padding()
-    .background(Color.black)
+    .background(AppColors.backgroundDark)
 }
 
 #Preview("Empty State") {
     AudioWaveformView(
         amplitudes: [],
-        accentColor: .blue.opacity(0.5),
-        barCount: 35
+        accentColor: AppColors.textOnDark.opacity(0.15),
+        barCount: 20
     )
     .padding()
-    .background(Color.black)
+    .background(AppColors.backgroundDark)
 }
 
 #endif

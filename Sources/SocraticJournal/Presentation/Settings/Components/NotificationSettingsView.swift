@@ -16,32 +16,30 @@ struct NotificationSettingsView: View {
     var onOpenSettings: (() -> Void)? = nil
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Notifications")
-                .font(.headline)
-
+        VStack(spacing: 0) {
             // Show denied state banner if notifications are disabled
             if notificationsDenied {
                 deniedBanner
+                HairlineDivider()
             }
 
             // Daily question reminder toggle
-            Toggle(isOn: $dailyReminderEnabled) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Daily Question")
-                        .font(.body)
-                    Text("Get notified when a new question drops")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .disabled(notificationsDenied)
+            toggleRow(
+                title: "Daily Question",
+                subtitle: "Get notified when a new question drops",
+                isOn: $dailyReminderEnabled,
+                disabled: notificationsDenied
+            )
+
+            HairlineDivider()
+                .padding(.leading, AppSpacing.screenPadding)
 
             // Time picker (shown when daily reminder is enabled)
             if dailyReminderEnabled && !notificationsDenied {
                 HStack {
                     Text("Reminder Time")
-                        .font(.body)
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppColors.textPrimary)
 
                     Spacer()
 
@@ -52,67 +50,85 @@ struct NotificationSettingsView: View {
                     )
                     .labelsHidden()
                 }
-            }
+                .padding(.horizontal, AppSpacing.screenPadding)
+                .padding(.vertical, AppSpacing.sm)
 
-            Divider()
+                HairlineDivider()
+                    .padding(.leading, AppSpacing.screenPadding)
+            }
 
             // Friend activity toggle
-            Toggle(isOn: $friendActivityEnabled) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Friend Activity")
-                        .font(.body)
-                    Text("Know when friends record their take")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .disabled(notificationsDenied)
+            toggleRow(
+                title: "Friend Activity",
+                subtitle: "Know when friends record their take",
+                isOn: $friendActivityEnabled,
+                disabled: notificationsDenied
+            )
 
-            Divider()
+            HairlineDivider()
+                .padding(.leading, AppSpacing.screenPadding)
 
             // Streak reminders toggle
-            Toggle(isOn: $streakRemindersEnabled) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Streak Reminders")
-                        .font(.body)
-                    Text("Don't lose your answer streak")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .disabled(notificationsDenied)
+            toggleRow(
+                title: "Streak Reminders",
+                subtitle: "Don't lose your answer streak",
+                isOn: $streakRemindersEnabled,
+                disabled: notificationsDenied
+            )
 
-            Divider()
+            HairlineDivider()
+                .padding(.leading, AppSpacing.screenPadding)
 
             // FOMO alerts toggle
-            Toggle(isOn: $fomoAlertsEnabled) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("FOMO Alerts")
-                        .font(.body)
-                    Text("See how many friends answered before you")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .disabled(notificationsDenied)
+            toggleRow(
+                title: "FOMO Alerts",
+                subtitle: "See how many friends answered before you",
+                isOn: $fomoAlertsEnabled,
+                disabled: notificationsDenied
+            )
         }
-        .padding()
-        .background(Color(uiColor: .secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .background(AppColors.surface)
+        .overlay(
+            Rectangle()
+                .stroke(AppColors.border, lineWidth: AppSpacing.gridGutter)
+        )
+    }
+
+    private func toggleRow(
+        title: String,
+        subtitle: String,
+        isOn: Binding<Bool>,
+        disabled: Bool
+    ) -> some View {
+        Toggle(isOn: isOn) {
+            VStack(alignment: .leading, spacing: AppSpacing.xxs) {
+                Text(title)
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppColors.textPrimary)
+                Text(subtitle)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textTertiary)
+            }
+        }
+        .tint(AppColors.accent)
+        .disabled(disabled)
+        .padding(.horizontal, AppSpacing.screenPadding)
+        .padding(.vertical, AppSpacing.sm)
     }
 
     private var deniedBanner: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: AppSpacing.sm) {
             Image(systemName: "bell.slash.fill")
-                .foregroundStyle(.orange)
+                .foregroundStyle(AppColors.warning)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("Notifications Disabled")
-                    .font(.subheadline.weight(.medium))
+                    .font(AppTypography.bodyBold)
+                    .foregroundStyle(AppColors.textPrimary)
 
                 Text("Enable notifications in Settings to receive reminders.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textSecondary)
             }
 
             Spacer()
@@ -121,14 +137,12 @@ struct NotificationSettingsView: View {
                 Button("Enable") {
                     onOpenSettings()
                 }
-                .font(.subheadline.weight(.medium))
-                .buttonStyle(.bordered)
-                .controlSize(.small)
+                .font(AppTypography.captionBold)
+                .foregroundStyle(AppColors.accent)
             }
         }
-        .padding()
-        .background(Color.orange.opacity(0.1))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .padding(AppSpacing.md)
+        .background(AppColors.warning.opacity(0.08))
     }
 }
 
@@ -141,8 +155,8 @@ struct NotificationSettingsView: View {
         fomoAlertsEnabled: .constant(true),
         notificationsDenied: false
     )
-    .padding()
-    .background(Color(uiColor: .systemGroupedBackground))
+    .padding(AppSpacing.screenPadding)
+    .background(AppColors.background)
 }
 
 #Preview("Denied") {
@@ -155,7 +169,7 @@ struct NotificationSettingsView: View {
         notificationsDenied: true,
         onOpenSettings: {}
     )
-    .padding()
-    .background(Color(uiColor: .systemGroupedBackground))
+    .padding(AppSpacing.screenPadding)
+    .background(AppColors.background)
 }
 #endif

@@ -5,66 +5,63 @@
 #if os(iOS)
 import SwiftUI
 
-/// Segmented control for theme selection
+/// Segmented control for theme selection — editorial hairline style
 struct ThemeSelectorView: View {
     @Binding var selectedTheme: ThemeMode
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Appearance")
-                .font(.headline)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 0) {
+                ForEach(Array(ThemeMode.allCases.enumerated()), id: \.element) { index, mode in
+                    Button {
+                        selectedTheme = mode
+                    } label: {
+                        VStack(spacing: AppSpacing.xs) {
+                            Image(systemName: mode.iconName)
+                                .font(.system(size: 20, weight: .medium))
+                            Text(mode.displayName)
+                                .font(AppTypography.caption)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, AppSpacing.md)
+                        .foregroundStyle(
+                            selectedTheme == mode ? AppColors.accent : AppColors.textSecondary
+                        )
+                    }
+                    .buttonStyle(.plain)
 
-            HStack(spacing: 12) {
-                ForEach(ThemeMode.allCases, id: \.self) { mode in
-                    ThemeOptionButton(
-                        mode: mode,
-                        isSelected: selectedTheme == mode,
-                        action: { selectedTheme = mode }
-                    )
+                    // Vertical hairline between options
+                    if index < ThemeMode.allCases.count - 1 {
+                        HairlineDivider(axis: .vertical)
+                            .frame(height: 40)
+                    }
                 }
             }
+            .padding(.vertical, AppSpacing.xs)
 
-            Text("Changes apply immediately")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .background(Color(uiColor: .secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
-}
+            // Bottom indicator bar for selected
+            GeometryReader { geometry in
+                let segmentWidth = geometry.size.width / CGFloat(ThemeMode.allCases.count)
+                let selectedIndex = CGFloat(ThemeMode.allCases.firstIndex(of: selectedTheme) ?? 0)
 
-/// Individual theme option button
-private struct ThemeOptionButton: View {
-    let mode: ThemeMode
-    let isSelected: Bool
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 6) {
-                Image(systemName: mode.iconName)
-                    .font(.title2)
-                Text(mode.displayName)
-                    .font(.caption)
+                Rectangle()
+                    .fill(AppColors.accent)
+                    .frame(width: segmentWidth, height: 2)
+                    .offset(x: segmentWidth * selectedIndex)
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 12)
-            .background(isSelected ? Color.accentColor.opacity(0.15) : Color.clear)
-            .foregroundStyle(isSelected ? Color.accentColor : Color.primary)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(isSelected ? Color.accentColor : Color.clear, lineWidth: 2)
-            )
+            .frame(height: 2)
         }
-        .buttonStyle(.plain)
+        .background(AppColors.surface)
+        .overlay(
+            Rectangle()
+                .stroke(AppColors.border, lineWidth: AppSpacing.gridGutter)
+        )
     }
 }
 
 #Preview {
     ThemeSelectorView(selectedTheme: .constant(.system))
-        .padding()
-        .background(Color(uiColor: .systemGroupedBackground))
+        .padding(AppSpacing.screenPadding)
+        .background(AppColors.background)
 }
 #endif

@@ -5,9 +5,9 @@
 #if os(iOS)
 import SwiftUI
 
-/// Full-screen modal recording experience for answering a daily question
-/// Transitions through idle, recording, preview, and submit states with
-/// haptic feedback, animated waveforms, and a dark studio aesthetic
+/// Full-screen modal recording experience -- Bold Geometric Studio aesthetic.
+/// Solid near-black background, massive coral-red record button as hero,
+/// oversized typography, minimal chrome.
 public struct RecordingView: View {
     @State private var viewModel: RecordingViewModel
     @Environment(\.dismiss) private var dismiss
@@ -18,16 +18,9 @@ public struct RecordingView: View {
 
     public var body: some View {
         ZStack {
-            // Dark background with gradient
-            backgroundLayer
+            // Solid near-black background
+            AppColors.backgroundDark
                 .ignoresSafeArea()
-
-            // Recording blur overlay when active
-            if case .recording = viewModel.state {
-                Color.black.opacity(0.3)
-                    .ignoresSafeArea()
-                    .transition(.opacity)
-            }
 
             // Main content
             VStack(spacing: 0) {
@@ -55,28 +48,15 @@ public struct RecordingView: View {
         }
     }
 
-    // MARK: - Background
-
-    private var backgroundLayer: some View {
-        LinearGradient(
-            colors: [
-                Color(red: 0.08, green: 0.06, blue: 0.14),
-                Color(red: 0.04, green: 0.04, blue: 0.10),
-                Color(red: 0.02, green: 0.02, blue: 0.06)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
-    }
-
     // MARK: - Top Bar
 
     private var topBar: some View {
         HStack {
-            // Close button
+            Spacer()
+
+            // Close button: plain X, no background circle
             Button {
                 Task {
-                    // Clean up before dismissing
                     if viewModel.isRecording {
                         await viewModel.stopRecording()
                     }
@@ -87,17 +67,14 @@ public struct RecordingView: View {
                 dismiss()
             } label: {
                 Image(systemName: "xmark")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(Color.white.opacity(0.7))
-                    .frame(width: 36, height: 36)
-                    .background(Circle().fill(Color.white.opacity(0.1)))
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(AppColors.textOnDark)
+                    .frame(width: 44, height: 44)
             }
             .buttonStyle(.plain)
-
-            Spacer()
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 12)
+        .padding(.horizontal, AppSpacing.screenPadding)
+        .padding(.top, 8)
     }
 
     // MARK: - Main Content
@@ -120,31 +97,31 @@ public struct RecordingView: View {
 
     private var idleContent: some View {
         VStack(spacing: 0) {
-            Spacer()
+            // Question at top, left-aligned
+            questionSection
+                .padding(.top, AppSpacing.lg)
 
-            // Question reference
-            questionLabel
-                .padding(.bottom, 48)
+            Spacer()
 
             // Waveform placeholder (subtle baseline)
             AudioWaveformView(
                 amplitudes: [],
-                accentColor: Color.white.opacity(0.15),
-                barCount: 35
+                accentColor: AppColors.textOnDark.opacity(0.15),
+                barCount: 20
             )
             .frame(height: 40)
-            .padding(.horizontal, 40)
-            .padding(.bottom, 32)
+            .padding(.horizontal, AppSpacing.sectionGap)
+            .padding(.bottom, AppSpacing.xl)
 
-            // Record button
+            // Record button -- the visual hero
             RecordButton(isRecording: false) {
                 Task { await viewModel.startRecording() }
             }
-            .padding(.bottom, 16)
+            .padding(.bottom, AppSpacing.md)
 
             // State label
             RecordingStateLabel(state: .idle)
-                .padding(.bottom, 12)
+                .padding(.bottom, AppSpacing.sm)
 
             // Timer (zeroed out)
             RecordingTimer(elapsedTime: 0, isActive: false)
@@ -157,35 +134,35 @@ public struct RecordingView: View {
 
     private var recordingContent: some View {
         VStack(spacing: 0) {
+            // Question at top, slightly dimmed
+            questionSection
+                .opacity(0.6)
+                .padding(.top, AppSpacing.lg)
+
             Spacer()
 
-            // Question reference (smaller during recording)
-            questionLabel
-                .opacity(0.6)
-                .padding(.bottom, 48)
-
-            // Live waveform
+            // Live waveform in coral-red
             AudioWaveformView(
                 amplitudes: [viewModel.currentAmplitude],
                 isAnimating: true,
-                accentColor: Color(red: 1.0, green: 0.35, blue: 0.35),
-                barCount: 35
+                accentColor: AppColors.accent,
+                barCount: 20
             )
             .frame(height: 40)
-            .padding(.horizontal, 40)
-            .padding(.bottom, 32)
+            .padding(.horizontal, AppSpacing.sectionGap)
+            .padding(.bottom, AppSpacing.xl)
 
-            // Record button (recording state)
+            // Record button (recording state with pulse)
             RecordButton(isRecording: true) {
                 Task { await viewModel.stopRecording() }
             }
-            .padding(.bottom, 16)
+            .padding(.bottom, AppSpacing.md)
 
             // State label
             RecordingStateLabel(state: .recording)
-                .padding(.bottom, 12)
+                .padding(.bottom, AppSpacing.sm)
 
-            // Timer (counting up)
+            // Timer (counting up, coral-red)
             RecordingTimer(elapsedTime: viewModel.elapsedTime, isActive: true)
 
             Spacer()
@@ -196,22 +173,15 @@ public struct RecordingView: View {
 
     private var recordedContent: some View {
         VStack(spacing: 0) {
-            Spacer()
+            // Question at top
+            questionSection
+                .padding(.top, AppSpacing.lg)
 
-            // Question reference
-            questionLabel
-                .padding(.bottom, 32)
+            Spacer()
 
             // State label
             RecordingStateLabel(state: viewModel.state)
-                .padding(.bottom, 8)
-
-            // Duration
-            RecordingTimer(
-                elapsedTime: viewModel.recordingDuration,
-                isActive: false
-            )
-            .padding(.bottom, 24)
+                .padding(.bottom, AppSpacing.sm)
 
             // Preview with playback and action buttons
             RecordingPreview(
@@ -244,21 +214,15 @@ public struct RecordingView: View {
 
     private var submittingContent: some View {
         VStack(spacing: 0) {
+            // Question at top
+            questionSection
+                .padding(.top, AppSpacing.lg)
+
             Spacer()
 
-            // Question reference
-            questionLabel
-                .padding(.bottom, 32)
-
-            // Loading indicator
+            // State label
             RecordingStateLabel(state: .submitting)
-                .padding(.bottom, 8)
-
-            RecordingTimer(
-                elapsedTime: viewModel.recordingDuration,
-                isActive: false
-            )
-            .padding(.bottom, 24)
+                .padding(.bottom, AppSpacing.sm)
 
             // Preview in submitting state
             RecordingPreview(
@@ -276,15 +240,25 @@ public struct RecordingView: View {
         }
     }
 
-    // MARK: - Question Label
+    // MARK: - Question Section
 
-    private var questionLabel: some View {
-        Text(viewModel.question.text)
-            .font(.system(size: 20, weight: .semibold))
-            .foregroundStyle(.white)
-            .multilineTextAlignment(.center)
-            .lineSpacing(4)
-            .padding(.horizontal, 32)
+    private var questionSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.xs) {
+            // Question text: 34pt bold, left-aligned, white on black
+            Text(viewModel.question.text)
+                .font(AppTypography.display)
+                .foregroundStyle(AppColors.textOnDark)
+                .multilineTextAlignment(.leading)
+                .lineSpacing(4)
+
+            // Category in ALL-CAPS tracking, coral-red
+            Text(viewModel.question.category.displayName.uppercased())
+                .font(AppTypography.sectionHeader)
+                .tracking(AppTypography.sectionHeaderTracking)
+                .foregroundStyle(AppColors.accent)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, AppSpacing.screenPadding)
     }
 
     // MARK: - Error Toast
@@ -293,21 +267,21 @@ public struct RecordingView: View {
         HStack(spacing: 10) {
             Image(systemName: "exclamationmark.triangle.fill")
                 .font(.system(size: 14))
-                .foregroundStyle(.yellow)
+                .foregroundStyle(AppColors.warning)
 
             Text(message)
                 .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(.white)
+                .foregroundStyle(AppColors.textOnDark)
                 .lineLimit(2)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color(red: 0.2, green: 0.1, blue: 0.1))
+                .fill(AppColors.surfaceDark)
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.red.opacity(0.3), lineWidth: 1)
+                        .stroke(AppColors.accent.opacity(0.3), lineWidth: 1)
                 )
         )
         .padding(.horizontal, 20)

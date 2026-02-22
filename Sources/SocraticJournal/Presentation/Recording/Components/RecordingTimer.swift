@@ -5,8 +5,8 @@
 #if os(iOS)
 import SwiftUI
 
-/// Monospace timer display showing elapsed recording time in M:SS format
-/// Includes a max duration indicator to show the recording limit
+/// Bold stat timer display showing elapsed recording time in M:SS format
+/// No additional chrome -- just the raw time string in bold type
 public struct RecordingTimer: View {
     /// Elapsed time in seconds
     let elapsedTime: TimeInterval
@@ -28,21 +28,12 @@ public struct RecordingTimer: View {
     }
 
     public var body: some View {
-        HStack(spacing: 4) {
-            // Elapsed time
-            Text(formattedTime(elapsedTime))
-                .font(.system(size: isActive ? 28 : 24, weight: .light, design: .monospaced))
-                .monospacedDigit()
-                .foregroundStyle(isActive ? Color.white : Color.white.opacity(0.4))
-                .contentTransition(.numericText())
-                .animation(.easeInOut(duration: 0.15), value: formattedTime(elapsedTime))
-
-            // Max duration indicator
-            Text("/ \(formattedTime(maxDuration))")
-                .font(.system(size: 14, weight: .regular, design: .monospaced))
-                .monospacedDigit()
-                .foregroundStyle(Color.white.opacity(0.25))
-        }
+        Text(formattedTime(elapsedTime))
+            .font(AppTypography.statSmall)
+            .monospacedDigit()
+            .foregroundStyle(isActive ? AppColors.accent : AppColors.textOnDark)
+            .contentTransition(.numericText())
+            .animation(.easeInOut(duration: 0.15), value: formattedTime(elapsedTime))
     }
 
     // MARK: - Time Formatting
@@ -60,21 +51,21 @@ public struct RecordingTimer: View {
 
 #Preview("Active") {
     ZStack {
-        Color.black.ignoresSafeArea()
+        AppColors.backgroundDark.ignoresSafeArea()
         RecordingTimer(elapsedTime: 12.5, isActive: true)
     }
 }
 
 #Preview("Inactive") {
     ZStack {
-        Color.black.ignoresSafeArea()
+        AppColors.backgroundDark.ignoresSafeArea()
         RecordingTimer(elapsedTime: 0, isActive: false)
     }
 }
 
 #Preview("Near Max") {
     ZStack {
-        Color.black.ignoresSafeArea()
+        AppColors.backgroundDark.ignoresSafeArea()
         RecordingTimer(elapsedTime: 55, isActive: true)
     }
 }

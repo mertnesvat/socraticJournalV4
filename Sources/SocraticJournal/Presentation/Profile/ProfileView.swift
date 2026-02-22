@@ -32,16 +32,11 @@ public struct ProfileView: View {
     }
 
     public var body: some View {
-        NavigationStack {
-            content
-                .navigationTitle("Profile")
-                .navigationBarTitleDisplayMode(.large)
-                .toolbar { toolbarContent }
-                .sheet(isPresented: $showingSettings) {
-                    settingsSheet
-                }
-                .task { await viewModel.loadData() }
-        }
+        content
+            .sheet(isPresented: $showingSettings) {
+                settingsSheet
+            }
+            .task { await viewModel.loadData() }
     }
 
     // MARK: - Content
@@ -51,14 +46,14 @@ public struct ProfileView: View {
         if viewModel.isLoading && viewModel.user == nil {
             ProgressView("Loading profile...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(uiColor: .systemGroupedBackground))
+                .background(AppColors.background)
         } else if let errorMessage = viewModel.errorMessage, viewModel.user == nil {
             ContentUnavailableView(
                 "Unable to Load Profile",
                 systemImage: "exclamationmark.triangle",
                 description: Text(errorMessage)
             )
-            .background(Color(uiColor: .systemGroupedBackground))
+            .background(AppColors.background)
         } else {
             profileContent
         }
@@ -66,78 +61,89 @@ public struct ProfileView: View {
 
     private var profileContent: some View {
         ScrollView {
-            VStack(spacing: 16) {
-                // Profile header with avatar and name
+            VStack(spacing: 0) {
+                // Top bar with settings gear
+                topBar
+
+                // Conversational greeting
                 if let user = viewModel.user {
-                    ProfileHeader(user: user)
+                    ProfileHeader(
+                        user: user,
+                        questionsThisWeek: viewModel.questionsAnswered
+                    )
+                    .padding(.horizontal, AppSpacing.screenPadding)
+                    .padding(.bottom, AppSpacing.sectionGap)
                 }
 
-                // Stats row
+                // Three stat cards stacked vertically
                 StatsRow(
                     questionsAnswered: viewModel.questionsAnswered,
                     streakDays: viewModel.streak?.currentStreak ?? 0,
                     friendCount: viewModel.user?.friendCount ?? 0
                 )
+                .padding(.horizontal, AppSpacing.screenPadding)
+                .padding(.bottom, AppSpacing.sectionGap)
 
                 // Streak calendar
                 StreakCalendar(
                     weeklyDays: viewModel.weeklyStreakDays,
                     todayIndex: viewModel.todayWeekdayIndex
                 )
+                .padding(.bottom, AppSpacing.sectionGap)
 
                 // Spicy takes section
                 if !viewModel.spicyTakes.isEmpty {
                     SpicyTakesSection(takes: viewModel.spicyTakes)
+                        .padding(.bottom, AppSpacing.sectionGap)
                 }
 
                 // Awards section
                 AwardsBadgeView(awards: viewModel.awards)
+                    .padding(.bottom, AppSpacing.sectionGap)
 
                 // Sign out button
                 signOutButton
+                    .padding(.horizontal, AppSpacing.screenPadding)
 
                 Spacer(minLength: 100)
             }
-            .padding()
         }
-        .background(Color(uiColor: .systemGroupedBackground))
+        .background(AppColors.background)
         .refreshable {
             await viewModel.loadData()
         }
     }
 
-    // MARK: - Sign Out
+    // MARK: - Top Bar
 
-    private var signOutButton: some View {
-        Button(role: .destructive) {
-            // Sign out action -- placeholder for auth integration
-        } label: {
-            HStack {
-                Image(systemName: "rectangle.portrait.and.arrow.right")
-                Text("Sign Out")
-            }
-            .font(.body.weight(.medium))
-            .foregroundStyle(.red)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 14)
-            .background(Color(uiColor: .secondarySystemGroupedBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-        }
-        .padding(.top, 8)
-    }
+    private var topBar: some View {
+        HStack {
+            Spacer()
 
-    // MARK: - Toolbar
-
-    @ToolbarContentBuilder
-    private var toolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
             Button {
                 showingSettings = true
             } label: {
                 Image(systemName: "gearshape")
-                    .font(.body.weight(.medium))
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundStyle(AppColors.textSecondary)
             }
         }
+        .padding(.horizontal, AppSpacing.screenPadding)
+        .padding(.top, AppSpacing.md)
+        .padding(.bottom, AppSpacing.xs)
+    }
+
+    // MARK: - Sign Out
+
+    private var signOutButton: some View {
+        Button {
+            // Sign out action -- placeholder for auth integration
+        } label: {
+            Text("Sign Out")
+                .font(AppTypography.body)
+                .foregroundStyle(AppColors.textSecondary)
+        }
+        .padding(.top, AppSpacing.xs)
     }
 
     // MARK: - Settings Sheet

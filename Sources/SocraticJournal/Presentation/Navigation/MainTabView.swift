@@ -36,7 +36,7 @@ public enum MainTab: Int, CaseIterable {
     }
 }
 
-/// Main tab container with custom floating pill tab bar
+/// Main tab container with clean minimal bottom bar
 public struct MainTabView: View {
     @State private var selectedTab: MainTab = .today
     @State private var showRecording: Bool = false
@@ -76,60 +76,56 @@ public struct MainTabView: View {
     }
 
     public var body: some View {
-        ZStack(alignment: .bottom) {
-            // Content area -- fills entire screen behind the floating tab bar
-            TabView(selection: $selectedTab) {
-                // Today Tab
-                QuestionFeedView(viewModel: QuestionFeedViewModel(
-                    questionFeedService: questionFeedService,
-                    userProfileService: userProfileService
-                ))
-                .tag(MainTab.today)
+        VStack(spacing: 0) {
+            // Content area — switches view based on selectedTab
+            ZStack {
+                switch selectedTab {
+                case .today:
+                    QuestionFeedView(viewModel: QuestionFeedViewModel(
+                        questionFeedService: questionFeedService,
+                        userProfileService: userProfileService
+                    ))
 
-                // Friends Tab
-                FriendsListView(viewModel: FriendsListViewModel(
-                    friendService: friendService
-                ))
-                .tag(MainTab.friends)
+                case .friends:
+                    FriendsListView(viewModel: FriendsListViewModel(
+                        friendService: friendService
+                    ))
 
-                // Profile Tab
-                ProfileView(
-                    viewModel: ProfileViewModel(userProfileService: userProfileService),
-                    settingsRepository: settingsRepository,
-                    notificationService: notificationService,
-                    subscriptionService: subscriptionService,
-                    analyticsService: analyticsService
-                )
-                    .tag(MainTab.profile)
+                case .profile:
+                    ProfileView(
+                        viewModel: ProfileViewModel(userProfileService: userProfileService),
+                        settingsRepository: settingsRepository,
+                        notificationService: notificationService,
+                        subscriptionService: subscriptionService,
+                        analyticsService: analyticsService
+                    )
+                }
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            // Custom floating tab bar
+            // Clean minimal bottom tab bar
             customTabBar
         }
+        .ignoresSafeArea(.keyboard)
     }
 
-    // MARK: - Custom Floating Tab Bar
+    // MARK: - Clean Minimal Tab Bar
 
     private var customTabBar: some View {
-        HStack(spacing: 0) {
-            ForEach(MainTab.allCases, id: \.rawValue) { tab in
-                tabBarButton(for: tab)
+        VStack(spacing: 0) {
+            // Hairline top border
+            HairlineDivider()
+
+            // Tab buttons
+            HStack(spacing: 0) {
+                ForEach(MainTab.allCases, id: \.rawValue) { tab in
+                    tabBarButton(for: tab)
+                }
             }
+            .frame(height: AppSpacing.tabBarHeight)
+            .padding(.bottom, safeAreaBottom)
         }
-        .frame(height: 60)
-        .padding(.horizontal, 8)
-        .background(
-            Capsule()
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    Capsule()
-                        .fill(Color.black.opacity(0.3))
-                )
-                .shadow(color: .black.opacity(0.25), radius: 12, x: 0, y: 4)
-        )
-        .padding(.horizontal, 24)
-        .padding(.bottom, 8)
+        .background(AppColors.background)
     }
 
     @ViewBuilder
@@ -145,9 +141,9 @@ public struct MainTabView: View {
                 ZStack(alignment: .topTrailing) {
                     Image(systemName: isSelected ? tab.iconActive : tab.iconInactive)
                         .font(.system(size: 20, weight: isSelected ? .semibold : .regular))
-                        .foregroundStyle(isSelected ? Color.accentColor : Color.gray.opacity(0.7))
+                        .foregroundStyle(isSelected ? AppColors.accent : AppColors.textTertiary)
 
-                    // Badge overlays
+                    // Badge overlays — small coral-red dots
                     if tab == .friends && pendingRequestCount > 0 {
                         friendsBadge
                     }
@@ -159,7 +155,7 @@ public struct MainTabView: View {
 
                 Text(tab.title)
                     .font(.system(size: 10, weight: isSelected ? .semibold : .regular))
-                    .foregroundStyle(isSelected ? Color.accentColor : Color.gray.opacity(0.7))
+                    .foregroundStyle(isSelected ? AppColors.accent : AppColors.textTertiary)
             }
             .frame(maxWidth: .infinity)
             .contentShape(Rectangle())
@@ -170,23 +166,26 @@ public struct MainTabView: View {
     // MARK: - Badge Views
 
     private var friendsBadge: some View {
-        Text("\(pendingRequestCount)")
-            .font(.system(size: 9, weight: .bold))
-            .foregroundStyle(.white)
-            .frame(minWidth: 14, minHeight: 14)
-            .padding(.horizontal, 2)
-            .background(Color.red)
-            .clipShape(Circle())
-            .offset(x: 8, y: -6)
-    }
-
-    private var newAnswersDot: some View {
         Circle()
-            .fill(Color.accentColor)
+            .fill(AppColors.accent)
             .frame(width: 8, height: 8)
             .offset(x: 8, y: -4)
     }
 
+    private var newAnswersDot: some View {
+        Circle()
+            .fill(AppColors.accent)
+            .frame(width: 8, height: 8)
+            .offset(x: 8, y: -4)
+    }
+
+    // MARK: - Helpers
+
+    private var safeAreaBottom: CGFloat {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        return windowScene?.windows.first?.safeAreaInsets.bottom ?? 0
+    }
 }
 
 #Preview {

@@ -12,73 +12,67 @@ struct AboutView: View {
     let onReplayOnboarding: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("About")
-                .font(.headline)
-
+        VStack(spacing: 0) {
             // Version info
             HStack {
-                Image(systemName: "info.circle")
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-
                 Text("Version")
-                    .font(.body)
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppColors.textPrimary)
 
                 Spacer()
 
                 Text(version)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppColors.textTertiary)
             }
+            .padding(.horizontal, AppSpacing.cardPadding)
+            .padding(.vertical, AppSpacing.md)
 
-            Divider()
+            HairlineDivider()
 
             // Replay onboarding
             Button(action: onReplayOnboarding) {
                 HStack {
-                    Image(systemName: "arrow.counterclockwise")
-                        .font(.body)
-                        .foregroundStyle(.secondary)
-
                     Text("Replay Onboarding")
-                        .font(.body)
-                        .foregroundStyle(.primary)
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppColors.textPrimary)
 
                     Spacer()
 
                     Image(systemName: "chevron.right")
-                        .font(.caption)
-                        .foregroundStyle(.tertiary)
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppColors.textTertiary)
                 }
+                .padding(.horizontal, AppSpacing.cardPadding)
+                .padding(.vertical, AppSpacing.md)
             }
             .buttonStyle(.plain)
 
-            Divider()
+            HairlineDivider()
 
             // Privacy policy link
             Button(action: onPrivacyPolicy) {
                 HStack {
-                    Image(systemName: "hand.raised")
-                        .font(.body)
-                        .foregroundStyle(.secondary)
-
                     Text("Privacy Policy")
-                        .font(.body)
-                        .foregroundStyle(.primary)
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppColors.textPrimary)
 
                     Spacer()
 
                     Image(systemName: "arrow.up.right")
-                        .font(.caption)
-                        .foregroundStyle(.tertiary)
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppColors.textTertiary)
                 }
+                .padding(.horizontal, AppSpacing.cardPadding)
+                .padding(.vertical, AppSpacing.md)
             }
             .buttonStyle(.plain)
         }
-        .padding()
-        .background(Color(uiColor: .secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .background(AppColors.surface)
+        .overlay(
+            Rectangle()
+                .stroke(AppColors.border, lineWidth: AppSpacing.gridGutter)
+        )
     }
 }
 
@@ -88,7 +82,7 @@ struct AboutView: View {
         onPrivacyPolicy: {},
         onReplayOnboarding: {}
     )
-    .padding()
-    .background(Color(uiColor: .systemGroupedBackground))
+    .padding(AppSpacing.screenPadding)
+    .background(AppColors.background)
 }
 #endif

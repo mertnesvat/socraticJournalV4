@@ -64,115 +64,112 @@ public struct PaywallView: View {
 
     private var mainContent: some View {
         ScrollView {
-            VStack(spacing: 24) {
+            VStack(spacing: 0) {
                 // Header
                 headerSection
 
-                // Features
-                featuresSection
+                // Feature Grid
+                featureGrid
+                    .padding(.top, AppSpacing.sectionGap)
 
                 // Product Cards
                 productCardsSection
+                    .padding(.top, AppSpacing.sectionGap)
 
                 // Subscribe Button
                 subscribeButton
+                    .padding(.top, AppSpacing.lg)
 
-                // Restore & Legal
+                // Footer
                 footerSection
+                    .padding(.top, AppSpacing.lg)
+                    .padding(.bottom, AppSpacing.sectionGap)
             }
-            .padding()
+            .padding(.horizontal, AppSpacing.screenPadding)
         }
-        .background(Color(uiColor: .systemGroupedBackground))
+        .background(AppColors.background)
     }
 
     // MARK: - Header Section
 
     private var headerSection: some View {
-        VStack(spacing: 12) {
-            // App icon or branding
-            ZStack {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [.accentColor, .accentColor.opacity(0.7)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 80, height: 80)
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            Text("Go Premium")
+                .font(AppTypography.display)
+                .foregroundStyle(AppColors.textPrimary)
 
-                Image(systemName: "sparkles")
-                    .font(.system(size: 36, weight: .medium))
-                    .foregroundStyle(.white)
-            }
-            .shadow(color: .accentColor.opacity(0.3), radius: 12, x: 0, y: 6)
-
-            Text("Unlock Premium")
-                .font(.title.bold())
-                .foregroundStyle(.primary)
-
-            Text("Get the most out of your journaling journey")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
+            Text("Unlock everything. Journal without limits.")
+                .font(AppTypography.bodyLarge)
+                .foregroundStyle(AppColors.textSecondary)
         }
-        .padding(.top, 8)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.top, AppSpacing.lg)
     }
 
-    // MARK: - Features Section
+    // MARK: - Feature Grid (2x2)
 
-    private var featuresSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            FeatureRow(
-                icon: "infinity",
-                title: "Unlimited Sessions",
-                description: "Journal as much as you want, no limits"
-            )
+    private var featureGrid: some View {
+        let columns = [
+            GridItem(.flexible(), spacing: AppSpacing.gridGutter),
+            GridItem(.flexible(), spacing: AppSpacing.gridGutter)
+        ]
 
-            FeatureRow(
-                icon: "brain.head.profile",
-                title: "Advanced Insights",
-                description: "Deeper analysis of your reflections"
-            )
+        return LazyVGrid(columns: columns, spacing: AppSpacing.gridGutter) {
+            GridCell(isAccented: false) {
+                featureCellContent(icon: "infinity", label: "Unlimited\nSessions")
+            }
+            .frame(height: 100)
 
-            FeatureRow(
-                icon: "chart.line.uptrend.xyaxis",
-                title: "Progress Tracking",
-                description: "Track your emotional growth over time"
-            )
+            GridCell(isAccented: true) {
+                featureCellContent(
+                    icon: "brain.head.profile",
+                    label: "Deep\nInsights",
+                    isAccented: true
+                )
+            }
+            .frame(height: 100)
 
-            FeatureRow(
-                icon: "person.fill.questionmark",
-                title: "Character Discovery",
-                description: "Unlock personality insights"
-            )
+            GridCell(isAccented: false) {
+                featureCellContent(icon: "chart.line.uptrend.xyaxis", label: "Progress\nTracking")
+            }
+            .frame(height: 100)
+
+            GridCell(isAccented: false) {
+                featureCellContent(icon: "person.fill.questionmark", label: "Character\nQuiz")
+            }
+            .frame(height: 100)
         }
-        .padding()
-        .background(Color(uiColor: .systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+    }
+
+    private func featureCellContent(icon: String, label: String, isAccented: Bool = false) -> some View {
+        VStack(spacing: AppSpacing.xs) {
+            Image(systemName: icon)
+                .font(.system(size: 22, weight: .medium))
+            Text(label)
+                .font(AppTypography.caption)
+                .multilineTextAlignment(.center)
+        }
+        .foregroundStyle(isAccented ? AppColors.textOnAccent : AppColors.textPrimary)
     }
 
     // MARK: - Product Cards Section
 
     private var productCardsSection: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: AppSpacing.cardGap) {
             if let yearly = viewModel.yearlyProduct {
-                ProductCard(
+                productCard(
                     product: yearly,
                     isSelected: viewModel.selectedProduct?.id == yearly.id,
-                    savingsPercentage: viewModel.yearlySavingsPercentage,
-                    isBestValue: true
+                    isBestValue: viewModel.yearlySavingsPercentage > 0
                 ) {
                     viewModel.selectProduct(yearly)
                 }
             }
 
             if let monthly = viewModel.monthlyProduct {
-                ProductCard(
+                productCard(
                     product: monthly,
                     isSelected: viewModel.selectedProduct?.id == monthly.id,
-                    savingsPercentage: 0,
                     isBestValue: false
                 ) {
                     viewModel.selectProduct(monthly)
@@ -181,35 +178,93 @@ public struct PaywallView: View {
         }
     }
 
+    private func productCard(
+        product: SubscriptionProduct,
+        isSelected: Bool,
+        isBestValue: Bool,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            HStack {
+                VStack(alignment: .leading, spacing: AppSpacing.xxs) {
+                    HStack(spacing: AppSpacing.xs) {
+                        Text(product.displayName)
+                            .font(AppTypography.bodyBold)
+                            .foregroundStyle(AppColors.textPrimary)
+
+                        if isBestValue {
+                            Text("Best Value")
+                                .font(AppTypography.badge)
+                                .foregroundStyle(AppColors.textOnAccent)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(
+                                    Capsule().fill(AppColors.accent)
+                                )
+                        }
+                    }
+
+                    Text(product.description ?? "Full access to all features")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppColors.textTertiary)
+                }
+
+                Spacer()
+
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(product.displayPrice)
+                        .font(AppTypography.headlineMedium)
+                        .foregroundStyle(AppColors.textPrimary)
+
+                    Text("per \(product.period.shortName)")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppColors.textTertiary)
+                }
+            }
+            .padding(AppSpacing.cardPadding)
+            .background(AppColors.surface)
+            .overlay(
+                Rectangle()
+                    .stroke(AppColors.border, lineWidth: AppSpacing.gridGutter)
+            )
+            .overlay(alignment: .leading) {
+                if isSelected {
+                    Rectangle()
+                        .fill(AppColors.accent)
+                        .frame(width: 4)
+                }
+            }
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(product.displayName), \(product.displayPrice) per \(product.period.displayName)")
+        .accessibilityHint(isBestValue ? "Best value option" : "")
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
+    }
+
     // MARK: - Subscribe Button
 
     private var subscribeButton: some View {
-        Button {
-            Task {
-                await viewModel.purchase()
-            }
-        } label: {
-            HStack {
-                if viewModel.isPurchasing {
+        Group {
+            if viewModel.isPurchasing {
+                HStack {
+                    Spacer()
                     ProgressView()
-                        .tint(.white)
-                } else {
-                    Text("Subscribe Now")
-                        .font(.headline)
+                        .tint(AppColors.textOnAccent)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 18)
+                .background(
+                    Capsule().fill(AppColors.accent.opacity(0.7))
+                )
+            } else {
+                AccentPillButton("Subscribe Now") {
+                    Task {
+                        await viewModel.purchase()
+                    }
                 }
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 56)
-            .foregroundStyle(.white)
-            .background(
-                LinearGradient(
-                    colors: [.accentColor, .accentColor.opacity(0.8)],
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .accentColor.opacity(0.3), radius: 8, x: 0, y: 4)
         }
         .disabled(viewModel.isPurchasing || viewModel.selectedProduct == nil)
         .opacity(viewModel.selectedProduct == nil ? 0.6 : 1.0)
@@ -218,122 +273,117 @@ public struct PaywallView: View {
     // MARK: - Footer Section
 
     private var footerSection: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: AppSpacing.md) {
             // Restore Purchases
             Button {
                 Task {
                     await viewModel.restorePurchases()
                 }
             } label: {
-                HStack {
+                HStack(spacing: AppSpacing.xs) {
                     if viewModel.isRestoring {
                         ProgressView()
                             .scaleEffect(0.8)
                     }
                     Text("Restore Purchases")
-                        .font(.subheadline)
+                        .font(AppTypography.caption)
                 }
             }
             .disabled(viewModel.isRestoring)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(AppColors.textTertiary)
 
             // Legal Links
-            HStack(spacing: 16) {
+            HStack(spacing: AppSpacing.md) {
                 Link("Terms of Service", destination: URL(string: "https://studionext.co.uk/socratic-terms.html")!)
-                    .font(.caption)
+                    .font(AppTypography.caption)
 
-                Text("•")
-                    .foregroundStyle(.tertiary)
+                Text("·")
+                    .foregroundStyle(AppColors.textTertiary)
 
                 Link("Privacy Policy", destination: URL(string: "https://studionext.co.uk/socratic-privacy.html")!)
-                    .font(.caption)
+                    .font(AppTypography.caption)
             }
-            .foregroundStyle(.secondary)
+            .foregroundStyle(AppColors.textTertiary)
 
             // Subscription Info
             Text("Subscription automatically renews unless cancelled at least 24 hours before the end of the current period. Manage your subscription in Settings.")
-                .font(.caption2)
-                .foregroundStyle(.tertiary)
+                .font(AppTypography.caption)
+                .foregroundStyle(AppColors.textTertiary)
                 .multilineTextAlignment(.center)
         }
-        .padding(.top, 8)
     }
 
     // MARK: - Loading View
 
     private var loadingView: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: AppSpacing.md) {
             ProgressView()
                 .scaleEffect(1.2)
             Text("Loading subscription options...")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .font(AppTypography.caption)
+                .foregroundStyle(AppColors.textSecondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(uiColor: .systemGroupedBackground))
+        .background(AppColors.background)
     }
 
     // MARK: - Error View
 
     private var errorView: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: AppSpacing.lg) {
             Image(systemName: "wifi.exclamationmark")
                 .font(.system(size: 48))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppColors.textTertiary)
 
-            VStack(spacing: 8) {
+            VStack(spacing: AppSpacing.xs) {
                 Text("Unable to Load")
-                    .font(.headline)
+                    .font(AppTypography.headlineMedium)
+                    .foregroundStyle(AppColors.textPrimary)
 
                 Text(viewModel.errorMessage)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppColors.textSecondary)
                     .multilineTextAlignment(.center)
             }
 
-            Button {
+            AccentPillButton("Try Again") {
                 Task {
                     await viewModel.loadProducts()
                 }
-            } label: {
-                Text("Try Again")
-                    .font(.headline)
-                    .frame(width: 160, height: 44)
-                    .background(Color.accentColor)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
             }
+            .frame(width: 180)
         }
-        .padding()
+        .padding(AppSpacing.screenPadding)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(uiColor: .systemGroupedBackground))
+        .background(AppColors.background)
     }
 
     // MARK: - Success View
 
     private var successView: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: AppSpacing.lg) {
             ZStack {
                 Circle()
-                    .fill(Color.green.opacity(0.15))
+                    .fill(AppColors.success.opacity(0.15))
                     .frame(width: 100, height: 100)
 
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 64))
-                    .foregroundStyle(.green)
+                    .foregroundStyle(AppColors.success)
             }
 
-            VStack(spacing: 8) {
+            VStack(spacing: AppSpacing.xs) {
                 Text("Welcome to Premium!")
-                    .font(.title2.bold())
+                    .font(AppTypography.headlineMedium)
+                    .foregroundStyle(AppColors.textPrimary)
 
                 Text("You now have full access to all features")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppColors.textSecondary)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(uiColor: .systemGroupedBackground))
+        .background(AppColors.background)
     }
 
     // MARK: - Toolbar
@@ -347,139 +397,9 @@ public struct PaywallView: View {
             } label: {
                 Image(systemName: "xmark")
                     .font(.body.weight(.medium))
+                    .foregroundStyle(AppColors.textPrimary)
             }
         }
-    }
-}
-
-// MARK: - Feature Row Component
-
-private struct FeatureRow: View {
-    let icon: String
-    let title: String
-    let description: String
-
-    var body: some View {
-        HStack(spacing: 16) {
-            Image(systemName: icon)
-                .font(.system(size: 20, weight: .medium))
-                .foregroundStyle(Color.accentColor)
-                .frame(width: 32, height: 32)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.primary)
-
-                Text(description)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-
-            Spacer()
-
-            Image(systemName: "checkmark.circle.fill")
-                .foregroundStyle(.green)
-        }
-    }
-}
-
-// MARK: - Product Card Component
-
-private struct ProductCard: View {
-    let product: SubscriptionProduct
-    let isSelected: Bool
-    let savingsPercentage: Int
-    let isBestValue: Bool
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 0) {
-                // Best Value Badge
-                if isBestValue && savingsPercentage > 0 {
-                    HStack {
-                        Spacer()
-                        Text("SAVE \(savingsPercentage)%")
-                            .font(.caption2.bold())
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(Color.orange)
-                            .clipShape(Capsule())
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 12)
-                    .padding(.bottom, -4)
-                }
-
-                HStack {
-                    // Radio button indicator
-                    ZStack {
-                        Circle()
-                            .stroke(isSelected ? Color.accentColor : Color.gray.opacity(0.3), lineWidth: 2)
-                            .frame(width: 24, height: 24)
-
-                        if isSelected {
-                            Circle()
-                                .fill(Color.accentColor)
-                                .frame(width: 14, height: 14)
-                        }
-                    }
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Text(product.displayName)
-                                .font(.headline)
-                                .foregroundStyle(.primary)
-
-                            if isBestValue {
-                                Text("Best Value")
-                                    .font(.caption2.bold())
-                                    .foregroundStyle(Color.accentColor)
-                                    .padding(.horizontal, 6)
-                                    .padding(.vertical, 2)
-                                    .background(Color.accentColor.opacity(0.15))
-                                    .clipShape(Capsule())
-                            }
-                        }
-
-                        Text(product.description ?? "Full access to premium features")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
-                    }
-
-                    Spacer()
-
-                    VStack(alignment: .trailing, spacing: 2) {
-                        Text(product.displayPrice)
-                            .font(.title3.bold())
-                            .foregroundStyle(.primary)
-
-                        Text("per \(product.period.shortName)")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .padding()
-            }
-            .background(Color(uiColor: .systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(
-                        isSelected ? Color.accentColor : Color.gray.opacity(0.2),
-                        lineWidth: isSelected ? 2 : 1
-                    )
-            )
-            .shadow(color: .black.opacity(isSelected ? 0.08 : 0.03), radius: 8, x: 0, y: 2)
-        }
-        .buttonStyle(.plain)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(product.displayName), \(product.displayPrice) per \(product.period.displayName)")
-        .accessibilityHint(isBestValue ? "Best value option, save \(savingsPercentage) percent" : "")
-        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 
