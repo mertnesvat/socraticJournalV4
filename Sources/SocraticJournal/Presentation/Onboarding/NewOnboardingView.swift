@@ -6,6 +6,7 @@
 import SwiftUI
 
 /// Main onboarding container with 4 swipeable pages.
+/// Each page has its own contrasting background color.
 /// Features custom page dots, skip button, and navigation controls.
 public struct NewOnboardingView: View {
     // MARK: - State
@@ -38,9 +39,10 @@ public struct NewOnboardingView: View {
 
     public var body: some View {
         ZStack {
-            // Dark background
-            Color.black
+            // Dynamic background that matches the current page
+            currentPageBackground
                 .ignoresSafeArea()
+                .animation(.easeInOut(duration: 0.3), value: currentPage)
 
             VStack(spacing: 0) {
                 // Top bar with Skip button
@@ -70,10 +72,43 @@ public struct NewOnboardingView: View {
                 bottomControls
             }
         }
-        .preferredColorScheme(.dark)
         .onAppear {
             analyticsService.logEvent(.onboardingStarted, parameters: nil)
         }
+    }
+
+    // MARK: - Dynamic Background
+
+    private var currentPageBackground: some View {
+        Group {
+            switch currentPage {
+            case 0: AppColors.background
+            case 1: AppColors.cardTeal
+            case 2: AppColors.accent
+            case 3: AppColors.cardYellow
+            default: AppColors.background
+            }
+        }
+    }
+
+    /// Whether the current page has a dark/vivid background requiring light text
+    private var useLightControls: Bool {
+        currentPage == 2 // Only the accent (coral-red) page needs white controls
+    }
+
+    /// The color for control text (dots, skip) that adapts to the page background
+    private var controlTextColor: Color {
+        useLightControls ? AppColors.textOnAccent : AppColors.textPrimary
+    }
+
+    /// The color for secondary control text (skip, inactive dots)
+    private var controlSecondaryColor: Color {
+        useLightControls ? AppColors.textOnAccent.opacity(0.5) : AppColors.border
+    }
+
+    /// The color for the skip button text
+    private var skipButtonColor: Color {
+        useLightControls ? AppColors.textOnAccent.opacity(0.7) : AppColors.textSecondary
     }
 
     // MARK: - Top Bar
@@ -85,11 +120,11 @@ public struct NewOnboardingView: View {
                 completeOnboarding()
             } label: {
                 Text("Skip")
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundStyle(Color.gray)
+                    .font(AppTypography.body)
+                    .foregroundStyle(skipButtonColor)
             }
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, AppSpacing.screenPadding)
         .padding(.top, 8)
         .padding(.bottom, 4)
     }
@@ -97,19 +132,19 @@ public struct NewOnboardingView: View {
     // MARK: - Bottom Controls
 
     private var bottomControls: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: AppSpacing.md) {
             // Custom page dots
             pageDots
 
             if currentPage == totalPages - 1 {
-                // Last page: Find Friends + Skip for now
+                // Last page: Get Started button
                 lastPageButtons
             } else {
                 // Other pages: Next button
                 nextButton
             }
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, AppSpacing.screenPadding)
         .padding(.bottom, 40)
     }
 
@@ -119,57 +154,29 @@ public struct NewOnboardingView: View {
         HStack(spacing: 8) {
             ForEach(0..<totalPages, id: \.self) { index in
                 Circle()
-                    .fill(index == currentPage ? Color.white : Color.gray.opacity(0.4))
-                    .frame(
-                        width: index == currentPage ? 10 : 8,
-                        height: index == currentPage ? 10 : 8
-                    )
+                    .fill(index == currentPage ? controlTextColor : controlSecondaryColor)
+                    .frame(width: 8, height: 8)
                     .animation(.easeInOut(duration: 0.2), value: currentPage)
             }
         }
-        .padding(.bottom, 8)
+        .padding(.bottom, AppSpacing.xs)
     }
 
     // MARK: - Next Button
 
     private var nextButton: some View {
-        Button {
+        AccentPillButton("Next") {
             advanceToNextPage()
-        } label: {
-            Text("Next")
-                .font(.system(size: 17, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
-                .background(Color.accentColor)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
         }
     }
 
     // MARK: - Last Page Buttons
 
     private var lastPageButtons: some View {
-        VStack(spacing: 12) {
-            Button {
-                handleFindFriends()
-            } label: {
-                Text("Find Friends")
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(Color.accentColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
-            }
-
-            Button {
+        VStack(spacing: AppSpacing.sm) {
+            AccentPillButton("Get Started") {
                 completeOnboarding()
-            } label: {
-                Text("Skip for now")
-                    .font(.system(size: 15, weight: .regular))
-                    .foregroundStyle(Color.gray)
             }
-            .padding(.bottom, 8)
         }
     }
 
