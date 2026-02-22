@@ -31,67 +31,65 @@ public final class FirebaseAnalyticsService: AnalyticsServiceProtocol, @unchecke
 
     // MARK: - Convenience Methods
 
-    /// Log session started event
-    /// - Parameter sessionId: The session identifier
-    public func logSessionStarted(sessionId: String) {
-        logEvent(.sessionStarted, parameters: [
-            AnalyticsParameter.sessionId.rawValue: sessionId
-        ])
-    }
-
-    /// Log session completed event
+    /// Log question viewed event
     /// - Parameters:
-    ///   - sessionId: The session identifier
-    ///   - clarityScore: The clarity score achieved
-    ///   - exchangeCount: Number of exchanges in the session
-    public func logSessionCompleted(sessionId: String, clarityScore: Int, exchangeCount: Int) {
-        let scoreCategory: String
-        switch clarityScore {
-        case 0..<40:
-            scoreCategory = "emerging"
-        case 40..<70:
-            scoreCategory = "developing"
-        case 70..<85:
-            scoreCategory = "clear"
-        default:
-            scoreCategory = "profound"
-        }
-
-        logEvent(.sessionCompleted, parameters: [
-            AnalyticsParameter.sessionId.rawValue: sessionId,
-            AnalyticsParameter.clarityScore.rawValue: clarityScore,
-            AnalyticsParameter.scoreCategory.rawValue: scoreCategory,
-            AnalyticsParameter.exchangeCount.rawValue: exchangeCount
+    ///   - questionId: The question identifier
+    ///   - category: The question category
+    public func logQuestionViewed(questionId: String, category: String) {
+        logEvent(.questionViewed, parameters: [
+            AnalyticsParameter.questionId.rawValue: questionId,
+            AnalyticsParameter.questionCategory.rawValue: category
         ])
     }
 
-    /// Log clarity score received event
+    /// Log question answered event
     /// - Parameters:
-    ///   - score: The clarity score
-    ///   - sessionId: The session identifier
-    public func logClarityScoreReceived(score: Int, sessionId: String) {
-        logEvent(.clarityScoreReceived, parameters: [
-            AnalyticsParameter.sessionId.rawValue: sessionId,
-            AnalyticsParameter.clarityScore.rawValue: score
+    ///   - questionId: The question identifier
+    ///   - durationSeconds: Recording duration in seconds
+    public func logQuestionAnswered(questionId: String, durationSeconds: Double) {
+        logEvent(.questionAnswered, parameters: [
+            AnalyticsParameter.questionId.rawValue: questionId,
+            AnalyticsParameter.recordingDurationSeconds.rawValue: durationSeconds
         ])
     }
 
-    /// Log letter composed event
+    /// Log recording completed event
     /// - Parameters:
-    ///   - letterId: The letter identifier
-    ///   - durationDays: Days until unlock
-    public func logLetterComposed(letterId: String, durationDays: Int) {
-        logEvent(.letterComposed, parameters: [
-            AnalyticsParameter.letterId.rawValue: letterId,
-            AnalyticsParameter.letterDuration.rawValue: durationDays
+    ///   - questionId: The question identifier
+    ///   - durationSeconds: Recording duration in seconds
+    ///   - fileSize: Recording file size in bytes
+    public func logRecordingCompleted(questionId: String, durationSeconds: Double, fileSize: Int) {
+        logEvent(.recordingCompleted, parameters: [
+            AnalyticsParameter.questionId.rawValue: questionId,
+            AnalyticsParameter.recordingDurationSeconds.rawValue: durationSeconds,
+            AnalyticsParameter.recordingFileSize.rawValue: fileSize
         ])
     }
 
-    /// Log letter unlocked event
-    /// - Parameter letterId: The letter identifier
-    public func logLetterUnlocked(letterId: String) {
-        logEvent(.letterUnlocked, parameters: [
-            AnalyticsParameter.letterId.rawValue: letterId
+    /// Log friend answer unlocked event
+    /// - Parameters:
+    ///   - friendId: The friend identifier
+    ///   - questionId: The question identifier
+    public func logFriendAnswerUnlocked(friendId: String, questionId: String) {
+        logEvent(.friendAnswerUnlocked, parameters: [
+            AnalyticsParameter.friendId.rawValue: friendId,
+            AnalyticsParameter.questionId.rawValue: questionId
+        ])
+    }
+
+    /// Log friend request sent event
+    /// - Parameter friendId: The friend identifier
+    public func logFriendRequestSent(friendId: String) {
+        logEvent(.friendRequestSent, parameters: [
+            AnalyticsParameter.friendId.rawValue: friendId
+        ])
+    }
+
+    /// Log streak milestone event
+    /// - Parameter days: The milestone day count
+    public func logStreakMilestone(days: Int) {
+        logEvent(.streakMilestone, parameters: [
+            AnalyticsParameter.milestoneDays.rawValue: days
         ])
     }
 
@@ -114,26 +112,29 @@ public final class FirebaseAnalyticsService: AnalyticsServiceProtocol, @unchecke
         ])
     }
 
-    /// Log app review requested
-    /// - Parameter sessionCount: Total sessions completed
-    public func logAppReviewRequested(sessionCount: Int) {
-        logEvent(.appReviewRequested, parameters: [
-            AnalyticsParameter.sessionCount.rawValue: sessionCount
+    /// Log share card generated event
+    /// - Parameters:
+    ///   - questionId: The question identifier
+    ///   - style: The share card style
+    public func logShareCardGenerated(questionId: String, style: String) {
+        logEvent(.shareCardGenerated, parameters: [
+            AnalyticsParameter.questionId.rawValue: questionId,
+            AnalyticsParameter.shareCardStyle.rawValue: style
         ])
     }
 
     // MARK: - User Properties
 
-    /// Set total session count as user property
-    /// - Parameter count: Total completed sessions
-    public func setSessionCount(_ count: Int) {
-        setUserProperty(AnalyticsParameter.sessionCount.rawValue, value: "\(count)")
-    }
-
     /// Set current streak as user property
     /// - Parameter days: Current streak in days
     public func setStreakDays(_ days: Int) {
         setUserProperty(AnalyticsParameter.streakDays.rawValue, value: "\(days)")
+    }
+
+    /// Set friend count as user property
+    /// - Parameter count: Total friend count
+    public func setFriendCount(_ count: Int) {
+        setUserProperty(AnalyticsParameter.friendCount.rawValue, value: "\(count)")
     }
 }
 #endif
