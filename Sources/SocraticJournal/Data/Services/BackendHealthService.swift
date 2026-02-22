@@ -13,14 +13,14 @@ public enum BackendStatus: Sendable, Equatable {
     case unknown
 }
 
-/// Service for monitoring Firebase Functions backend health
-/// Provides periodic health checks and status callbacks for UI updates
+/// Service for monitoring Firebase Functions backend health.
+/// Provides periodic health checks and status callbacks for UI updates.
 public final class BackendHealthService: @unchecked Sendable {
     /// Shared singleton instance
     public static let shared = BackendHealthService()
 
     /// The Firebase Functions service for health checks
-    private let firebaseFunctionsService: FirebaseFunctionsServiceProtocol
+    private let functionsService: FirebaseFunctionsService
 
     /// Interval between automatic health checks (5 minutes)
     private let refreshInterval: TimeInterval = 300
@@ -44,19 +44,18 @@ public final class BackendHealthService: @unchecked Sendable {
     private let statusLock = NSLock()
 
     /// Private initializer for singleton pattern
-    /// - Parameter firebaseFunctionsService: The Firebase Functions service to use for health checks
-    private init(firebaseFunctionsService: FirebaseFunctionsServiceProtocol = FirebaseFunctionsService.shared) {
-        self.firebaseFunctionsService = firebaseFunctionsService
+    private init(functionsService: FirebaseFunctionsService = .shared) {
+        self.functionsService = functionsService
     }
 
     // MARK: - Public API
 
-    /// Check backend health immediately
-    /// Updates status and notifies observers if status changes
+    /// Check backend health immediately.
+    /// Updates status and notifies observers if status changes.
     @MainActor
     public func checkHealth() async {
         do {
-            let response = try await firebaseFunctionsService.healthCheck()
+            let response = try await functionsService.healthCheck()
 
             statusLock.lock()
             lastHealthCheck = response
@@ -78,8 +77,8 @@ public final class BackendHealthService: @unchecked Sendable {
         }
     }
 
-    /// Start periodic health monitoring
-    /// Performs an immediate check followed by periodic checks at refreshInterval
+    /// Start periodic health monitoring.
+    /// Performs an immediate check followed by periodic checks at refreshInterval.
     public func startMonitoring() {
         #if DEBUG
         print("[BackendHealth] Starting health monitoring with \(refreshInterval)s interval")
@@ -99,7 +98,6 @@ public final class BackendHealthService: @unchecked Sendable {
                 do {
                     try await Task.sleep(nanoseconds: UInt64(refreshInterval * 1_000_000_000))
                 } catch {
-                    // Task was cancelled during sleep
                     break
                 }
 
@@ -124,8 +122,8 @@ public final class BackendHealthService: @unchecked Sendable {
         refreshTask = nil
     }
 
-    /// Whether AI features should use local fallback instead of backend
-    /// Returns true when backend is unavailable or status is unknown
+    /// Whether AI features should use local fallback instead of backend.
+    /// Returns true when backend is unavailable or status is unknown.
     public var shouldUseFallback: Bool {
         statusLock.lock()
         let currentStatus = status
@@ -133,8 +131,8 @@ public final class BackendHealthService: @unchecked Sendable {
         return currentStatus == .unavailable || currentStatus == .unknown
     }
 
-    /// Force a manual refresh of backend health
-    /// Useful for retry buttons in UI
+    /// Force a manual refresh of backend health.
+    /// Useful for retry buttons in UI.
     @MainActor
     public func forceRefresh() async {
         #if DEBUG
@@ -178,7 +176,6 @@ public final class BackendHealthService: @unchecked Sendable {
             print("[BackendHealth] Status changed: \(oldStatus) -> \(newStatus)")
             #endif
 
-            // Notify on main thread
             Task { @MainActor in
                 onStatusChanged?(newStatus)
             }
