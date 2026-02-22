@@ -92,8 +92,14 @@ public struct MainTabView: View {
                 ))
                 .tag(MainTab.friends)
 
-                // Profile Tab (placeholder until Feature 8)
-                profilePlaceholder
+                // Profile Tab
+                ProfileView(
+                    viewModel: ProfileViewModel(userProfileService: userProfileService),
+                    settingsRepository: settingsRepository,
+                    notificationService: notificationService,
+                    subscriptionService: subscriptionService,
+                    analyticsService: analyticsService
+                )
                     .tag(MainTab.profile)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
@@ -181,24 +187,6 @@ public struct MainTabView: View {
             .offset(x: 8, y: -4)
     }
 
-    // MARK: - Profile Placeholder
-
-    private var profilePlaceholder: some View {
-        NavigationStack {
-            VStack(spacing: 12) {
-                Image(systemName: "person.circle.fill")
-                    .font(.system(size: 80))
-                    .foregroundStyle(.secondary)
-                Text("Profile")
-                    .font(.title2.bold())
-                Text("Coming soon")
-                    .foregroundStyle(.secondary)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(.systemBackground))
-            .navigationTitle("Profile")
-        }
-    }
 }
 
 #Preview {

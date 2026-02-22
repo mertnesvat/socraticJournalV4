@@ -15,8 +15,6 @@ public struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(ThemeManager.self) private var themeManager
     @State private var viewModel: SettingsViewModel
-    @State private var showingExportView: Bool = false
-    @State private var showingWisdomQuotes: Bool = false
     @State private var showingPaywall: Bool = false
 
     public init(viewModel: SettingsViewModel) {
@@ -30,16 +28,6 @@ public struct SettingsView: View {
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar { toolbarContent }
                 .task { await viewModel.loadSettings() }
-                .alert("Clear All Data", isPresented: $viewModel.showClearDataConfirmation) {
-                    Button("Cancel", role: .cancel) {}
-                    Button("Clear", role: .destructive) {
-                        Task {
-                            await viewModel.clearAllData()
-                        }
-                    }
-                } message: {
-                    Text("This will permanently delete all your journal sessions and letters. This action cannot be undone.")
-                }
                 .alert("Notifications Disabled", isPresented: $viewModel.showPermissionDeniedAlert) {
                     Button("Cancel", role: .cancel) {}
                     Button("Open Settings") {
@@ -47,26 +35,6 @@ public struct SettingsView: View {
                     }
                 } message: {
                     Text("To receive notifications, please enable them in Settings.")
-                }
-                .sheet(isPresented: $showingExportView) {
-                    ExportView(
-                        viewModel: ExportViewModel(
-                            exportService: JSONDataExportService(
-                                journalRepository: viewModel.journalRepository,
-                                settingsRepository: viewModel.settingsRepository
-                            )
-                        )
-                    )
-                    .preferredColorScheme(themeManager.colorScheme)
-                }
-                .fullScreenCover(isPresented: $showingWisdomQuotes) {
-                    WisdomQuotesView(
-                        viewModel: WisdomQuotesViewModel(
-                            quoteService: LocalWisdomQuoteService()
-                        )
-                    )
-                    .environment(themeManager)
-                    .preferredColorScheme(themeManager.colorScheme)
                 }
                 .sheet(isPresented: $showingPaywall) {
                     if let subscriptionService = viewModel.subscriptionService {
@@ -79,14 +47,8 @@ public struct SettingsView: View {
                         .environment(themeManager)
                         .preferredColorScheme(themeManager.colorScheme)
                     } else {
-                        // Fallback when subscription service is not available
                         subscriptionUnavailableView
                             .preferredColorScheme(themeManager.colorScheme)
-                    }
-                }
-                .overlay {
-                    if viewModel.showClearDataSuccess {
-                        successOverlay
                     }
                 }
                 .preferredColorScheme(themeManager.colorScheme)
@@ -114,10 +76,7 @@ public struct SettingsView: View {
 
                     // Notifications section
                     NotificationSettingsView(
-                        letterRemindersEnabled: Binding(
-                            get: { viewModel.letterRemindersEnabled },
-                            set: { viewModel.letterRemindersEnabled = $0 }
-                        ),
+                        letterRemindersEnabled: .constant(false),
                         dailyReminderEnabled: Binding(
                             get: { viewModel.dailyReminderEnabled },
                             set: { viewModel.dailyReminderEnabled = $0 }
@@ -150,23 +109,6 @@ public struct SettingsView: View {
                         }
                     )
 
-                    // Features section
-                    FeaturesSettingsView(
-                        onWisdomQuotesTapped: {
-                            showingWisdomQuotes = true
-                        }
-                    )
-
-                    // Data section
-                    DataManagementView(
-                        onExport: {
-                            showingExportView = true
-                        },
-                        onClearData: {
-                            viewModel.confirmClearData()
-                        }
-                    )
-
                     // About section
                     AboutView(
                         version: SocraticJournal.version,
@@ -177,7 +119,6 @@ public struct SettingsView: View {
                             Task {
                                 await viewModel.resetOnboarding()
                                 dismiss()
-                                // Post notification to trigger onboarding display
                                 NotificationCenter.default.post(name: .replayOnboarding, object: nil)
                             }
                         }
@@ -188,22 +129,6 @@ public struct SettingsView: View {
                 .padding()
             }
             .background(Color(uiColor: .systemGroupedBackground))
-        }
-    }
-
-    private var successOverlay: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundStyle(.green)
-                Text("All data cleared")
-                    .font(.subheadline.weight(.medium))
-            }
-            .padding()
-            .background(.ultraThinMaterial)
-            .clipShape(Capsule())
-            .padding(.bottom, 40)
         }
     }
 
@@ -263,7 +188,6 @@ public struct SettingsView: View {
     }
 
     private func openPrivacyPolicy() {
-        // Privacy policy URL
         let urlString = "https://studionext.co.uk/socratic-privacy.html"
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url)
@@ -285,9 +209,9 @@ struct ShareSheet: UIViewControllerRepresentable {
 #Preview {
     SettingsView(
         viewModel: SettingsViewModel(
-            settingsRepository: UserDefaultsSettingsRepository(),
-            journalRepository: InMemoryJournalRepository()
+            settingsRepository: UserDefaultsSettingsRepository()
         )
     )
+    .environment(ThemeManager.shared)
 }
 #endif
