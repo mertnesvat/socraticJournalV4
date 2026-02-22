@@ -1,0 +1,182 @@
+[
+  {
+    "id": "ans-mock-001",
+    "questionId": "q-icebreaker-001",
+    "userId": "user-mock-001",
+    "audioFileURL": null,
+    "duration": 23.5,
+    "createdAt": "2025-01-01T12:30:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-002",
+    "questionId": "q-icebreaker-001",
+    "userId": "user-mock-002",
+    "audioFileURL": null,
+    "duration": 38.2,
+    "createdAt": "2025-01-01T14:15:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-003",
+    "questionId": "q-icebreaker-001",
+    "userId": "user-mock-003",
+    "audioFileURL": null,
+    "duration": 15.8,
+    "createdAt": "2025-01-01T16:45:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-004",
+    "questionId": "q-icebreaker-002",
+    "userId": "user-mock-001",
+    "audioFileURL": null,
+    "duration": 19.3,
+    "createdAt": "2025-01-02T11:00:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-005",
+    "questionId": "q-icebreaker-002",
+    "userId": "user-mock-004",
+    "audioFileURL": null,
+    "duration": 42.1,
+    "createdAt": "2025-01-02T13:20:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-006",
+    "questionId": "q-icebreaker-003",
+    "userId": "user-mock-002",
+    "audioFileURL": null,
+    "duration": 31.7,
+    "createdAt": "2025-01-03T10:30:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-007",
+    "questionId": "q-icebreaker-003",
+    "userId": "user-mock-005",
+    "audioFileURL": null,
+    "duration": 27.4,
+    "createdAt": "2025-01-03T15:00:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-008",
+    "questionId": "q-icebreaker-004",
+    "userId": "user-mock-003",
+    "audioFileURL": null,
+    "duration": 35.9,
+    "createdAt": "2025-01-04T09:45:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-009",
+    "questionId": "q-icebreaker-004",
+    "userId": "user-mock-006",
+    "audioFileURL": null,
+    "duration": 20.6,
+    "createdAt": "2025-01-04T11:30:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-010",
+    "questionId": "q-icebreaker-005",
+    "userId": "user-mock-001",
+    "audioFileURL": null,
+    "duration": 28.3,
+    "createdAt": "2025-01-05T10:00:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-011",
+    "questionId": "q-icebreaker-005",
+    "userId": "user-mock-002",
+    "audioFileURL": null,
+    "duration": 44.5,
+    "createdAt": "2025-01-05T12:15:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-012",
+    "questionId": "q-icebreaker-005",
+    "userId": "user-mock-004",
+    "audioFileURL": null,
+    "duration": 16.2,
+    "createdAt": "2025-01-05T14:30:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-013",
+    "questionId": "q-spicy-001",
+    "userId": "user-mock-001",
+    "audioFileURL": null,
+    "duration": 33.8,
+    "createdAt": "2025-01-07T10:00:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-014",
+    "questionId": "q-spicy-001",
+    "userId": "user-mock-003",
+    "audioFileURL": null,
+    "duration": 25.1,
+    "createdAt": "2025-01-07T13:00:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-015",
+    "questionId": "q-spicy-002",
+    "userId": "user-mock-002",
+    "audioFileURL": null,
+    "duration": 40.7,
+    "createdAt": "2025-01-08T09:30:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-016",
+    "questionId": "q-spicy-002",
+    "userId": "user-mock-006",
+    "audioFileURL": null,
+    "duration": 22.4,
+    "createdAt": "2025-01-08T11:45:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-017",
+    "questionId": "q-deep-001",
+    "userId": "user-mock-004",
+    "audioFileURL": null,
+    "duration": 45.0,
+    "createdAt": "2025-01-13T10:00:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-018",
+    "questionId": "q-deep-001",
+    "userId": "user-mock-001",
+    "audioFileURL": null,
+    "duration": 37.6,
+    "createdAt": "2025-01-13T14:00:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-019",
+    "questionId": "q-debate-001",
+    "userId": "user-mock-002",
+    "audioFileURL": null,
+    "duration": 41.3,
+    "createdAt": "2025-01-19T10:30:00Z",
+    "isListened": false
+  },
+  {
+    "id": "ans-mock-020",
+    "questionId": "q-debate-001",
+    "userId": "user-mock-005",
+    "audioFileURL": null,
+    "duration": 29.9,
+    "createdAt": "2025-01-19T12:00:00Z",
+    "isListened": false
+  }
+]

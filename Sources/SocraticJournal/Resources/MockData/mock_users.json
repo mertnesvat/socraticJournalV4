@@ -1,0 +1,56 @@
+[
+  {
+    "id": "user-mock-001",
+    "displayName": "Jordan Rivera",
+    "username": "@jordan_r",
+    "avatarImageName": "person.circle.fill",
+    "streakCount": 12,
+    "joinedAt": "2024-09-15T10:00:00Z",
+    "friendCount": 8
+  },
+  {
+    "id": "user-mock-002",
+    "displayName": "Priya Sharma",
+    "username": "@priya_s",
+    "avatarImageName": "person.crop.circle.fill",
+    "streakCount": 27,
+    "joinedAt": "2024-08-20T14:30:00Z",
+    "friendCount": 15
+  },
+  {
+    "id": "user-mock-003",
+    "displayName": "Marcus Chen",
+    "username": "@marcus_c",
+    "avatarImageName": "person.fill",
+    "streakCount": 5,
+    "joinedAt": "2024-11-01T09:00:00Z",
+    "friendCount": 4
+  },
+  {
+    "id": "user-mock-004",
+    "displayName": "Aisha Okonkwo",
+    "username": "@aisha_o",
+    "avatarImageName": "person.crop.circle",
+    "streakCount": 34,
+    "joinedAt": "2024-07-10T16:00:00Z",
+    "friendCount": 22
+  },
+  {
+    "id": "user-mock-005",
+    "displayName": "Liam O'Brien",
+    "username": "@liam_ob",
+    "avatarImageName": "person.circle",
+    "streakCount": 3,
+    "joinedAt": "2025-01-05T11:00:00Z",
+    "friendCount": 2
+  },
+  {
+    "id": "user-mock-006",
+    "displayName": "Sofia Petrov",
+    "username": "@sofia_p",
+    "avatarImageName": "person.crop.square.fill",
+    "streakCount": 19,
+    "joinedAt": "2024-10-22T08:00:00Z",
+    "friendCount": 11
+  }
+]

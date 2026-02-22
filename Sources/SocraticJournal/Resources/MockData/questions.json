@@ -1,0 +1,194 @@
+[
+  {
+    "id": "q-icebreaker-001",
+    "text": "What's a popular movie everyone loves that you think is actually trash?",
+    "category": "iceBreaker",
+    "level": 1,
+    "createdAt": "2025-01-01T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-icebreaker-002",
+    "text": "Be honest \u2014 do you wash your legs in the shower or just let the water run down?",
+    "category": "iceBreaker",
+    "level": 1,
+    "createdAt": "2025-01-02T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-icebreaker-003",
+    "text": "What's something you pretend to like because everyone around you does?",
+    "category": "iceBreaker",
+    "level": 1,
+    "createdAt": "2025-01-03T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-icebreaker-004",
+    "text": "If you could delete one app from everyone's phone, which one?",
+    "category": "iceBreaker",
+    "level": 1,
+    "createdAt": "2025-01-04T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-icebreaker-005",
+    "text": "What's a food everyone loves that you secretly think is disgusting?",
+    "category": "iceBreaker",
+    "level": 1,
+    "createdAt": "2025-01-05T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-icebreaker-006",
+    "text": "What's the worst piece of advice you've ever received that people swear by?",
+    "category": "iceBreaker",
+    "level": 1,
+    "createdAt": "2025-01-06T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-spicy-001",
+    "text": "What's a relationship red flag you've personally ignored?",
+    "category": "gettingSpicy",
+    "level": 2,
+    "createdAt": "2025-01-07T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-spicy-002",
+    "text": "Who in your friend group would survive the longest in a zombie apocalypse? Who'd go first?",
+    "category": "gettingSpicy",
+    "level": 2,
+    "createdAt": "2025-01-08T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-spicy-003",
+    "text": "What's an opinion you hold that would genuinely make people uncomfortable at a dinner party?",
+    "category": "gettingSpicy",
+    "level": 2,
+    "createdAt": "2025-01-09T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-spicy-004",
+    "text": "If you had to bet your life savings \u2014 does God exist or not?",
+    "category": "gettingSpicy",
+    "level": 2,
+    "createdAt": "2025-01-10T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-spicy-005",
+    "text": "What's the pettiest reason you've stopped talking to someone?",
+    "category": "gettingSpicy",
+    "level": 2,
+    "createdAt": "2025-01-11T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-spicy-006",
+    "text": "What's the most embarrassing thing you've done to impress someone?",
+    "category": "gettingSpicy",
+    "level": 2,
+    "createdAt": "2025-01-12T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-deep-001",
+    "text": "What's something you've never said out loud but think about at least once a week?",
+    "category": "deep",
+    "level": 3,
+    "createdAt": "2025-01-13T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-deep-002",
+    "text": "If your friend group had to vote one person out, who would it be and why?",
+    "category": "deep",
+    "level": 3,
+    "createdAt": "2025-01-14T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-deep-003",
+    "text": "What's the most selfish thing you've done that you'd do again?",
+    "category": "deep",
+    "level": 3,
+    "createdAt": "2025-01-15T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-deep-004",
+    "text": "Is there someone in your life you love but don't actually like?",
+    "category": "deep",
+    "level": 3,
+    "createdAt": "2025-01-16T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-deep-005",
+    "text": "What's a truth about yourself you've only recently accepted?",
+    "category": "deep",
+    "level": 3,
+    "createdAt": "2025-01-17T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-deep-006",
+    "text": "What would your 10-year-old self think of the person you've become?",
+    "category": "deep",
+    "level": 3,
+    "createdAt": "2025-01-18T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-debate-001",
+    "text": "Is it ever okay to go through your partner's phone?",
+    "category": "debateTrigger",
+    "level": 4,
+    "createdAt": "2025-01-19T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-debate-002",
+    "text": "Should you tell your best friend their partner is cheating \u2014 even if it'll destroy the friendship?",
+    "category": "debateTrigger",
+    "level": 4,
+    "createdAt": "2025-01-20T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-debate-003",
+    "text": "Rich and lonely or broke with the best people around you?",
+    "category": "debateTrigger",
+    "level": 4,
+    "createdAt": "2025-01-21T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-debate-004",
+    "text": "Could you forgive cheating if everything else was perfect?",
+    "category": "debateTrigger",
+    "level": 4,
+    "createdAt": "2025-01-22T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-debate-005",
+    "text": "Is it selfish to not want kids, or is having kids the selfish act?",
+    "category": "debateTrigger",
+    "level": 4,
+    "createdAt": "2025-01-23T08:00:00Z",
+    "isActive": true
+  },
+  {
+    "id": "q-debate-006",
+    "text": "Would the world be better off if social media had never been invented?",
+    "category": "debateTrigger",
+    "level": 4,
+    "createdAt": "2025-01-24T08:00:00Z",
+    "isActive": true
+  }
+]
