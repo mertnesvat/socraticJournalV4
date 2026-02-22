@@ -27,13 +27,20 @@ public struct SocraticTabView: View {
     private let streakRepository: StreakRepositoryProtocol
     private let reactionRepository: ReactionRepositoryProtocol
 
+    // MARK: - Service Dependencies
+
+    private let recordingService: VoiceRecordingServiceProtocol
+    private let playbackService: AudioPlaybackServiceProtocol
+
     public init(
         questionRepository: QuestionRepositoryProtocol,
         voiceAnswerRepository: VoiceAnswerRepositoryProtocol,
         friendshipRepository: FriendshipRepositoryProtocol,
         userProfileRepository: UserProfileRepositoryProtocol,
         streakRepository: StreakRepositoryProtocol,
-        reactionRepository: ReactionRepositoryProtocol
+        reactionRepository: ReactionRepositoryProtocol,
+        recordingService: VoiceRecordingServiceProtocol,
+        playbackService: AudioPlaybackServiceProtocol
     ) {
         self.questionRepository = questionRepository
         self.voiceAnswerRepository = voiceAnswerRepository
@@ -41,6 +48,8 @@ public struct SocraticTabView: View {
         self.userProfileRepository = userProfileRepository
         self.streakRepository = streakRepository
         self.reactionRepository = reactionRepository
+        self.recordingService = recordingService
+        self.playbackService = playbackService
     }
 
     public var body: some View {
@@ -52,7 +61,10 @@ public struct SocraticTabView: View {
                     friendshipRepository: friendshipRepository,
                     streakRepository: streakRepository
                 ),
-                playbackService: MockAudioPlaybackService()
+                playbackService: playbackService,
+                recordingService: recordingService,
+                voiceAnswerRepository: voiceAnswerRepository,
+                streakRepository: streakRepository
             )
                 .tabItem {
                     Label("Today", systemImage: "mic.circle.fill")

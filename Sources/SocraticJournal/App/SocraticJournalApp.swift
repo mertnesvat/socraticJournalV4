@@ -22,6 +22,8 @@ public struct SocraticJournalApp: App {
     private let userProfileRepository: UserProfileRepositoryProtocol = MockUserProfileRepository()
     private let streakRepository: StreakRepositoryProtocol = MockStreakRepository()
     private let reactionRepository: ReactionRepositoryProtocol = MockReactionRepository()
+    private let recordingService: VoiceRecordingServiceProtocol = VoiceRecordingService()
+    private let playbackService: AudioPlaybackServiceProtocol = MockAudioPlaybackService()
     @State private var themeManager = ThemeManager.shared
     @State private var showOnboarding: Bool = false
     @State private var hasRequestedATT: Bool = false
@@ -60,7 +62,9 @@ public struct SocraticJournalApp: App {
                 friendshipRepository: friendshipRepository,
                 userProfileRepository: userProfileRepository,
                 streakRepository: streakRepository,
-                reactionRepository: reactionRepository
+                reactionRepository: reactionRepository,
+                recordingService: recordingService,
+                playbackService: playbackService
             )
             .environment(themeManager)
             .preferredColorScheme(themeManager.colorScheme)

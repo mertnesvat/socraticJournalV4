@@ -11,12 +11,30 @@ public struct DailyQuestionFeedView: View {
     @State private var viewModel: DailyQuestionFeedViewModel
     @State private var recordButtonScale: CGFloat = 1.0
 
-    /// Audio playback service used for friend answer cards
+    /// Audio playback service used for friend answer cards and recording preview
     private let playbackService: AudioPlaybackServiceProtocol
 
-    public init(viewModel: DailyQuestionFeedViewModel, playbackService: AudioPlaybackServiceProtocol) {
+    /// Voice recording service used for the recording screen
+    private let recordingService: VoiceRecordingServiceProtocol
+
+    /// Voice answer repository for saving answers from the recording screen
+    private let voiceAnswerRepository: VoiceAnswerRepositoryProtocol
+
+    /// Streak repository for recording streaks from the recording screen
+    private let streakRepository: StreakRepositoryProtocol
+
+    public init(
+        viewModel: DailyQuestionFeedViewModel,
+        playbackService: AudioPlaybackServiceProtocol,
+        recordingService: VoiceRecordingServiceProtocol,
+        voiceAnswerRepository: VoiceAnswerRepositoryProtocol,
+        streakRepository: StreakRepositoryProtocol
+    ) {
         _viewModel = State(initialValue: viewModel)
         self.playbackService = playbackService
+        self.recordingService = recordingService
+        self.voiceAnswerRepository = voiceAnswerRepository
+        self.streakRepository = streakRepository
     }
 
     public var body: some View {
@@ -25,7 +43,23 @@ public struct DailyQuestionFeedView: View {
                 .navigationTitle("Today")
                 .toolbar { streakToolbarItem }
                 .fullScreenCover(isPresented: $viewModel.showRecordingSheet) {
-                    recordingPlaceholder
+                    if let question = viewModel.todaysQuestion {
+                        VoiceRecordingView(
+                            viewModel: VoiceRecordingViewModel(
+                                question: question,
+                                recordingService: recordingService,
+                                voiceAnswerRepository: voiceAnswerRepository,
+                                streakRepository: streakRepository,
+                                playbackService: playbackService,
+                                onAnswerSubmitted: { [viewModel] in
+                                    Task {
+                                        await viewModel.onAnswerSubmitted()
+                                    }
+                                }
+                            ),
+                            playbackService: playbackService
+                        )
+                    }
                 }
                 .refreshable {
                     await viewModel.refreshFeed()
@@ -312,29 +346,6 @@ public struct DailyQuestionFeedView: View {
         }
     }
 
-    // MARK: - Recording Placeholder
-
-    private var recordingPlaceholder: some View {
-        VStack(spacing: 16) {
-            Spacer()
-            Image(systemName: "mic.circle.fill")
-                .font(.system(size: 64))
-                .foregroundStyle(Color.accentColor)
-            Text("Recording Screen")
-                .font(.title2)
-                .fontWeight(.bold)
-            Text("Coming in Feature 7")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-            Button("Dismiss") {
-                viewModel.showRecordingSheet = false
-            }
-            .buttonStyle(.borderedProminent)
-            Spacer()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-
     // MARK: - Helpers
 
     private func formatDuration(_ duration: TimeInterval) -> String {
@@ -365,7 +376,10 @@ public struct DailyQuestionFeedView: View {
             friendshipRepository: MockFriendshipRepository(),
             streakRepository: MockStreakRepository()
         ),
-        playbackService: MockAudioPlaybackService()
+        playbackService: MockAudioPlaybackService(),
+        recordingService: MockVoiceRecordingService(),
+        voiceAnswerRepository: MockVoiceAnswerRepository(),
+        streakRepository: MockStreakRepository()
     )
 }
 #endif
