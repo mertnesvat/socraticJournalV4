@@ -45,7 +45,15 @@ public struct SocraticTabView: View {
 
     public var body: some View {
         TabView(selection: $selectedTab) {
-            TodayPlaceholderView()
+            DailyQuestionFeedView(
+                viewModel: DailyQuestionFeedViewModel(
+                    questionRepository: questionRepository,
+                    voiceAnswerRepository: voiceAnswerRepository,
+                    friendshipRepository: friendshipRepository,
+                    streakRepository: streakRepository
+                ),
+                playbackService: MockAudioPlaybackService()
+            )
                 .tabItem {
                     Label("Today", systemImage: "mic.circle.fill")
                 }
