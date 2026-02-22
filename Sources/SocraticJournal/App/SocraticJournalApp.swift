@@ -7,7 +7,7 @@ import SwiftUI
 import UserNotifications
 import FirebaseCore
 
-/// Main entry point for the Socratic Journal app
+/// Main entry point for the Socratic app
 @main
 public struct SocraticJournalApp: App {
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()

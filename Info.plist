@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleDisplayName</key>
-    <string>Socratic Journal</string>
+    <string>Socratic</string>
     <key>CFBundleName</key>
     <string>SocraticJournal</string>
     <key>CFBundleIdentifier</key>

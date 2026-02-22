@@ -67,7 +67,7 @@
       "localizations" : [
 
       ],
-      "name" : "Socratic Journal Premium",
+      "name" : "Socratic Premium",
       "subscriptions" : [
         {
           "adHocOffers" : [
@@ -96,7 +96,7 @@
           ],
           "productID" : "com.StudioNext.socraticJournal.monthly",
           "recurringSubscriptionPeriod" : "P1M",
-          "referenceName" : "Socratic Journal Monthly",
+          "referenceName" : "Socratic Monthly",
           "subscriptionGroupID" : "21234567",
           "type" : "RecurringSubscription"
         },
@@ -127,7 +127,7 @@
           ],
           "productID" : "com.StudioNext.socraticJournal.yearly",
           "recurringSubscriptionPeriod" : "P1Y",
-          "referenceName" : "Socratic Journal Yearly",
+          "referenceName" : "Socratic Yearly",
           "subscriptionGroupID" : "21234567",
           "type" : "RecurringSubscription"
         }

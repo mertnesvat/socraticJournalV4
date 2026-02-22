@@ -16,7 +16,7 @@ public final class ThemeManager {
 
     // MARK: - State
 
-    public private(set) var themeMode: ThemeMode = .system
+    public private(set) var themeMode: ThemeMode = .dark
 
     // MARK: - Computed Properties
 
