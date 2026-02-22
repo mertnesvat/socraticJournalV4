@@ -14,12 +14,30 @@ public struct AnswerRevealView: View {
     /// Playback service for inline audio players
     private let playbackService: AudioPlaybackServiceProtocol
 
+    /// Question text for share card
+    private let questionText: String
+
+    /// Question category for share card
+    private let questionCategory: QuestionCategory
+
+    /// User display name for share card
+    private let userName: String
+
+    /// Controls presentation of the share card sheet
+    @State private var showShareCardSheet: Bool = false
+
     public init(
         viewModel: AnswerRevealViewModel,
-        playbackService: AudioPlaybackServiceProtocol
+        playbackService: AudioPlaybackServiceProtocol,
+        questionText: String = "Today's Question",
+        questionCategory: QuestionCategory = .deep,
+        userName: String = "You"
     ) {
         _viewModel = State(initialValue: viewModel)
         self.playbackService = playbackService
+        self.questionText = questionText
+        self.questionCategory = questionCategory
+        self.userName = userName
     }
 
     public var body: some View {
@@ -55,10 +73,15 @@ public struct AnswerRevealView: View {
         .task {
             await viewModel.startReveal()
         }
-        .alert("Coming Soon", isPresented: $viewModel.showShareAlert) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text("Shareable opinion cards are coming in a future update!")
+        .sheet(isPresented: $showShareCardSheet) {
+            ShareCardSheet(
+                viewModel: ShareCardViewModel(
+                    questionText: questionText,
+                    userName: userName,
+                    friendName: viewModel.friendAnswers.first?.friend.displayName,
+                    category: questionCategory
+                )
+            )
         }
     }
 
@@ -185,9 +208,9 @@ public struct AnswerRevealView: View {
                     .fill(Color(.secondarySystemGroupedBackground))
             )
 
-            // Share button (placeholder)
+            // Share button
             Button {
-                viewModel.showShareAlert = true
+                showShareCardSheet = true
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "square.and.arrow.up")
@@ -549,7 +572,10 @@ private struct RevealFriendAnswerCard: View {
             reactionRepository: MockReactionRepository(),
             playbackService: MockAudioPlaybackService()
         ),
-        playbackService: MockAudioPlaybackService()
+        playbackService: MockAudioPlaybackService(),
+        questionText: "Is social media making us more or less connected?",
+        questionCategory: .debateTrigger,
+        userName: "Alex"
     )
 }
 

@@ -78,7 +78,10 @@ public struct DailyQuestionFeedView: View {
                                     viewModel.showRevealSheet = false
                                 }
                             ),
-                            playbackService: playbackService
+                            playbackService: playbackService,
+                            questionText: question.text,
+                            questionCategory: question.category,
+                            userName: "You"
                         )
                     }
                 }

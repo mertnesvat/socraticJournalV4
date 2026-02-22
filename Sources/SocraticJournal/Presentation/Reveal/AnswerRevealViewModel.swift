@@ -37,7 +37,7 @@ public final class AnswerRevealViewModel {
     /// Whether data is currently loading
     public private(set) var isLoading: Bool = false
 
-    /// Whether the share coming-soon alert is shown
+    /// Whether the share card sheet is shown (legacy, kept for compatibility)
     public var showShareAlert: Bool = false
 
     // MARK: - Dependencies
