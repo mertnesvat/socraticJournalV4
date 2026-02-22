@@ -5,125 +5,90 @@
 #if os(iOS)
 import SwiftUI
 
-/// Progress indicator for the "3 Friends Gate" showing how close the user is to unlocking all answers
+/// Progress indicator for the "3 Friends Gate" — structured minimalism style
 public struct FriendsGateView: View {
     let currentFriendCount: Int
     let requiredCount: Int
-
-    private var progress: Double {
-        Double(currentFriendCount) / Double(requiredCount)
-    }
 
     private var remaining: Int {
         max(0, requiredCount - currentFriendCount)
     }
 
-    private var motivationalText: String {
+    private var gateText: String {
         switch remaining {
         case 0:
-            return "You did it! All answers are unlocked."
+            return "All reveals unlocked"
         case 1:
-            return "Almost there! Add 1 more friend to unlock all answers."
+            return "Add 1 more friend to unlock reveals"
         default:
-            return "Add \(remaining) more friends to unlock all answers."
+            return "Add \(remaining) more friends to unlock reveals"
         }
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            // Header
-            HStack {
-                Image(systemName: "lock.open.fill")
-                    .font(.title3)
-                    .foregroundStyle(.blue)
+        VStack(spacing: 0) {
+            HairlineDivider()
 
-                Text("Unlock All Answers")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundStyle(.primary)
+            VStack(spacing: AppSpacing.md) {
+                // Gate text
+                Text(gateText)
+                    .font(AppTypography.headlineMedium)
+                    .foregroundStyle(AppColors.textPrimary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                Spacer()
-
-                Text("\(currentFriendCount)/\(requiredCount)")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.blue)
-            }
-
-            // Progress bar
-            GeometryReader { geometry in
-                ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(Color(.systemGray5))
-                        .frame(height: 8)
-
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(
-                            LinearGradient(
-                                colors: [.blue, .purple],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .frame(
-                            width: geometry.size.width * min(progress, 1.0),
-                            height: 8
-                        )
-                }
-            }
-            .frame(height: 8)
-
-            // Motivational text
-            Text(motivationalText)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-
-            // Friend circles preview
-            HStack(spacing: -8) {
-                ForEach(0..<requiredCount, id: \.self) { index in
-                    Circle()
-                        .fill(index < currentFriendCount ? Color.blue.opacity(0.3) : Color(.systemGray5))
-                        .frame(width: 28, height: 28)
-                        .overlay(
-                            Group {
-                                if index < currentFriendCount {
-                                    Image(systemName: "checkmark")
-                                        .font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.blue)
-                                } else {
-                                    Image(systemName: "plus")
-                                        .font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.secondary)
+                // Friend slot circles
+                HStack(spacing: AppSpacing.sm) {
+                    ForEach(0..<requiredCount, id: \.self) { index in
+                        Circle()
+                            .fill(index < currentFriendCount ? AppColors.accent : Color.clear)
+                            .frame(width: 36, height: 36)
+                            .overlay(
+                                Group {
+                                    if index < currentFriendCount {
+                                        Image(systemName: "checkmark")
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundStyle(AppColors.textOnAccent)
+                                    } else {
+                                        Image(systemName: "plus")
+                                            .font(.system(size: 14, weight: .medium))
+                                            .foregroundStyle(AppColors.textTertiary)
+                                    }
                                 }
-                            }
-                        )
-                        .overlay(
-                            Circle()
-                                .stroke(Color(.systemBackground), lineWidth: 2)
-                        )
+                            )
+                            .overlay(
+                                Circle()
+                                    .stroke(
+                                        index < currentFriendCount ? AppColors.accent : AppColors.borderStrong,
+                                        lineWidth: 1.5
+                                    )
+                            )
+                    }
+
+                    Spacer()
+                }
+
+                // Invite link
+                if remaining > 0 {
+                    Text("Invite Friends")
+                        .font(AppTypography.bodyBold)
+                        .foregroundStyle(AppColors.accent)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
+            .padding(.horizontal, AppSpacing.screenPadding)
+            .padding(.vertical, AppSpacing.lg)
+
+            HairlineDivider()
         }
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemGray6))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(Color.blue.opacity(0.2), lineWidth: 1)
-                )
-        )
     }
 }
 
 #Preview {
-    VStack(spacing: 16) {
+    VStack(spacing: AppSpacing.lg) {
         FriendsGateView(currentFriendCount: 0, requiredCount: 3)
         FriendsGateView(currentFriendCount: 1, requiredCount: 3)
         FriendsGateView(currentFriendCount: 2, requiredCount: 3)
     }
-    .padding()
+    .background(AppColors.background)
 }
 #endif

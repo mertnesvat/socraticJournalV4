@@ -5,7 +5,7 @@
 #if os(iOS)
 import SwiftUI
 
-/// Main friends screen showing friend list, pending requests, and search
+/// Main friends screen — structured editorial grid with cream background and hairline borders
 public struct FriendsListView: View {
     @State private var viewModel: FriendsListViewModel
     @State private var showingInviteSheet: Bool = false
@@ -19,7 +19,9 @@ public struct FriendsListView: View {
     public var body: some View {
         NavigationStack {
             content
-                .navigationTitle("Friends")
+                .background(AppColors.background)
+                .navigationTitle("")
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar { toolbarContent }
                 .task { await viewModel.loadData() }
                 .refreshable { await viewModel.loadData() }
@@ -78,14 +80,15 @@ public struct FriendsListView: View {
     }
 
     private var loadingView: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: AppSpacing.md) {
             ProgressView()
                 .scaleEffect(1.2)
             Text("Loading friends...")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .font(AppTypography.caption)
+                .foregroundStyle(AppColors.textSecondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColors.background)
     }
 
     private func errorView(_ message: String) -> some View {
@@ -105,22 +108,23 @@ public struct FriendsListView: View {
     }
 
     private var friendsList: some View {
-        List {
-            // Friends Gate (if fewer than 3 friends)
-            if viewModel.shouldShowFriendsGate {
-                Section {
+        ScrollView {
+            VStack(spacing: 0) {
+                // Page header
+                SectionHeaderView("Friends", showTopBorder: false)
+
+                // Friends Gate (if fewer than 3 friends)
+                if viewModel.shouldShowFriendsGate {
                     FriendsGateView(
                         currentFriendCount: viewModel.friends.count,
                         requiredCount: 3
                     )
-                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                    .listRowBackground(Color.clear)
                 }
-            }
 
-            // Pending Requests Section
-            if !viewModel.incomingRequests.isEmpty {
-                Section {
+                // Pending Requests Section
+                if !viewModel.incomingRequests.isEmpty {
+                    SectionHeaderView("Pending Requests")
+
                     ForEach(viewModel.incomingRequests) { request in
                         let requestUser = userForRequest(request)
                         FriendRequestRow(
@@ -133,17 +137,11 @@ public struct FriendsListView: View {
                             }
                         )
                     }
-                } header: {
-                    Label("Pending Requests", systemImage: "person.badge.clock")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.orange)
-                        .textCase(nil)
                 }
-            }
 
-            // Friends Section
-            Section {
+                // Your Friends Section
+                SectionHeaderView("Your Friends")
+
                 ForEach(viewModel.friends) { friend in
                     FriendRow(user: friend)
                         .contentShape(Rectangle())
@@ -151,26 +149,8 @@ public struct FriendsListView: View {
                             selectedFriend = friend
                         }
                 }
-                .onDelete { indexSet in
-                    for index in indexSet {
-                        let friend = viewModel.friends[index]
-                        Task { await viewModel.removeFriend(id: friend.id) }
-                    }
-                }
-            } header: {
-                HStack {
-                    Text("Your Friends")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                    Spacer()
-                    Text("\(viewModel.friends.count)")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-                .textCase(nil)
             }
         }
-        .listStyle(.insetGrouped)
     }
 
     @ToolbarContentBuilder
@@ -180,6 +160,7 @@ public struct FriendsListView: View {
                 showingInviteSheet = true
             } label: {
                 Image(systemName: "person.badge.plus")
+                    .foregroundStyle(AppColors.accent)
             }
         }
     }
