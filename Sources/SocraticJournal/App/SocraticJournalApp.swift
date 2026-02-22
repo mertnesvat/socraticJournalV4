@@ -97,8 +97,13 @@ public struct SocraticJournalApp: App {
                 }
             }
             .fullScreenCover(isPresented: $showOnboarding) {
-                OnboardingView(
-                    settingsRepository: settingsRepository,
+                SocraticOnboardingView(
+                    viewModel: SocraticOnboardingViewModel(
+                        settingsRepository: settingsRepository,
+                        userProfileRepository: userProfileRepository,
+                        friendshipRepository: friendshipRepository,
+                        questionRepository: questionRepository
+                    ),
                     onDismiss: { showOnboarding = false }
                 )
             }
