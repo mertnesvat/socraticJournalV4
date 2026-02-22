@@ -5,72 +5,47 @@
 #if os(iOS)
 import SwiftUI
 
-/// Profile header showing avatar, display name, and username
+/// Profile header with conversational greeting — no avatar, personality-driven
 struct ProfileHeader: View {
     let user: User
+    let questionsThisWeek: Int
 
     var body: some View {
-        VStack(spacing: 12) {
-            // Avatar with edit overlay
-            ZStack(alignment: .bottomTrailing) {
-                avatarCircle
-                editButton
-            }
+        VStack(alignment: .leading, spacing: AppSpacing.xs) {
+            // Greeting line
+            Text("Hello \(user.displayName),")
+                .font(AppTypography.headlineMedium)
+                .foregroundStyle(AppColors.textPrimary)
 
-            // Display name
-            Text(user.displayName)
-                .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(.primary)
-
-            // Username
-            Text("@\(user.username)")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+            // Conversational stat line with accent number
+            questionsText
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    // MARK: - Subviews
+    // MARK: - Attributed Questions Text
 
-    private var avatarCircle: some View {
-        ZStack {
-            Circle()
-                .fill(avatarBackgroundColor)
-                .frame(width: 100, height: 100)
-
-            Text(initialLetter)
-                .font(.system(size: 40, weight: .bold))
-                .foregroundStyle(.white)
-        }
-    }
-
-    private var editButton: some View {
-        Image(systemName: "pencil.circle.fill")
-            .font(.system(size: 28))
-            .foregroundStyle(.white, Color.accentColor)
-            .offset(x: 4, y: 4)
-    }
-
-    // MARK: - Helpers
-
-    private var initialLetter: String {
-        String(user.displayName.prefix(1)).uppercased()
-    }
-
-    private var avatarBackgroundColor: Color {
-        // Deterministic color based on user id
-        let colors: [Color] = [
-            .blue, .purple, .orange, .pink, .teal, .indigo, .mint
-        ]
-        let hash = abs(user.id.hashValue)
-        return colors[hash % colors.count]
+    private var questionsText: some View {
+        (Text("you've answered ")
+            .font(AppTypography.displayMedium)
+            .foregroundStyle(AppColors.textPrimary)
+        + Text("\(questionsThisWeek)")
+            .font(AppTypography.displayMedium)
+            .foregroundStyle(AppColors.accent)
+        + Text(" questions this week")
+            .font(AppTypography.displayMedium)
+            .foregroundStyle(AppColors.textPrimary)
+        )
+        .lineSpacing(2)
     }
 }
 
 #Preview {
-    ProfileHeader(user: MockDataProvider.currentUser)
-        .padding()
-        .background(Color(.systemBackground))
+    ProfileHeader(
+        user: MockDataProvider.currentUser,
+        questionsThisWeek: 12
+    )
+    .padding(AppSpacing.screenPadding)
+    .background(AppColors.background)
 }
 #endif
