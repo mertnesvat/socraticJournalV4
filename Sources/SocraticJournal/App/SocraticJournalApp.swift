@@ -66,12 +66,12 @@ public struct SocraticJournalApp: App {
                 }
             }
             .fullScreenCover(isPresented: $showOnboarding) {
-                OnboardingView(
+                NewOnboardingView(
                     settingsRepository: settingsRepository,
-                    onDismiss: { showOnboarding = false }
+                    onDismiss: {
+                        showOnboarding = false
+                    }
                 )
-                .environment(themeManager)
-                .preferredColorScheme(themeManager.colorScheme)
             }
         }
     }
