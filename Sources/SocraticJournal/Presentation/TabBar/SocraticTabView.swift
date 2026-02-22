@@ -72,7 +72,13 @@ public struct SocraticTabView: View {
                 }
                 .tag(SocraticTab.today)
 
-            FriendsPlaceholderView()
+            FriendsListView(
+                viewModel: FriendsListViewModel(
+                    friendshipRepository: friendshipRepository,
+                    userProfileRepository: userProfileRepository,
+                    voiceAnswerRepository: voiceAnswerRepository
+                )
+            )
                 .tabItem {
                     Label("Friends", systemImage: "person.2.fill")
                 }
