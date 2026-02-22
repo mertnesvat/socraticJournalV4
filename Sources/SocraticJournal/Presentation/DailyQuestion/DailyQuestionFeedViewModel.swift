@@ -104,8 +104,9 @@ public final class DailyQuestionFeedViewModel {
         showRecordingSheet = true
     }
 
-    /// Called after a successful answer submission; refreshes the feed to show unlocked state
+    /// Called after a successful answer submission; refreshes the feed and triggers reveal
     public func onAnswerSubmitted() async {
         await refreshFeed()
+        showRevealSheet = true
     }
 }

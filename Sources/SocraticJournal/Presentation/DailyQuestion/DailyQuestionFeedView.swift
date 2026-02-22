@@ -23,18 +23,23 @@ public struct DailyQuestionFeedView: View {
     /// Streak repository for recording streaks from the recording screen
     private let streakRepository: StreakRepositoryProtocol
 
+    /// Reaction repository for the reveal experience
+    private let reactionRepository: ReactionRepositoryProtocol
+
     public init(
         viewModel: DailyQuestionFeedViewModel,
         playbackService: AudioPlaybackServiceProtocol,
         recordingService: VoiceRecordingServiceProtocol,
         voiceAnswerRepository: VoiceAnswerRepositoryProtocol,
-        streakRepository: StreakRepositoryProtocol
+        streakRepository: StreakRepositoryProtocol,
+        reactionRepository: ReactionRepositoryProtocol
     ) {
         _viewModel = State(initialValue: viewModel)
         self.playbackService = playbackService
         self.recordingService = recordingService
         self.voiceAnswerRepository = voiceAnswerRepository
         self.streakRepository = streakRepository
+        self.reactionRepository = reactionRepository
     }
 
     public var body: some View {
@@ -55,6 +60,22 @@ public struct DailyQuestionFeedView: View {
                                     Task {
                                         await viewModel.onAnswerSubmitted()
                                     }
+                                }
+                            ),
+                            playbackService: playbackService
+                        )
+                    }
+                }
+                .sheet(isPresented: $viewModel.showRevealSheet) {
+                    if let question = viewModel.todaysQuestion {
+                        AnswerRevealView(
+                            viewModel: AnswerRevealViewModel(
+                                questionId: question.id,
+                                voiceAnswerRepository: voiceAnswerRepository,
+                                reactionRepository: reactionRepository,
+                                playbackService: playbackService,
+                                onDismiss: {
+                                    viewModel.showRevealSheet = false
                                 }
                             ),
                             playbackService: playbackService
@@ -379,7 +400,8 @@ public struct DailyQuestionFeedView: View {
         playbackService: MockAudioPlaybackService(),
         recordingService: MockVoiceRecordingService(),
         voiceAnswerRepository: MockVoiceAnswerRepository(),
-        streakRepository: MockStreakRepository()
+        streakRepository: MockStreakRepository(),
+        reactionRepository: MockReactionRepository()
     )
 }
 #endif

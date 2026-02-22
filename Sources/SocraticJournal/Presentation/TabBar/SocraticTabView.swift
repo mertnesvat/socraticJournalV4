@@ -64,7 +64,8 @@ public struct SocraticTabView: View {
                 playbackService: playbackService,
                 recordingService: recordingService,
                 voiceAnswerRepository: voiceAnswerRepository,
-                streakRepository: streakRepository
+                streakRepository: streakRepository,
+                reactionRepository: reactionRepository
             )
                 .tabItem {
                     Label("Today", systemImage: "mic.circle.fill")
