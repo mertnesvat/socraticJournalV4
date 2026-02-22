@@ -85,7 +85,14 @@ public struct SocraticTabView: View {
                 .tag(SocraticTab.friends)
                 .badge(pendingRequestCount)
 
-            ProfilePlaceholderView()
+            ProfileView(
+                viewModel: ProfileViewModel(
+                    userProfileRepository: userProfileRepository,
+                    streakRepository: streakRepository,
+                    voiceAnswerRepository: voiceAnswerRepository,
+                    friendshipRepository: friendshipRepository
+                )
+            )
                 .tabItem {
                     Label("Profile", systemImage: "person.crop.circle")
                 }
