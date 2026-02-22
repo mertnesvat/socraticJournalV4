@@ -37,6 +37,8 @@
     </array>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Socratic needs microphone access to record your voice answers to daily questions.</string>
     <key>NSUserTrackingUsageDescription</key>
     <string>We use this to measure the effectiveness of our marketing campaigns and improve your app experience.</string>
     <key>FirebaseUseEmulator</key>
