@@ -76,7 +76,6 @@ public struct SettingsView: View {
 
                     // Notifications section
                     NotificationSettingsView(
-                        letterRemindersEnabled: .constant(false),
                         dailyReminderEnabled: Binding(
                             get: { viewModel.dailyReminderEnabled },
                             set: { viewModel.dailyReminderEnabled = $0 }
@@ -84,6 +83,18 @@ public struct SettingsView: View {
                         reminderTime: Binding(
                             get: { viewModel.reminderTime },
                             set: { viewModel.reminderTime = $0 }
+                        ),
+                        friendActivityEnabled: Binding(
+                            get: { viewModel.friendActivityEnabled },
+                            set: { viewModel.friendActivityEnabled = $0 }
+                        ),
+                        streakRemindersEnabled: Binding(
+                            get: { viewModel.streakRemindersEnabled },
+                            set: { viewModel.streakRemindersEnabled = $0 }
+                        ),
+                        fomoAlertsEnabled: Binding(
+                            get: { viewModel.fomoAlertsEnabled },
+                            set: { viewModel.fomoAlertsEnabled = $0 }
                         ),
                         notificationsDenied: viewModel.notificationsDenied,
                         onOpenSettings: {

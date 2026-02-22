@@ -216,7 +216,9 @@ struct OnboardingTests {
             let oldData = """
             {
                 "themeMode": "system",
-                "letterRemindersEnabled": true,
+                "friendActivityEnabled": true,
+                "streakRemindersEnabled": true,
+                "fomoAlertsEnabled": true,
                 "dailyReminderEnabled": false,
                 "dailyReminderHour": 9,
                 "dailyReminderMinute": 0

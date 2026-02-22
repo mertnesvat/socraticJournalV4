@@ -61,6 +61,30 @@ public final class SettingsViewModel {
         }
     }
 
+    var friendActivityEnabled: Bool {
+        get { settings.friendActivityEnabled }
+        set {
+            settings.friendActivityEnabled = newValue
+            Task { await saveSettings() }
+        }
+    }
+
+    var streakRemindersEnabled: Bool {
+        get { settings.streakRemindersEnabled }
+        set {
+            settings.streakRemindersEnabled = newValue
+            Task { await saveSettings() }
+        }
+    }
+
+    var fomoAlertsEnabled: Bool {
+        get { settings.fomoAlertsEnabled }
+        set {
+            settings.fomoAlertsEnabled = newValue
+            Task { await saveSettings() }
+        }
+    }
+
     /// Whether notifications need permission request
     var needsNotificationPermission: Bool {
         notificationPermissionStatus == .notDetermined
@@ -169,7 +193,7 @@ public final class SettingsViewModel {
         guard let service = notificationService else { return }
 
         do {
-            try await service.scheduleDailyReminder(
+            try await service.scheduleNewQuestionNotification(
                 hour: settings.dailyReminderHour,
                 minute: settings.dailyReminderMinute
             )
