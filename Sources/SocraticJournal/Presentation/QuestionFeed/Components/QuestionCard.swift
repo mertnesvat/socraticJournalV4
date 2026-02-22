@@ -5,7 +5,7 @@
 #if os(iOS)
 import SwiftUI
 
-/// The hero card displaying today's daily question with category badge and intensity dots
+/// The hero card displaying today's daily question — editorial left-aligned, massive type on cream
 public struct QuestionCard: View {
     let question: DailyQuestion
 
@@ -16,34 +16,23 @@ public struct QuestionCard: View {
     }
 
     public var body: some View {
-        VStack(spacing: 20) {
-            // Category badge
+        VStack(alignment: .leading, spacing: 20) {
+            // Category badge — ALL-CAPS with tracking, category color
             categoryBadge
 
-            // Question text -- the hero element
+            // Question text — the hero element, MASSIVE left-aligned
             Text(question.text)
-                .font(.system(size: 28, weight: .bold, design: .default))
-                .foregroundStyle(.white)
-                .multilineTextAlignment(.center)
+                .font(AppTypography.displayMedium)
+                .foregroundStyle(AppColors.textPrimary)
+                .multilineTextAlignment(.leading)
                 .lineSpacing(4)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-            // Level intensity dots
+            // Level intensity dots — simplified small circles
             levelIndicator
         }
-        .padding(.horizontal, 32)
-        .padding(.vertical, 24)
-        .frame(maxWidth: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: 24)
-                .fill(Color.white.opacity(0.08))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 24)
-                        .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
-                )
-        )
-        .padding(.horizontal, 16)
-        .scaleEffect(isVisible ? 1.0 : 0.95)
         .opacity(isVisible ? 1.0 : 0.0)
+        .offset(y: isVisible ? 0 : 12)
         .onAppear {
             withAnimation(.easeOut(duration: 0.5)) {
                 isVisible = true
@@ -55,22 +44,16 @@ public struct QuestionCard: View {
 
     private var categoryBadge: some View {
         Text(question.category.displayName.uppercased())
-            .font(.system(size: 12, weight: .heavy, design: .default))
-            .tracking(1.2)
-            .foregroundStyle(.white)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 6)
-            .background(
-                Capsule()
-                    .fill(categoryColor)
-            )
+            .font(AppTypography.sectionHeader)
+            .tracking(AppTypography.sectionHeaderTracking)
+            .foregroundStyle(categoryColor)
     }
 
     private var levelIndicator: some View {
         HStack(spacing: 6) {
             ForEach(1...4, id: \.self) { level in
                 Circle()
-                    .fill(level <= question.level ? categoryColor : Color.white.opacity(0.2))
+                    .fill(level <= question.level ? categoryColor : AppColors.border)
                     .frame(width: 8, height: 8)
             }
         }
@@ -81,32 +64,30 @@ public struct QuestionCard: View {
     private var categoryColor: Color {
         switch question.category {
         case .iceBreaker:
-            return .blue
+            return AppColors.iceBreaker
         case .gettingSpicy:
-            return .orange
+            return AppColors.gettingSpicy
         case .deepDive:
-            return .purple
+            return AppColors.deepDive
         case .debateTrigger:
-            return .red
+            return AppColors.debateTrigger
         }
     }
 }
 
 #Preview {
-    ZStack {
-        Color.black.ignoresSafeArea()
-
-        QuestionCard(
-            question: DailyQuestion(
-                id: "preview_1",
-                text: "Could you forgive cheating if everything else was perfect?",
-                category: .debateTrigger,
-                level: 4,
-                createdAt: Date(),
-                globalResponseCount: 1203,
-                disagreementRatio: 0.81
-            )
+    QuestionCard(
+        question: DailyQuestion(
+            id: "preview_1",
+            text: "Could you forgive cheating if everything else was perfect?",
+            category: .debateTrigger,
+            level: 4,
+            createdAt: Date(),
+            globalResponseCount: 1203,
+            disagreementRatio: 0.81
         )
-    }
+    )
+    .padding(.horizontal, AppSpacing.screenPadding)
+    .background(AppColors.background)
 }
 #endif
