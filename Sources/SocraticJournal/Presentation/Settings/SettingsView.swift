@@ -24,8 +24,7 @@ public struct SettingsView: View {
     public var body: some View {
         NavigationStack {
             content
-                .navigationTitle("Settings")
-                .navigationBarTitleDisplayMode(.large)
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar { toolbarContent }
                 .task { await viewModel.loadSettings() }
                 .alert("Notifications Disabled", isPresented: $viewModel.showPermissionDeniedAlert) {
@@ -61,20 +60,32 @@ public struct SettingsView: View {
     @ViewBuilder
     private var content: some View {
         if viewModel.isLoading {
-            ProgressView("Loading settings...")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            VStack {
+                ProgressView("Loading settings...")
+                    .foregroundStyle(AppColors.textSecondary)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(AppColors.background)
         } else {
             ScrollView {
-                VStack(spacing: 20) {
-                    // Appearance section
+                VStack(spacing: 0) {
+                    // Custom title
+                    settingsHeader
+
+                    // APPEARANCE section
+                    SectionHeaderView("Appearance")
                     ThemeSelectorView(
                         selectedTheme: Binding(
                             get: { viewModel.themeMode },
                             set: { viewModel.themeMode = $0 }
                         )
                     )
+                    .padding(.horizontal, AppSpacing.screenPadding)
+                    .padding(.bottom, AppSpacing.md)
 
-                    // Notifications section
+                    // NOTIFICATIONS section
+                    SectionHeaderView("Notifications")
+                        .padding(.top, AppSpacing.md)
                     NotificationSettingsView(
                         dailyReminderEnabled: Binding(
                             get: { viewModel.dailyReminderEnabled },
@@ -101,8 +112,12 @@ public struct SettingsView: View {
                             viewModel.openNotificationSettings()
                         }
                     )
+                    .padding(.horizontal, AppSpacing.screenPadding)
+                    .padding(.bottom, AppSpacing.md)
 
-                    // Subscription section
+                    // SUBSCRIPTION section
+                    SectionHeaderView("Subscription")
+                        .padding(.top, AppSpacing.md)
                     SubscriptionSettingsView(
                         subscriptionStatus: viewModel.subscriptionStatus,
                         expiryDate: viewModel.formattedSubscriptionExpiry,
@@ -119,8 +134,12 @@ public struct SettingsView: View {
                             viewModel.openSubscriptionManagement()
                         }
                     )
+                    .padding(.horizontal, AppSpacing.screenPadding)
+                    .padding(.bottom, AppSpacing.md)
 
-                    // About section
+                    // ABOUT section
+                    SectionHeaderView("About")
+                        .padding(.top, AppSpacing.md)
                     AboutView(
                         version: SocraticJournal.version,
                         onPrivacyPolicy: {
@@ -134,44 +153,57 @@ public struct SettingsView: View {
                             }
                         }
                     )
+                    .padding(.horizontal, AppSpacing.screenPadding)
 
-                    Spacer(minLength: 40)
+                    Spacer(minLength: AppSpacing.sectionGap)
                 }
-                .padding()
             }
-            .background(Color(uiColor: .systemGroupedBackground))
+            .background(AppColors.background)
         }
     }
 
+    // MARK: - Settings Header
+
+    private var settingsHeader: some View {
+        HStack {
+            Text("Settings")
+                .font(AppTypography.display)
+                .foregroundStyle(AppColors.textPrimary)
+            Spacer()
+        }
+        .padding(.horizontal, AppSpacing.screenPadding)
+        .padding(.top, AppSpacing.lg)
+        .padding(.bottom, AppSpacing.md)
+    }
+
+    // MARK: - Subscription Unavailable
+
     private var subscriptionUnavailableView: some View {
         NavigationStack {
-            VStack(spacing: 24) {
+            VStack(spacing: AppSpacing.lg) {
                 Image(systemName: "exclamationmark.triangle")
                     .font(.system(size: 48))
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(AppColors.warning)
 
-                VStack(spacing: 8) {
+                VStack(spacing: AppSpacing.xs) {
                     Text("Subscriptions Unavailable")
-                        .font(.headline)
+                        .font(AppTypography.headlineMedium)
+                        .foregroundStyle(AppColors.textPrimary)
 
                     Text("The subscription service is not available right now. Please try again later.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppColors.textSecondary)
                         .multilineTextAlignment(.center)
                 }
 
-                Button("Dismiss") {
+                AccentPillButton("Dismiss") {
                     showingPaywall = false
                 }
-                .font(.headline)
-                .frame(width: 160, height: 44)
-                .background(Color.accentColor)
-                .foregroundStyle(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .frame(width: 180)
             }
-            .padding()
+            .padding(AppSpacing.screenPadding)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(uiColor: .systemGroupedBackground))
+            .background(AppColors.background)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -180,6 +212,7 @@ public struct SettingsView: View {
                     } label: {
                         Image(systemName: "xmark")
                             .font(.body.weight(.medium))
+                            .foregroundStyle(AppColors.textPrimary)
                     }
                 }
             }
@@ -194,6 +227,7 @@ public struct SettingsView: View {
             } label: {
                 Image(systemName: "xmark")
                     .font(.body.weight(.medium))
+                    .foregroundStyle(AppColors.textPrimary)
             }
         }
     }
