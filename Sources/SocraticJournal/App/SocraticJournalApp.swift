@@ -16,6 +16,12 @@ public struct SocraticJournalApp: App {
     private let subscriptionService: SubscriptionServiceProtocol = StoreKitSubscriptionService()
     private let analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
     private let appReviewService: AppReviewService = AppReviewService.shared
+    private let questionRepository: QuestionRepositoryProtocol = MockQuestionRepository()
+    private let voiceAnswerRepository: VoiceAnswerRepositoryProtocol = MockVoiceAnswerRepository()
+    private let friendshipRepository: FriendshipRepositoryProtocol = MockFriendshipRepository()
+    private let userProfileRepository: UserProfileRepositoryProtocol = MockUserProfileRepository()
+    private let streakRepository: StreakRepositoryProtocol = MockStreakRepository()
+    private let reactionRepository: ReactionRepositoryProtocol = MockReactionRepository()
     @State private var themeManager = ThemeManager.shared
     @State private var showOnboarding: Bool = false
     @State private var hasRequestedATT: Bool = false
@@ -48,12 +54,13 @@ public struct SocraticJournalApp: App {
 
     public var body: some Scene {
         WindowGroup {
-            MainTabView(
-                repository: repository,
-                settingsRepository: settingsRepository,
-                notificationService: notificationService,
-                subscriptionService: subscriptionService,
-                analyticsService: analyticsService
+            SocraticTabView(
+                questionRepository: questionRepository,
+                voiceAnswerRepository: voiceAnswerRepository,
+                friendshipRepository: friendshipRepository,
+                userProfileRepository: userProfileRepository,
+                streakRepository: streakRepository,
+                reactionRepository: reactionRepository
             )
             .environment(themeManager)
             .preferredColorScheme(themeManager.colorScheme)
