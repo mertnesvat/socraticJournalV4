@@ -5,11 +5,13 @@
 #if os(iOS)
 import SwiftUI
 
-/// Notification settings section with toggles and time picker
+/// Notification settings section with toggles for social engagement notifications
 struct NotificationSettingsView: View {
-    @Binding var letterRemindersEnabled: Bool
     @Binding var dailyReminderEnabled: Bool
     @Binding var reminderTime: Date
+    @Binding var friendActivityEnabled: Bool
+    @Binding var streakRemindersEnabled: Bool
+    @Binding var fomoAlertsEnabled: Bool
     var notificationsDenied: Bool = false
     var onOpenSettings: (() -> Void)? = nil
 
@@ -23,26 +25,12 @@ struct NotificationSettingsView: View {
                 deniedBanner
             }
 
-            // Letter reminders toggle
-            Toggle(isOn: $letterRemindersEnabled) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Letter Reminders")
-                        .font(.body)
-                    Text("Get notified when your future letters are ready to read")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .disabled(notificationsDenied)
-
-            Divider()
-
-            // Daily reminder toggle
+            // Daily question reminder toggle
             Toggle(isOn: $dailyReminderEnabled) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Daily Reminder")
+                    Text("Daily Question")
                         .font(.body)
-                    Text("Remind me to journal at a specific time")
+                    Text("Get notified when a new question drops")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -51,8 +39,6 @@ struct NotificationSettingsView: View {
 
             // Time picker (shown when daily reminder is enabled)
             if dailyReminderEnabled && !notificationsDenied {
-                Divider()
-
                 HStack {
                     Text("Reminder Time")
                         .font(.body)
@@ -67,6 +53,48 @@ struct NotificationSettingsView: View {
                     .labelsHidden()
                 }
             }
+
+            Divider()
+
+            // Friend activity toggle
+            Toggle(isOn: $friendActivityEnabled) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Friend Activity")
+                        .font(.body)
+                    Text("Know when friends record their take")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .disabled(notificationsDenied)
+
+            Divider()
+
+            // Streak reminders toggle
+            Toggle(isOn: $streakRemindersEnabled) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Streak Reminders")
+                        .font(.body)
+                    Text("Don't lose your answer streak")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .disabled(notificationsDenied)
+
+            Divider()
+
+            // FOMO alerts toggle
+            Toggle(isOn: $fomoAlertsEnabled) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("FOMO Alerts")
+                        .font(.body)
+                    Text("See how many friends answered before you")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .disabled(notificationsDenied)
         }
         .padding()
         .background(Color(uiColor: .secondarySystemGroupedBackground))
@@ -106,9 +134,11 @@ struct NotificationSettingsView: View {
 
 #Preview("Enabled") {
     NotificationSettingsView(
-        letterRemindersEnabled: .constant(true),
         dailyReminderEnabled: .constant(true),
         reminderTime: .constant(Date()),
+        friendActivityEnabled: .constant(true),
+        streakRemindersEnabled: .constant(true),
+        fomoAlertsEnabled: .constant(true),
         notificationsDenied: false
     )
     .padding()
@@ -117,9 +147,11 @@ struct NotificationSettingsView: View {
 
 #Preview("Denied") {
     NotificationSettingsView(
-        letterRemindersEnabled: .constant(false),
         dailyReminderEnabled: .constant(false),
         reminderTime: .constant(Date()),
+        friendActivityEnabled: .constant(false),
+        streakRemindersEnabled: .constant(false),
+        fomoAlertsEnabled: .constant(false),
         notificationsDenied: true,
         onOpenSettings: {}
     )

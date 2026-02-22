@@ -7,7 +7,9 @@ import Foundation
 /// Represents user app settings and preferences
 public struct UserSettings: Codable, Sendable, Equatable {
     public var themeMode: ThemeMode
-    public var letterRemindersEnabled: Bool
+    public var friendActivityEnabled: Bool
+    public var streakRemindersEnabled: Bool
+    public var fomoAlertsEnabled: Bool
     public var dailyReminderEnabled: Bool
     public var dailyReminderHour: Int
     public var dailyReminderMinute: Int
@@ -33,7 +35,9 @@ public struct UserSettings: Codable, Sendable, Equatable {
 
     public init(
         themeMode: ThemeMode = .system,
-        letterRemindersEnabled: Bool = true,
+        friendActivityEnabled: Bool = true,
+        streakRemindersEnabled: Bool = true,
+        fomoAlertsEnabled: Bool = true,
         dailyReminderEnabled: Bool = false,
         dailyReminderHour: Int = 9,
         dailyReminderMinute: Int = 0,
@@ -44,7 +48,9 @@ public struct UserSettings: Codable, Sendable, Equatable {
         lastSubscriptionCheck: Date? = nil
     ) {
         self.themeMode = themeMode
-        self.letterRemindersEnabled = letterRemindersEnabled
+        self.friendActivityEnabled = friendActivityEnabled
+        self.streakRemindersEnabled = streakRemindersEnabled
+        self.fomoAlertsEnabled = fomoAlertsEnabled
         self.dailyReminderEnabled = dailyReminderEnabled
         self.dailyReminderHour = dailyReminderHour
         self.dailyReminderMinute = dailyReminderMinute
@@ -59,7 +65,9 @@ public struct UserSettings: Codable, Sendable, Equatable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         themeMode = try container.decodeIfPresent(ThemeMode.self, forKey: .themeMode) ?? .system
-        letterRemindersEnabled = try container.decodeIfPresent(Bool.self, forKey: .letterRemindersEnabled) ?? true
+        friendActivityEnabled = try container.decodeIfPresent(Bool.self, forKey: .friendActivityEnabled) ?? true
+        streakRemindersEnabled = try container.decodeIfPresent(Bool.self, forKey: .streakRemindersEnabled) ?? true
+        fomoAlertsEnabled = try container.decodeIfPresent(Bool.self, forKey: .fomoAlertsEnabled) ?? true
         dailyReminderEnabled = try container.decodeIfPresent(Bool.self, forKey: .dailyReminderEnabled) ?? false
         dailyReminderHour = try container.decodeIfPresent(Int.self, forKey: .dailyReminderHour) ?? 9
         dailyReminderMinute = try container.decodeIfPresent(Int.self, forKey: .dailyReminderMinute) ?? 0
@@ -74,7 +82,9 @@ public struct UserSettings: Codable, Sendable, Equatable {
 
     private enum CodingKeys: String, CodingKey {
         case themeMode
-        case letterRemindersEnabled
+        case friendActivityEnabled
+        case streakRemindersEnabled
+        case fomoAlertsEnabled
         case dailyReminderEnabled
         case dailyReminderHour
         case dailyReminderMinute

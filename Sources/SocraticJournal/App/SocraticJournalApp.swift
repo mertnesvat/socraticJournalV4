@@ -7,15 +7,13 @@ import SwiftUI
 import UserNotifications
 import FirebaseCore
 
-/// Main entry point for the Socratic Journal app
+/// Main entry point for the Socratic app
 @main
 public struct SocraticJournalApp: App {
-    private let repository: JournalRepositoryProtocol = InMemoryJournalRepository()
     private let settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository()
     private let notificationService: NotificationServiceProtocol = LocalNotificationService()
     private let subscriptionService: SubscriptionServiceProtocol = StoreKitSubscriptionService()
     private let analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
-    private let appReviewService: AppReviewService = AppReviewService.shared
     @State private var themeManager = ThemeManager.shared
     @State private var showOnboarding: Bool = false
     @State private var hasRequestedATT: Bool = false
@@ -49,7 +47,6 @@ public struct SocraticJournalApp: App {
     public var body: some Scene {
         WindowGroup {
             MainTabView(
-                repository: repository,
                 settingsRepository: settingsRepository,
                 notificationService: notificationService,
                 subscriptionService: subscriptionService,
@@ -60,9 +57,6 @@ public struct SocraticJournalApp: App {
             .task {
                 await themeManager.loadTheme()
                 await checkOnboardingStatus()
-                await rescheduleNotifications()
-                await clearBadge()
-                configureOfflineSyncHandler()
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 // Request ATT when app becomes active (works reliably on both iPhone and iPad)
@@ -71,24 +65,12 @@ public struct SocraticJournalApp: App {
                     AppsFlyerService.shared.requestTrackingAuthorization()
                 }
             }
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                Task {
-                    await clearBadge()
-                }
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .replayOnboarding)) { _ in
-                // Small delay to allow settings sheet to dismiss first
-                Task {
-                    try? await Task.sleep(for: .milliseconds(300))
-                    await MainActor.run {
-                        showOnboarding = true
-                    }
-                }
-            }
             .fullScreenCover(isPresented: $showOnboarding) {
-                OnboardingView(
+                NewOnboardingView(
                     settingsRepository: settingsRepository,
-                    onDismiss: { showOnboarding = false }
+                    onDismiss: {
+                        showOnboarding = false
+                    }
                 )
             }
         }
@@ -108,34 +90,6 @@ public struct SocraticJournalApp: App {
             await MainActor.run {
                 showOnboarding = true
             }
-        }
-    }
-
-    /// Reschedule notifications on app launch to ensure they're still valid
-    private func rescheduleNotifications() async {
-        do {
-            let settings = try await settingsRepository.getSettings()
-            let letters = try await repository.getAllLetters()
-            await notificationService.rescheduleAllNotifications(letters: letters, settings: settings)
-        } catch {
-            print("Failed to reschedule notifications: \(error)")
-        }
-    }
-
-    /// Clear badge when app comes to foreground
-    private func clearBadge() async {
-        if let localService = notificationService as? LocalNotificationService {
-            await localService.clearBadge()
-        }
-    }
-
-    /// Configure offline sync handler with repository for session updates
-    private func configureOfflineSyncHandler() {
-        OfflineSyncHandler.shared.configure(repository: repository)
-
-        // Try to process any pending offline requests now that we're configured
-        Task {
-            await OfflineSyncQueue.shared.processQueue()
         }
     }
 }

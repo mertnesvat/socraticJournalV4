@@ -21,58 +21,54 @@ public protocol AnalyticsServiceProtocol: Sendable {
 
 /// Analytics events tracked in the app
 public enum AnalyticsEvent: String, Sendable {
-    // Session events
-    case sessionStarted = "session_started"
-    case sessionCompleted = "session_completed"
-    case sessionAbandoned = "session_abandoned"
-    case clarityScoreReceived = "clarity_score_received"
+    // Question events
+    case questionViewed = "question_viewed"
+    case questionAnswered = "question_answered"
+    case questionSkipped = "question_skipped"
+    case questionShared = "question_shared"
 
-    // Session funnel events (fine-grained)
-    case questionShown = "question_shown"
-    case answerSubmitted = "answer_submitted"
-    case answerSkipped = "answer_skipped"
-    case followUpGenerationStarted = "follow_up_generation_started"
-    case followUpGenerationCompleted = "follow_up_generation_completed"
-    case followUpGenerationFailed = "follow_up_generation_failed"
-    case insightGenerationStarted = "insight_generation_started"
-    case insightGenerationCompleted = "insight_generation_completed"
-    case insightGenerationFailed = "insight_generation_failed"
-    case insightViewed = "insight_viewed"
-    case sessionPhaseTimeout = "session_phase_timeout"
+    // Recording events
+    case recordingStarted = "recording_started"
+    case recordingCompleted = "recording_completed"
+    case recordingReRecorded = "recording_re_recorded"
+    case recordingDuration = "recording_duration"
 
-    // Legacy session events (deprecated - use new fine-grained events)
-    case sessionQuestionShown = "session_question_shown"
-    case sessionAnswerSubmitted = "session_answer_submitted"
-    case sessionQuestionSkipped = "session_question_skipped"
-    case sessionFollowUpGenerated = "session_follow_up_generated"
-    case sessionInsightViewed = "session_insight_viewed"
-    case sessionError = "session_error"
+    // Reveal events
+    case friendAnswerUnlocked = "friend_answer_unlocked"
+    case friendAnswerPlayed = "friend_answer_played"
+    case friendAnswerReacted = "friend_answer_reacted"
 
-    // Letter events
-    case letterComposed = "letter_composed"
-    case letterUnlocked = "letter_unlocked"
-    case letterViewed = "letter_viewed"
-    case letterPromptsRequested = "letter_prompts_requested"
+    // Social events
+    case friendRequestSent = "friend_request_sent"
+    case friendRequestAccepted = "friend_request_accepted"
+    case friendRemoved = "friend_removed"
+    case friendSearched = "friend_searched"
+
+    // Engagement events
+    case streakMaintained = "streak_maintained"
+    case streakBroken = "streak_broken"
+    case streakMilestone = "streak_milestone"
 
     // Onboarding events
     case onboardingStarted = "onboarding_started"
     case onboardingCompleted = "onboarding_completed"
     case onboardingSkipped = "onboarding_skipped"
 
+    // Virality events
+    case questionSharedExternal = "question_shared_external"
+    case appInviteSent = "app_invite_sent"
+    case contactsImportStarted = "contacts_import_started"
+    case shareCardGenerated = "share_card_generated"
+
+    // Profile events
+    case profileViewed = "profile_viewed"
+    case profileEdited = "profile_edited"
+    case historyViewed = "history_viewed"
+
     // Settings events
     case notificationEnabled = "notification_enabled"
     case notificationDisabled = "notification_disabled"
     case themeChanged = "theme_changed"
-
-    // Feature engagement
-    case characterDiscoveryViewed = "character_discovery_viewed"
-    case wisdomQuotesViewed = "wisdom_quotes_viewed"
-    case statisticsViewed = "statistics_viewed"
-    case exportDataRequested = "export_data_requested"
-
-    // App review
-    case appReviewRequested = "app_review_requested"
-    case appReviewCompleted = "app_review_completed"
 
     // Subscription events
     case paywallViewed = "paywall_viewed"
@@ -92,28 +88,36 @@ public enum AnalyticsEvent: String, Sendable {
 
 /// Analytics parameter keys
 public enum AnalyticsParameter: String, Sendable {
-    case sessionId = "session_id"
-    case clarityScore = "clarity_score"
-    case scoreCategory = "score_category"
-    case exchangeCount = "exchange_count"
-    case letterId = "letter_id"
-    case letterDuration = "letter_duration_days"
-    case themeMode = "theme_mode"
-    case sessionCount = "session_count"
-    case streakDays = "streak_days"
-    case promptCount = "prompt_count"
-    case questionIndex = "question_index"
-    case questionText = "question_text"
-    case answerLength = "answer_length"
-    case responseTime = "response_time_ms"
-    case errorType = "error_type"
-    case phase = "phase"
-
-    // New funnel analytics parameters
-    case questionNumber = "question_number"
+    // Question params
     case questionId = "question_id"
-    case timeToAnswerSeconds = "time_to_answer_seconds"
-    case latencySeconds = "latency_seconds"
-    case totalQuestionsAnswered = "total_questions_answered"
-    case elapsedSeconds = "elapsed_seconds"
+    case questionText = "question_text"
+    case questionCategory = "question_category"
+    case questionLevel = "question_level"
+
+    // Recording params
+    case recordingDurationSeconds = "recording_duration_seconds"
+    case recordingFileSize = "recording_file_size"
+
+    // Social params
+    case friendId = "friend_id"
+    case friendCount = "friend_count"
+    case searchQuery = "search_query"
+
+    // Reveal params
+    case revealId = "reveal_id"
+    case emojiReaction = "emoji_reaction"
+
+    // Streak params
+    case streakDays = "streak_days"
+    case milestoneDays = "milestone_days"
+
+    // Onboarding params
+    case onboardingStep = "onboarding_step"
+
+    // Share params
+    case shareCardStyle = "share_card_style"
+    case sharePlatform = "share_platform"
+
+    // General
+    case themeMode = "theme_mode"
 }

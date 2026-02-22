@@ -19,41 +19,77 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
     // MARK: - Setup
 
     private func setupNotificationCategories() {
-        // Letter ready actions
-        let openLetterAction = UNNotificationAction(
-            identifier: NotificationAction.openLetter,
-            title: "Read Letter",
+        // New question actions
+        let recordAnswerAction = UNNotificationAction(
+            identifier: NotificationAction.recordAnswer,
+            title: "Record Answer",
             options: [.foreground]
         )
 
-        let letterReadyCategory = UNNotificationCategory(
-            identifier: NotificationCategory.letterReady,
-            actions: [openLetterAction],
+        let newQuestionCategory = UNNotificationCategory(
+            identifier: NotificationCategory.newQuestion,
+            actions: [recordAnswerAction],
             intentIdentifiers: [],
             options: [.customDismissAction]
         )
 
-        // Daily reminder actions
-        let startSessionAction = UNNotificationAction(
-            identifier: NotificationAction.startSession,
-            title: "Start Journaling",
+        // Friend answered actions
+        let viewFriendAction = UNNotificationAction(
+            identifier: NotificationAction.viewFriend,
+            title: "Listen",
+            options: [.foreground]
+        )
+
+        let friendAnsweredCategory = UNNotificationCategory(
+            identifier: NotificationCategory.friendAnswered,
+            actions: [viewFriendAction, recordAnswerAction],
+            intentIdentifiers: [],
+            options: [.customDismissAction]
+        )
+
+        // Streak reminder actions
+        let openAppAction = UNNotificationAction(
+            identifier: NotificationAction.openApp,
+            title: "Keep Streak",
             options: [.foreground]
         )
 
         let snoozeAction = UNNotificationAction(
             identifier: NotificationAction.snooze,
-            title: "Remind in 1 Hour",
+            title: "Remind Later",
             options: []
         )
 
-        let dailyReminderCategory = UNNotificationCategory(
-            identifier: NotificationCategory.dailyReminder,
-            actions: [startSessionAction, snoozeAction],
+        let streakReminderCategory = UNNotificationCategory(
+            identifier: NotificationCategory.streakReminder,
+            actions: [openAppAction, snoozeAction],
             intentIdentifiers: [],
             options: [.customDismissAction]
         )
 
-        notificationCenter.setNotificationCategories([letterReadyCategory, dailyReminderCategory])
+        // FOMO trigger actions
+        let fomoCategory = UNNotificationCategory(
+            identifier: NotificationCategory.fomoTrigger,
+            actions: [recordAnswerAction],
+            intentIdentifiers: [],
+            options: [.customDismissAction]
+        )
+
+        // Weekly award actions
+        let awardCategory = UNNotificationCategory(
+            identifier: NotificationCategory.weeklyAward,
+            actions: [openAppAction],
+            intentIdentifiers: [],
+            options: [.customDismissAction]
+        )
+
+        notificationCenter.setNotificationCategories([
+            newQuestionCategory,
+            friendAnsweredCategory,
+            streakReminderCategory,
+            fomoCategory,
+            awardCategory
+        ])
     }
 
     // MARK: - Permission
@@ -88,64 +124,21 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
         }
     }
 
-    // MARK: - Letter Notifications
+    // MARK: - Social Notifications
 
-    public func scheduleLetterUnlock(letter: FutureLetter) async throws {
-        // Only schedule for sealed letters with future delivery dates
-        guard letter.status == .sealed else { return }
-        guard letter.deliveryDate > Date() else { return }
-
-        // Check permission first
+    public func scheduleNewQuestionNotification(hour: Int, minute: Int) async throws {
         let status = await getPermissionStatus()
         guard status == .authorized || status == .provisional else { return }
 
-        let content = UNMutableNotificationContent()
-        content.title = "A Letter from Your Past Self"
-        content.body = "Your letter is ready to be opened. Take a moment to read what past you had to say."
-        content.sound = .default
-        content.badge = 1
-        content.categoryIdentifier = NotificationCategory.letterReady
-        content.userInfo = ["letterId": letter.id]
-
-        // Create trigger for the delivery date
-        let triggerDate = Calendar.current.dateComponents(
-            [.year, .month, .day, .hour, .minute],
-            from: letter.deliveryDate
-        )
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
-
-        let request = UNNotificationRequest(
-            identifier: NotificationIdentifier.forLetter(letter.id),
-            content: content,
-            trigger: trigger
-        )
-
-        try await notificationCenter.add(request)
-    }
-
-    public func cancelLetterNotification(letterId: String) async {
-        let identifier = NotificationIdentifier.forLetter(letterId)
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
-        notificationCenter.removeDeliveredNotifications(withIdentifiers: [identifier])
-    }
-
-    // MARK: - Daily Reminder
-
-    public func scheduleDailyReminder(hour: Int, minute: Int) async throws {
-        // Check permission first
-        let status = await getPermissionStatus()
-        guard status == .authorized || status == .provisional else { return }
-
-        // Cancel any existing daily reminder
+        // Cancel any existing daily question reminder
         await cancelDailyReminder()
 
         let content = UNMutableNotificationContent()
-        content.title = "Time for Reflection"
-        content.body = "Take a few minutes to journal with Socrates and explore your thoughts."
+        content.title = "New Question Dropped"
+        content.body = "What's your take today? Record your answer before your friends do."
         content.sound = .default
-        content.categoryIdentifier = NotificationCategory.dailyReminder
+        content.categoryIdentifier = NotificationCategory.newQuestion
 
-        // Create repeating daily trigger
         var dateComponents = DateComponents()
         dateComponents.hour = hour
         dateComponents.minute = minute
@@ -153,7 +146,7 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
 
         let request = UNNotificationRequest(
-            identifier: NotificationIdentifier.dailyReminder,
+            identifier: NotificationIdentifier.dailyQuestion,
             content: content,
             trigger: trigger
         )
@@ -161,44 +154,111 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
         try await notificationCenter.add(request)
     }
 
-    public func cancelDailyReminder() async {
-        notificationCenter.removePendingNotificationRequests(
-            withIdentifiers: [NotificationIdentifier.dailyReminder]
-        )
-        notificationCenter.removeDeliveredNotifications(
-            withIdentifiers: [NotificationIdentifier.dailyReminder]
-        )
-    }
-
-    // MARK: - Reschedule
-
-    public func rescheduleAllNotifications(letters: [FutureLetter], settings: UserSettings) async {
-        // Check permission first
+    public func scheduleFriendAnsweredNotification(friendName: String, questionPreview: String) async throws {
         let status = await getPermissionStatus()
         guard status == .authorized || status == .provisional else { return }
 
-        // Reschedule letter notifications for sealed letters with letter reminders enabled
-        if settings.letterRemindersEnabled {
-            for letter in letters where letter.status == .sealed && letter.deliveryDate > Date() {
-                do {
-                    try await scheduleLetterUnlock(letter: letter)
-                } catch {
-                    print("Failed to reschedule letter notification for \(letter.id): \(error)")
-                }
-            }
-        }
+        let content = UNMutableNotificationContent()
+        content.title = "\(friendName) just recorded their take"
+        content.body = "Record yours to hear it: \"\(questionPreview)\""
+        content.sound = .default
+        content.badge = 1
+        content.categoryIdentifier = NotificationCategory.friendAnswered
+        content.userInfo = ["friendName": friendName]
 
-        // Reschedule daily reminder if enabled
-        if settings.dailyReminderEnabled {
-            do {
-                try await scheduleDailyReminder(
-                    hour: settings.dailyReminderHour,
-                    minute: settings.dailyReminderMinute
-                )
-            } catch {
-                print("Failed to reschedule daily reminder: \(error)")
-            }
-        }
+        // Trigger immediately (push-style, 1 second delay)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+
+        let identifier = "\(NotificationIdentifier.friendAnswered)\(UUID().uuidString)"
+        let request = UNNotificationRequest(
+            identifier: identifier,
+            content: content,
+            trigger: trigger
+        )
+
+        try await notificationCenter.add(request)
+    }
+
+    public func scheduleStreakReminderNotification(streakDays: Int) async throws {
+        let status = await getPermissionStatus()
+        guard status == .authorized || status == .provisional else { return }
+
+        let content = UNMutableNotificationContent()
+        content.title = "Don't Break Your Streak!"
+        content.body = "You're on a \(streakDays)-day streak! Record today's take to keep it going."
+        content.sound = .default
+        content.categoryIdentifier = NotificationCategory.streakReminder
+
+        // Schedule for 8 PM if they haven't answered yet
+        var dateComponents = DateComponents()
+        dateComponents.hour = 20
+        dateComponents.minute = 0
+
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+
+        let request = UNNotificationRequest(
+            identifier: NotificationIdentifier.streakReminder,
+            content: content,
+            trigger: trigger
+        )
+
+        try await notificationCenter.add(request)
+    }
+
+    public func scheduleFOMONotification(friendCount: Int) async throws {
+        let status = await getPermissionStatus()
+        guard status == .authorized || status == .provisional else { return }
+
+        let content = UNMutableNotificationContent()
+        content.title = "Your Friends Are Talking"
+        content.body = "\(friendCount) friend\(friendCount == 1 ? "" : "s") answered today's question. You haven't yet."
+        content.sound = .default
+        content.categoryIdentifier = NotificationCategory.fomoTrigger
+
+        // Trigger immediately (push-style, 1 second delay)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+
+        let request = UNNotificationRequest(
+            identifier: NotificationIdentifier.fomoTrigger,
+            content: content,
+            trigger: trigger
+        )
+
+        try await notificationCenter.add(request)
+    }
+
+    public func scheduleAwardNotification(awardTitle: String) async throws {
+        let status = await getPermissionStatus()
+        guard status == .authorized || status == .provisional else { return }
+
+        let content = UNMutableNotificationContent()
+        content.title = "Weekly Awards Are In"
+        content.body = "This week's \(awardTitle) award goes to... tap to find out!"
+        content.sound = .default
+        content.badge = 1
+        content.categoryIdentifier = NotificationCategory.weeklyAward
+
+        // Trigger immediately (push-style, 1 second delay)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+
+        let request = UNNotificationRequest(
+            identifier: NotificationIdentifier.weeklyAward,
+            content: content,
+            trigger: trigger
+        )
+
+        try await notificationCenter.add(request)
+    }
+
+    // MARK: - Cancel & Manage
+
+    public func cancelDailyReminder() async {
+        notificationCenter.removePendingNotificationRequests(
+            withIdentifiers: [NotificationIdentifier.dailyQuestion]
+        )
+        notificationCenter.removeDeliveredNotifications(
+            withIdentifiers: [NotificationIdentifier.dailyQuestion]
+        )
     }
 
     public func removeAllPendingNotifications() async {
@@ -206,15 +266,34 @@ public final class LocalNotificationService: NotificationServiceProtocol, @unche
         notificationCenter.removeAllDeliveredNotifications()
     }
 
+    // MARK: - Reschedule
+
+    public func rescheduleAllNotifications(settings: UserSettings) async {
+        let status = await getPermissionStatus()
+        guard status == .authorized || status == .provisional else { return }
+
+        // Reschedule daily question reminder if enabled
+        if settings.dailyReminderEnabled {
+            do {
+                try await scheduleNewQuestionNotification(
+                    hour: settings.dailyReminderHour,
+                    minute: settings.dailyReminderMinute
+                )
+            } catch {
+                print("Failed to reschedule daily question reminder: \(error)")
+            }
+        }
+    }
+
     // MARK: - Helpers
 
     /// Schedule a snooze reminder for 1 hour from now
     public func scheduleSnoozeReminder() async throws {
         let content = UNMutableNotificationContent()
-        content.title = "Time for Reflection"
-        content.body = "Ready to journal now? Socrates is waiting."
+        content.title = "New Question Waiting"
+        content.body = "Ready to record your take? Your friends are waiting to hear it."
         content.sound = .default
-        content.categoryIdentifier = NotificationCategory.dailyReminder
+        content.categoryIdentifier = NotificationCategory.newQuestion
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600, repeats: false)
 
