@@ -11,8 +11,25 @@ public struct TodayDashboardView: View {
     let notificationService: NotificationServiceProtocol
     let analyticsService: AnalyticsServiceProtocol
 
+    @State private var viewModel: TodayDashboardViewModel
     @State private var showSettings = false
     @Environment(ThemeManager.self) private var themeManager
+
+    public init(
+        breathSessionRepository: BreathSessionRepositoryProtocol,
+        settingsRepository: SettingsRepositoryProtocol,
+        notificationService: NotificationServiceProtocol,
+        analyticsService: AnalyticsServiceProtocol
+    ) {
+        self.breathSessionRepository = breathSessionRepository
+        self.settingsRepository = settingsRepository
+        self.notificationService = notificationService
+        self.analyticsService = analyticsService
+        self._viewModel = State(initialValue: TodayDashboardViewModel(
+            breathSessionRepository: breathSessionRepository,
+            settingsRepository: settingsRepository
+        ))
+    }
 
     public var body: some View {
         NavigationStack {
@@ -29,27 +46,15 @@ public struct TodayDashboardView: View {
                     }
                     .padding(.top, AppSpacing.heroTopPadding)
 
-                    // Placeholder for daily progress card (Feature 3)
-                    VStack(spacing: AppSpacing.sm) {
-                        Text("0")
-                            .font(AppTypography.statLarge)
-                            .foregroundStyle(AppColors.accent)
-                        Text("minutes today")
-                            .font(AppTypography.caption)
-                            .foregroundStyle(AppColors.textSecondary)
-                        Text("Start your first session")
-                            .font(AppTypography.body)
-                            .foregroundStyle(AppColors.textTertiary)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(AppSpacing.cardPadding)
-                    .background(AppColors.surface)
-                    .overlay(
-                        Rectangle()
-                            .stroke(AppColors.border, lineWidth: AppSpacing.gridGutter)
+                    // Daily progress
+                    DailyProgressCard(
+                        totalMinutes: viewModel.totalMinutesToday,
+                        sessionsCount: viewModel.sessionsCount,
+                        goalProgress: viewModel.goalProgress,
+                        dailyGoalMinutes: viewModel.dailyGoalMinutes
                     )
 
-                    // Technique cards section
+                    // Technique cards
                     SectionHeaderView("Techniques", showTopBorder: false)
 
                     ForEach(BreathTechnique.allTechniques) { technique in
@@ -64,11 +69,34 @@ public struct TodayDashboardView: View {
                         }
                         .buttonStyle(.plain)
                     }
+
+                    // Today's sessions
+                    if !viewModel.todaySessions.isEmpty {
+                        SectionHeaderView("Today's Sessions")
+
+                        VStack(spacing: 0) {
+                            ForEach(Array(viewModel.todaySessions.enumerated()), id: \.element.id) { index, session in
+                                SessionHistoryRow(
+                                    techniqueName: viewModel.techniqueName(for: session),
+                                    duration: session.totalDuration,
+                                    startedAt: session.startedAt
+                                )
+                                if index < viewModel.todaySessions.count - 1 {
+                                    HairlineDivider()
+                                }
+                            }
+                        }
+                    }
+
+                    // Streak
+                    StreakIndicator(streak: viewModel.streak)
                 }
                 .padding(.horizontal, AppSpacing.screenPadding)
                 .padding(.bottom, AppSpacing.sectionGap)
             }
             .background(AppColors.background)
+            .task { await viewModel.load() }
+            .refreshable { await viewModel.load() }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -89,6 +117,9 @@ public struct TodayDashboardView: View {
                 )
                 .environment(themeManager)
                 .preferredColorScheme(themeManager.colorScheme)
+            }
+            .onAppear {
+                Task { await viewModel.load() }
             }
         }
     }
