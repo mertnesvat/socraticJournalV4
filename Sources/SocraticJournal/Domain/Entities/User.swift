@@ -1,34 +1,22 @@
 // User.swift
-// SocraticJournal
+// Breathe
 // Copyright 2024 StudioNext
 
 import Foundation
 
-/// Represents a user of the social voice-opinion platform
+/// Minimal user stub for the Breath Pacer app
 public struct User: Identifiable, Codable, Sendable, Equatable {
     public let id: String
     public var displayName: String
-    public var username: String
-    public var avatarURL: String?
     public let createdAt: Date
-    public var streakCount: Int
-    public var friendCount: Int
 
     public init(
         id: String,
         displayName: String,
-        username: String,
-        avatarURL: String? = nil,
-        createdAt: Date,
-        streakCount: Int = 0,
-        friendCount: Int = 0
+        createdAt: Date = Date()
     ) {
         self.id = id
         self.displayName = displayName
-        self.username = username
-        self.avatarURL = avatarURL
         self.createdAt = createdAt
-        self.streakCount = streakCount
-        self.friendCount = friendCount
     }
 }

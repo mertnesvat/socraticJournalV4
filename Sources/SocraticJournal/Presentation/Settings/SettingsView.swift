@@ -1,5 +1,5 @@
 // SettingsView.swift
-// SocraticJournal
+// Breathe
 // Copyright 2024 StudioNext
 
 #if os(iOS)
@@ -7,7 +7,7 @@ import SwiftUI
 
 /// Notification posted when user requests to replay onboarding
 public extension Notification.Name {
-    static let replayOnboarding = Notification.Name("com.socraticjournal.replayOnboarding")
+    static let replayOnboarding = Notification.Name("com.breathe.replayOnboarding")
 }
 
 /// Settings screen for app configuration
@@ -15,7 +15,6 @@ public struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(ThemeManager.self) private var themeManager
     @State private var viewModel: SettingsViewModel
-    @State private var showingPaywall: Bool = false
 
     public init(viewModel: SettingsViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -33,22 +32,7 @@ public struct SettingsView: View {
                         viewModel.openNotificationSettings()
                     }
                 } message: {
-                    Text("To receive notifications, please enable them in Settings.")
-                }
-                .sheet(isPresented: $showingPaywall) {
-                    if let subscriptionService = viewModel.subscriptionService {
-                        PaywallView(
-                            viewModel: PaywallViewModel(
-                                subscriptionService: subscriptionService,
-                                analyticsService: viewModel.analyticsService
-                            )
-                        )
-                        .environment(themeManager)
-                        .preferredColorScheme(themeManager.colorScheme)
-                    } else {
-                        subscriptionUnavailableView
-                            .preferredColorScheme(themeManager.colorScheme)
-                    }
+                    Text("To receive reminders, please enable notifications in Settings.")
                 }
                 .preferredColorScheme(themeManager.colorScheme)
                 .onChange(of: viewModel.themeMode) { _, newMode in
@@ -69,7 +53,6 @@ public struct SettingsView: View {
         } else {
             ScrollView {
                 VStack(spacing: 0) {
-                    // Custom title
                     settingsHeader
 
                     // APPEARANCE section
@@ -84,7 +67,7 @@ public struct SettingsView: View {
                     .padding(.bottom, AppSpacing.md)
 
                     // NOTIFICATIONS section
-                    SectionHeaderView("Notifications")
+                    SectionHeaderView("Reminders")
                         .padding(.top, AppSpacing.md)
                     NotificationSettingsView(
                         dailyReminderEnabled: Binding(
@@ -95,43 +78,9 @@ public struct SettingsView: View {
                             get: { viewModel.reminderTime },
                             set: { viewModel.reminderTime = $0 }
                         ),
-                        friendActivityEnabled: Binding(
-                            get: { viewModel.friendActivityEnabled },
-                            set: { viewModel.friendActivityEnabled = $0 }
-                        ),
-                        streakRemindersEnabled: Binding(
-                            get: { viewModel.streakRemindersEnabled },
-                            set: { viewModel.streakRemindersEnabled = $0 }
-                        ),
-                        fomoAlertsEnabled: Binding(
-                            get: { viewModel.fomoAlertsEnabled },
-                            set: { viewModel.fomoAlertsEnabled = $0 }
-                        ),
                         notificationsDenied: viewModel.notificationsDenied,
                         onOpenSettings: {
                             viewModel.openNotificationSettings()
-                        }
-                    )
-                    .padding(.horizontal, AppSpacing.screenPadding)
-                    .padding(.bottom, AppSpacing.md)
-
-                    // SUBSCRIPTION section
-                    SectionHeaderView("Subscription")
-                        .padding(.top, AppSpacing.md)
-                    SubscriptionSettingsView(
-                        subscriptionStatus: viewModel.subscriptionStatus,
-                        expiryDate: viewModel.formattedSubscriptionExpiry,
-                        isRestoring: viewModel.isRestoringPurchases,
-                        onUpgradeTapped: {
-                            showingPaywall = true
-                        },
-                        onRestoreTapped: {
-                            Task {
-                                await viewModel.restorePurchases()
-                            }
-                        },
-                        onManageSubscriptionTapped: {
-                            viewModel.openSubscriptionManagement()
                         }
                     )
                     .padding(.horizontal, AppSpacing.screenPadding)
@@ -162,8 +111,6 @@ public struct SettingsView: View {
         }
     }
 
-    // MARK: - Settings Header
-
     private var settingsHeader: some View {
         HStack {
             Text("Settings")
@@ -174,49 +121,6 @@ public struct SettingsView: View {
         .padding(.horizontal, AppSpacing.screenPadding)
         .padding(.top, AppSpacing.lg)
         .padding(.bottom, AppSpacing.md)
-    }
-
-    // MARK: - Subscription Unavailable
-
-    private var subscriptionUnavailableView: some View {
-        NavigationStack {
-            VStack(spacing: AppSpacing.lg) {
-                Image(systemName: "exclamationmark.triangle")
-                    .font(.system(size: 48))
-                    .foregroundStyle(AppColors.warning)
-
-                VStack(spacing: AppSpacing.xs) {
-                    Text("Subscriptions Unavailable")
-                        .font(AppTypography.headlineMedium)
-                        .foregroundStyle(AppColors.textPrimary)
-
-                    Text("The subscription service is not available right now. Please try again later.")
-                        .font(AppTypography.body)
-                        .foregroundStyle(AppColors.textSecondary)
-                        .multilineTextAlignment(.center)
-                }
-
-                AccentPillButton("Dismiss") {
-                    showingPaywall = false
-                }
-                .frame(width: 180)
-            }
-            .padding(AppSpacing.screenPadding)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(AppColors.background)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        showingPaywall = false
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.body.weight(.medium))
-                            .foregroundStyle(AppColors.textPrimary)
-                    }
-                }
-            }
-        }
     }
 
     @ToolbarContentBuilder
