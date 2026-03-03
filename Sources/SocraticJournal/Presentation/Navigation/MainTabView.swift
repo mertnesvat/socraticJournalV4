@@ -71,7 +71,18 @@ public struct MainTabView: View {
             ZStack {
                 switch selectedTab {
                 case .today:
-                    placeholderView(title: "Today", icon: "circle.grid.2x1")
+                    TodayView(
+                        sessionRepository: sessionRepository,
+                        settingsRepository: settingsRepository,
+                        onStartBreathing: {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                selectedTab = .breathe
+                            }
+                        },
+                        onOpenSettings: {
+                            showSettings = true
+                        }
+                    )
                 case .breathe:
                     BreatheView(onSessionCompleted: { session in
                         Task {
