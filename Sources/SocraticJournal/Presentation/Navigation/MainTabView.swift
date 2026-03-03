@@ -93,6 +93,13 @@ public struct MainTabView: View {
                     BreatheView(onSessionCompleted: { session in
                         Task {
                             try? await sessionRepository.saveSession(session)
+                            // Update App Group for widgets
+                            let allSessions = (try? await sessionRepository.getAllSessions()) ?? []
+                            AppGroupSessionStore.shared.updateAfterSession(sessions: allSessions)
+                            // Reload widget timelines
+                            await MainActor.run {
+                                WidgetCenterHelper.reloadAll()
+                            }
                         }
                     })
                 case .learn:
