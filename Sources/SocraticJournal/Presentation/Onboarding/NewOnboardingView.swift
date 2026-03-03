@@ -5,7 +5,7 @@
 #if os(iOS)
 import SwiftUI
 
-/// Simple placeholder onboarding — will be fully designed in Feature 5
+/// 3-page swipeable onboarding — Breathe Better, Science, Get Started
 public struct NewOnboardingView: View {
     @State private var currentPage: Int = 0
     private let settingsRepository: SettingsRepositoryProtocol
@@ -20,29 +20,21 @@ public struct NewOnboardingView: View {
     }
 
     public var body: some View {
-        VStack(spacing: AppSpacing.lg) {
-            Spacer()
+        TabView(selection: $currentPage) {
+            OnboardingBreathePage()
+                .tag(0)
 
-            Text("Breathe")
-                .font(AppTypography.displayLarge)
-                .foregroundStyle(AppColors.textPrimary)
+            OnboardingSciencePage()
+                .tag(1)
 
-            Text("The most powerful health tool you already have")
-                .font(AppTypography.bodyLarge)
-                .foregroundStyle(AppColors.textSecondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, AppSpacing.screenPadding)
-
-            Spacer()
-
-            AccentPillButton("Get Started") {
+            OnboardingStartPage {
                 completeOnboarding()
             }
-            .padding(.horizontal, AppSpacing.screenPadding)
-            .padding(.bottom, 40)
+            .tag(2)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColors.background)
+        .tabViewStyle(.page(indexDisplayMode: .always))
+        .indexViewStyle(.page(backgroundDisplayMode: .always))
+        .ignoresSafeArea()
     }
 
     private func completeOnboarding() {

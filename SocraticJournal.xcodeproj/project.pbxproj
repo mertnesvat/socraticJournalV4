@@ -17,33 +17,40 @@
 		1942377AA6B21C6D939D0917 /* AppTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA3E1F2B8FB060A9055025B /* AppTypography.swift */; };
 		2353327B27450AF113EF609F /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF92EF5F314A4CC8478E991C /* ThemeManager.swift */; };
 		2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */; };
+		244BFB83EA087C4C83F236B1 /* OnboardingBreathePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B308F9CC6A8B4BFD848AF09F /* OnboardingBreathePage.swift */; };
 		260CF80AFE98AC17C77CF517 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B5465DD72A4D6C6492FD14 /* AppColors.swift */; };
 		2641E2D7D493BDE2160B83D1 /* BreathSessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A22992E06767D07F2D0D5E9 /* BreathSessionCompleteView.swift */; };
 		278C418E1F73145AD9AAAA34 /* BreathPacingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81134A9080C6BC2F469D29E7 /* BreathPacingView.swift */; };
 		2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A36AC1AC2633D53C43FE99 /* Environment.swift */; };
 		2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */; };
 		31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */; };
+		32692AF0C629EC1E19EEFD74 /* SessionHistoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D971947F5B2636F057402CA5 /* SessionHistoryRow.swift */; };
 		3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782BF4BCB8611080CE7218E /* AboutView.swift */; };
 		40DB66C3830BF575B1904170 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBFCD947C02302577DE3EC06 /* Assets.xcassets */; };
 		42920AFCA24AD3E7B07FAC9C /* BreathSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A737F1D67490C9A86525010 /* BreathSession.swift */; };
+		486F6B92103CAA5F61EA7086 /* OnboardingSciencePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AB6F889DF88B78928345C3 /* OnboardingSciencePage.swift */; };
 		54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */; };
 		55B60718FE227BEA19D64946 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */; };
 		5B24B9CDE0844E58E1AD4B3B /* PhaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A10795832E5F6467FB7392A /* PhaseLabel.swift */; };
 		5B4EFE058F2587059FFF78A7 /* SocraticJournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */; };
 		5B625522F67DED65EA09CBA1 /* MockSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88051AB8352D615CE378228 /* MockSettingsRepository.swift */; };
+		5B66C28BD8A4005DAB2D7348 /* DailyProgressCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB42E9549666B979DBD5CC3 /* DailyProgressCard.swift */; };
 		5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4B1E73960A7489D123CF41 /* UserSettings.swift */; };
 		61C803196130A272EED52FD3 /* LearnFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5AF9FC2ACAD6D87C1370EA /* LearnFeedView.swift */; };
 		6D98A2F1C80A94CBE7A571D8 /* AppSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF73C946A4299853FE58E44 /* AppSpacing.swift */; };
 		702FBB3CB0927EADBAEBBB5E /* BreathContentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C1197EA142821F5B013C70 /* BreathContentService.swift */; };
+		710624D8457D48AA9E738C3B /* StreakIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A753957BBE36EB16D652CC /* StreakIndicator.swift */; };
 		747D89648AE0EBAA843D4E37 /* CountdownOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA3C6E7BE38CDBCCCF04B5E /* CountdownOverlay.swift */; };
 		7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */; };
 		7E55D38D6BCA0E51D0F45013 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1439E1ED4A0277B8F3670D92 /* FirebaseAnalytics */; };
 		81091E373EF2A53EFFF913E4 /* AppsFlyerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D029C25B681B5461B571644 /* AppsFlyerService.swift */; };
 		861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */; };
+		881BE94612D15C7E29CABC17 /* TodayDashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D19E67AC13FE93210EBBAF /* TodayDashboardViewModel.swift */; };
 		90D36BD2BF7047735751CD6B /* wisdom_quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = E9721DD221539E97DDD9E989 /* wisdom_quotes.json */; };
 		91155306582B4B7662CE72D8 /* UserDefaultsBreathSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853C1481B20C2C27E606631D /* UserDefaultsBreathSessionRepository.swift */; };
 		97DB0893F432AAA1FF3FF082 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */; };
 		B2760A0C267C362B8DF5EE80 /* BreathContentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370121E2ACDB4BD5A937156A /* BreathContentServiceProtocol.swift */; };
+		B2FC8CCE87A90003F7701E27 /* CategoryFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70CF49E35FB6B6B154D5B52 /* CategoryFilterBar.swift */; };
 		B3DB0855837140353AD1FA5A /* LearningBit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB130C9BDE7DE0255EBCCC /* LearningBit.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
 		C9EDC049AB6DD96FDAABF91D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9004754BBF0511296A6FAF /* User.swift */; };
@@ -58,6 +65,9 @@
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
 		EB76B863B91141B454481CAE /* BreathCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F8E97764CDB8AC670193D5 /* BreathCircleView.swift */; };
 		EC03A70166A8DEF9CEEB2872 /* BreathPacingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2038944009FBA096686ECD97 /* BreathPacingEngine.swift */; };
+		F04C3D267A5A7C8C4012E3EE /* LearningCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EAC4FADE5840DF15C39BCF /* LearningCard.swift */; };
+		F752518B548D87FA795DBB8D /* OnboardingStartPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE19F34C1EA9BDFBC1947700 /* OnboardingStartPage.swift */; };
+		FB18FE6C9DBA340FEE7CD0F9 /* LearnFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A7427EE91BA9879FCE9E7E /* LearnFeedViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,9 +88,12 @@
 		2038944009FBA096686ECD97 /* BreathPacingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingEngine.swift; sourceTree = "<group>"; };
 		2A22992E06767D07F2D0D5E9 /* BreathSessionCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionCompleteView.swift; sourceTree = "<group>"; };
 		2CF73C946A4299853FE58E44 /* AppSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpacing.swift; sourceTree = "<group>"; };
+		30D19E67AC13FE93210EBBAF /* TodayDashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDashboardViewModel.swift; sourceTree = "<group>"; };
+		35A7427EE91BA9879FCE9E7E /* LearnFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFeedViewModel.swift; sourceTree = "<group>"; };
 		370121E2ACDB4BD5A937156A /* BreathContentServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathContentServiceProtocol.swift; sourceTree = "<group>"; };
 		3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepositoryProtocol.swift; sourceTree = "<group>"; };
 		3D029C25B681B5461B571644 /* AppsFlyerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerService.swift; sourceTree = "<group>"; };
+		43AB6F889DF88B78928345C3 /* OnboardingSciencePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSciencePage.swift; sourceTree = "<group>"; };
 		46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
 		4A737F1D67490C9A86525010 /* BreathSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSession.swift; sourceTree = "<group>"; };
 		4ADB130C9BDE7DE0255EBCCC /* LearningBit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningBit.swift; sourceTree = "<group>"; };
@@ -94,6 +107,7 @@
 		81134A9080C6BC2F469D29E7 /* BreathPacingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingView.swift; sourceTree = "<group>"; };
 		84DB170DB3684DD41520F4D4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		853C1481B20C2C27E606631D /* UserDefaultsBreathSessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsBreathSessionRepository.swift; sourceTree = "<group>"; };
+		87EAC4FADE5840DF15C39BCF /* LearningCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningCard.swift; sourceTree = "<group>"; };
 		98DEC87C4C78120D2D66BF2D /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		99C1197EA142821F5B013C70 /* BreathContentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathContentService.swift; sourceTree = "<group>"; };
 		9A10795832E5F6467FB7392A /* PhaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhaseLabel.swift; sourceTree = "<group>"; };
@@ -104,18 +118,23 @@
 		A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
 		A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsService.swift; sourceTree = "<group>"; };
+		AE19F34C1EA9BDFBC1947700 /* OnboardingStartPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStartPage.swift; sourceTree = "<group>"; };
 		B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceProtocol.swift; sourceTree = "<group>"; };
+		B308F9CC6A8B4BFD848AF09F /* OnboardingBreathePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBreathePage.swift; sourceTree = "<group>"; };
 		BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelectorView.swift; sourceTree = "<group>"; };
 		BDA3C6E7BE38CDBCCCF04B5E /* CountdownOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownOverlay.swift; sourceTree = "<group>"; };
+		BFB42E9549666B979DBD5CC3 /* DailyProgressCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyProgressCard.swift; sourceTree = "<group>"; };
 		C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationService.swift; sourceTree = "<group>"; };
 		C6492138B440EC6E4C03ED3C /* NewOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingView.swift; sourceTree = "<group>"; };
 		CBFCD947C02302577DE3EC06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF92EF5F314A4CC8478E991C /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		CFD881CE19C0D9E11C59F3BA /* TodayDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDashboardView.swift; sourceTree = "<group>"; };
+		D971947F5B2636F057402CA5 /* SessionHistoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHistoryRow.swift; sourceTree = "<group>"; };
 		DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceProtocol.swift; sourceTree = "<group>"; };
 		E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournal.swift; sourceTree = "<group>"; };
 		E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalTests.swift; sourceTree = "<group>"; };
+		E70CF49E35FB6B6B154D5B52 /* CategoryFilterBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryFilterBar.swift; sourceTree = "<group>"; };
 		E7A36AC1AC2633D53C43FE99 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		E88051AB8352D615CE378228 /* MockSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsRepository.swift; sourceTree = "<group>"; };
 		E9721DD221539E97DDD9E989 /* wisdom_quotes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = wisdom_quotes.json; sourceTree = "<group>"; };
@@ -123,6 +142,7 @@
 		EC9004754BBF0511296A6FAF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F782BF4BCB8611080CE7218E /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		F8A753957BBE36EB16D652CC /* StreakIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakIndicator.swift; sourceTree = "<group>"; };
 		FA91533A335450E007AEA17C /* BreathSessionSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionSetupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				C6492138B440EC6E4C03ED3C /* NewOnboardingView.swift */,
+				2D43DDDF3265CFB5DEB362E5 /* Pages */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -199,6 +220,16 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		2D43DDDF3265CFB5DEB362E5 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				B308F9CC6A8B4BFD848AF09F /* OnboardingBreathePage.swift */,
+				43AB6F889DF88B78928345C3 /* OnboardingSciencePage.swift */,
+				AE19F34C1EA9BDFBC1947700 /* OnboardingStartPage.swift */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
 		3292427AC674B121CCABA44F /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				5A5AF9FC2ACAD6D87C1370EA /* LearnFeedView.swift */,
+				35A7427EE91BA9879FCE9E7E /* LearnFeedViewModel.swift */,
 				915A0D1896B17DA72A55A457 /* Components */,
 			);
 			path = Learn;
@@ -290,6 +322,9 @@
 		8E8920A02489B57CAB0B1757 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				BFB42E9549666B979DBD5CC3 /* DailyProgressCard.swift */,
+				D971947F5B2636F057402CA5 /* SessionHistoryRow.swift */,
+				F8A753957BBE36EB16D652CC /* StreakIndicator.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -308,6 +343,8 @@
 		915A0D1896B17DA72A55A457 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				E70CF49E35FB6B6B154D5B52 /* CategoryFilterBar.swift */,
+				87EAC4FADE5840DF15C39BCF /* LearningCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -353,6 +390,7 @@
 			isa = PBXGroup;
 			children = (
 				CFD881CE19C0D9E11C59F3BA /* TodayDashboardView.swift */,
+				30D19E67AC13FE93210EBBAF /* TodayDashboardViewModel.swift */,
 				8E8920A02489B57CAB0B1757 /* Components */,
 			);
 			path = Today;
@@ -546,28 +584,38 @@
 				E22D51C2108FCDF5D2670EE7 /* BreathSessionRepositoryProtocol.swift in Sources */,
 				E709FB5504B55EFEBC55B6C9 /* BreathSessionSetupView.swift in Sources */,
 				17DD6C8A004F35D79CACC6CB /* BreathTechnique.swift in Sources */,
+				B2FC8CCE87A90003F7701E27 /* CategoryFilterBar.swift in Sources */,
 				747D89648AE0EBAA843D4E37 /* CountdownOverlay.swift in Sources */,
 				08915BCFBD6B6397D2BCA9EE /* DailyLog.swift in Sources */,
+				5B66C28BD8A4005DAB2D7348 /* DailyProgressCard.swift in Sources */,
 				D5C1EC71902A6965F6282E09 /* DurationPicker.swift in Sources */,
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
 				61C803196130A272EED52FD3 /* LearnFeedView.swift in Sources */,
+				FB18FE6C9DBA340FEE7CD0F9 /* LearnFeedViewModel.swift in Sources */,
 				B3DB0855837140353AD1FA5A /* LearningBit.swift in Sources */,
+				F04C3D267A5A7C8C4012E3EE /* LearningCard.swift in Sources */,
 				2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */,
 				2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */,
 				31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */,
 				D88A4A172C567D8E9CA2D454 /* NewOnboardingView.swift in Sources */,
 				54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */,
 				7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */,
+				244BFB83EA087C4C83F236B1 /* OnboardingBreathePage.swift in Sources */,
+				486F6B92103CAA5F61EA7086 /* OnboardingSciencePage.swift in Sources */,
+				F752518B548D87FA795DBB8D /* OnboardingStartPage.swift in Sources */,
 				5B24B9CDE0844E58E1AD4B3B /* PhaseLabel.swift in Sources */,
+				32692AF0C629EC1E19EEFD74 /* SessionHistoryRow.swift in Sources */,
 				D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */,
 				C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */,
 				861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */,
 				060DCDE2F8D2095C6DA7AC4E /* SocraticJournal.swift in Sources */,
 				C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */,
+				710624D8457D48AA9E738C3B /* StreakIndicator.swift in Sources */,
 				2353327B27450AF113EF609F /* ThemeManager.swift in Sources */,
 				0047B39B7559AD5B4D2A724A /* ThemeSelectorView.swift in Sources */,
 				0F2414B3533D0C0F4910B221 /* TodayDashboardView.swift in Sources */,
+				881BE94612D15C7E29CABC17 /* TodayDashboardViewModel.swift in Sources */,
 				C9EDC049AB6DD96FDAABF91D /* User.swift in Sources */,
 				91155306582B4B7662CE72D8 /* UserDefaultsBreathSessionRepository.swift in Sources */,
 				E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */,
