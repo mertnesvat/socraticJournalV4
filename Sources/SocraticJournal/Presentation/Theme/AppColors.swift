@@ -6,48 +6,55 @@
 import SwiftUI
 
 public enum AppColors {
-    // Accent — Bold Coral Red (hero color)
-    public static let accent = Color(hex: "E8503A")
+    // Accent -- Calming teal-cyan
+    public static let accent = Color(hex: "64FFDA")
 
-    // Backgrounds — Cream editorial
-    public static let background = Color(hex: "FAF7F2")      // Warm cream
-    public static let surface = Color(hex: "FFFFFF")           // White cards
-    public static let surfaceElevated = Color(hex: "F0EBE3")  // Darker cream
+    // Backgrounds -- Deep navy
+    public static let background = Color(hex: "0A1628")
+    public static let surface = Color(hex: "112240")
+    public static let surfaceElevated = Color(hex: "1B3A5C")
 
-    // Dark variants (recording studio, dark cards)
+    // Dark variants (kept for compatibility)
     public static let backgroundDark = Color(hex: "0A0A0A")
     public static let surfaceDark = Color(hex: "1A1A1A")
 
-    // Text
-    public static let textPrimary = Color(hex: "1A1A1A")
-    public static let textSecondary = Color(hex: "6B6B6B")
-    public static let textTertiary = Color(hex: "9E9E9E")
+    // Text -- Light on dark
+    public static let textPrimary = Color.white
+    public static let textSecondary = Color(hex: "8892B0")
+    public static let textTertiary = Color(hex: "495670")
     public static let textOnDark = Color.white
-    public static let textOnAccent = Color.white
+    public static let textOnAccent = Color(hex: "0A1628")
 
     // Semantic
     public static let success = Color(hex: "34C759")
     public static let warning = Color(hex: "FF9F0A")
-    public static let error = Color(hex: "E8503A")
+    public static let error = Color(hex: "FF5252")
 
-    // Card colors for conversational stacking
+    // Breath phase colours
+    public static let breathInhale = Color(hex: "64FFDA")   // Teal
+    public static let breathHold = Color(hex: "FFD54F")      // Amber/gold
+    public static let breathExhale = Color(hex: "82B1FF")    // Soft blue
+
+    // Background arc gradient for sessions
+    public static let arcStart = Color(hex: "0A1628")        // Deep navy
+    public static let arcEnd = Color(hex: "1B4B5A")          // Warmer blue-teal
+
+    // Card colors (adapted for dark theme)
     public static let cardYellow = Color(hex: "FADF63")
-    public static let cardTeal = Color(hex: "8EDDD0")
+    public static let cardTeal = Color(hex: "64FFDA")
     public static let cardDark = Color(hex: "1C1C1E")
 
-    // Question Categories
-    public static let iceBreaker = Color(hex: "3A7BD5")
-    public static let gettingSpicy = Color(hex: "F5A623")
-    public static let deepDive = Color(hex: "9B59B6")
-    public static let debateTrigger = Color(hex: "E8503A")
+    // Borders (muted for dark theme)
+    public static let border = Color(hex: "1E3A5F")
+    public static let borderStrong = Color(hex: "2A4A6F")
 
-    // Borders (hairline grid from structured minimalism)
-    public static let border = Color(hex: "E0DDD7")
-    public static let borderStrong = Color(hex: "C8C4BC")
+    // Tab bar specific
+    public static let tabBarBackground = Color(hex: "0A1628")
+    public static let tabBarBorder = Color(hex: "1E3A5F")
 
     // Single gradient for special elements
     public static let accentGradient = LinearGradient(
-        colors: [Color(hex: "E8503A"), Color(hex: "D04030")],
+        colors: [Color(hex: "64FFDA"), Color(hex: "4ECDC4")],
         startPoint: .leading, endPoint: .trailing
     )
 }

@@ -6,7 +6,7 @@
 import SwiftUI
 
 public enum AppTypography {
-    // Display — Editorial heroes
+    // Display -- Editorial heroes
     public static let displayLarge = Font.system(size: 48, weight: .bold, design: .default)
     public static let displayMedium = Font.system(size: 40, weight: .bold, design: .default)
     public static let display = Font.system(size: 34, weight: .bold, design: .default)
@@ -15,7 +15,7 @@ public enum AppTypography {
     public static let headline = Font.system(size: 28, weight: .bold, design: .default)
     public static let headlineMedium = Font.system(size: 24, weight: .semibold, design: .default)
 
-    // Section headers — ALL CAPS editorial
+    // Section headers -- ALL CAPS editorial
     public static let sectionHeader = Font.system(size: 13, weight: .heavy, design: .default)
 
     // Body
@@ -32,6 +32,10 @@ public enum AppTypography {
     public static let statSmall = Font.system(size: 32, weight: .bold, design: .default)
     public static let timer = Font.system(size: 28, weight: .medium, design: .monospaced)
     public static let badge = Font.system(size: 11, weight: .bold, design: .default)
+
+    // Breath phase labels -- lowercase serif for session display
+    public static let phaseLabel = Font.system(size: 34, weight: .regular, design: .serif)
+    public static let phaseLabelSmall = Font.system(size: 20, weight: .regular, design: .serif)
 
     // Tracking for section headers
     public static let sectionHeaderTracking: CGFloat = 2.0

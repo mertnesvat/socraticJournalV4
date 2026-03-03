@@ -8,26 +8,34 @@ import SwiftUI
 /// Tab selection options for main navigation
 public enum MainTab: Int, CaseIterable {
     case today
+    case breathe
     case learn
+    case progress
 
     var title: String {
         switch self {
         case .today: return "Today"
+        case .breathe: return "Breathe"
         case .learn: return "Learn"
+        case .progress: return "Progress"
         }
     }
 
     var iconActive: String {
         switch self {
         case .today: return "circle.grid.2x1.fill"
+        case .breathe: return "wind"
         case .learn: return "book.closed.fill"
+        case .progress: return "chart.bar.fill"
         }
     }
 
     var iconInactive: String {
         switch self {
         case .today: return "circle.grid.2x1"
+        case .breathe: return "wind"
         case .learn: return "book.closed"
+        case .progress: return "chart.bar"
         }
     }
 }
@@ -60,9 +68,13 @@ public struct MainTabView: View {
             ZStack {
                 switch selectedTab {
                 case .today:
-                    placeholderView(title: "Today")
+                    placeholderView(title: "Today", icon: "circle.grid.2x1")
+                case .breathe:
+                    placeholderView(title: "Breathe", icon: "wind")
                 case .learn:
-                    placeholderView(title: "Learn")
+                    placeholderView(title: "Learn", icon: "book.closed")
+                case .progress:
+                    placeholderView(title: "Progress", icon: "chart.bar")
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -86,9 +98,14 @@ public struct MainTabView: View {
 
     // MARK: - Placeholder View
 
-    private func placeholderView(title: String) -> some View {
+    private func placeholderView(title: String, icon: String) -> some View {
         VStack(spacing: AppSpacing.md) {
             Spacer()
+
+            Image(systemName: icon)
+                .font(.system(size: 48))
+                .foregroundStyle(AppColors.accent.opacity(0.5))
+
             Text(title)
                 .font(AppTypography.headline)
                 .foregroundStyle(AppColors.textPrimary)
@@ -111,7 +128,7 @@ public struct MainTabView: View {
     private var customTabBar: some View {
         VStack(spacing: 0) {
             // Hairline top border
-            HairlineDivider()
+            HairlineDivider(color: AppColors.tabBarBorder)
 
             // Tab buttons
             HStack(spacing: 0) {
@@ -122,7 +139,7 @@ public struct MainTabView: View {
             .frame(height: AppSpacing.tabBarHeight)
             .padding(.bottom, safeAreaBottom)
         }
-        .background(AppColors.background)
+        .background(AppColors.tabBarBackground)
     }
 
     @ViewBuilder
