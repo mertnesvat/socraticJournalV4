@@ -7,15 +7,14 @@ import SwiftUI
 
 /// Notification posted when user requests to replay onboarding
 public extension Notification.Name {
-    static let replayOnboarding = Notification.Name("com.socraticjournal.replayOnboarding")
+    static let replayOnboarding = Notification.Name("com.breathe.replayOnboarding")
 }
 
-/// Settings screen for app configuration
+/// Settings screen for breath app configuration
 public struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(ThemeManager.self) private var themeManager
     @State private var viewModel: SettingsViewModel
-    @State private var showingPaywall: Bool = false
 
     public init(viewModel: SettingsViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -33,22 +32,7 @@ public struct SettingsView: View {
                         viewModel.openNotificationSettings()
                     }
                 } message: {
-                    Text("To receive notifications, please enable them in Settings.")
-                }
-                .sheet(isPresented: $showingPaywall) {
-                    if let subscriptionService = viewModel.subscriptionService {
-                        PaywallView(
-                            viewModel: PaywallViewModel(
-                                subscriptionService: subscriptionService,
-                                analyticsService: viewModel.analyticsService
-                            )
-                        )
-                        .environment(themeManager)
-                        .preferredColorScheme(themeManager.colorScheme)
-                    } else {
-                        subscriptionUnavailableView
-                            .preferredColorScheme(themeManager.colorScheme)
-                    }
+                    Text("To receive breath reminders, please enable notifications in Settings.")
                 }
                 .preferredColorScheme(themeManager.colorScheme)
                 .onChange(of: viewModel.themeMode) { _, newMode in
@@ -69,11 +53,31 @@ public struct SettingsView: View {
         } else {
             ScrollView {
                 VStack(spacing: 0) {
-                    // Custom title
                     settingsHeader
+
+                    // PRACTICE section
+                    SectionHeaderView("Practice")
+                    dailyGoalPicker
+                        .padding(.horizontal, AppSpacing.screenPadding)
+                        .padding(.bottom, AppSpacing.md)
+
+                    // HAPTICS section
+                    SectionHeaderView("Haptics")
+                        .padding(.top, AppSpacing.md)
+                    hapticToggle
+                        .padding(.horizontal, AppSpacing.screenPadding)
+                        .padding(.bottom, AppSpacing.md)
+
+                    // REMINDERS section
+                    SectionHeaderView("Reminders")
+                        .padding(.top, AppSpacing.md)
+                    reminderSettings
+                        .padding(.horizontal, AppSpacing.screenPadding)
+                        .padding(.bottom, AppSpacing.md)
 
                     // APPEARANCE section
                     SectionHeaderView("Appearance")
+                        .padding(.top, AppSpacing.md)
                     ThemeSelectorView(
                         selectedTheme: Binding(
                             get: { viewModel.themeMode },
@@ -83,68 +87,12 @@ public struct SettingsView: View {
                     .padding(.horizontal, AppSpacing.screenPadding)
                     .padding(.bottom, AppSpacing.md)
 
-                    // NOTIFICATIONS section
-                    SectionHeaderView("Notifications")
-                        .padding(.top, AppSpacing.md)
-                    NotificationSettingsView(
-                        dailyReminderEnabled: Binding(
-                            get: { viewModel.dailyReminderEnabled },
-                            set: { viewModel.dailyReminderEnabled = $0 }
-                        ),
-                        reminderTime: Binding(
-                            get: { viewModel.reminderTime },
-                            set: { viewModel.reminderTime = $0 }
-                        ),
-                        friendActivityEnabled: Binding(
-                            get: { viewModel.friendActivityEnabled },
-                            set: { viewModel.friendActivityEnabled = $0 }
-                        ),
-                        streakRemindersEnabled: Binding(
-                            get: { viewModel.streakRemindersEnabled },
-                            set: { viewModel.streakRemindersEnabled = $0 }
-                        ),
-                        fomoAlertsEnabled: Binding(
-                            get: { viewModel.fomoAlertsEnabled },
-                            set: { viewModel.fomoAlertsEnabled = $0 }
-                        ),
-                        notificationsDenied: viewModel.notificationsDenied,
-                        onOpenSettings: {
-                            viewModel.openNotificationSettings()
-                        }
-                    )
-                    .padding(.horizontal, AppSpacing.screenPadding)
-                    .padding(.bottom, AppSpacing.md)
-
-                    // SUBSCRIPTION section
-                    SectionHeaderView("Subscription")
-                        .padding(.top, AppSpacing.md)
-                    SubscriptionSettingsView(
-                        subscriptionStatus: viewModel.subscriptionStatus,
-                        expiryDate: viewModel.formattedSubscriptionExpiry,
-                        isRestoring: viewModel.isRestoringPurchases,
-                        onUpgradeTapped: {
-                            showingPaywall = true
-                        },
-                        onRestoreTapped: {
-                            Task {
-                                await viewModel.restorePurchases()
-                            }
-                        },
-                        onManageSubscriptionTapped: {
-                            viewModel.openSubscriptionManagement()
-                        }
-                    )
-                    .padding(.horizontal, AppSpacing.screenPadding)
-                    .padding(.bottom, AppSpacing.md)
-
                     // ABOUT section
                     SectionHeaderView("About")
                         .padding(.top, AppSpacing.md)
                     AboutView(
                         version: SocraticJournal.version,
-                        onPrivacyPolicy: {
-                            openPrivacyPolicy()
-                        },
+                        onPrivacyPolicy: { openPrivacyPolicy() },
                         onReplayOnboarding: {
                             Task {
                                 await viewModel.resetOnboarding()
@@ -176,44 +124,105 @@ public struct SettingsView: View {
         .padding(.bottom, AppSpacing.md)
     }
 
-    // MARK: - Subscription Unavailable
+    // MARK: - Daily Goal Picker
 
-    private var subscriptionUnavailableView: some View {
-        NavigationStack {
-            VStack(spacing: AppSpacing.lg) {
-                Image(systemName: "exclamationmark.triangle")
-                    .font(.system(size: 48))
-                    .foregroundStyle(AppColors.warning)
+    private var dailyGoalPicker: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            Text("Daily goal")
+                .font(AppTypography.bodyBold)
+                .foregroundStyle(AppColors.textPrimary)
 
-                VStack(spacing: AppSpacing.xs) {
-                    Text("Subscriptions Unavailable")
-                        .font(AppTypography.headlineMedium)
-                        .foregroundStyle(AppColors.textPrimary)
-
-                    Text("The subscription service is not available right now. Please try again later.")
-                        .font(AppTypography.body)
-                        .foregroundStyle(AppColors.textSecondary)
-                        .multilineTextAlignment(.center)
-                }
-
-                AccentPillButton("Dismiss") {
-                    showingPaywall = false
-                }
-                .frame(width: 180)
-            }
-            .padding(AppSpacing.screenPadding)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(AppColors.background)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+            HStack(spacing: AppSpacing.xs) {
+                ForEach([3, 5, 10, 15], id: \.self) { minutes in
+                    let isSelected = viewModel.dailyGoalMinutes == minutes
                     Button {
-                        showingPaywall = false
+                        viewModel.dailyGoalMinutes = minutes
                     } label: {
-                        Image(systemName: "xmark")
-                            .font(.body.weight(.medium))
-                            .foregroundStyle(AppColors.textPrimary)
+                        Text("\(minutes) min")
+                            .font(.system(size: 13, weight: isSelected ? .bold : .regular, design: .serif))
+                            .foregroundStyle(isSelected ? AppColors.accent : AppColors.textSecondary)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(isSelected ? AppColors.accentLight : Color.clear)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .stroke(isSelected ? AppColors.accent : AppColors.border, lineWidth: 1)
+                            )
                     }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+    }
+
+    // MARK: - Haptic Toggle
+
+    private var hapticToggle: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Haptic rhythm")
+                    .font(AppTypography.bodyBold)
+                    .foregroundStyle(AppColors.textPrimary)
+                Text("Soft taptic cues at phase transitions")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textSecondary)
+            }
+            Spacer()
+            Toggle("", isOn: Binding(
+                get: { viewModel.hapticRhythmEnabled },
+                set: { viewModel.hapticRhythmEnabled = $0 }
+            ))
+            .tint(AppColors.accent)
+            .labelsHidden()
+        }
+    }
+
+    // MARK: - Reminder Settings
+
+    private var reminderSettings: some View {
+        VStack(spacing: AppSpacing.md) {
+            HStack {
+                Text("Daily reminder")
+                    .font(AppTypography.bodyBold)
+                    .foregroundStyle(AppColors.textPrimary)
+                Spacer()
+                Toggle("", isOn: Binding(
+                    get: { viewModel.dailyReminderEnabled },
+                    set: { viewModel.dailyReminderEnabled = $0 }
+                ))
+                .tint(AppColors.accent)
+                .labelsHidden()
+            }
+
+            if viewModel.dailyReminderEnabled {
+                DatePicker(
+                    "Reminder time",
+                    selection: Binding(
+                        get: { viewModel.reminderTime },
+                        set: { viewModel.reminderTime = $0 }
+                    ),
+                    displayedComponents: .hourAndMinute
+                )
+                .font(AppTypography.body)
+                .foregroundStyle(AppColors.textPrimary)
+            }
+
+            if viewModel.notificationsDenied {
+                HStack(spacing: AppSpacing.xs) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .foregroundStyle(AppColors.warning)
+                    Text("Notifications are disabled in system settings")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppColors.textSecondary)
+                    Spacer()
+                    Button("Fix") {
+                        viewModel.openNotificationSettings()
+                    }
+                    .font(AppTypography.captionBold)
+                    .foregroundStyle(AppColors.accent)
                 }
             }
         }
@@ -238,17 +247,6 @@ public struct SettingsView: View {
             UIApplication.shared.open(url)
         }
     }
-}
-
-/// UIActivityViewController wrapper for sharing
-struct ShareSheet: UIViewControllerRepresentable {
-    let activityItems: [Any]
-
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-    }
-
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 #Preview {
