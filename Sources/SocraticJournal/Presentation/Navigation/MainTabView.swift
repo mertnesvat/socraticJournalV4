@@ -60,7 +60,10 @@ public struct MainTabView: View {
                 case .today:
                     TodayPlaceholderView()
                 case .breathe:
-                    BreathePlaceholderView()
+                    BreatheView(
+                        sessionRepository: sessionRepository,
+                        analyticsService: analyticsService
+                    )
                 case .learn:
                     LearnPlaceholderView()
                 }
