@@ -37,7 +37,7 @@ public final class NetworkMonitor: @unchecked Sendable {
 
     private init() {
         monitor = NWPathMonitor()
-        queue = DispatchQueue(label: "com.socraticjournal.networkmonitor", qos: .utility)
+        queue = DispatchQueue(label: "com.breathe.networkmonitor", qos: .utility)
 
         monitor.pathUpdateHandler = { [weak self] path in
             guard let self = self else { return }

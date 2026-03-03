@@ -192,7 +192,7 @@ public struct SettingsView: View {
     }
 
     private func openPrivacyPolicy() {
-        if let url = URL(string: "https://studionext.co.uk/socratic-privacy.html") {
+        if let url = URL(string: "https://studionext.co.uk/breathe-privacy.html") {
             UIApplication.shared.open(url)
         }
     }

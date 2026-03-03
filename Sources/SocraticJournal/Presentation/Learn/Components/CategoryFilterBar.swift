@@ -4,6 +4,7 @@
 
 #if os(iOS)
 import SwiftUI
+import UIKit
 
 /// Horizontal scrolling category filter chips
 struct CategoryFilterBar: View {
@@ -26,7 +27,10 @@ struct CategoryFilterBar: View {
 
     @ViewBuilder
     private func filterChip(_ title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
+        Button {
+            UISelectionFeedbackGenerator().selectionChanged()
+            action()
+        } label: {
             Text(title)
                 .font(AppTypography.captionBold)
                 .foregroundStyle(isSelected ? AppColors.textOnAccent : AppColors.textPrimary)

@@ -53,6 +53,8 @@ struct BreathCircleView: View {
             }
         }
         .animation(.linear(duration: 0.016), value: scale)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(phaseLabel), \(String(format: "%.0f", timeRemaining)) seconds remaining")
     }
 }
 

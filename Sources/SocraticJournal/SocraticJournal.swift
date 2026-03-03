@@ -1,10 +1,11 @@
-// SocraticJournal - Guided journaling through Socratic dialogue
+// SocraticJournal - Breath pacing & wellness
 // Copyright © 2024 StudioNext
 
 import Foundation
 
-/// Main entry point for the SocraticJournal library
+/// Main entry point for the Breathe app module
 public enum SocraticJournal {
-    public static let version = "1.0.0"
+    public static let version = "1.3.0"
+    public static let appName = "Breathe"
     public static let bundleIdentifier = "com.StudioNext.socraticJournal"
 }

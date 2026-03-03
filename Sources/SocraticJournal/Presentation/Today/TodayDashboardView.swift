@@ -4,6 +4,7 @@
 
 #if os(iOS)
 import SwiftUI
+import UIKit
 
 public struct TodayDashboardView: View {
     let breathSessionRepository: BreathSessionRepositoryProtocol
@@ -68,6 +69,9 @@ public struct TodayDashboardView: View {
                             techniqueCard(technique)
                         }
                         .buttonStyle(.plain)
+                        .simultaneousGesture(TapGesture().onEnded {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        })
                     }
 
                     // Today's sessions

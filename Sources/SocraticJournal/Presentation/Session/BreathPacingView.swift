@@ -17,6 +17,7 @@ struct BreathPacingView: View {
     @State private var showCountdown = true
     @State private var showComplete = false
     @State private var completedSession: BreathSession?
+    @Environment(\.scenePhase) private var scenePhase
 
     init(
         technique: BreathTechnique,
@@ -70,6 +71,11 @@ struct BreathPacingView: View {
             }
         }
         .statusBarHidden(true)
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .background, engine.isRunning, !engine.isPaused {
+                engine.pause()
+            }
+        }
     }
 
     private var pacingContent: some View {
@@ -107,6 +113,14 @@ struct BreathPacingView: View {
                 phaseLabel: engine.currentPhase.name,
                 timeRemaining: engine.phaseTimeRemaining
             )
+            .accessibilityLabel(engine.currentPhase.name)
+            .accessibilityValue(String(format: "%.0f seconds remaining", engine.phaseTimeRemaining))
+            .onChange(of: engine.currentPhaseIndex) { _, _ in
+                UIAccessibility.post(
+                    notification: .announcement,
+                    argument: engine.currentPhase.name
+                )
+            }
 
             Spacer()
 
