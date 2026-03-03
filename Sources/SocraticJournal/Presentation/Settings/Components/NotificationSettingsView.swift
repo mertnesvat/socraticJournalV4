@@ -31,10 +31,19 @@ struct NotificationSettingsView: View {
             HairlineDivider()
                 .padding(.leading, AppSpacing.screenPadding)
 
-            // Time picker (shown when daily reminder is enabled)
+            // Time picker and presets (shown when daily reminder is enabled)
             if dailyReminderEnabled && !notificationsDenied {
+                // Suggested presets
+                HStack(spacing: AppSpacing.xs) {
+                    presetButton(label: "Morning", hour: 7, minute: 0)
+                    presetButton(label: "Midday", hour: 12, minute: 0)
+                    presetButton(label: "Evening", hour: 21, minute: 0)
+                }
+                .padding(.horizontal, AppSpacing.screenPadding)
+                .padding(.vertical, AppSpacing.xs)
+
                 HStack {
-                    Text("Reminder Time")
+                    Text("Custom Time")
                         .font(AppTypography.body)
                         .foregroundStyle(AppColors.textPrimary)
 
@@ -78,6 +87,28 @@ struct NotificationSettingsView: View {
         .disabled(disabled)
         .padding(.horizontal, AppSpacing.screenPadding)
         .padding(.vertical, AppSpacing.sm)
+    }
+
+    private func presetButton(label: String, hour: Int, minute: Int) -> some View {
+        Button {
+            var components = DateComponents()
+            components.hour = hour
+            components.minute = minute
+            if let date = Calendar.current.date(from: components) {
+                reminderTime = date
+            }
+        } label: {
+            Text(label)
+                .font(AppTypography.captionBold)
+                .foregroundStyle(AppColors.textSecondary)
+                .padding(.horizontal, AppSpacing.sm)
+                .padding(.vertical, AppSpacing.xxs)
+                .background(
+                    Capsule()
+                        .fill(AppColors.surfaceElevated)
+                )
+        }
+        .buttonStyle(.plain)
     }
 
     private var deniedBanner: some View {

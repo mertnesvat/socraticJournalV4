@@ -46,6 +46,10 @@ public struct MainTabView: View {
     @State private var showSettings: Bool = false
     @Environment(ThemeManager.self) private var themeManager
 
+    // MARK: - Deep Link
+
+    @Binding var deepLinkTab: MainTab?
+
     // MARK: - Services
 
     private let settingsRepository: SettingsRepositoryProtocol
@@ -57,12 +61,14 @@ public struct MainTabView: View {
         settingsRepository: SettingsRepositoryProtocol,
         notificationService: NotificationServiceProtocol,
         analyticsService: AnalyticsServiceProtocol,
-        sessionRepository: SessionRepositoryProtocol = UserDefaultsSessionRepository()
+        sessionRepository: SessionRepositoryProtocol = UserDefaultsSessionRepository(),
+        deepLinkTab: Binding<MainTab?> = .constant(nil)
     ) {
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
         self.analyticsService = analyticsService
         self.sessionRepository = sessionRepository
+        self._deepLinkTab = deepLinkTab
     }
 
     public var body: some View {
@@ -101,6 +107,14 @@ public struct MainTabView: View {
             customTabBar
         }
         .ignoresSafeArea(.keyboard)
+        .onChange(of: deepLinkTab) { _, newTab in
+            if let tab = newTab {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    selectedTab = tab
+                }
+                deepLinkTab = nil
+            }
+        }
         .sheet(isPresented: $showSettings) {
             SettingsView(
                 viewModel: SettingsViewModel(

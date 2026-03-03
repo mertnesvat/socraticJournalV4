@@ -26,18 +26,24 @@ public struct SocraticJournalApp: App {
         ThemeManager.shared.configure(settingsRepository: UserDefaultsSettingsRepository())
     }
 
+    @State private var deepLinkTab: MainTab?
+
     public var body: some Scene {
         WindowGroup {
             MainTabView(
                 settingsRepository: settingsRepository,
                 notificationService: notificationService,
-                analyticsService: analyticsService
+                analyticsService: analyticsService,
+                deepLinkTab: $deepLinkTab
             )
             .environment(themeManager)
             .preferredColorScheme(themeManager.colorScheme)
             .task {
                 await themeManager.loadTheme()
                 await checkOnboardingStatus()
+            }
+            .onOpenURL { url in
+                handleDeepLink(url)
             }
             .fullScreenCover(isPresented: $showOnboarding) {
                 NewOnboardingView(
@@ -48,6 +54,13 @@ public struct SocraticJournalApp: App {
                     }
                 )
             }
+        }
+    }
+
+    /// Handle deep-link URLs (e.g., breathe://start from notification actions)
+    private func handleDeepLink(_ url: URL) {
+        if url.scheme == "breathe" || url.host == "start" {
+            deepLinkTab = .breathe
         }
     }
 
