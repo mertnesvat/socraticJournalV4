@@ -18,6 +18,8 @@
 		2353327B27450AF113EF609F /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF92EF5F314A4CC8478E991C /* ThemeManager.swift */; };
 		2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */; };
 		260CF80AFE98AC17C77CF517 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B5465DD72A4D6C6492FD14 /* AppColors.swift */; };
+		2641E2D7D493BDE2160B83D1 /* BreathSessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A22992E06767D07F2D0D5E9 /* BreathSessionCompleteView.swift */; };
+		278C418E1F73145AD9AAAA34 /* BreathPacingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81134A9080C6BC2F469D29E7 /* BreathPacingView.swift */; };
 		2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A36AC1AC2633D53C43FE99 /* Environment.swift */; };
 		2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */; };
 		31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */; };
@@ -26,12 +28,14 @@
 		42920AFCA24AD3E7B07FAC9C /* BreathSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A737F1D67490C9A86525010 /* BreathSession.swift */; };
 		54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */; };
 		55B60718FE227BEA19D64946 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */; };
+		5B24B9CDE0844E58E1AD4B3B /* PhaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A10795832E5F6467FB7392A /* PhaseLabel.swift */; };
 		5B4EFE058F2587059FFF78A7 /* SocraticJournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */; };
 		5B625522F67DED65EA09CBA1 /* MockSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88051AB8352D615CE378228 /* MockSettingsRepository.swift */; };
 		5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4B1E73960A7489D123CF41 /* UserSettings.swift */; };
 		61C803196130A272EED52FD3 /* LearnFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5AF9FC2ACAD6D87C1370EA /* LearnFeedView.swift */; };
 		6D98A2F1C80A94CBE7A571D8 /* AppSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF73C946A4299853FE58E44 /* AppSpacing.swift */; };
 		702FBB3CB0927EADBAEBBB5E /* BreathContentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C1197EA142821F5B013C70 /* BreathContentService.swift */; };
+		747D89648AE0EBAA843D4E37 /* CountdownOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA3C6E7BE38CDBCCCF04B5E /* CountdownOverlay.swift */; };
 		7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */; };
 		7E55D38D6BCA0E51D0F45013 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1439E1ED4A0277B8F3670D92 /* FirebaseAnalytics */; };
 		81091E373EF2A53EFFF913E4 /* AppsFlyerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D029C25B681B5461B571644 /* AppsFlyerService.swift */; };
@@ -45,11 +49,15 @@
 		C9EDC049AB6DD96FDAABF91D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9004754BBF0511296A6FAF /* User.swift */; };
 		C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5D235EA9156B100C8E539A /* SettingsView.swift */; };
 		D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */; };
+		D5C1EC71902A6965F6282E09 /* DurationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F31BEBA16DF391C775B3F93 /* DurationPicker.swift */; };
 		D6081F0B24B69FC0BFCCC4ED /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */; };
 		D88A4A172C567D8E9CA2D454 /* NewOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6492138B440EC6E4C03ED3C /* NewOnboardingView.swift */; };
 		DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */; };
 		E22D51C2108FCDF5D2670EE7 /* BreathSessionRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DF4448F47B1DE6B53169BA /* BreathSessionRepositoryProtocol.swift */; };
+		E709FB5504B55EFEBC55B6C9 /* BreathSessionSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA91533A335450E007AEA17C /* BreathSessionSetupView.swift */; };
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
+		EB76B863B91141B454481CAE /* BreathCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F8E97764CDB8AC670193D5 /* BreathCircleView.swift */; };
+		EC03A70166A8DEF9CEEB2872 /* BreathPacingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2038944009FBA096686ECD97 /* BreathPacingEngine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,8 +71,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00F8E97764CDB8AC670193D5 /* BreathCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathCircleView.swift; sourceTree = "<group>"; };
 		05DF4448F47B1DE6B53169BA /* BreathSessionRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionRepositoryProtocol.swift; sourceTree = "<group>"; };
 		08B5465DD72A4D6C6492FD14 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		0F31BEBA16DF391C775B3F93 /* DurationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationPicker.swift; sourceTree = "<group>"; };
+		2038944009FBA096686ECD97 /* BreathPacingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingEngine.swift; sourceTree = "<group>"; };
+		2A22992E06767D07F2D0D5E9 /* BreathSessionCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionCompleteView.swift; sourceTree = "<group>"; };
 		2CF73C946A4299853FE58E44 /* AppSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpacing.swift; sourceTree = "<group>"; };
 		370121E2ACDB4BD5A937156A /* BreathContentServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathContentServiceProtocol.swift; sourceTree = "<group>"; };
 		3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepositoryProtocol.swift; sourceTree = "<group>"; };
@@ -79,10 +91,12 @@
 		73E9AEFA74F97714623EBBB5 /* AppShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShapes.swift; sourceTree = "<group>"; };
 		788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSettingsRepository.swift; sourceTree = "<group>"; };
 		7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalApp.swift; sourceTree = "<group>"; };
+		81134A9080C6BC2F469D29E7 /* BreathPacingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingView.swift; sourceTree = "<group>"; };
 		84DB170DB3684DD41520F4D4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		853C1481B20C2C27E606631D /* UserDefaultsBreathSessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsBreathSessionRepository.swift; sourceTree = "<group>"; };
 		98DEC87C4C78120D2D66BF2D /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		99C1197EA142821F5B013C70 /* BreathContentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathContentService.swift; sourceTree = "<group>"; };
+		9A10795832E5F6467FB7392A /* PhaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhaseLabel.swift; sourceTree = "<group>"; };
 		9B1D21EE8E1CA739F793FB69 /* BreathTechnique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathTechnique.swift; sourceTree = "<group>"; };
 		9CA3E1F2B8FB060A9055025B /* AppTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTypography.swift; sourceTree = "<group>"; };
 		9DD78B7172A96E20384AA795 /* DailyLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLog.swift; sourceTree = "<group>"; };
@@ -92,6 +106,7 @@
 		AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsService.swift; sourceTree = "<group>"; };
 		B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceProtocol.swift; sourceTree = "<group>"; };
 		BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelectorView.swift; sourceTree = "<group>"; };
+		BDA3C6E7BE38CDBCCCF04B5E /* CountdownOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownOverlay.swift; sourceTree = "<group>"; };
 		C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationService.swift; sourceTree = "<group>"; };
 		C6492138B440EC6E4C03ED3C /* NewOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingView.swift; sourceTree = "<group>"; };
 		CBFCD947C02302577DE3EC06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -108,6 +123,7 @@
 		EC9004754BBF0511296A6FAF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F782BF4BCB8611080CE7218E /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		FA91533A335450E007AEA17C /* BreathSessionSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionSetupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,6 +297,10 @@
 		9064FB82BACAD6451CF40BE4 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				00F8E97764CDB8AC670193D5 /* BreathCircleView.swift */,
+				BDA3C6E7BE38CDBCCCF04B5E /* CountdownOverlay.swift */,
+				0F31BEBA16DF391C775B3F93 /* DurationPicker.swift */,
+				9A10795832E5F6467FB7392A /* PhaseLabel.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -353,6 +373,10 @@
 		E401B752B027E8219E58F486 /* Session */ = {
 			isa = PBXGroup;
 			children = (
+				2038944009FBA096686ECD97 /* BreathPacingEngine.swift */,
+				81134A9080C6BC2F469D29E7 /* BreathPacingView.swift */,
+				2A22992E06767D07F2D0D5E9 /* BreathSessionCompleteView.swift */,
+				FA91533A335450E007AEA17C /* BreathSessionSetupView.swift */,
 				9064FB82BACAD6451CF40BE4 /* Components */,
 			);
 			path = Session;
@@ -512,12 +536,19 @@
 				6D98A2F1C80A94CBE7A571D8 /* AppSpacing.swift in Sources */,
 				1942377AA6B21C6D939D0917 /* AppTypography.swift in Sources */,
 				81091E373EF2A53EFFF913E4 /* AppsFlyerService.swift in Sources */,
+				EB76B863B91141B454481CAE /* BreathCircleView.swift in Sources */,
 				702FBB3CB0927EADBAEBBB5E /* BreathContentService.swift in Sources */,
 				B2760A0C267C362B8DF5EE80 /* BreathContentServiceProtocol.swift in Sources */,
+				EC03A70166A8DEF9CEEB2872 /* BreathPacingEngine.swift in Sources */,
+				278C418E1F73145AD9AAAA34 /* BreathPacingView.swift in Sources */,
 				42920AFCA24AD3E7B07FAC9C /* BreathSession.swift in Sources */,
+				2641E2D7D493BDE2160B83D1 /* BreathSessionCompleteView.swift in Sources */,
 				E22D51C2108FCDF5D2670EE7 /* BreathSessionRepositoryProtocol.swift in Sources */,
+				E709FB5504B55EFEBC55B6C9 /* BreathSessionSetupView.swift in Sources */,
 				17DD6C8A004F35D79CACC6CB /* BreathTechnique.swift in Sources */,
+				747D89648AE0EBAA843D4E37 /* CountdownOverlay.swift in Sources */,
 				08915BCFBD6B6397D2BCA9EE /* DailyLog.swift in Sources */,
+				D5C1EC71902A6965F6282E09 /* DurationPicker.swift in Sources */,
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
 				61C803196130A272EED52FD3 /* LearnFeedView.swift in Sources */,
@@ -528,6 +559,7 @@
 				D88A4A172C567D8E9CA2D454 /* NewOnboardingView.swift in Sources */,
 				54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */,
 				7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */,
+				5B24B9CDE0844E58E1AD4B3B /* PhaseLabel.swift in Sources */,
 				D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */,
 				C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */,
 				861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */,
