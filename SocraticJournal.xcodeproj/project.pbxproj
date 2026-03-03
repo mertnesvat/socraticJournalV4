@@ -17,19 +17,26 @@
 		2353327B27450AF113EF609F /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF92EF5F314A4CC8478E991C /* ThemeManager.swift */; };
 		2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */; };
 		260CF80AFE98AC17C77CF517 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B5465DD72A4D6C6492FD14 /* AppColors.swift */; };
+		2641E2D7D493BDE2160B83D1 /* BreathSessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A22992E06767D07F2D0D5E9 /* BreathSessionCompleteView.swift */; };
+		278C418E1F73145AD9AAAA34 /* BreathPacingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81134A9080C6BC2F469D29E7 /* BreathPacingView.swift */; };
 		2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A36AC1AC2633D53C43FE99 /* Environment.swift */; };
 		2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */; };
 		31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */; };
 		348246EA3712BEF78405EFAB /* BreathSessionRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDF76AF081414798A3AA9BD /* BreathSessionRepositoryTests.swift */; };
+		369E4E69540A37EDDA8D15FB /* TechniqueSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB120C8765D4CC4B5034F3 /* TechniqueSelector.swift */; };
 		3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782BF4BCB8611080CE7218E /* AboutView.swift */; };
 		40DB66C3830BF575B1904170 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBFCD947C02302577DE3EC06 /* Assets.xcassets */; };
 		42920AFCA24AD3E7B07FAC9C /* BreathSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A737F1D67490C9A86525010 /* BreathSession.swift */; };
 		55B60718FE227BEA19D64946 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */; };
+		5A48F506445202574EF5599C /* MockBreathSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4078E7E4011E4189AB3AF43 /* MockBreathSessionRepository.swift */; };
+		5B24B9CDE0844E58E1AD4B3B /* PhaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A10795832E5F6467FB7392A /* PhaseLabel.swift */; };
 		5B4EFE058F2587059FFF78A7 /* SocraticJournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */; };
 		5B625522F67DED65EA09CBA1 /* MockSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88051AB8352D615CE378228 /* MockSettingsRepository.swift */; };
 		5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4B1E73960A7489D123CF41 /* UserSettings.swift */; };
+		67A12EE53F5D614E0D696870 /* BreathSessionFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1722A6B3CC51D6131FB8A02 /* BreathSessionFlowTests.swift */; };
 		6D98A2F1C80A94CBE7A571D8 /* AppSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF73C946A4299853FE58E44 /* AppSpacing.swift */; };
 		73E0C118628BC3C1E0BBE796 /* BreathPacingEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57B4AB2F98607250E27B59F /* BreathPacingEngineTests.swift */; };
+		747D89648AE0EBAA843D4E37 /* CountdownOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA3C6E7BE38CDBCCCF04B5E /* CountdownOverlay.swift */; };
 		7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */; };
 		7DD61009CF159DE9DA5FF95F /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA781ACCE79EACDA7E0CEE /* OnboardingTests.swift */; };
 		7E55D38D6BCA0E51D0F45013 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1439E1ED4A0277B8F3670D92 /* FirebaseAnalytics */; };
@@ -38,6 +45,7 @@
 		8FB5357C3F7DE4FCD24DE050 /* BreathPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591FF060B6D6E2B364A4BCC /* BreathPhase.swift */; };
 		90D36BD2BF7047735751CD6B /* wisdom_quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = E9721DD221539E97DDD9E989 /* wisdom_quotes.json */; };
 		91155306582B4B7662CE72D8 /* UserDefaultsBreathSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853C1481B20C2C27E606631D /* UserDefaultsBreathSessionRepository.swift */; };
+		96C6CF481067F9098D1E2B54 /* MountainWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B81CEA01F956948B39ACF /* MountainWaveView.swift */; };
 		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
 		9FCD54C3B86958D6448A0895 /* StaticLearningContentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78CB15EBE6A5AF3377F6D52 /* StaticLearningContentService.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
@@ -45,11 +53,13 @@
 		C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5D235EA9156B100C8E539A /* SettingsView.swift */; };
 		CCDB1E033104AEE57F6BC2B5 /* LearningArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C8C443A6C928BF148B538A /* LearningArticle.swift */; };
 		D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */; };
+		D5C1EC71902A6965F6282E09 /* DurationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F31BEBA16DF391C775B3F93 /* DurationPicker.swift */; };
 		D6081F0B24B69FC0BFCCC4ED /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */; };
 		D88A4A172C567D8E9CA2D454 /* NewOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6492138B440EC6E4C03ED3C /* NewOnboardingView.swift */; };
 		DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */; };
 		E0769F51C74BDA384D281B5F /* LearningContentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F098D8966EB539D56BEC84 /* LearningContentServiceProtocol.swift */; };
 		E22D51C2108FCDF5D2670EE7 /* BreathSessionRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DF4448F47B1DE6B53169BA /* BreathSessionRepositoryProtocol.swift */; };
+		E709FB5504B55EFEBC55B6C9 /* BreathSessionSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA91533A335450E007AEA17C /* BreathSessionSetupView.swift */; };
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
 		EC03A70166A8DEF9CEEB2872 /* BreathPacingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2038944009FBA096686ECD97 /* BreathPacingEngine.swift */; };
 		FD764235B722DD5F364C9850 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7427E0C3061E854EE474F549 /* FirebaseMessaging */; };
@@ -71,8 +81,11 @@
 		0591FF060B6D6E2B364A4BCC /* BreathPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPhase.swift; sourceTree = "<group>"; };
 		05DF4448F47B1DE6B53169BA /* BreathSessionRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionRepositoryProtocol.swift; sourceTree = "<group>"; };
 		08B5465DD72A4D6C6492FD14 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		0F31BEBA16DF391C775B3F93 /* DurationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationPicker.swift; sourceTree = "<group>"; };
 		2038944009FBA096686ECD97 /* BreathPacingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingEngine.swift; sourceTree = "<group>"; };
+		2A22992E06767D07F2D0D5E9 /* BreathSessionCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionCompleteView.swift; sourceTree = "<group>"; };
 		2CF73C946A4299853FE58E44 /* AppSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpacing.swift; sourceTree = "<group>"; };
+		37FB120C8765D4CC4B5034F3 /* TechniqueSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechniqueSelector.swift; sourceTree = "<group>"; };
 		3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepositoryProtocol.swift; sourceTree = "<group>"; };
 		46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
 		4A737F1D67490C9A86525010 /* BreathSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSession.swift; sourceTree = "<group>"; };
@@ -84,9 +97,11 @@
 		788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSettingsRepository.swift; sourceTree = "<group>"; };
 		78C8C443A6C928BF148B538A /* LearningArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningArticle.swift; sourceTree = "<group>"; };
 		7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalApp.swift; sourceTree = "<group>"; };
+		81134A9080C6BC2F469D29E7 /* BreathPacingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingView.swift; sourceTree = "<group>"; };
 		84DB170DB3684DD41520F4D4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		853C1481B20C2C27E606631D /* UserDefaultsBreathSessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsBreathSessionRepository.swift; sourceTree = "<group>"; };
 		98DEC87C4C78120D2D66BF2D /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		9A10795832E5F6467FB7392A /* PhaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhaseLabel.swift; sourceTree = "<group>"; };
 		9B1D21EE8E1CA739F793FB69 /* BreathTechnique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathTechnique.swift; sourceTree = "<group>"; };
 		9CA3E1F2B8FB060A9055025B /* AppTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTypography.swift; sourceTree = "<group>"; };
 		9DD78B7172A96E20384AA795 /* DailyLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLog.swift; sourceTree = "<group>"; };
@@ -94,7 +109,9 @@
 		A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
 		A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsService.swift; sourceTree = "<group>"; };
+		AF5B81CEA01F956948B39ACF /* MountainWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MountainWaveView.swift; sourceTree = "<group>"; };
 		BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelectorView.swift; sourceTree = "<group>"; };
+		BDA3C6E7BE38CDBCCCF04B5E /* CountdownOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownOverlay.swift; sourceTree = "<group>"; };
 		C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationService.swift; sourceTree = "<group>"; };
 		C6492138B440EC6E4C03ED3C /* NewOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingView.swift; sourceTree = "<group>"; };
 		C78CB15EBE6A5AF3377F6D52 /* StaticLearningContentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticLearningContentService.swift; sourceTree = "<group>"; };
@@ -103,6 +120,8 @@
 		CFDF76AF081414798A3AA9BD /* BreathSessionRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionRepositoryTests.swift; sourceTree = "<group>"; };
 		D57B4AB2F98607250E27B59F /* BreathPacingEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingEngineTests.swift; sourceTree = "<group>"; };
 		DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E1722A6B3CC51D6131FB8A02 /* BreathSessionFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionFlowTests.swift; sourceTree = "<group>"; };
+		E4078E7E4011E4189AB3AF43 /* MockBreathSessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBreathSessionRepository.swift; sourceTree = "<group>"; };
 		E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceProtocol.swift; sourceTree = "<group>"; };
 		E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournal.swift; sourceTree = "<group>"; };
 		E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalTests.swift; sourceTree = "<group>"; };
@@ -113,6 +132,7 @@
 		EC9004754BBF0511296A6FAF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F782BF4BCB8611080CE7218E /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		FA91533A335450E007AEA17C /* BreathSessionSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionSetupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */,
+				E4078E7E4011E4189AB3AF43 /* MockBreathSessionRepository.swift */,
 				E88051AB8352D615CE378228 /* MockSettingsRepository.swift */,
 			);
 			path = Mocks;
@@ -276,6 +297,18 @@
 				1E07D95F43FCD433BC2101ED /* Services */,
 			);
 			path = Domain;
+			sourceTree = "<group>";
+		};
+		9064FB82BACAD6451CF40BE4 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BDA3C6E7BE38CDBCCCF04B5E /* CountdownOverlay.swift */,
+				0F31BEBA16DF391C775B3F93 /* DurationPicker.swift */,
+				AF5B81CEA01F956948B39ACF /* MountainWaveView.swift */,
+				9A10795832E5F6467FB7392A /* PhaseLabel.swift */,
+				37FB120C8765D4CC4B5034F3 /* TechniqueSelector.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		94ACDA6074BCA45E656DA2B4 /* Configuration */ = {
@@ -302,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				D57B4AB2F98607250E27B59F /* BreathPacingEngineTests.swift */,
+				E1722A6B3CC51D6131FB8A02 /* BreathSessionFlowTests.swift */,
 				CFDF76AF081414798A3AA9BD /* BreathSessionRepositoryTests.swift */,
 				55BA781ACCE79EACDA7E0CEE /* OnboardingTests.swift */,
 				E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */,
@@ -333,6 +367,10 @@
 			isa = PBXGroup;
 			children = (
 				2038944009FBA096686ECD97 /* BreathPacingEngine.swift */,
+				81134A9080C6BC2F469D29E7 /* BreathPacingView.swift */,
+				2A22992E06767D07F2D0D5E9 /* BreathSessionCompleteView.swift */,
+				FA91533A335450E007AEA17C /* BreathSessionSetupView.swift */,
+				9064FB82BACAD6451CF40BE4 /* Components */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -476,8 +514,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				73E0C118628BC3C1E0BBE796 /* BreathPacingEngineTests.swift in Sources */,
+				67A12EE53F5D614E0D696870 /* BreathSessionFlowTests.swift in Sources */,
 				348246EA3712BEF78405EFAB /* BreathSessionRepositoryTests.swift in Sources */,
 				D6081F0B24B69FC0BFCCC4ED /* MockAnalyticsService.swift in Sources */,
+				5A48F506445202574EF5599C /* MockBreathSessionRepository.swift in Sources */,
 				5B625522F67DED65EA09CBA1 /* MockSettingsRepository.swift in Sources */,
 				7DD61009CF159DE9DA5FF95F /* OnboardingTests.swift in Sources */,
 				5B4EFE058F2587059FFF78A7 /* SocraticJournalTests.swift in Sources */,
@@ -495,26 +535,34 @@
 				6D98A2F1C80A94CBE7A571D8 /* AppSpacing.swift in Sources */,
 				1942377AA6B21C6D939D0917 /* AppTypography.swift in Sources */,
 				EC03A70166A8DEF9CEEB2872 /* BreathPacingEngine.swift in Sources */,
+				278C418E1F73145AD9AAAA34 /* BreathPacingView.swift in Sources */,
 				8FB5357C3F7DE4FCD24DE050 /* BreathPhase.swift in Sources */,
 				42920AFCA24AD3E7B07FAC9C /* BreathSession.swift in Sources */,
+				2641E2D7D493BDE2160B83D1 /* BreathSessionCompleteView.swift in Sources */,
 				E22D51C2108FCDF5D2670EE7 /* BreathSessionRepositoryProtocol.swift in Sources */,
+				E709FB5504B55EFEBC55B6C9 /* BreathSessionSetupView.swift in Sources */,
 				17DD6C8A004F35D79CACC6CB /* BreathTechnique.swift in Sources */,
+				747D89648AE0EBAA843D4E37 /* CountdownOverlay.swift in Sources */,
 				08915BCFBD6B6397D2BCA9EE /* DailyLog.swift in Sources */,
+				D5C1EC71902A6965F6282E09 /* DurationPicker.swift in Sources */,
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
 				CCDB1E033104AEE57F6BC2B5 /* LearningArticle.swift in Sources */,
 				E0769F51C74BDA384D281B5F /* LearningContentServiceProtocol.swift in Sources */,
 				2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */,
 				2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */,
+				96C6CF481067F9098D1E2B54 /* MountainWaveView.swift in Sources */,
 				31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */,
 				D88A4A172C567D8E9CA2D454 /* NewOnboardingView.swift in Sources */,
 				7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */,
+				5B24B9CDE0844E58E1AD4B3B /* PhaseLabel.swift in Sources */,
 				D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */,
 				C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */,
 				861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */,
 				060DCDE2F8D2095C6DA7AC4E /* SocraticJournal.swift in Sources */,
 				C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */,
 				9FCD54C3B86958D6448A0895 /* StaticLearningContentService.swift in Sources */,
+				369E4E69540A37EDDA8D15FB /* TechniqueSelector.swift in Sources */,
 				2353327B27450AF113EF609F /* ThemeManager.swift in Sources */,
 				0047B39B7559AD5B4D2A724A /* ThemeSelectorView.swift in Sources */,
 				C9EDC049AB6DD96FDAABF91D /* User.swift in Sources */,
