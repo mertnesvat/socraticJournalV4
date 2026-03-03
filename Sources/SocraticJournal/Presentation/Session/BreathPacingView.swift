@@ -4,6 +4,7 @@
 
 #if os(iOS)
 import SwiftUI
+import UIKit
 
 /// Main breath pacing screen — dark background, animated circle, phase labels
 struct BreathPacingView: View {

@@ -4,6 +4,7 @@
 
 #if os(iOS)
 import SwiftUI
+import UIKit
 
 /// 3-2-1 countdown overlay before session starts
 struct CountdownOverlay: View {
@@ -39,6 +40,7 @@ struct CountdownOverlay: View {
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
             onComplete()
         }
     }
