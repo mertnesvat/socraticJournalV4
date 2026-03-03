@@ -35,11 +35,10 @@
 		7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */; };
 		7E55D38D6BCA0E51D0F45013 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1439E1ED4A0277B8F3670D92 /* FirebaseAnalytics */; };
 		81091E373EF2A53EFFF913E4 /* AppsFlyerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D029C25B681B5461B571644 /* AppsFlyerService.swift */; };
-		85A6BB1CEF18A306B05B72AD /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */; };
 		861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */; };
 		90D36BD2BF7047735751CD6B /* wisdom_quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = E9721DD221539E97DDD9E989 /* wisdom_quotes.json */; };
 		91155306582B4B7662CE72D8 /* UserDefaultsBreathSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853C1481B20C2C27E606631D /* UserDefaultsBreathSessionRepository.swift */; };
-		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
+		97DB0893F432AAA1FF3FF082 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */; };
 		B2760A0C267C362B8DF5EE80 /* BreathContentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370121E2ACDB4BD5A937156A /* BreathContentServiceProtocol.swift */; };
 		B3DB0855837140353AD1FA5A /* LearningBit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB130C9BDE7DE0255EBCCC /* LearningBit.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
@@ -51,8 +50,6 @@
 		DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */; };
 		E22D51C2108FCDF5D2670EE7 /* BreathSessionRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DF4448F47B1DE6B53169BA /* BreathSessionRepositoryProtocol.swift */; };
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
-		FD764235B722DD5F364C9850 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7427E0C3061E854EE474F549 /* FirebaseMessaging */; };
-		FFD6A44603614E7B7C030FAC /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 20CC8584D9C7E0C1B74D5D56 /* FirebaseFunctions */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,10 +116,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E55D38D6BCA0E51D0F45013 /* FirebaseAnalytics in Frameworks */,
-				97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */,
-				FFD6A44603614E7B7C030FAC /* FirebaseFunctions in Frameworks */,
-				FD764235B722DD5F364C9850 /* FirebaseMessaging in Frameworks */,
-				85A6BB1CEF18A306B05B72AD /* AppsFlyerLib in Frameworks */,
+				97DB0893F432AAA1FF3FF082 /* AppsFlyerLib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,9 +410,6 @@
 			name = SocraticJournal;
 			packageProductDependencies = (
 				1439E1ED4A0277B8F3670D92 /* FirebaseAnalytics */,
-				D0C775AF90C1F520FA648805 /* FirebaseFirestore */,
-				20CC8584D9C7E0C1B74D5D56 /* FirebaseFunctions */,
-				7427E0C3061E854EE474F549 /* FirebaseMessaging */,
 				B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */,
 			);
 			productName = SocraticJournal;
@@ -802,8 +793,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.0.0;
+				kind = exactVersion;
+				version = 11.15.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -814,25 +805,10 @@
 			package = 9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
 		};
-		20CC8584D9C7E0C1B74D5D56 /* FirebaseFunctions */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFunctions;
-		};
-		7427E0C3061E854EE474F549 /* FirebaseMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseMessaging;
-		};
 		B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0FEB5928F96AB8640A1CDC8A /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */;
 			productName = AppsFlyerLib;
-		};
-		D0C775AF90C1F520FA648805 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

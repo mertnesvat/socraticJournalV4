@@ -4,7 +4,7 @@
 
 import Foundation
 
-protocol BreathContentServiceProtocol: Sendable {
+public protocol BreathContentServiceProtocol: Sendable {
     func getAllLearningBits() -> [LearningBit]
     func getLearningBitsForCategory(_ category: LearningCategory) -> [LearningBit]
 }

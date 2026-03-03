@@ -4,34 +4,34 @@
 
 import Foundation
 
-enum BreathPhaseType: String, Codable, Sendable {
+public enum BreathPhaseType: String, Codable, Sendable {
     case inhale, hold, exhale, inhaleTopUp
 }
 
-struct BreathPhase: Codable, Sendable, Identifiable {
-    let id: String
-    let name: String
-    let duration: TimeInterval
-    let phaseType: BreathPhaseType
+public struct BreathPhase: Codable, Sendable, Identifiable {
+    public let id: String
+    public let name: String
+    public let duration: TimeInterval
+    public let phaseType: BreathPhaseType
 }
 
-enum BreathDifficulty: String, Codable, Sendable {
+public enum BreathDifficulty: String, Codable, Sendable {
     case beginner, intermediate, advanced
 }
 
-struct BreathTechnique: Identifiable, Codable, Sendable {
-    let id: String
-    let name: String
-    let subtitle: String
-    let description: String
-    let phases: [BreathPhase]
-    let defaultDurationMinutes: Int
-    let difficulty: BreathDifficulty
-    let bestFor: String
+public struct BreathTechnique: Identifiable, Codable, Sendable {
+    public let id: String
+    public let name: String
+    public let subtitle: String
+    public let description: String
+    public let phases: [BreathPhase]
+    public let defaultDurationMinutes: Int
+    public let difficulty: BreathDifficulty
+    public let bestFor: String
 
-    var cycleDuration: TimeInterval { phases.reduce(0) { $0 + $1.duration } }
+    public var cycleDuration: TimeInterval { phases.reduce(0) { $0 + $1.duration } }
 
-    static let resonant = BreathTechnique(
+    public static let resonant = BreathTechnique(
         id: "resonant",
         name: "Resonant Breathing",
         subtitle: "The Perfect Breath",
@@ -45,7 +45,7 @@ struct BreathTechnique: Identifiable, Codable, Sendable {
         bestFor: "Daily wellness, heart rate variability, calm focus"
     )
 
-    static let boxBreathing = BreathTechnique(
+    public static let boxBreathing = BreathTechnique(
         id: "box",
         name: "Box Breathing",
         subtitle: "Navy SEAL Focus",
@@ -61,7 +61,7 @@ struct BreathTechnique: Identifiable, Codable, Sendable {
         bestFor: "Acute stress, pre-performance focus, concentration"
     )
 
-    static let fourSevenEight = BreathTechnique(
+    public static let fourSevenEight = BreathTechnique(
         id: "478",
         name: "4-7-8 Breathing",
         subtitle: "Natural Tranquilizer",
@@ -76,7 +76,7 @@ struct BreathTechnique: Identifiable, Codable, Sendable {
         bestFor: "Sleep preparation, anxiety relief, winding down"
     )
 
-    static let cyclicSighing = BreathTechnique(
+    public static let cyclicSighing = BreathTechnique(
         id: "cyclic_sigh",
         name: "Cyclic Sighing",
         subtitle: "Stanford Stress Reset",
@@ -91,5 +91,5 @@ struct BreathTechnique: Identifiable, Codable, Sendable {
         bestFor: "Quick stress relief, mood improvement, calm"
     )
 
-    static let allTechniques: [BreathTechnique] = [.resonant, .boxBreathing, .fourSevenEight, .cyclicSighing]
+    public static let allTechniques: [BreathTechnique] = [.resonant, .boxBreathing, .fourSevenEight, .cyclicSighing]
 }

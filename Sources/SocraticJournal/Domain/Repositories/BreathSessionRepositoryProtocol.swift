@@ -4,7 +4,7 @@
 
 import Foundation
 
-protocol BreathSessionRepositoryProtocol: Sendable {
+public protocol BreathSessionRepositoryProtocol: Sendable {
     func saveSession(_ session: BreathSession) async throws
     func getSessionsForDate(_ date: Date) async throws -> [BreathSession]
     func getSessionsForDateRange(from: Date, to: Date) async throws -> [BreathSession]

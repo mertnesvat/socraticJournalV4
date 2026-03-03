@@ -4,11 +4,11 @@
 
 import Foundation
 
-struct DailyLog: Identifiable, Codable, Sendable {
-    let date: Date
-    let sessions: [BreathSession]
+public struct DailyLog: Identifiable, Codable, Sendable {
+    public let date: Date
+    public let sessions: [BreathSession]
 
-    var id: Date { date }
-    var totalMinutes: Double { sessions.reduce(0) { $0 + $1.totalDuration } / 60.0 }
-    var sessionsCount: Int { sessions.count }
+    public var id: Date { date }
+    public var totalMinutes: Double { sessions.reduce(0) { $0 + $1.totalDuration } / 60.0 }
+    public var sessionsCount: Int { sessions.count }
 }

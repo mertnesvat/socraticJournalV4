@@ -4,7 +4,7 @@
 
 import Foundation
 
-enum LearningCategory: String, Codable, Sendable, CaseIterable {
+public enum LearningCategory: String, Codable, Sendable, CaseIterable {
     case science = "The Science"
     case nasal = "Nasal Breathing"
     case ancient = "Ancient Wisdom"
@@ -12,10 +12,10 @@ enum LearningCategory: String, Codable, Sendable, CaseIterable {
     case facts = "Surprising Facts"
 }
 
-struct LearningBit: Identifiable, Codable, Sendable {
-    let id: String
-    let title: String
-    let body: String
-    let category: LearningCategory
-    let sourceNote: String?
+public struct LearningBit: Identifiable, Codable, Sendable {
+    public let id: String
+    public let title: String
+    public let body: String
+    public let category: LearningCategory
+    public let sourceNote: String?
 }

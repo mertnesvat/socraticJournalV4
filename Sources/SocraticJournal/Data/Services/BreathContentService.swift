@@ -4,7 +4,7 @@
 
 import Foundation
 
-final class BreathContentService: BreathContentServiceProtocol, @unchecked Sendable {
+public final class BreathContentService: BreathContentServiceProtocol, @unchecked Sendable {
 
     private let learningBits: [LearningBit] = [
         LearningBit(
@@ -114,11 +114,11 @@ final class BreathContentService: BreathContentServiceProtocol, @unchecked Senda
         )
     ]
 
-    func getAllLearningBits() -> [LearningBit] {
+    public func getAllLearningBits() -> [LearningBit] {
         learningBits
     }
 
-    func getLearningBitsForCategory(_ category: LearningCategory) -> [LearningBit] {
+    public func getLearningBitsForCategory(_ category: LearningCategory) -> [LearningBit] {
         learningBits.filter { $0.category == category }
     }
 }

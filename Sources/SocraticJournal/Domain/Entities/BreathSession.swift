@@ -4,13 +4,13 @@
 
 import Foundation
 
-struct BreathSession: Identifiable, Codable, Sendable {
-    let id: String
-    let techniqueId: String
-    let startedAt: Date
-    let completedAt: Date
-    let totalDuration: TimeInterval
-    let cyclesCompleted: Int
+public struct BreathSession: Identifiable, Codable, Sendable {
+    public let id: String
+    public let techniqueId: String
+    public let startedAt: Date
+    public let completedAt: Date
+    public let totalDuration: TimeInterval
+    public let cyclesCompleted: Int
 
-    var date: Date { Calendar.current.startOfDay(for: startedAt) }
+    public var date: Date { Calendar.current.startOfDay(for: startedAt) }
 }

@@ -19,7 +19,7 @@ settings:
 packages:
   firebase-ios-sdk:
     url: https://github.com/firebase/firebase-ios-sdk.git
-    from: "11.0.0"
+    version: "11.15.0"
   AppsFlyerFramework:
     url: https://github.com/AppsFlyerSDK/AppsFlyerFramework.git
     from: "6.15.0"
@@ -47,12 +47,6 @@ targets:
     dependencies:
       - package: firebase-ios-sdk
         product: FirebaseAnalytics
-      - package: firebase-ios-sdk
-        product: FirebaseFirestore
-      - package: firebase-ios-sdk
-        product: FirebaseFunctions
-      - package: firebase-ios-sdk
-        product: FirebaseMessaging
       - package: AppsFlyerFramework
         product: AppsFlyerLib
     entitlements:

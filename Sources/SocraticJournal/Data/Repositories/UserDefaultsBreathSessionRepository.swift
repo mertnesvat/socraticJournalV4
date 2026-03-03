@@ -30,32 +30,32 @@ public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryP
 
     // MARK: - Protocol
 
-    func saveSession(_ session: BreathSession) async throws {
+    public func saveSession(_ session: BreathSession) async throws {
         var sessions = loadAllSessions()
         sessions.append(session)
         try saveAllSessions(sessions)
     }
 
-    func getSessionsForDate(_ date: Date) async throws -> [BreathSession] {
+    public func getSessionsForDate(_ date: Date) async throws -> [BreathSession] {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: date)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
         return loadAllSessions().filter { $0.startedAt >= startOfDay && $0.startedAt < endOfDay }
     }
 
-    func getSessionsForDateRange(from: Date, to: Date) async throws -> [BreathSession] {
+    public func getSessionsForDateRange(from: Date, to: Date) async throws -> [BreathSession] {
         let calendar = Calendar.current
         let start = calendar.startOfDay(for: from)
         let end = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: to))!
         return loadAllSessions().filter { $0.startedAt >= start && $0.startedAt < end }
     }
 
-    func getTotalMinutesToday() async throws -> Double {
+    public func getTotalMinutesToday() async throws -> Double {
         let todaySessions = try await getSessionsForDate(Date())
         return todaySessions.reduce(0) { $0 + $1.totalDuration } / 60.0
     }
 
-    func getStreak() async throws -> Int {
+    public func getStreak() async throws -> Int {
         let calendar = Calendar.current
         let allSessions = loadAllSessions()
 
