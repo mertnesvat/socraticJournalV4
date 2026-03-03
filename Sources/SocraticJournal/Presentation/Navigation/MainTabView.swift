@@ -92,7 +92,7 @@ public struct MainTabView: View {
                 case .learn:
                     LearnView()
                 case .progress:
-                    placeholderView(title: "Progress", icon: "chart.bar")
+                    ProgressTabView(sessionRepository: sessionRepository)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
