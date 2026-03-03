@@ -58,14 +58,19 @@ public struct MainTabView: View {
             ZStack {
                 switch selectedTab {
                 case .today:
-                    TodayPlaceholderView()
+                    TodayView(
+                        sessionRepository: sessionRepository,
+                        settingsRepository: settingsRepository,
+                        notificationService: notificationService,
+                        analyticsService: analyticsService
+                    )
                 case .breathe:
                     BreatheView(
                         sessionRepository: sessionRepository,
                         analyticsService: analyticsService
                     )
                 case .learn:
-                    LearnPlaceholderView()
+                    LearnView()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -128,50 +133,4 @@ public struct MainTabView: View {
     }
 }
 
-// MARK: - Placeholder Views
-
-struct TodayPlaceholderView: View {
-    var body: some View {
-        VStack(spacing: AppSpacing.md) {
-            Text("Today")
-                .font(AppTypography.display)
-                .foregroundStyle(AppColors.textPrimary)
-            Text("Dashboard coming soon")
-                .font(AppTypography.body)
-                .foregroundStyle(AppColors.textSecondary)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColors.background)
-    }
-}
-
-struct BreathePlaceholderView: View {
-    var body: some View {
-        VStack(spacing: AppSpacing.md) {
-            Text("Breathe")
-                .font(AppTypography.display)
-                .foregroundStyle(AppColors.textPrimary)
-            Text("Pacing engine coming soon")
-                .font(AppTypography.body)
-                .foregroundStyle(AppColors.textSecondary)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColors.background)
-    }
-}
-
-struct LearnPlaceholderView: View {
-    var body: some View {
-        VStack(spacing: AppSpacing.md) {
-            Text("Learn")
-                .font(AppTypography.display)
-                .foregroundStyle(AppColors.textPrimary)
-            Text("Science articles coming soon")
-                .font(AppTypography.body)
-                .foregroundStyle(AppColors.textSecondary)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColors.background)
-    }
-}
 #endif
