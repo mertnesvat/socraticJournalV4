@@ -19,6 +19,7 @@ public final class TodayViewModel {
     public var weeklyProgress: StreakCalculator.WeeklyProgress = .init(
         minutesCompleted: 0, goalMinutes: 35, sessionsThisWeek: 0
     )
+    public var weeklyGoalMinutes: Int = 35
     public var todaySession: BreathSession?
     public var totalMinutes: Int = 0
     public var tipOfTheDay: BreathFacts.Fact = BreathFacts.tipOfTheDay()
@@ -50,16 +51,28 @@ public final class TodayViewModel {
         isLoading = true
         defer { isLoading = false }
 
+        // Load settings first so we have the weekly goal
         do {
-            // Load sessions
+            let settings = try await settingsRepository.getSettings()
+            reminderEnabled = settings.dailyReminderEnabled
+            weeklyGoalMinutes = settings.weeklyGoalMinutes
+            if settings.dailyReminderEnabled {
+                reminderTimeFormatted = settings.formattedReminderTime
+            }
+        } catch {
+            // Keep defaults
+        }
+
+        // Load sessions and calculate stats
+        do {
             let allSessions = try await sessionRepository.getAllSessions()
 
             // Calculate streak
             streakInfo = streakCalculator.calculateStreak(from: allSessions)
 
-            // Calculate weekly progress
+            // Calculate weekly progress using settings-based goal
             weeklyProgress = streakCalculator.calculateWeeklyProgress(
-                from: allSessions, goalMinutes: 35
+                from: allSessions, goalMinutes: weeklyGoalMinutes
             )
 
             // Total minutes
@@ -78,17 +91,6 @@ public final class TodayViewModel {
 
         } catch {
             // On error, keep existing state -- dashboard should never show error UI
-        }
-
-        // Load settings for reminder status
-        do {
-            let settings = try await settingsRepository.getSettings()
-            reminderEnabled = settings.dailyReminderEnabled
-            if settings.dailyReminderEnabled {
-                reminderTimeFormatted = settings.formattedReminderTime
-            }
-        } catch {
-            // Keep defaults
         }
     }
 

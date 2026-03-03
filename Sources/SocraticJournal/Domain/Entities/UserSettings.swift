@@ -11,19 +11,22 @@ public struct UserSettings: Codable, Sendable, Equatable {
     public var dailyReminderHour: Int
     public var dailyReminderMinute: Int
     public var hasCompletedOnboarding: Bool
+    public var weeklyGoalMinutes: Int
 
     public init(
         themeMode: ThemeMode = .system,
         dailyReminderEnabled: Bool = false,
         dailyReminderHour: Int = 9,
         dailyReminderMinute: Int = 0,
-        hasCompletedOnboarding: Bool = false
+        hasCompletedOnboarding: Bool = false,
+        weeklyGoalMinutes: Int = 35
     ) {
         self.themeMode = themeMode
         self.dailyReminderEnabled = dailyReminderEnabled
         self.dailyReminderHour = dailyReminderHour
         self.dailyReminderMinute = dailyReminderMinute
         self.hasCompletedOnboarding = hasCompletedOnboarding
+        self.weeklyGoalMinutes = weeklyGoalMinutes
     }
 
     // Custom decoder to handle backwards compatibility with existing saved settings
@@ -34,6 +37,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
         dailyReminderHour = try container.decodeIfPresent(Int.self, forKey: .dailyReminderHour) ?? 9
         dailyReminderMinute = try container.decodeIfPresent(Int.self, forKey: .dailyReminderMinute) ?? 0
         hasCompletedOnboarding = try container.decodeIfPresent(Bool.self, forKey: .hasCompletedOnboarding) ?? false
+        weeklyGoalMinutes = try container.decodeIfPresent(Int.self, forKey: .weeklyGoalMinutes) ?? 35
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -42,6 +46,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
         case dailyReminderHour
         case dailyReminderMinute
         case hasCompletedOnboarding
+        case weeklyGoalMinutes
     }
 
     /// Default settings
@@ -69,6 +74,23 @@ public struct UserSettings: Codable, Sendable, Equatable {
         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
         dailyReminderHour = components.hour ?? 9
         dailyReminderMinute = components.minute ?? 0
+    }
+}
+
+/// Available weekly goal options
+public enum WeeklyGoalOption: Int, CaseIterable, Sendable {
+    case fifteen = 15
+    case twentyFive = 25
+    case thirtyFive = 35
+    case fifty = 50
+    case seventy = 70
+
+    public var displayLabel: String {
+        "\(rawValue) min / week"
+    }
+
+    public var shortLabel: String {
+        "\(rawValue) min"
     }
 }
 

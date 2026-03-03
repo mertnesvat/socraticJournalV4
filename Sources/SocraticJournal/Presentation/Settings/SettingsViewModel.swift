@@ -53,6 +53,14 @@ public final class SettingsViewModel {
         }
     }
 
+    var weeklyGoalMinutes: Int {
+        get { settings.weeklyGoalMinutes }
+        set {
+            settings.weeklyGoalMinutes = newValue
+            Task { await saveSettings() }
+        }
+    }
+
     /// Whether notifications need permission request
     var needsNotificationPermission: Bool {
         notificationPermissionStatus == .notDetermined

@@ -67,6 +67,18 @@ public struct SettingsView: View {
                     .padding(.horizontal, AppSpacing.screenPadding)
                     .padding(.bottom, AppSpacing.md)
 
+                    // WEEKLY GOAL section
+                    SectionHeaderView("Weekly Goal")
+                        .padding(.top, AppSpacing.md)
+                    WeeklyGoalPicker(
+                        selectedMinutes: Binding(
+                            get: { viewModel.weeklyGoalMinutes },
+                            set: { viewModel.weeklyGoalMinutes = $0 }
+                        )
+                    )
+                    .padding(.horizontal, AppSpacing.screenPadding)
+                    .padding(.bottom, AppSpacing.md)
+
                     // NOTIFICATIONS section
                     SectionHeaderView("Notifications")
                         .padding(.top, AppSpacing.md)
