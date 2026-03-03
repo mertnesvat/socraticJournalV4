@@ -21,6 +21,7 @@ public final class BreathPacingEngine {
     private(set) var isRunning: Bool = false
     private(set) var isPaused: Bool = false
     private(set) var isComplete: Bool = false
+    private(set) var completedSession: BreathSession?
 
     let sessionDurationTarget: TimeInterval
 
@@ -106,15 +107,17 @@ public final class BreathPacingEngine {
         displayLink?.isPaused = false
     }
 
+    @discardableResult
     func stop() -> BreathSession {
+        if let existing = completedSession { return existing }
+
         displayLink?.invalidate()
         displayLink = nil
         isRunning = false
-        isComplete = true
 
         successNotification.notificationOccurred(.success)
 
-        return BreathSession(
+        let session = BreathSession(
             id: UUID().uuidString,
             techniqueId: technique.id,
             startedAt: Date().addingTimeInterval(-totalElapsedTime),
@@ -122,6 +125,9 @@ public final class BreathPacingEngine {
             totalDuration: totalElapsedTime,
             cyclesCompleted: cyclesCompleted
         )
+        completedSession = session
+        isComplete = true
+        return session
     }
 
     // MARK: - Timer Tick
@@ -147,12 +153,7 @@ public final class BreathPacingEngine {
         // Phase complete
         if phaseElapsed >= phaseDuration {
             advancePhase()
-        }
-
-        // Session complete — finish the current cycle
-        if totalElapsedTime >= sessionDurationTarget && currentPhaseIndex == 0 && cyclesCompleted > 0 {
-            let session = stop()
-            _ = session // stored by caller via onComplete
+            if isComplete { return }
         }
     }
 

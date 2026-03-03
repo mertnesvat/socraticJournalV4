@@ -122,9 +122,6 @@ public struct TodayDashboardView: View {
                 .environment(themeManager)
                 .preferredColorScheme(themeManager.colorScheme)
             }
-            .onAppear {
-                Task { await viewModel.load() }
-            }
         }
     }
 

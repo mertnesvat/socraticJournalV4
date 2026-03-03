@@ -18,7 +18,7 @@ public struct SocraticJournalApp: App {
     public init() {
         AppEnvironment.logConfiguration()
         FirebaseApp.configure()
-        ThemeManager.shared.configure(settingsRepository: UserDefaultsSettingsRepository())
+        ThemeManager.shared.configure(settingsRepository: settingsRepository)
         NetworkMonitor.shared.startMonitoring()
     }
 

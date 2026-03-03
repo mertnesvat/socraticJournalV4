@@ -60,8 +60,7 @@ struct BreathPacingView: View {
             }
         }
         .onChange(of: engine.isComplete) { _, isComplete in
-            if isComplete {
-                let session = engine.stop()
+            if isComplete, let session = engine.completedSession {
                 completedSession = session
                 Task {
                     try? await breathSessionRepository.saveSession(session)
@@ -146,14 +145,7 @@ struct BreathPacingView: View {
 
                 // Stop
                 Button {
-                    let session = engine.stop()
-                    completedSession = session
-                    Task {
-                        try? await breathSessionRepository.saveSession(session)
-                    }
-                    withAnimation(.easeInOut(duration: 0.5)) {
-                        showComplete = true
-                    }
+                    engine.stop()
                 } label: {
                     Image(systemName: "stop.fill")
                         .font(.system(size: 20))

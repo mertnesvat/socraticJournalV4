@@ -10,6 +10,7 @@ import UIKit
 struct CountdownOverlay: View {
     @State private var count: Int = 3
     @State private var opacity: Double = 1.0
+    @State private var countdownTask: Task<Void, Never>?
     let onComplete: () -> Void
 
     var body: some View {
@@ -22,27 +23,33 @@ struct CountdownOverlay: View {
                 .opacity(opacity)
         }
         .onAppear {
-            startCountdown()
+            countdownTask = Task { @MainActor in
+                await startCountdown()
+            }
+        }
+        .onDisappear {
+            countdownTask?.cancel()
         }
     }
 
-    private func startCountdown() {
+    @MainActor
+    private func startCountdown() async {
         animateNumber()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            count = 2
-            animateNumber()
-        }
+        try? await Task.sleep(for: .seconds(1))
+        guard !Task.isCancelled else { return }
+        count = 2
+        animateNumber()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            count = 1
-            animateNumber()
-        }
+        try? await Task.sleep(for: .seconds(1))
+        guard !Task.isCancelled else { return }
+        count = 1
+        animateNumber()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-            onComplete()
-        }
+        try? await Task.sleep(for: .seconds(1))
+        guard !Task.isCancelled else { return }
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        onComplete()
     }
 
     private func animateNumber() {
