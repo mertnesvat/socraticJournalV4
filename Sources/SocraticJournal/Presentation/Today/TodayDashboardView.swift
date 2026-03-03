@@ -53,7 +53,16 @@ public struct TodayDashboardView: View {
                     SectionHeaderView("Techniques", showTopBorder: false)
 
                     ForEach(BreathTechnique.allTechniques) { technique in
-                        techniqueCard(technique)
+                        NavigationLink {
+                            BreathSessionSetupView(
+                                technique: technique,
+                                breathSessionRepository: breathSessionRepository,
+                                analyticsService: analyticsService
+                            )
+                        } label: {
+                            techniqueCard(technique)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal, AppSpacing.screenPadding)
