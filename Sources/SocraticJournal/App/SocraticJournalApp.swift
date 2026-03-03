@@ -42,6 +42,7 @@ public struct SocraticJournalApp: App {
             .fullScreenCover(isPresented: $showOnboarding) {
                 NewOnboardingView(
                     settingsRepository: settingsRepository,
+                    notificationService: notificationService,
                     onDismiss: {
                         showOnboarding = false
                     }
