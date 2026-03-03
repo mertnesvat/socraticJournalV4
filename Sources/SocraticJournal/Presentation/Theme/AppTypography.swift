@@ -33,6 +33,10 @@ public enum AppTypography {
     public static let timer = Font.system(size: 28, weight: .medium, design: .monospaced)
     public static let badge = Font.system(size: 11, weight: .bold, design: .default)
 
+    // Aliases
+    public static let display2 = displayMedium
+    public static let statLarge = stat
+
     // Tracking for section headers
     public static let sectionHeaderTracking: CGFloat = 2.0
 }
