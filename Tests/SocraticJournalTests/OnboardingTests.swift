@@ -80,7 +80,6 @@ struct OnboardingTests {
         func skipButtonCompletesOnboarding() async throws {
             let repository = MockSettingsRepository()
 
-            // Simulate skip action (same as continue - completes onboarding)
             var settings = try await repository.getSettings()
             settings.hasCompletedOnboarding = true
             try await repository.saveSettings(settings)
@@ -93,7 +92,6 @@ struct OnboardingTests {
         func skipLogsAnalytics() {
             let analyticsService = MockAnalyticsService()
 
-            // When skip is pressed, onboardingCompleted is logged (not skipped in current impl)
             analyticsService.logEvent(.onboardingCompleted, parameters: nil)
 
             #expect(analyticsService.hasLoggedEvent(.onboardingCompleted))
@@ -109,12 +107,10 @@ struct OnboardingTests {
         func replayOnboardingResetsFlag() async throws {
             let repository = MockSettingsRepository()
 
-            // First complete onboarding
             var settings = try await repository.getSettings()
             settings.hasCompletedOnboarding = true
             try await repository.saveSettings(settings)
 
-            // Then reset (replay)
             settings.hasCompletedOnboarding = false
             try await repository.saveSettings(settings)
 
@@ -126,7 +122,6 @@ struct OnboardingTests {
         func replayThenCompletes() async throws {
             let repository = MockSettingsRepository()
 
-            // Complete -> Reset -> Complete again
             var settings = try await repository.getSettings()
             settings.hasCompletedOnboarding = true
             try await repository.saveSettings(settings)
@@ -139,55 +134,6 @@ struct OnboardingTests {
 
             let finalSettings = try await repository.getSettings()
             #expect(finalSettings.hasCompletedOnboarding)
-        }
-    }
-
-    // MARK: - Paywall Not Shown Tests
-
-    @Suite("Paywall Not Shown During Onboarding")
-    struct PaywallNotShownTests {
-
-        @Test("No paywall events logged during onboarding flow")
-        func noPaywallEventsDuringOnboarding() {
-            let analyticsService = MockAnalyticsService()
-
-            // Simulate complete onboarding flow
-            analyticsService.logEvent(.onboardingStarted, parameters: nil)
-            analyticsService.logEvent(.onboardingCompleted, parameters: nil)
-
-            // Verify no paywall events were logged
-            let paywallEvents = ["paywall_viewed", "paywall_products_loaded", "paywall_purchase_started"]
-            for eventName in paywallEvents {
-                #expect(!analyticsService.hasLoggedCustomEvent(eventName))
-            }
-        }
-
-        @Test("Onboarding does not require subscription service")
-        func onboardingNoSubscriptionRequired() async throws {
-            // Onboarding should work without any subscription service dependency
-            let repository = MockSettingsRepository()
-
-            var settings = try await repository.getSettings()
-            settings.hasCompletedOnboarding = true
-            try await repository.saveSettings(settings)
-
-            // This completes successfully without subscription involvement
-            #expect(repository.lastSavedSettings?.hasCompletedOnboarding == true)
-        }
-
-        @Test("Subscription status not checked during onboarding")
-        func subscriptionStatusNotChecked() async throws {
-            let subscriptionService = TestMockSubscriptionService()
-            let repository = MockSettingsRepository()
-
-            // Simulate onboarding flow
-            var settings = try await repository.getSettings()
-            settings.hasCompletedOnboarding = true
-            try await repository.saveSettings(settings)
-
-            // Subscription service should not have been called
-            #expect(!subscriptionService.currentStatusCalled)
-            #expect(!subscriptionService.fetchProductsCalled)
         }
     }
 
@@ -216,9 +162,6 @@ struct OnboardingTests {
             let oldData = """
             {
                 "themeMode": "system",
-                "friendActivityEnabled": true,
-                "streakRemindersEnabled": true,
-                "fomoAlertsEnabled": true,
                 "dailyReminderEnabled": false,
                 "dailyReminderHour": 9,
                 "dailyReminderMinute": 0

@@ -47,12 +47,6 @@ targets:
     dependencies:
       - package: firebase-ios-sdk
         product: FirebaseAnalytics
-      - package: firebase-ios-sdk
-        product: FirebaseFirestore
-      - package: firebase-ios-sdk
-        product: FirebaseFunctions
-      - package: firebase-ios-sdk
-        product: FirebaseMessaging
       - package: AppsFlyerFramework
         product: AppsFlyerLib
     entitlements:

@@ -5,13 +5,10 @@
 #if os(iOS)
 import SwiftUI
 
-/// Notification settings section with toggles for social engagement notifications
+/// Notification settings section with daily breath reminder toggle
 struct NotificationSettingsView: View {
     @Binding var dailyReminderEnabled: Bool
     @Binding var reminderTime: Date
-    @Binding var friendActivityEnabled: Bool
-    @Binding var streakRemindersEnabled: Bool
-    @Binding var fomoAlertsEnabled: Bool
     var notificationsDenied: Bool = false
     var onOpenSettings: (() -> Void)? = nil
 
@@ -23,10 +20,10 @@ struct NotificationSettingsView: View {
                 HairlineDivider()
             }
 
-            // Daily question reminder toggle
+            // Daily breath reminder toggle
             toggleRow(
-                title: "Daily Question",
-                subtitle: "Get notified when a new question drops",
+                title: "Daily Reminder",
+                subtitle: "Get a gentle nudge to breathe",
                 isOn: $dailyReminderEnabled,
                 disabled: notificationsDenied
             )
@@ -52,40 +49,7 @@ struct NotificationSettingsView: View {
                 }
                 .padding(.horizontal, AppSpacing.screenPadding)
                 .padding(.vertical, AppSpacing.sm)
-
-                HairlineDivider()
-                    .padding(.leading, AppSpacing.screenPadding)
             }
-
-            // Friend activity toggle
-            toggleRow(
-                title: "Friend Activity",
-                subtitle: "Know when friends record their take",
-                isOn: $friendActivityEnabled,
-                disabled: notificationsDenied
-            )
-
-            HairlineDivider()
-                .padding(.leading, AppSpacing.screenPadding)
-
-            // Streak reminders toggle
-            toggleRow(
-                title: "Streak Reminders",
-                subtitle: "Don't lose your answer streak",
-                isOn: $streakRemindersEnabled,
-                disabled: notificationsDenied
-            )
-
-            HairlineDivider()
-                .padding(.leading, AppSpacing.screenPadding)
-
-            // FOMO alerts toggle
-            toggleRow(
-                title: "FOMO Alerts",
-                subtitle: "See how many friends answered before you",
-                isOn: $fomoAlertsEnabled,
-                disabled: notificationsDenied
-            )
         }
         .background(AppColors.surface)
         .overlay(
@@ -150,9 +114,6 @@ struct NotificationSettingsView: View {
     NotificationSettingsView(
         dailyReminderEnabled: .constant(true),
         reminderTime: .constant(Date()),
-        friendActivityEnabled: .constant(true),
-        streakRemindersEnabled: .constant(true),
-        fomoAlertsEnabled: .constant(true),
         notificationsDenied: false
     )
     .padding(AppSpacing.screenPadding)
@@ -163,9 +124,6 @@ struct NotificationSettingsView: View {
     NotificationSettingsView(
         dailyReminderEnabled: .constant(false),
         reminderTime: .constant(Date()),
-        friendActivityEnabled: .constant(false),
-        streakRemindersEnabled: .constant(false),
-        fomoAlertsEnabled: .constant(false),
         notificationsDenied: true,
         onOpenSettings: {}
     )

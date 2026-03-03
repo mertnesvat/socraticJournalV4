@@ -8,30 +8,26 @@ import SwiftUI
 /// Tab selection options for main navigation
 public enum MainTab: Int, CaseIterable {
     case today
-    case friends
-    case profile
+    case learn
 
     var title: String {
         switch self {
         case .today: return "Today"
-        case .friends: return "Friends"
-        case .profile: return "Profile"
+        case .learn: return "Learn"
         }
     }
 
     var iconActive: String {
         switch self {
-        case .today: return "mic.fill"
-        case .friends: return "person.2.fill"
-        case .profile: return "person.fill"
+        case .today: return "circle.grid.2x1.fill"
+        case .learn: return "book.closed.fill"
         }
     }
 
     var iconInactive: String {
         switch self {
-        case .today: return "mic"
-        case .friends: return "person.2"
-        case .profile: return "person"
+        case .today: return "circle.grid.2x1"
+        case .learn: return "book.closed"
         }
     }
 }
@@ -39,66 +35,34 @@ public enum MainTab: Int, CaseIterable {
 /// Main tab container with clean minimal bottom bar
 public struct MainTabView: View {
     @State private var selectedTab: MainTab = .today
-    @State private var showRecording: Bool = false
-    @State private var pendingRequestCount: Int = 2
-    @State private var hasNewAnswers: Bool = true
+    @State private var showSettings: Bool = false
     @Environment(ThemeManager.self) private var themeManager
 
     // MARK: - Services
 
-    private let questionFeedService: QuestionFeedServiceProtocol
-    private let userProfileService: UserProfileServiceProtocol
-    private let friendService: FriendServiceProtocol
-    private let answerRevealService: AnswerRevealServiceProtocol
-    private let voiceRecordingService: VoiceRecordingService
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol
-    private let subscriptionService: SubscriptionServiceProtocol
     private let analyticsService: AnalyticsServiceProtocol
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
         notificationService: NotificationServiceProtocol,
-        subscriptionService: SubscriptionServiceProtocol,
         analyticsService: AnalyticsServiceProtocol
     ) {
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
-        self.subscriptionService = subscriptionService
         self.analyticsService = analyticsService
-
-        // Initialize mock services for the pivot
-        self.questionFeedService = MockQuestionFeedService()
-        self.userProfileService = MockUserProfileService()
-        self.friendService = MockFriendService()
-        self.answerRevealService = MockAnswerRevealService()
-        self.voiceRecordingService = VoiceRecordingService()
     }
 
     public var body: some View {
         VStack(spacing: 0) {
-            // Content area — switches view based on selectedTab
+            // Content area -- switches view based on selectedTab
             ZStack {
                 switch selectedTab {
                 case .today:
-                    QuestionFeedView(viewModel: QuestionFeedViewModel(
-                        questionFeedService: questionFeedService,
-                        userProfileService: userProfileService
-                    ))
-
-                case .friends:
-                    FriendsListView(viewModel: FriendsListViewModel(
-                        friendService: friendService
-                    ))
-
-                case .profile:
-                    ProfileView(
-                        viewModel: ProfileViewModel(userProfileService: userProfileService),
-                        settingsRepository: settingsRepository,
-                        notificationService: notificationService,
-                        subscriptionService: subscriptionService,
-                        analyticsService: analyticsService
-                    )
+                    placeholderView(title: "Today")
+                case .learn:
+                    placeholderView(title: "Learn")
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -107,6 +71,39 @@ public struct MainTabView: View {
             customTabBar
         }
         .ignoresSafeArea(.keyboard)
+        .sheet(isPresented: $showSettings) {
+            SettingsView(
+                viewModel: SettingsViewModel(
+                    settingsRepository: settingsRepository,
+                    notificationService: notificationService,
+                    analyticsService: analyticsService
+                )
+            )
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
+        }
+    }
+
+    // MARK: - Placeholder View
+
+    private func placeholderView(title: String) -> some View {
+        VStack(spacing: AppSpacing.md) {
+            Spacer()
+            Text(title)
+                .font(AppTypography.headline)
+                .foregroundStyle(AppColors.textPrimary)
+
+            Button {
+                showSettings = true
+            } label: {
+                Label("Settings", systemImage: "gearshape")
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppColors.textSecondary)
+            }
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColors.background)
     }
 
     // MARK: - Clean Minimal Tab Bar
@@ -138,20 +135,9 @@ public struct MainTabView: View {
             }
         } label: {
             VStack(spacing: 2) {
-                ZStack(alignment: .topTrailing) {
-                    Image(systemName: isSelected ? tab.iconActive : tab.iconInactive)
-                        .font(.system(size: 20, weight: isSelected ? .semibold : .regular))
-                        .foregroundStyle(isSelected ? AppColors.accent : AppColors.textTertiary)
-
-                    // Badge overlays — small coral-red dots
-                    if tab == .friends && pendingRequestCount > 0 {
-                        friendsBadge
-                    }
-
-                    if tab == .today && hasNewAnswers {
-                        newAnswersDot
-                    }
-                }
+                Image(systemName: isSelected ? tab.iconActive : tab.iconInactive)
+                    .font(.system(size: 20, weight: isSelected ? .semibold : .regular))
+                    .foregroundStyle(isSelected ? AppColors.accent : AppColors.textTertiary)
 
                 Text(tab.title)
                     .font(.system(size: 10, weight: isSelected ? .semibold : .regular))
@@ -161,22 +147,6 @@ public struct MainTabView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-    }
-
-    // MARK: - Badge Views
-
-    private var friendsBadge: some View {
-        Circle()
-            .fill(AppColors.accent)
-            .frame(width: 8, height: 8)
-            .offset(x: 8, y: -4)
-    }
-
-    private var newAnswersDot: some View {
-        Circle()
-            .fill(AppColors.accent)
-            .frame(width: 8, height: 8)
-            .offset(x: 8, y: -4)
     }
 
     // MARK: - Helpers
@@ -192,7 +162,6 @@ public struct MainTabView: View {
     MainTabView(
         settingsRepository: UserDefaultsSettingsRepository(),
         notificationService: LocalNotificationService(),
-        subscriptionService: StoreKitSubscriptionService(),
         analyticsService: FirebaseAnalyticsService.shared
     )
     .environment(ThemeManager.shared)
