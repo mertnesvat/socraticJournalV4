@@ -70,7 +70,7 @@ public struct MainTabView: View {
                 case .today:
                     placeholderView(title: "Today", icon: "circle.grid.2x1")
                 case .breathe:
-                    placeholderView(title: "Breathe", icon: "wind")
+                    BreatheView()
                 case .learn:
                     placeholderView(title: "Learn", icon: "book.closed")
                 case .progress:
