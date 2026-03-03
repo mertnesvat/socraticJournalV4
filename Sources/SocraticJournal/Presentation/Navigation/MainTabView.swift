@@ -67,6 +67,7 @@ public struct MainTabView: View {
                 case .breathe:
                     BreatheView(
                         sessionRepository: sessionRepository,
+                        settingsRepository: settingsRepository,
                         analyticsService: analyticsService
                     )
                 case .learn:

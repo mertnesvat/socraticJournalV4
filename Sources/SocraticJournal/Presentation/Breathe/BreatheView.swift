@@ -11,10 +11,12 @@ public struct BreatheView: View {
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
+        settingsRepository: SettingsRepositoryProtocol? = nil,
         analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         _viewModel = State(initialValue: BreatheViewModel(
             sessionRepository: sessionRepository,
+            settingsRepository: settingsRepository,
             analyticsService: analyticsService
         ))
     }
@@ -51,6 +53,7 @@ public struct BreatheView: View {
             }
         }
         .background(AppColors.background)
+        .task { await viewModel.loadSettings() }
         .onChange(of: viewModel.engine.sessionFinished) { _, finished in
             if finished {
                 viewModel.handleSessionFinished()

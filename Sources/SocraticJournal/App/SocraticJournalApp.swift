@@ -45,6 +45,9 @@ public struct SocraticJournalApp: App {
                     }
                 )
             }
+            .onReceive(NotificationCenter.default.publisher(for: .replayOnboarding)) { _ in
+                showOnboarding = true
+            }
         }
     }
 

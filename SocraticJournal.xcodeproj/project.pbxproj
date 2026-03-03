@@ -44,6 +44,7 @@
 		91155306582B4B7662CE72D8 /* UserDefaultsBreathSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853C1481B20C2C27E606631D /* UserDefaultsBreathSessionRepository.swift */; };
 		9162787D7DD1219552768117 /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905280F906AF00098A4D2C8D /* TodayViewModel.swift */; };
 		9163C53633F2F027735054AF /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9E98B9AB99203807F249A5 /* TodayView.swift */; };
+		9642579B660C2F7F7F23E410 /* HapticRhythmEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E9F8E59F56730033FF0309 /* HapticRhythmEngine.swift */; };
 		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
 		980A3458BC44A5ED8B194540 /* PatternSelectorBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D310E6FEDB1269BDC6844E6 /* PatternSelectorBar.swift */; };
 		9917834581BCFF88C4288A82 /* LearnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C5E0D4079AC6077240D2B /* LearnView.swift */; };
@@ -96,6 +97,7 @@
 		60A8B02F05534B87C324BF7A /* BreathPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPattern.swift; sourceTree = "<group>"; };
 		6A07E910B300F8BA4C4769BE /* SocraticJournalTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SocraticJournalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E79BA376E0A3B2D8C575B27 /* BreatheViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreatheViewModel.swift; sourceTree = "<group>"; };
+		70E9F8E59F56730033FF0309 /* HapticRhythmEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticRhythmEngine.swift; sourceTree = "<group>"; };
 		71271D797DB8CC4FA3B1EF89 /* BreatheView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreatheView.swift; sourceTree = "<group>"; };
 		73E9AEFA74F97714623EBBB5 /* AppShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShapes.swift; sourceTree = "<group>"; };
 		788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSettingsRepository.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 			children = (
 				21B81A264A8ED07DAB0C5671 /* BreathWaveView.swift */,
 				F6CEE7EE05E497A1DE6F8DDD /* DurationChipBar.swift */,
+				70E9F8E59F56730033FF0309 /* HapticRhythmEngine.swift */,
 				302C0F83D5747A73A08F0A83 /* PatternInfoSection.swift */,
 				7D310E6FEDB1269BDC6844E6 /* PatternSelectorBar.swift */,
 				97421CF4D431F17EAB167925 /* PhaseLabelView.swift */,
@@ -587,6 +590,7 @@
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
 				7E18F84144F8748DD3C9BE5E /* FirebaseNotificationService.swift in Sources */,
+				9642579B660C2F7F7F23E410 /* HapticRhythmEngine.swift in Sources */,
 				9917834581BCFF88C4288A82 /* LearnView.swift in Sources */,
 				2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */,
 				2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */,

@@ -16,20 +16,36 @@ public final class BreatheViewModel {
     private(set) var sessionStartedAt: Date?
 
     let engine = BreathPacingEngine()
+    let hapticEngine = HapticRhythmEngine()
 
     // MARK: - Dependencies
 
     private let sessionRepository: BreathSessionRepositoryProtocol
+    private let settingsRepository: SettingsRepositoryProtocol?
     private let analyticsService: AnalyticsServiceProtocol?
 
     // MARK: - Init
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
+        settingsRepository: SettingsRepositoryProtocol? = nil,
         analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         self.sessionRepository = sessionRepository
+        self.settingsRepository = settingsRepository
         self.analyticsService = analyticsService
+
+        engine.onPhaseTransition = { [hapticEngine] phaseType in
+            hapticEngine.firePhaseTransition(phaseType: phaseType)
+        }
+    }
+
+    func loadSettings() async {
+        guard let repo = settingsRepository else { return }
+        do {
+            let settings = try await repo.getSettings()
+            hapticEngine.setEnabled(settings.hapticRhythmEnabled)
+        } catch {}
     }
 
     // MARK: - Duration Options

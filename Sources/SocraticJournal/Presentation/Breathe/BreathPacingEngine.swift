@@ -40,6 +40,10 @@ public final class BreathPacingEngine {
     private(set) var pattern: BreathPattern?
     private(set) var targetDuration: TimeInterval = 300 // 5 minutes default
 
+    // MARK: - Callbacks
+
+    var onPhaseTransition: ((BreathPhaseType) -> Void)?
+
     // MARK: - Internal
 
     private var displayLink: CADisplayLink?
@@ -140,17 +144,16 @@ public final class BreathPacingEngine {
         if phaseElapsed >= phase.duration {
             let nextIndex = currentPhaseIndex + 1
             if nextIndex >= pattern.phases.count {
-                // Completed one cycle
                 cyclesCompleted += 1
                 currentPhaseIndex = 0
             } else {
                 currentPhaseIndex = nextIndex
             }
-            phaseStartTime = now - pauseAccumulator + (now - pauseAccumulator - (phaseStartTime + phase.duration))
-            phaseStartTime = adjustedNow // reset to now for simplicity
+            phaseStartTime = adjustedNow
             phaseProgress = 0
             if let newPhase = currentPhase {
                 countdown = Int(ceil(newPhase.duration))
+                onPhaseTransition?(newPhase.phaseType)
             }
         }
     }
