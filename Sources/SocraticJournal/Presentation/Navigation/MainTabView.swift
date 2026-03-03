@@ -51,15 +51,18 @@ public struct MainTabView: View {
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol
     private let analyticsService: AnalyticsServiceProtocol
+    private let sessionRepository: SessionRepositoryProtocol
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
         notificationService: NotificationServiceProtocol,
-        analyticsService: AnalyticsServiceProtocol
+        analyticsService: AnalyticsServiceProtocol,
+        sessionRepository: SessionRepositoryProtocol = UserDefaultsSessionRepository()
     ) {
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
         self.analyticsService = analyticsService
+        self.sessionRepository = sessionRepository
     }
 
     public var body: some View {
@@ -70,7 +73,11 @@ public struct MainTabView: View {
                 case .today:
                     placeholderView(title: "Today", icon: "circle.grid.2x1")
                 case .breathe:
-                    BreatheView()
+                    BreatheView(onSessionCompleted: { session in
+                        Task {
+                            try? await sessionRepository.saveSession(session)
+                        }
+                    })
                 case .learn:
                     placeholderView(title: "Learn", icon: "book.closed")
                 case .progress:

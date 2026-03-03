@@ -41,8 +41,18 @@ public struct BreatheView: View {
                 activeSessionView
 
             case .summary:
-                // Placeholder summary -- replaced in Feature 4
-                sessionCompletePlaceholder
+                if let session = viewModel.engine.completedSession {
+                    SessionSummaryView(
+                        session: session,
+                        streakCount: 0,
+                        onDismiss: {
+                            onSessionCompleted?(session)
+                            viewModel.returnToSelection()
+                        }
+                    )
+                } else {
+                    sessionCompletePlaceholder
+                }
             }
         }
         .onChange(of: scenePhase) { _, newPhase in
