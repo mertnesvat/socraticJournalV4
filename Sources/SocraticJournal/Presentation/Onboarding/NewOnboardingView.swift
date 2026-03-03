@@ -8,6 +8,8 @@ import SwiftUI
 /// 3-page swipeable onboarding for the Breathe app
 public struct NewOnboardingView: View {
     @State private var currentPage: Int = 0
+    @State private var breathScale: CGFloat = 0.6
+    @State private var breathOpacity: Double = 0.15
 
     private let settingsRepository: SettingsRepositoryProtocol
     private let onDismiss: () -> Void
@@ -77,16 +79,33 @@ public struct NewOnboardingView: View {
                 .foregroundStyle(AppColors.textSecondary)
                 .multilineTextAlignment(.center)
 
-            // Animated breath circle placeholder
-            Circle()
-                .fill(AppColors.accent.opacity(0.15))
-                .frame(width: 160, height: 160)
-                .overlay(
-                    Circle()
-                        .fill(AppColors.accent.opacity(0.3))
-                        .frame(width: 100, height: 100)
-                )
-                .padding(.vertical, AppSpacing.xl)
+            // Animated breath circle
+            ZStack {
+                Circle()
+                    .fill(AppColors.accent.opacity(breathOpacity))
+                    .frame(width: 180, height: 180)
+                    .scaleEffect(breathScale * 1.2)
+
+                Circle()
+                    .fill(AppColors.accent.opacity(breathOpacity + 0.1))
+                    .frame(width: 120, height: 120)
+                    .scaleEffect(breathScale)
+
+                Circle()
+                    .fill(AppColors.accent.opacity(0.5))
+                    .frame(width: 60, height: 60)
+                    .scaleEffect(breathScale * 0.8)
+            }
+            .padding(.vertical, AppSpacing.xl)
+            .onAppear {
+                withAnimation(
+                    .easeInOut(duration: 5.5)
+                    .repeatForever(autoreverses: true)
+                ) {
+                    breathScale = 1.0
+                    breathOpacity = 0.3
+                }
+            }
 
             Spacer()
         }
