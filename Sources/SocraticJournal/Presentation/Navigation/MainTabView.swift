@@ -90,7 +90,7 @@ public struct MainTabView: View {
                         }
                     })
                 case .learn:
-                    placeholderView(title: "Learn", icon: "book.closed")
+                    LearnView()
                 case .progress:
                     placeholderView(title: "Progress", icon: "chart.bar")
                 }
