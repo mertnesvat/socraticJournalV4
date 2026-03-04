@@ -1,11 +1,11 @@
 // AboutView.swift
-// SocraticJournal
+// Breathe
 // Copyright 2024 StudioNext
 
 #if os(iOS)
 import SwiftUI
 
-/// About section with version and links
+/// About section with version, credits, and links
 struct AboutView: View {
     let version: String
     let onPrivacyPolicy: () -> Void
@@ -13,6 +13,21 @@ struct AboutView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            // App identity
+            VStack(spacing: AppSpacing.xxs) {
+                Text("Breathe")
+                    .font(AppTypography.headlineMedium)
+                    .foregroundStyle(AppColors.textPrimary)
+
+                Text("Breath Pacer by Studio Next")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textSecondary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, AppSpacing.lg)
+
+            HairlineDivider()
+
             // Version info
             HStack {
                 Text("Version")
@@ -67,6 +82,24 @@ struct AboutView: View {
                 .padding(.vertical, AppSpacing.md)
             }
             .buttonStyle(.plain)
+
+            HairlineDivider()
+
+            // Science acknowledgement
+            VStack(spacing: AppSpacing.xs) {
+                Text("Inspired by the research of James Nestor, Patrick McKeown, and Stephen Elliott.")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textTertiary)
+                    .multilineTextAlignment(.center)
+
+                Text("Based on the science explored in Breath by James Nestor.")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textTertiary)
+                    .italic()
+                    .multilineTextAlignment(.center)
+            }
+            .padding(.horizontal, AppSpacing.cardPadding)
+            .padding(.vertical, AppSpacing.md)
         }
         .background(AppColors.surface)
         .overlay(

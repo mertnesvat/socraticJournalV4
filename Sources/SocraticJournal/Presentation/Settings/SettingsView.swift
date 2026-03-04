@@ -55,8 +55,20 @@ public struct SettingsView: View {
                 VStack(spacing: 0) {
                     settingsHeader
 
+                    // DAILY PRACTICE section
+                    SectionHeaderView("Daily Practice")
+                    DailyGoalPickerView(
+                        selectedMinutes: Binding(
+                            get: { viewModel.dailyGoalMinutes },
+                            set: { viewModel.dailyGoalMinutes = $0 }
+                        )
+                    )
+                    .padding(.horizontal, AppSpacing.screenPadding)
+                    .padding(.bottom, AppSpacing.md)
+
                     // APPEARANCE section
                     SectionHeaderView("Appearance")
+                        .padding(.top, AppSpacing.md)
                     ThemeSelectorView(
                         selectedTheme: Binding(
                             get: { viewModel.themeMode },
