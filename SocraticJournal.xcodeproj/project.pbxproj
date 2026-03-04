@@ -10,12 +10,15 @@
 		0047B39B7559AD5B4D2A724A /* ThemeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */; };
 		060DCDE2F8D2095C6DA7AC4E /* SocraticJournal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */; };
 		08915BCFBD6B6397D2BCA9EE /* DailyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD78B7172A96E20384AA795 /* DailyLog.swift */; };
+		0E6357AB8B96458251542030 /* LearnArticleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1FFD971C588116ADD8306 /* LearnArticleDetailView.swift */; };
 		0F2414B3533D0C0F4910B221 /* TodayDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD881CE19C0D9E11C59F3BA /* TodayDashboardView.swift */; };
 		15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */; };
 		17DD6C8A004F35D79CACC6CB /* BreathTechnique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1D21EE8E1CA739F793FB69 /* BreathTechnique.swift */; };
 		18A62927823B5A6BA560C79E /* AppShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E9AEFA74F97714623EBBB5 /* AppShapes.swift */; };
 		18BBDCD196E5B7E6F1DBB749 /* TipOfTheDayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6F4CDF12D8D436EB066C7B /* TipOfTheDayCard.swift */; };
 		1942377AA6B21C6D939D0917 /* AppTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA3E1F2B8FB060A9055025B /* AppTypography.swift */; };
+		20F69D7335988AD3FD88392C /* SessionHistorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226A951983F4FAD054AC2A0D /* SessionHistorySection.swift */; };
+		21F7773EEAA7004B6E1B8799 /* StatsHeroSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9255E5FAD3B80E4B75C4646 /* StatsHeroSection.swift */; };
 		2353327B27450AF113EF609F /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF92EF5F314A4CC8478E991C /* ThemeManager.swift */; };
 		2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */; };
 		260CF80AFE98AC17C77CF517 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B5465DD72A4D6C6492FD14 /* AppColors.swift */; };
@@ -23,6 +26,7 @@
 		278C418E1F73145AD9AAAA34 /* BreathPacingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81134A9080C6BC2F469D29E7 /* BreathPacingView.swift */; };
 		2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A36AC1AC2633D53C43FE99 /* Environment.swift */; };
 		2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */; };
+		2CC9469A9FC3C7D811805433 /* MockLearningContentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8C836D14B9B90BA552BD27 /* MockLearningContentService.swift */; };
 		31283F0F3A55B7B3EC8DAD59 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */; };
 		32692AF0C629EC1E19EEFD74 /* SessionHistoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D971947F5B2636F057402CA5 /* SessionHistoryRow.swift */; };
 		348246EA3712BEF78405EFAB /* BreathSessionRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDF76AF081414798A3AA9BD /* BreathSessionRepositoryTests.swift */; };
@@ -30,6 +34,7 @@
 		3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782BF4BCB8611080CE7218E /* AboutView.swift */; };
 		40DB66C3830BF575B1904170 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBFCD947C02302577DE3EC06 /* Assets.xcassets */; };
 		42920AFCA24AD3E7B07FAC9C /* BreathSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A737F1D67490C9A86525010 /* BreathSession.swift */; };
+		5072E2E2551DE156A10D6644 /* LearnFeedViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD143828DD8A7FF874DAA89 /* LearnFeedViewModelTests.swift */; };
 		55B60718FE227BEA19D64946 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */; };
 		5A48F506445202574EF5599C /* MockBreathSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4078E7E4011E4189AB3AF43 /* MockBreathSessionRepository.swift */; };
 		5B24B9CDE0844E58E1AD4B3B /* PhaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A10795832E5F6467FB7392A /* PhaseLabel.swift */; };
@@ -37,6 +42,7 @@
 		5B625522F67DED65EA09CBA1 /* MockSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88051AB8352D615CE378228 /* MockSettingsRepository.swift */; };
 		5B66C28BD8A4005DAB2D7348 /* DailyProgressCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB42E9549666B979DBD5CC3 /* DailyProgressCard.swift */; };
 		5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4B1E73960A7489D123CF41 /* UserSettings.swift */; };
+		61C803196130A272EED52FD3 /* LearnFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5AF9FC2ACAD6D87C1370EA /* LearnFeedView.swift */; };
 		67A12EE53F5D614E0D696870 /* BreathSessionFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1722A6B3CC51D6131FB8A02 /* BreathSessionFlowTests.swift */; };
 		6D98A2F1C80A94CBE7A571D8 /* AppSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF73C946A4299853FE58E44 /* AppSpacing.swift */; };
 		710624D8457D48AA9E738C3B /* StreakIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A753957BBE36EB16D652CC /* StreakIndicator.swift */; };
@@ -51,13 +57,18 @@
 		8FB5357C3F7DE4FCD24DE050 /* BreathPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591FF060B6D6E2B364A4BCC /* BreathPhase.swift */; };
 		90D36BD2BF7047735751CD6B /* wisdom_quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = E9721DD221539E97DDD9E989 /* wisdom_quotes.json */; };
 		91155306582B4B7662CE72D8 /* UserDefaultsBreathSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853C1481B20C2C27E606631D /* UserDefaultsBreathSessionRepository.swift */; };
+		93AF17094C89F29CCB065A9A /* StreakCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D40399A1C8F13F2F35BBE9A /* StreakCalendarView.swift */; };
 		96C6CF481067F9098D1E2B54 /* MountainWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5B81CEA01F956948B39ACF /* MountainWaveView.swift */; };
 		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
 		9FCD54C3B86958D6448A0895 /* StaticLearningContentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78CB15EBE6A5AF3377F6D52 /* StaticLearningContentService.swift */; };
+		A6196D685C57667CED95385B /* ProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */; };
+		A6BCC5AA5A922780E63D281B /* LearningArticleCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546269E69E4F4DC8B3B68D1A /* LearningArticleCard.swift */; };
+		B2FC8CCE87A90003F7701E27 /* CategoryFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70CF49E35FB6B6B154D5B52 /* CategoryFilterBar.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
 		C9EDC049AB6DD96FDAABF91D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9004754BBF0511296A6FAF /* User.swift */; };
 		C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5D235EA9156B100C8E539A /* SettingsView.swift */; };
 		CCDB1E033104AEE57F6BC2B5 /* LearningArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C8C443A6C928BF148B538A /* LearningArticle.swift */; };
+		D2C2EDC5F594D2DE0CC0E9D1 /* ProgressViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63A8FB28629D73E34B5F30B /* ProgressViewModelTests.swift */; };
 		D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */; };
 		D5C1EC71902A6965F6282E09 /* DurationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F31BEBA16DF391C775B3F93 /* DurationPicker.swift */; };
 		D6081F0B24B69FC0BFCCC4ED /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */; };
@@ -65,10 +76,12 @@
 		DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */; };
 		E0769F51C74BDA384D281B5F /* LearningContentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F098D8966EB539D56BEC84 /* LearningContentServiceProtocol.swift */; };
 		E22D51C2108FCDF5D2670EE7 /* BreathSessionRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DF4448F47B1DE6B53169BA /* BreathSessionRepositoryProtocol.swift */; };
+		E5E5F1EDA004C0CDFD850C32 /* BreathProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BB7D3A03048DC1EEE1F32C /* BreathProgressView.swift */; };
 		E709FB5504B55EFEBC55B6C9 /* BreathSessionSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA91533A335450E007AEA17C /* BreathSessionSetupView.swift */; };
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
 		EC03A70166A8DEF9CEEB2872 /* BreathPacingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2038944009FBA096686ECD97 /* BreathPacingEngine.swift */; };
 		F104CD8C35EF3163101D3BDA /* TechniqueListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD6BB718F2E653A8A3AA0B6 /* TechniqueListSection.swift */; };
+		FB18FE6C9DBA340FEE7CD0F9 /* LearnFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A7427EE91BA9879FCE9E7E /* LearnFeedViewModel.swift */; };
 		FB56F744CF85756F4A0F1387 /* TechniqueCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F57CF56B9D8C9186E6B930B /* TechniqueCard.swift */; };
 		FC335E49A6EC30CD862C397B /* TodayDashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A581FC4D6D0775AF2A81B7 /* TodayDashboardViewModelTests.swift */; };
 		FD764235B722DD5F364C9850 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7427E0C3061E854EE474F549 /* FirebaseMessaging */; };
@@ -91,28 +104,37 @@
 		05DF4448F47B1DE6B53169BA /* BreathSessionRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionRepositoryProtocol.swift; sourceTree = "<group>"; };
 		08B5465DD72A4D6C6492FD14 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		0F31BEBA16DF391C775B3F93 /* DurationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationPicker.swift; sourceTree = "<group>"; };
+		1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewModel.swift; sourceTree = "<group>"; };
 		2038944009FBA096686ECD97 /* BreathPacingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingEngine.swift; sourceTree = "<group>"; };
+		226A951983F4FAD054AC2A0D /* SessionHistorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHistorySection.swift; sourceTree = "<group>"; };
+		22BB7D3A03048DC1EEE1F32C /* BreathProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathProgressView.swift; sourceTree = "<group>"; };
 		2A22992E06767D07F2D0D5E9 /* BreathSessionCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionCompleteView.swift; sourceTree = "<group>"; };
 		2CF73C946A4299853FE58E44 /* AppSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpacing.swift; sourceTree = "<group>"; };
 		30D19E67AC13FE93210EBBAF /* TodayDashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDashboardViewModel.swift; sourceTree = "<group>"; };
+		35A7427EE91BA9879FCE9E7E /* LearnFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFeedViewModel.swift; sourceTree = "<group>"; };
 		37FB120C8765D4CC4B5034F3 /* TechniqueSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechniqueSelector.swift; sourceTree = "<group>"; };
+		3AD143828DD8A7FF874DAA89 /* LearnFeedViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFeedViewModelTests.swift; sourceTree = "<group>"; };
 		3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepositoryProtocol.swift; sourceTree = "<group>"; };
 		3F57CF56B9D8C9186E6B930B /* TechniqueCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechniqueCard.swift; sourceTree = "<group>"; };
 		46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
 		4A737F1D67490C9A86525010 /* BreathSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSession.swift; sourceTree = "<group>"; };
 		50A581FC4D6D0775AF2A81B7 /* TodayDashboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDashboardViewModelTests.swift; sourceTree = "<group>"; };
 		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		546269E69E4F4DC8B3B68D1A /* LearningArticleCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningArticleCard.swift; sourceTree = "<group>"; };
 		55BA781ACCE79EACDA7E0CEE /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
 		58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		5A5AF9FC2ACAD6D87C1370EA /* LearnFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnFeedView.swift; sourceTree = "<group>"; };
 		6A07E910B300F8BA4C4769BE /* SocraticJournalTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SocraticJournalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		73E9AEFA74F97714623EBBB5 /* AppShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShapes.swift; sourceTree = "<group>"; };
 		788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSettingsRepository.swift; sourceTree = "<group>"; };
 		78C8C443A6C928BF148B538A /* LearningArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningArticle.swift; sourceTree = "<group>"; };
 		7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalApp.swift; sourceTree = "<group>"; };
+		7A8C836D14B9B90BA552BD27 /* MockLearningContentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLearningContentService.swift; sourceTree = "<group>"; };
 		7AD6BB718F2E653A8A3AA0B6 /* TechniqueListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechniqueListSection.swift; sourceTree = "<group>"; };
 		81134A9080C6BC2F469D29E7 /* BreathPacingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingView.swift; sourceTree = "<group>"; };
 		84DB170DB3684DD41520F4D4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		853C1481B20C2C27E606631D /* UserDefaultsBreathSessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsBreathSessionRepository.swift; sourceTree = "<group>"; };
+		8D40399A1C8F13F2F35BBE9A /* StreakCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCalendarView.swift; sourceTree = "<group>"; };
 		98DEC87C4C78120D2D66BF2D /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		9A10795832E5F6467FB7392A /* PhaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhaseLabel.swift; sourceTree = "<group>"; };
 		9B1D21EE8E1CA739F793FB69 /* BreathTechnique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathTechnique.swift; sourceTree = "<group>"; };
@@ -123,6 +145,7 @@
 		A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsService.swift; sourceTree = "<group>"; };
 		AF5B81CEA01F956948B39ACF /* MountainWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MountainWaveView.swift; sourceTree = "<group>"; };
+		B63A8FB28629D73E34B5F30B /* ProgressViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewModelTests.swift; sourceTree = "<group>"; };
 		BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelectorView.swift; sourceTree = "<group>"; };
 		BDA3C6E7BE38CDBCCCF04B5E /* CountdownOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownOverlay.swift; sourceTree = "<group>"; };
 		BFB42E9549666B979DBD5CC3 /* DailyProgressCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyProgressCard.swift; sourceTree = "<group>"; };
@@ -133,7 +156,9 @@
 		CF92EF5F314A4CC8478E991C /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		CFD881CE19C0D9E11C59F3BA /* TodayDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDashboardView.swift; sourceTree = "<group>"; };
 		CFDF76AF081414798A3AA9BD /* BreathSessionRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionRepositoryTests.swift; sourceTree = "<group>"; };
+		D3A1FFD971C588116ADD8306 /* LearnArticleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnArticleDetailView.swift; sourceTree = "<group>"; };
 		D57B4AB2F98607250E27B59F /* BreathPacingEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingEngineTests.swift; sourceTree = "<group>"; };
+		D9255E5FAD3B80E4B75C4646 /* StatsHeroSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsHeroSection.swift; sourceTree = "<group>"; };
 		D971947F5B2636F057402CA5 /* SessionHistoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHistoryRow.swift; sourceTree = "<group>"; };
 		DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E1722A6B3CC51D6131FB8A02 /* BreathSessionFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionFlowTests.swift; sourceTree = "<group>"; };
@@ -141,6 +166,7 @@
 		E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceProtocol.swift; sourceTree = "<group>"; };
 		E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournal.swift; sourceTree = "<group>"; };
 		E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalTests.swift; sourceTree = "<group>"; };
+		E70CF49E35FB6B6B154D5B52 /* CategoryFilterBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryFilterBar.swift; sourceTree = "<group>"; };
 		E7A36AC1AC2633D53C43FE99 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		E88051AB8352D615CE378228 /* MockSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsRepository.swift; sourceTree = "<group>"; };
 		E9721DD221539E97DDD9E989 /* wisdom_quotes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = wisdom_quotes.json; sourceTree = "<group>"; };
@@ -248,6 +274,16 @@
 			path = Theme;
 			sourceTree = "<group>";
 		};
+		40CFC09542825B694EBA4363 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				22BB7D3A03048DC1EEE1F32C /* BreathProgressView.swift */,
+				1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */,
+				4772B76E9A7B01A319088D94 /* Components */,
+			);
+			path = Progress;
+			sourceTree = "<group>";
+		};
 		4469CCD33893F35E046D9B9D /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +291,27 @@
 				788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */,
 			);
 			path = Repositories;
+			sourceTree = "<group>";
+		};
+		44C6342BAD100613D5E5867C /* Learn */ = {
+			isa = PBXGroup;
+			children = (
+				D3A1FFD971C588116ADD8306 /* LearnArticleDetailView.swift */,
+				5A5AF9FC2ACAD6D87C1370EA /* LearnFeedView.swift */,
+				35A7427EE91BA9879FCE9E7E /* LearnFeedViewModel.swift */,
+				915A0D1896B17DA72A55A457 /* Components */,
+			);
+			path = Learn;
+			sourceTree = "<group>";
+		};
+		4772B76E9A7B01A319088D94 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				226A951983F4FAD054AC2A0D /* SessionHistorySection.swift */,
+				D9255E5FAD3B80E4B75C4646 /* StatsHeroSection.swift */,
+				8D40399A1C8F13F2F35BBE9A /* StreakCalendarView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		59D69EF141D9FE3F51EE009A /* Products */ = {
@@ -294,6 +351,7 @@
 			children = (
 				46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */,
 				E4078E7E4011E4189AB3AF43 /* MockBreathSessionRepository.swift */,
+				7A8C836D14B9B90BA552BD27 /* MockLearningContentService.swift */,
 				E88051AB8352D615CE378228 /* MockSettingsRepository.swift */,
 			);
 			path = Mocks;
@@ -342,6 +400,15 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		915A0D1896B17DA72A55A457 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E70CF49E35FB6B6B154D5B52 /* CategoryFilterBar.swift */,
+				546269E69E4F4DC8B3B68D1A /* LearningArticleCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		94ACDA6074BCA45E656DA2B4 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -368,7 +435,9 @@
 				D57B4AB2F98607250E27B59F /* BreathPacingEngineTests.swift */,
 				E1722A6B3CC51D6131FB8A02 /* BreathSessionFlowTests.swift */,
 				CFDF76AF081414798A3AA9BD /* BreathSessionRepositoryTests.swift */,
+				3AD143828DD8A7FF874DAA89 /* LearnFeedViewModelTests.swift */,
 				55BA781ACCE79EACDA7E0CEE /* OnboardingTests.swift */,
+				B63A8FB28629D73E34B5F30B /* ProgressViewModelTests.swift */,
 				E617F0BC7495BAD6CDDC075B /* SocraticJournalTests.swift */,
 				50A581FC4D6D0775AF2A81B7 /* TodayDashboardViewModelTests.swift */,
 				6EB5B00B770E1A7C2F23849A /* Mocks */,
@@ -440,8 +509,10 @@
 			isa = PBXGroup;
 			children = (
 				B04C0B8D7BF9B1BAF80E4F32 /* Components */,
+				44C6342BAD100613D5E5867C /* Learn */,
 				7DBE6F1459754CEC4DAED18F /* Navigation */,
 				165EBEA269EA38D7418DCC61 /* Onboarding */,
+				40CFC09542825B694EBA4363 /* Progress */,
 				E401B752B027E8219E58F486 /* Session */,
 				0A7D89DB9B7D4AA46EE297DA /* Settings */,
 				3292427AC674B121CCABA44F /* Theme */,
@@ -559,10 +630,13 @@
 				73E0C118628BC3C1E0BBE796 /* BreathPacingEngineTests.swift in Sources */,
 				67A12EE53F5D614E0D696870 /* BreathSessionFlowTests.swift in Sources */,
 				348246EA3712BEF78405EFAB /* BreathSessionRepositoryTests.swift in Sources */,
+				5072E2E2551DE156A10D6644 /* LearnFeedViewModelTests.swift in Sources */,
 				D6081F0B24B69FC0BFCCC4ED /* MockAnalyticsService.swift in Sources */,
 				5A48F506445202574EF5599C /* MockBreathSessionRepository.swift in Sources */,
+				2CC9469A9FC3C7D811805433 /* MockLearningContentService.swift in Sources */,
 				5B625522F67DED65EA09CBA1 /* MockSettingsRepository.swift in Sources */,
 				7DD61009CF159DE9DA5FF95F /* OnboardingTests.swift in Sources */,
+				D2C2EDC5F594D2DE0CC0E9D1 /* ProgressViewModelTests.swift in Sources */,
 				5B4EFE058F2587059FFF78A7 /* SocraticJournalTests.swift in Sources */,
 				FC335E49A6EC30CD862C397B /* TodayDashboardViewModelTests.swift in Sources */,
 			);
@@ -581,18 +655,24 @@
 				EC03A70166A8DEF9CEEB2872 /* BreathPacingEngine.swift in Sources */,
 				278C418E1F73145AD9AAAA34 /* BreathPacingView.swift in Sources */,
 				8FB5357C3F7DE4FCD24DE050 /* BreathPhase.swift in Sources */,
+				E5E5F1EDA004C0CDFD850C32 /* BreathProgressView.swift in Sources */,
 				42920AFCA24AD3E7B07FAC9C /* BreathSession.swift in Sources */,
 				2641E2D7D493BDE2160B83D1 /* BreathSessionCompleteView.swift in Sources */,
 				E22D51C2108FCDF5D2670EE7 /* BreathSessionRepositoryProtocol.swift in Sources */,
 				E709FB5504B55EFEBC55B6C9 /* BreathSessionSetupView.swift in Sources */,
 				17DD6C8A004F35D79CACC6CB /* BreathTechnique.swift in Sources */,
+				B2FC8CCE87A90003F7701E27 /* CategoryFilterBar.swift in Sources */,
 				747D89648AE0EBAA843D4E37 /* CountdownOverlay.swift in Sources */,
 				08915BCFBD6B6397D2BCA9EE /* DailyLog.swift in Sources */,
 				5B66C28BD8A4005DAB2D7348 /* DailyProgressCard.swift in Sources */,
 				D5C1EC71902A6965F6282E09 /* DurationPicker.swift in Sources */,
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
+				0E6357AB8B96458251542030 /* LearnArticleDetailView.swift in Sources */,
+				61C803196130A272EED52FD3 /* LearnFeedView.swift in Sources */,
+				FB18FE6C9DBA340FEE7CD0F9 /* LearnFeedViewModel.swift in Sources */,
 				CCDB1E033104AEE57F6BC2B5 /* LearningArticle.swift in Sources */,
+				A6BCC5AA5A922780E63D281B /* LearningArticleCard.swift in Sources */,
 				E0769F51C74BDA384D281B5F /* LearningContentServiceProtocol.swift in Sources */,
 				2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */,
 				2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */,
@@ -601,13 +681,17 @@
 				D88A4A172C567D8E9CA2D454 /* NewOnboardingView.swift in Sources */,
 				7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */,
 				5B24B9CDE0844E58E1AD4B3B /* PhaseLabel.swift in Sources */,
+				A6196D685C57667CED95385B /* ProgressViewModel.swift in Sources */,
 				32692AF0C629EC1E19EEFD74 /* SessionHistoryRow.swift in Sources */,
+				20F69D7335988AD3FD88392C /* SessionHistorySection.swift in Sources */,
 				D5AAAA04BF5445D56761AE64 /* SettingsRepositoryProtocol.swift in Sources */,
 				C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */,
 				861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */,
 				060DCDE2F8D2095C6DA7AC4E /* SocraticJournal.swift in Sources */,
 				C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */,
 				9FCD54C3B86958D6448A0895 /* StaticLearningContentService.swift in Sources */,
+				21F7773EEAA7004B6E1B8799 /* StatsHeroSection.swift in Sources */,
+				93AF17094C89F29CCB065A9A /* StreakCalendarView.swift in Sources */,
 				710624D8457D48AA9E738C3B /* StreakIndicator.swift in Sources */,
 				FB56F744CF85756F4A0F1387 /* TechniqueCard.swift in Sources */,
 				F104CD8C35EF3163101D3BDA /* TechniqueListSection.swift in Sources */,

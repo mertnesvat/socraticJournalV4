@@ -49,13 +49,16 @@ public struct MainTabView: View {
 
     let settingsRepository: SettingsRepositoryProtocol
     let analyticsService: AnalyticsServiceProtocol
+    let sessionRepository: BreathSessionRepositoryProtocol
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
-        analyticsService: AnalyticsServiceProtocol
+        analyticsService: AnalyticsServiceProtocol,
+        sessionRepository: BreathSessionRepositoryProtocol = UserDefaultsBreathSessionRepository()
     ) {
         self.settingsRepository = settingsRepository
         self.analyticsService = analyticsService
+        self.sessionRepository = sessionRepository
     }
 
     public var body: some View {
@@ -67,9 +70,12 @@ public struct MainTabView: View {
                 case .breathe:
                     placeholderTab("Breathe", icon: "lungs.fill")
                 case .learn:
-                    placeholderTab("Learn", icon: "book.fill")
+                    LearnFeedView(
+                        contentService: StaticLearningContentService(),
+                        analyticsService: analyticsService
+                    )
                 case .progress:
-                    placeholderTab("Progress", icon: "chart.bar.fill")
+                    BreathProgressView(repository: sessionRepository)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
