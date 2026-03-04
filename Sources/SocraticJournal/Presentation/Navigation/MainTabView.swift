@@ -1,161 +1,139 @@
 // MainTabView.swift
-// SocraticJournal
+// Breathe
 // Copyright 2024 StudioNext
 
 #if os(iOS)
 import SwiftUI
 
-/// Tab selection options for main navigation
 public enum MainTab: Int, CaseIterable {
     case today
-    case friends
-    case profile
+    case breathe
+    case learn
 
     var title: String {
         switch self {
         case .today: return "Today"
-        case .friends: return "Friends"
-        case .profile: return "Profile"
-        }
-    }
-
-    var iconActive: String {
-        switch self {
-        case .today: return "mic.fill"
-        case .friends: return "person.2.fill"
-        case .profile: return "person.fill"
-        }
-    }
-
-    var iconInactive: String {
-        switch self {
-        case .today: return "mic"
-        case .friends: return "person.2"
-        case .profile: return "person"
+        case .breathe: return "Breathe"
+        case .learn: return "Learn"
         }
     }
 }
 
-/// Main tab container with clean minimal bottom bar
-public struct MainTabView: View {
+struct MainTabView: View {
     @State private var selectedTab: MainTab = .today
-    @State private var showRecording: Bool = false
-    @State private var pendingRequestCount: Int = 2
-    @State private var hasNewAnswers: Bool = true
+    @State private var showSettings: Bool = false
     @Environment(ThemeManager.self) private var themeManager
 
-    // MARK: - Services
+    let settingsRepository: SettingsRepositoryProtocol
+    let sessionRepository: BreathSessionRepositoryProtocol
+    let analyticsService: AnalyticsServiceProtocol
 
-    private let questionFeedService: QuestionFeedServiceProtocol
-    private let userProfileService: UserProfileServiceProtocol
-    private let friendService: FriendServiceProtocol
-    private let answerRevealService: AnswerRevealServiceProtocol
-    private let voiceRecordingService: VoiceRecordingService
-    private let settingsRepository: SettingsRepositoryProtocol
-    private let notificationService: NotificationServiceProtocol
-    private let subscriptionService: SubscriptionServiceProtocol
-    private let analyticsService: AnalyticsServiceProtocol
-
-    public init(
+    init(
         settingsRepository: SettingsRepositoryProtocol,
-        notificationService: NotificationServiceProtocol,
-        subscriptionService: SubscriptionServiceProtocol,
+        sessionRepository: BreathSessionRepositoryProtocol,
         analyticsService: AnalyticsServiceProtocol
     ) {
         self.settingsRepository = settingsRepository
-        self.notificationService = notificationService
-        self.subscriptionService = subscriptionService
+        self.sessionRepository = sessionRepository
         self.analyticsService = analyticsService
-
-        // Initialize mock services for the pivot
-        self.questionFeedService = MockQuestionFeedService()
-        self.userProfileService = MockUserProfileService()
-        self.friendService = MockFriendService()
-        self.answerRevealService = MockAnswerRevealService()
-        self.voiceRecordingService = VoiceRecordingService()
     }
 
     public var body: some View {
         VStack(spacing: 0) {
-            // Content area — switches view based on selectedTab
+            // Page header
+            pageHeader
+
+            // Content
             ZStack {
                 switch selectedTab {
                 case .today:
-                    QuestionFeedView(viewModel: QuestionFeedViewModel(
-                        questionFeedService: questionFeedService,
-                        userProfileService: userProfileService
-                    ))
-
-                case .friends:
-                    FriendsListView(viewModel: FriendsListViewModel(
-                        friendService: friendService
-                    ))
-
-                case .profile:
-                    ProfileView(
-                        viewModel: ProfileViewModel(userProfileService: userProfileService),
-                        settingsRepository: settingsRepository,
-                        notificationService: notificationService,
-                        subscriptionService: subscriptionService,
-                        analyticsService: analyticsService
+                    TodayDashboardView(
+                        sessionRepository: sessionRepository,
+                        settingsRepository: settingsRepository
                     )
+                case .breathe:
+                    BreatheView(sessionRepository: sessionRepository)
+                case .learn:
+                    LearnFeedView()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            // Clean minimal bottom tab bar
-            customTabBar
-        }
-        .ignoresSafeArea(.keyboard)
-    }
-
-    // MARK: - Clean Minimal Tab Bar
-
-    private var customTabBar: some View {
-        VStack(spacing: 0) {
-            // Hairline top border
-            HairlineDivider()
-
-            // Tab buttons
-            HStack(spacing: 0) {
-                ForEach(MainTab.allCases, id: \.rawValue) { tab in
-                    tabBarButton(for: tab)
-                }
-            }
-            .frame(height: AppSpacing.tabBarHeight)
-            .padding(.bottom, safeAreaBottom)
+            // Tab bar
+            tabBar
         }
         .background(AppColors.background)
+        .ignoresSafeArea(.keyboard)
+        .sheet(isPresented: $showSettings) {
+            SettingsView(
+                viewModel: SettingsViewModel(settingsRepository: settingsRepository)
+            )
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
+        }
     }
 
-    @ViewBuilder
-    private func tabBarButton(for tab: MainTab) -> some View {
+    // MARK: - Page Header
+
+    private var pageHeader: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text(selectedTab.title.uppercased())
+                    .font(.system(size: 11, weight: .bold))
+                    .tracking(1.5)
+                    .foregroundStyle(AppColors.accent)
+
+                Spacer()
+
+                Button {
+                    showSettings = true
+                } label: {
+                    Image(systemName: "gearshape")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundStyle(AppColors.textTertiary)
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
+
+            HairlineDivider()
+        }
+    }
+
+    // MARK: - Tab Bar
+
+    private var tabBar: some View {
+        VStack(spacing: 0) {
+            HairlineDivider()
+
+            HStack(spacing: 0) {
+                ForEach(MainTab.allCases, id: \.rawValue) { tab in
+                    tabButton(for: tab)
+                }
+            }
+            .padding(.top, 10)
+            .padding(.bottom, safeAreaBottom > 0 ? safeAreaBottom : 20)
+            .background(AppColors.background)
+        }
+    }
+
+    private func tabButton(for tab: MainTab) -> some View {
         let isSelected = selectedTab == tab
 
-        Button {
-            withAnimation(.easeInOut(duration: 0.2)) {
-                selectedTab = tab
-            }
+        return Button {
+            selectedTab = tab
         } label: {
-            VStack(spacing: 2) {
-                ZStack(alignment: .topTrailing) {
-                    Image(systemName: isSelected ? tab.iconActive : tab.iconInactive)
-                        .font(.system(size: 20, weight: isSelected ? .semibold : .regular))
-                        .foregroundStyle(isSelected ? AppColors.accent : AppColors.textTertiary)
+            VStack(spacing: 4) {
+                Circle()
+                    .fill(isSelected ? AppColors.accent : Color.clear)
+                    .frame(width: 5, height: 5)
+                    .padding(.bottom, 2)
 
-                    // Badge overlays — small coral-red dots
-                    if tab == .friends && pendingRequestCount > 0 {
-                        friendsBadge
-                    }
-
-                    if tab == .today && hasNewAnswers {
-                        newAnswersDot
-                    }
-                }
-
-                Text(tab.title)
-                    .font(.system(size: 10, weight: isSelected ? .semibold : .regular))
+                Text(tab.title.uppercased())
+                    .font(AppTypography.tabLabel)
+                    .fontWeight(isSelected ? .bold : .regular)
                     .foregroundStyle(isSelected ? AppColors.accent : AppColors.textTertiary)
+                    .tracking(0.7)
             }
             .frame(maxWidth: .infinity)
             .contentShape(Rectangle())
@@ -163,38 +141,10 @@ public struct MainTabView: View {
         .buttonStyle(.plain)
     }
 
-    // MARK: - Badge Views
-
-    private var friendsBadge: some View {
-        Circle()
-            .fill(AppColors.accent)
-            .frame(width: 8, height: 8)
-            .offset(x: 8, y: -4)
-    }
-
-    private var newAnswersDot: some View {
-        Circle()
-            .fill(AppColors.accent)
-            .frame(width: 8, height: 8)
-            .offset(x: 8, y: -4)
-    }
-
-    // MARK: - Helpers
-
     private var safeAreaBottom: CGFloat {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         return windowScene?.windows.first?.safeAreaInsets.bottom ?? 0
     }
-}
-
-#Preview {
-    MainTabView(
-        settingsRepository: UserDefaultsSettingsRepository(),
-        notificationService: LocalNotificationService(),
-        subscriptionService: StoreKitSubscriptionService(),
-        analyticsService: FirebaseAnalyticsService.shared
-    )
-    .environment(ThemeManager.shared)
 }
 #endif

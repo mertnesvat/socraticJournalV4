@@ -47,12 +47,6 @@ targets:
     dependencies:
       - package: firebase-ios-sdk
         product: FirebaseAnalytics
-      - package: firebase-ios-sdk
-        product: FirebaseFirestore
-      - package: firebase-ios-sdk
-        product: FirebaseFunctions
-      - package: firebase-ios-sdk
-        product: FirebaseMessaging
       - package: AppsFlyerFramework
         product: AppsFlyerLib
     entitlements:
@@ -82,11 +76,9 @@ schemes:
         SocraticJournalTests: [test]
     run:
       config: Debug
-      storeKitConfiguration: Configuration/StoreKit.storekit
     test:
       config: Debug
       targets:
         - SocraticJournalTests
-      storeKitConfiguration: Configuration/StoreKit.storekit
     archive:
       config: Release

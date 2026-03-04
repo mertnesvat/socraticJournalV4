@@ -1,55 +1,56 @@
 // AppColors.swift
-// SocraticJournal
+// Breathe
 // Copyright 2024 StudioNext
 
 #if os(iOS)
 import SwiftUI
 
 public enum AppColors {
-    // Accent — Bold Coral Red (hero color)
-    public static let accent = Color(hex: "E8503A")
+    // Accents
+    public static let accent = Color(hex: "2D5F5D")           // Deep teal (primary)
+    public static let accentLight = Color(hex: "2D5F5D").opacity(0.09)
+    public static let accent2 = Color(hex: "C4502A")          // Terracotta (secondary)
 
     // Backgrounds — Cream editorial
-    public static let background = Color(hex: "FAF7F2")      // Warm cream
-    public static let surface = Color(hex: "FFFFFF")           // White cards
-    public static let surfaceElevated = Color(hex: "F0EBE3")  // Darker cream
+    public static let background = Color(hex: "FAF7F2")       // Warm cream white
+    public static let surface = Color(hex: "F2EDE4")          // Cream
+    public static let surfaceElevated = Color(hex: "EDE7DB")  // Paper
 
-    // Dark variants (recording studio, dark cards)
+    // Dark variants
     public static let backgroundDark = Color(hex: "0A0A0A")
     public static let surfaceDark = Color(hex: "1A1A1A")
 
     // Text
-    public static let textPrimary = Color(hex: "1A1A1A")
-    public static let textSecondary = Color(hex: "6B6B6B")
-    public static let textTertiary = Color(hex: "9E9E9E")
+    public static let textPrimary = Color(hex: "1C1710")      // Near-black warm
+    public static let textSecondary = Color(hex: "3D3328")    // Brown (body)
+    public static let textTertiary = Color(hex: "7A6E60")     // Mid brown
+    public static let textQuaternary = Color(hex: "B0A898")   // Dim (captions)
     public static let textOnDark = Color.white
     public static let textOnAccent = Color.white
 
     // Semantic
     public static let success = Color(hex: "34C759")
     public static let warning = Color(hex: "FF9F0A")
-    public static let error = Color(hex: "E8503A")
+    public static let error = Color(hex: "C4502A")
 
-    // Card colors for conversational stacking
-    public static let cardYellow = Color(hex: "FADF63")
-    public static let cardTeal = Color(hex: "8EDDD0")
-    public static let cardDark = Color(hex: "1C1C1E")
+    // Phase colors
+    public static let phaseInhale = Color(hex: "2D5F5D")     // Teal
+    public static let phaseHold = Color(hex: "5A8A6A")        // Moss green
+    public static let phaseExhale = Color(hex: "C4502A")      // Terracotta
 
-    // Question Categories
-    public static let iceBreaker = Color(hex: "3A7BD5")
-    public static let gettingSpicy = Color(hex: "F5A623")
-    public static let deepDive = Color(hex: "9B59B6")
-    public static let debateTrigger = Color(hex: "E8503A")
+    // Tag colors
+    public static let tagPurple = Color(hex: "6B4C8A")
+    public static let tagGold = Color(hex: "7A6030")
+    public static let tagGreen = Color(hex: "5A6E3D")
 
-    // Borders (hairline grid from structured minimalism)
-    public static let border = Color(hex: "E0DDD7")
+    // Borders
+    public static let border = Color(hex: "D8D0C4")
     public static let borderStrong = Color(hex: "C8C4BC")
 
-    // Single gradient for special elements
-    public static let accentGradient = LinearGradient(
-        colors: [Color(hex: "E8503A"), Color(hex: "D04030")],
-        startPoint: .leading, endPoint: .trailing
-    )
+    // Legacy compatibility
+    public static let cardTeal = Color(hex: "8EDDD0")
+    public static let cardYellow = Color(hex: "FADF63")
+    public static let cardDark = Color(hex: "1C1C1E")
 }
 
 extension Color {

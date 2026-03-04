@@ -1,199 +1,141 @@
 // NewOnboardingView.swift
-// SocraticJournal
+// Breathe
 // Copyright 2024 StudioNext
 
 #if os(iOS)
 import SwiftUI
 
-/// Main onboarding container with 4 swipeable pages.
-/// Each page has its own contrasting background color.
-/// Features custom page dots, skip button, and navigation controls.
-public struct NewOnboardingView: View {
-    // MARK: - State
-
+struct NewOnboardingView: View {
     @State private var currentPage: Int = 0
+    let settingsRepository: SettingsRepositoryProtocol
+    let onDismiss: () -> Void
 
-    // MARK: - Dependencies
-
-    private let settingsRepository: SettingsRepositoryProtocol
-    private let analyticsService: AnalyticsServiceProtocol
-    private let onDismiss: () -> Void
-
-    // MARK: - Constants
-
-    private let totalPages = 4
-
-    // MARK: - Init
-
-    public init(
-        settingsRepository: SettingsRepositoryProtocol,
-        analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared,
-        onDismiss: @escaping () -> Void
-    ) {
-        self.settingsRepository = settingsRepository
-        self.analyticsService = analyticsService
-        self.onDismiss = onDismiss
-    }
-
-    // MARK: - Body
-
-    public var body: some View {
-        ZStack {
-            // Dynamic background that matches the current page
-            currentPageBackground
-                .ignoresSafeArea()
-                .animation(.easeInOut(duration: 0.3), value: currentPage)
-
-            VStack(spacing: 0) {
-                // Top bar with Skip button
-                topBar
-
-                // Page content
-                TabView(selection: $currentPage) {
-                    OnboardingWelcomePage()
-                        .tag(0)
-
-                    OnboardingUnlockPage()
-                        .tag(1)
-
-                    OnboardingVoicePage()
-                        .tag(2)
-
-                    OnboardingFriendsPage(
-                        onFindFriends: { handleFindFriends() },
-                        onSkipForNow: { completeOnboarding() }
-                    )
-                    .tag(3)
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(.easeInOut(duration: 0.3), value: currentPage)
-
-                // Bottom controls
-                bottomControls
-            }
+    var body: some View {
+        TabView(selection: $currentPage) {
+            onboardingPage1.tag(0)
+            onboardingPage2.tag(1)
+            onboardingPage3.tag(2)
         }
-        .onAppear {
-            analyticsService.logEvent(.onboardingStarted, parameters: nil)
-        }
+        .tabViewStyle(.page(indexDisplayMode: .always))
+        .indexViewStyle(.page(backgroundDisplayMode: .always))
+        .ignoresSafeArea()
     }
 
-    // MARK: - Dynamic Background
+    // MARK: - Page 1: Breathe Better
 
-    private var currentPageBackground: some View {
-        Group {
-            switch currentPage {
-            case 0: AppColors.background
-            case 1: AppColors.cardTeal
-            case 2: AppColors.accent
-            case 3: AppColors.cardYellow
-            default: AppColors.background
-            }
-        }
-    }
-
-    /// Whether the current page has a dark/vivid background requiring light text
-    private var useLightControls: Bool {
-        currentPage == 2 // Only the accent (coral-red) page needs white controls
-    }
-
-    /// The color for control text (dots, skip) that adapts to the page background
-    private var controlTextColor: Color {
-        useLightControls ? AppColors.textOnAccent : AppColors.textPrimary
-    }
-
-    /// The color for secondary control text (skip, inactive dots)
-    private var controlSecondaryColor: Color {
-        useLightControls ? AppColors.textOnAccent.opacity(0.5) : AppColors.border
-    }
-
-    /// The color for the skip button text
-    private var skipButtonColor: Color {
-        useLightControls ? AppColors.textOnAccent.opacity(0.7) : AppColors.textSecondary
-    }
-
-    // MARK: - Top Bar
-
-    private var topBar: some View {
-        HStack {
+    private var onboardingPage1: some View {
+        VStack(spacing: 24) {
             Spacer()
+
+            Text("Breathe Better")
+                .font(AppTypography.displayLarge)
+                .foregroundStyle(AppColors.textPrimary)
+
+            Text("The most powerful health tool you already have")
+                .font(AppTypography.bodyLarge)
+                .foregroundStyle(AppColors.textTertiary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 40)
+
+            Spacer()
+
+            MountainWaveView(
+                phase: .inhale,
+                progress: 0.5,
+                isDemo: true
+            )
+            .padding(.bottom, 20)
+
+            Spacer()
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColors.background)
+    }
+
+    // MARK: - Page 2: Ancient Wisdom, Modern Science
+
+    private var onboardingPage2: some View {
+        VStack(alignment: .leading, spacing: 32) {
+            Spacer()
+
+            Text("Ancient Wisdom,\nModern Science")
+                .font(AppTypography.display)
+                .foregroundStyle(AppColors.textPrimary)
+                .padding(.horizontal, 32)
+
+            VStack(alignment: .leading, spacing: 20) {
+                techniqueRow("Resonance", "The perfect breath")
+                techniqueRow("Box Breathing", "Navy SEAL focus")
+                techniqueRow("4-7-8", "Natural tranquilizer")
+                techniqueRow("Cyclic Sighing", "Stanford\u{2019}s stress reset")
+            }
+            .padding(.horizontal, 32)
+
+            Text("Each backed by research.\nGuided by a simple visual.")
+                .font(AppTypography.body)
+                .foregroundStyle(AppColors.textTertiary)
+                .padding(.horizontal, 32)
+
+            Spacer()
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColors.background)
+    }
+
+    private func techniqueRow(_ name: String, _ subtitle: String) -> some View {
+        HStack(spacing: 12) {
+            RoundedRectangle(cornerRadius: 2)
+                .fill(AppColors.accent)
+                .frame(width: 4, height: 36)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(name)
+                    .font(AppTypography.bodyBold)
+                    .foregroundStyle(AppColors.textPrimary)
+                Text(subtitle)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textTertiary)
+            }
+        }
+    }
+
+    // MARK: - Page 3: Just 5 Minutes a Day
+
+    private var onboardingPage3: some View {
+        VStack(spacing: 24) {
+            Spacer()
+
+            Text("Just 5 Minutes\na Day")
+                .font(AppTypography.displayLarge)
+                .foregroundStyle(AppColors.surface)
+                .multilineTextAlignment(.center)
+
+            Text("Track your practice. Learn the science.\nBreathe with intention.")
+                .font(AppTypography.bodyLarge)
+                .foregroundStyle(AppColors.surface.opacity(0.8))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 40)
+
+            Spacer()
+
             Button {
                 completeOnboarding()
             } label: {
-                Text("Skip")
-                    .font(AppTypography.body)
-                    .foregroundStyle(skipButtonColor)
+                Text("GET STARTED")
+                    .font(.system(size: 12, weight: .bold))
+                    .tracking(1.2)
+                    .foregroundStyle(AppColors.accent)
+                    .padding(.horizontal, 40)
+                    .padding(.vertical, 16)
+                    .background(Capsule().fill(AppColors.surface))
             }
+            .buttonStyle(.plain)
+            .padding(.bottom, 60)
         }
-        .padding(.horizontal, AppSpacing.screenPadding)
-        .padding(.top, 8)
-        .padding(.bottom, 4)
-    }
-
-    // MARK: - Bottom Controls
-
-    private var bottomControls: some View {
-        VStack(spacing: AppSpacing.md) {
-            // Custom page dots
-            pageDots
-
-            if currentPage == totalPages - 1 {
-                // Last page: Get Started button
-                lastPageButtons
-            } else {
-                // Other pages: Next button
-                nextButton
-            }
-        }
-        .padding(.horizontal, AppSpacing.screenPadding)
-        .padding(.bottom, 40)
-    }
-
-    // MARK: - Page Dots
-
-    private var pageDots: some View {
-        HStack(spacing: 8) {
-            ForEach(0..<totalPages, id: \.self) { index in
-                Circle()
-                    .fill(index == currentPage ? controlTextColor : controlSecondaryColor)
-                    .frame(width: 8, height: 8)
-                    .animation(.easeInOut(duration: 0.2), value: currentPage)
-            }
-        }
-        .padding(.bottom, AppSpacing.xs)
-    }
-
-    // MARK: - Next Button
-
-    private var nextButton: some View {
-        AccentPillButton("Next") {
-            advanceToNextPage()
-        }
-    }
-
-    // MARK: - Last Page Buttons
-
-    private var lastPageButtons: some View {
-        VStack(spacing: AppSpacing.sm) {
-            AccentPillButton("Get Started") {
-                completeOnboarding()
-            }
-        }
-    }
-
-    // MARK: - Actions
-
-    private func advanceToNextPage() {
-        if currentPage < totalPages - 1 {
-            withAnimation(.easeInOut(duration: 0.3)) {
-                currentPage += 1
-            }
-        }
-    }
-
-    private func handleFindFriends() {
-        // For now, complete onboarding. Friends feature will be connected later.
-        analyticsService.logEvent(.contactsImportStarted, parameters: nil)
-        completeOnboarding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColors.accent)
     }
 
     private func completeOnboarding() {
@@ -202,46 +144,9 @@ public struct NewOnboardingView: View {
                 var settings = try await settingsRepository.getSettings()
                 settings.hasCompletedOnboarding = true
                 try await settingsRepository.saveSettings(settings)
-                analyticsService.logEvent(.onboardingCompleted, parameters: [
-                    AnalyticsParameter.onboardingStep.rawValue: currentPage
-                ])
-            } catch {
-                // Log error but still dismiss so user is not stuck
-                print("Failed to save onboarding completion: \(error)")
-            }
-            await MainActor.run {
-                onDismiss()
-            }
+            } catch {}
+            await MainActor.run { onDismiss() }
         }
-    }
-}
-
-// MARK: - Preview
-
-#Preview {
-    NewOnboardingView(
-        settingsRepository: PreviewSettingsRepository(),
-        onDismiss: { print("Onboarding dismissed") }
-    )
-}
-
-// MARK: - Preview Helper
-
-private final class PreviewSettingsRepository: SettingsRepositoryProtocol {
-    func getSettings() async throws -> UserSettings {
-        UserSettings.default
-    }
-
-    func saveSettings(_ settings: UserSettings) async throws {
-        // No-op for preview
-    }
-
-    func resetSettings() async throws {
-        // No-op for preview
-    }
-
-    func clearAllData() async throws {
-        // No-op for preview
     }
 }
 #endif

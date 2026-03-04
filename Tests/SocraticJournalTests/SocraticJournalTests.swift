@@ -1,6 +1,8 @@
 import Testing
 @testable import SocraticJournal
 
-@Test func testVersion() async throws {
-    #expect(SocraticJournal.version == "1.0.0")
+@Test func testBreathPatternsExist() async throws {
+    #expect(BreathPattern.allPatterns.count == 8)
+    #expect(BreathPattern.resonance.cycleDuration == 11.0)
+    #expect(BreathPattern.box.phases.count == 4)
 }
