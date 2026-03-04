@@ -35,6 +35,20 @@
                ReferencedContainer = "container:SocraticJournal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3E7E2F28509587C1660C5CC1"
+               BuildableName = "SocraticJournalWidget.appex"
+               BlueprintName = "SocraticJournalWidget"
+               ReferencedContainer = "container:SocraticJournal.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

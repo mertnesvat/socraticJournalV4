@@ -8,11 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0047B39B7559AD5B4D2A724A /* ThemeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */; };
+		028335C701DFB96A91484347 /* SocraticJournalWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B66382598AAD00FE3EA7118A /* SocraticJournalWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		060DCDE2F8D2095C6DA7AC4E /* SocraticJournal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */; };
+		123B970483CA8C0C5D8E8F18 /* WeeklyGoalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9FBC1924257CAAEC948F75 /* WeeklyGoalPicker.swift */; };
+		1458610D06CDA98E156C4CF6 /* ArticleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3BABAC0878F90C964433B /* ArticleDetailView.swift */; };
 		15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */; };
 		18A62927823B5A6BA560C79E /* AppShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E9AEFA74F97714623EBBB5 /* AppShapes.swift */; };
 		1942377AA6B21C6D939D0917 /* AppTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA3E1F2B8FB060A9055025B /* AppTypography.swift */; };
 		1ABBB78A8CEA3BD9E26CE03D /* PatternSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8000893432794608FAFD5BF /* PatternSelectionView.swift */; };
+		216BC675745EB51E7714B727 /* WidgetCenterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0A6DB28ADF8ADB0C7EA10F /* WidgetCenterHelper.swift */; };
 		2353327B27450AF113EF609F /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF92EF5F314A4CC8478E991C /* ThemeManager.swift */; };
 		2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */; };
 		260CF80AFE98AC17C77CF517 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B5465DD72A4D6C6492FD14 /* AppColors.swift */; };
@@ -23,6 +27,7 @@
 		40DB66C3830BF575B1904170 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBFCD947C02302577DE3EC06 /* Assets.xcassets */; };
 		40EE8BB87AC5E0BCA052CE19 /* SessionProgressArc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722454D413EE72051597F3A8 /* SessionProgressArc.swift */; };
 		42920AFCA24AD3E7B07FAC9C /* BreathSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A737F1D67490C9A86525010 /* BreathSession.swift */; };
+		45C2BF4B25CB536299E7215A /* StreakCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E03983EB127F4C551AF16B /* StreakCalculator.swift */; };
 		475D9D78188AD884064BC762 /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCE5553E9AE9DB180C7AE20 /* SessionSummaryView.swift */; };
 		54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */; };
 		55B60718FE227BEA19D64946 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */; };
@@ -32,6 +37,7 @@
 		5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4B1E73960A7489D123CF41 /* UserSettings.swift */; };
 		69F0F528E9F4D2769072451F /* SessionPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AB04FBBE7FC953CB98687F /* SessionPhase.swift */; };
 		6D98A2F1C80A94CBE7A571D8 /* AppSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF73C946A4299853FE58E44 /* AppSpacing.swift */; };
+		761F4F167BF2CC4ED5089CCA /* LearnArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A90D2D37A4B612C490ED9 /* LearnArticle.swift */; };
 		799002C73195226FFC74051F /* BreathSessionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C367444C5CDDC1129B839A1D /* BreathSessionEngine.swift */; };
 		7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */; };
 		7DD61009CF159DE9DA5FF95F /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA781ACCE79EACDA7E0CEE /* OnboardingTests.swift */; };
@@ -40,12 +46,20 @@
 		8143635EA811EE29FEC1099B /* UserDefaultsSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF404C232E7F75D2FC1EB9D9 /* UserDefaultsSessionRepository.swift */; };
 		861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */; };
 		87C69F93A2A7CA34C6820A81 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA5D5A6ABE8A998299A7BB /* CountdownView.swift */; };
+		8AD0D70AE9DB20185E445A27 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA029BA0BED567B69F915B71 /* ProgressView.swift */; };
 		90D36BD2BF7047735751CD6B /* wisdom_quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = E9721DD221539E97DDD9E989 /* wisdom_quotes.json */; };
+		9162787D7DD1219552768117 /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905280F906AF00098A4D2C8D /* TodayViewModel.swift */; };
+		9163C53633F2F027735054AF /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9E98B9AB99203807F249A5 /* TodayView.swift */; };
+		93AF17094C89F29CCB065A9A /* StreakCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D40399A1C8F13F2F35BBE9A /* StreakCalendarView.swift */; };
 		97DB0893F432AAA1FF3FF082 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = B2661300FF9C9DB8CAECB4AA /* AppsFlyerLib */; };
+		9917834581BCFF88C4288A82 /* LearnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C5E0D4079AC6077240D2B /* LearnView.swift */; };
 		A2481571749D543317F411DC /* BreatheView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71271D797DB8CC4FA3B1EF89 /* BreatheView.swift */; };
 		A510D8B9927864DDA04237EC /* SessionRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C87B52DB0461D56F9040D6 /* SessionRepositoryProtocol.swift */; };
+		A6196D685C57667CED95385B /* ProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */; };
 		B65285CC231F096C26A30BD7 /* SessionDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE242AEAEB8E48450E5F2A48 /* SessionDuration.swift */; };
+		B8AADCC66FFD7A8C748969B2 /* BreathFacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9768CED62A0C77598DA43FEE /* BreathFacts.swift */; };
 		BCACC343A11ABFC7EC85E29C /* MountainWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2818C44D99DD26222C4C35A /* MountainWaveView.swift */; };
+		C1F5E56BFACE901553D27E4A /* SocraticJournalWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DB5F0E44492CBC31C495E /* SocraticJournalWidget.swift */; };
 		C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */; };
 		C9FD5BE5FF7B6974399EA6F0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5D235EA9156B100C8E539A /* SettingsView.swift */; };
 		CFA4EEC972E9C7E1729B5DCC /* BreatheViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E79BA376E0A3B2D8C575B27 /* BreatheViewModel.swift */; };
@@ -54,6 +68,7 @@
 		D88A4A172C567D8E9CA2D454 /* NewOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6492138B440EC6E4C03ED3C /* NewOnboardingView.swift */; };
 		DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */; };
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
+		F46FF1B3C57B25CFA6632F59 /* AppGroupSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5232C323E6ED06F21EDBAB77 /* AppGroupSessionStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,17 +79,43 @@
 			remoteGlobalIDString = 4F597517012D1D2069CFA905;
 			remoteInfo = SocraticJournal;
 		};
+		B0C5DD16ADB67C2BCA5F7EF5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7FF74F5214AC04FA8666FBBB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3E7E2F28509587C1660C5CC1;
+			remoteInfo = SocraticJournalWidget;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FD3EFBCC0E43D97BF06FFD77 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				028335C701DFB96A91484347 /* SocraticJournalWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		05AB04FBBE7FC953CB98687F /* SessionPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPhase.swift; sourceTree = "<group>"; };
 		08B5465DD72A4D6C6492FD14 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		0C9E98B9AB99203807F249A5 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewModel.swift; sourceTree = "<group>"; };
 		2CF73C946A4299853FE58E44 /* AppSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpacing.swift; sourceTree = "<group>"; };
 		3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepositoryProtocol.swift; sourceTree = "<group>"; };
 		3D029C25B681B5461B571644 /* AppsFlyerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerService.swift; sourceTree = "<group>"; };
+		428C5E0D4079AC6077240D2B /* LearnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnView.swift; sourceTree = "<group>"; };
 		46B870D87ECC01A12C416AC3 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
 		4A737F1D67490C9A86525010 /* BreathSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSession.swift; sourceTree = "<group>"; };
+		4C9FBC1924257CAAEC948F75 /* WeeklyGoalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyGoalPicker.swift; sourceTree = "<group>"; };
 		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5232C323E6ED06F21EDBAB77 /* AppGroupSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupSessionStore.swift; sourceTree = "<group>"; };
 		55BA781ACCE79EACDA7E0CEE /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
 		58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		60A8B02F05534B87C324BF7A /* BreathPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPattern.swift; sourceTree = "<group>"; };
@@ -87,6 +128,11 @@
 		7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalApp.swift; sourceTree = "<group>"; };
 		7AFA5D5A6ABE8A998299A7BB /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 		84DB170DB3684DD41520F4D4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		8D40399A1C8F13F2F35BBE9A /* StreakCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCalendarView.swift; sourceTree = "<group>"; };
+		905280F906AF00098A4D2C8D /* TodayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewModel.swift; sourceTree = "<group>"; };
+		91E03983EB127F4C551AF16B /* StreakCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCalculator.swift; sourceTree = "<group>"; };
+		93F3BABAC0878F90C964433B /* ArticleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailView.swift; sourceTree = "<group>"; };
+		9768CED62A0C77598DA43FEE /* BreathFacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathFacts.swift; sourceTree = "<group>"; };
 		98DEC87C4C78120D2D66BF2D /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		9CA3E1F2B8FB060A9055025B /* AppTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTypography.swift; sourceTree = "<group>"; };
 		9F4B1E73960A7489D123CF41 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
@@ -96,15 +142,19 @@
 		A8000893432794608FAFD5BF /* PatternSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternSelectionView.swift; sourceTree = "<group>"; };
 		AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsService.swift; sourceTree = "<group>"; };
 		B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceProtocol.swift; sourceTree = "<group>"; };
+		B62DB5F0E44492CBC31C495E /* SocraticJournalWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalWidget.swift; sourceTree = "<group>"; };
+		B66382598AAD00FE3EA7118A /* SocraticJournalWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SocraticJournalWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelectorView.swift; sourceTree = "<group>"; };
 		BE242AEAEB8E48450E5F2A48 /* SessionDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDuration.swift; sourceTree = "<group>"; };
 		C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationService.swift; sourceTree = "<group>"; };
 		C367444C5CDDC1129B839A1D /* BreathSessionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSessionEngine.swift; sourceTree = "<group>"; };
+		C41A90D2D37A4B612C490ED9 /* LearnArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnArticle.swift; sourceTree = "<group>"; };
 		C6492138B440EC6E4C03ED3C /* NewOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboardingView.swift; sourceTree = "<group>"; };
 		CBFCD947C02302577DE3EC06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF92EF5F314A4CC8478E991C /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		CFCE5553E9AE9DB180C7AE20 /* SessionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryView.swift; sourceTree = "<group>"; };
 		D2818C44D99DD26222C4C35A /* MountainWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MountainWaveView.swift; sourceTree = "<group>"; };
+		DA029BA0BED567B69F915B71 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		DC2F15103B1EED7B1CFB9157 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DF404C232E7F75D2FC1EB9D9 /* UserDefaultsSessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSessionRepository.swift; sourceTree = "<group>"; };
 		E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceProtocol.swift; sourceTree = "<group>"; };
@@ -114,8 +164,10 @@
 		E88051AB8352D615CE378228 /* MockSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsRepository.swift; sourceTree = "<group>"; };
 		E9721DD221539E97DDD9E989 /* wisdom_quotes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = wisdom_quotes.json; sourceTree = "<group>"; };
 		EC5D235EA9156B100C8E539A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		EF0A6DB28ADF8ADB0C7EA10F /* WidgetCenterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetCenterHelper.swift; sourceTree = "<group>"; };
 		F782BF4BCB8611080CE7218E /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		FD2461490D2BD2050AC570CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,8 +240,10 @@
 			isa = PBXGroup;
 			children = (
 				E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */,
+				9768CED62A0C77598DA43FEE /* BreathFacts.swift */,
 				C367444C5CDDC1129B839A1D /* BreathSessionEngine.swift */,
 				B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */,
+				91E03983EB127F4C551AF16B /* StreakCalculator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -215,13 +269,51 @@
 			path = Theme;
 			sourceTree = "<group>";
 		};
+		3DC4887B62F4DFB55145D963 /* SocraticJournalWidget */ = {
+			isa = PBXGroup;
+			children = (
+				FD2461490D2BD2050AC570CD /* Info.plist */,
+				B62DB5F0E44492CBC31C495E /* SocraticJournalWidget.swift */,
+			);
+			name = SocraticJournalWidget;
+			path = Sources/SocraticJournalWidget;
+			sourceTree = "<group>";
+		};
+		40CFC09542825B694EBA4363 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				DA029BA0BED567B69F915B71 /* ProgressView.swift */,
+				1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */,
+				4772B76E9A7B01A319088D94 /* Components */,
+			);
+			path = Progress;
+			sourceTree = "<group>";
+		};
 		4469CCD33893F35E046D9B9D /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				5232C323E6ED06F21EDBAB77 /* AppGroupSessionStore.swift */,
 				DF404C232E7F75D2FC1EB9D9 /* UserDefaultsSessionRepository.swift */,
 				788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */,
 			);
 			path = Repositories;
+			sourceTree = "<group>";
+		};
+		44C6342BAD100613D5E5867C /* Learn */ = {
+			isa = PBXGroup;
+			children = (
+				93F3BABAC0878F90C964433B /* ArticleDetailView.swift */,
+				428C5E0D4079AC6077240D2B /* LearnView.swift */,
+			);
+			path = Learn;
+			sourceTree = "<group>";
+		};
+		4772B76E9A7B01A319088D94 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8D40399A1C8F13F2F35BBE9A /* StreakCalendarView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		59D69EF141D9FE3F51EE009A /* Products */ = {
@@ -229,6 +321,7 @@
 			children = (
 				5116538D9F07FF35490DCEC7 /* SocraticJournal.app */,
 				6A07E910B300F8BA4C4769BE /* SocraticJournalTests.xctest */,
+				B66382598AAD00FE3EA7118A /* SocraticJournalWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -238,6 +331,7 @@
 			children = (
 				60A8B02F05534B87C324BF7A /* BreathPattern.swift */,
 				4A737F1D67490C9A86525010 /* BreathSession.swift */,
+				C41A90D2D37A4B612C490ED9 /* LearnArticle.swift */,
 				BE242AEAEB8E48450E5F2A48 /* SessionDuration.swift */,
 				05AB04FBBE7FC953CB98687F /* SessionPhase.swift */,
 				9F4B1E73960A7489D123CF41 /* UserSettings.swift */,
@@ -307,6 +401,7 @@
 				94ACDA6074BCA45E656DA2B4 /* Configuration */,
 				1939C2C2FC3281E95516289F /* SocraticJournal */,
 				A9FB2C518662F19D6CAB9CA0 /* SocraticJournalTests */,
+				3DC4887B62F4DFB55145D963 /* SocraticJournalWidget */,
 				59D69EF141D9FE3F51EE009A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -322,6 +417,15 @@
 			path = Tests/SocraticJournalTests;
 			sourceTree = "<group>";
 		};
+		B520E5A58E5D6C44DD6EDF04 /* Today */ = {
+			isa = PBXGroup;
+			children = (
+				0C9E98B9AB99203807F249A5 /* TodayView.swift */,
+				905280F906AF00098A4D2C8D /* TodayViewModel.swift */,
+			);
+			path = Today;
+			sourceTree = "<group>";
+		};
 		E303FF20EFB3AE9FC13B314B /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -329,6 +433,7 @@
 				AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */,
 				C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */,
 				F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */,
+				EF0A6DB28ADF8ADB0C7EA10F /* WidgetCenterHelper.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -339,6 +444,7 @@
 				F782BF4BCB8611080CE7218E /* AboutView.swift */,
 				A44FFFE4347DCF1BA017F741 /* NotificationSettingsView.swift */,
 				BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */,
+				4C9FBC1924257CAAEC948F75 /* WeeklyGoalPicker.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -356,10 +462,13 @@
 			isa = PBXGroup;
 			children = (
 				9440E899341B6D5D2E0624AC /* Breathe */,
+				44C6342BAD100613D5E5867C /* Learn */,
 				7DBE6F1459754CEC4DAED18F /* Navigation */,
 				165EBEA269EA38D7418DCC61 /* Onboarding */,
+				40CFC09542825B694EBA4363 /* Progress */,
 				0A7D89DB9B7D4AA46EE297DA /* Settings */,
 				3292427AC674B121CCABA44F /* Theme */,
+				B520E5A58E5D6C44DD6EDF04 /* Today */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -367,6 +476,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3E7E2F28509587C1660C5CC1 /* SocraticJournalWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B001A0809CB437EE9B744E8 /* Build configuration list for PBXNativeTarget "SocraticJournalWidget" */;
+			buildPhases = (
+				621AA8DF7734D8FAF442BF43 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SocraticJournalWidget;
+			packageProductDependencies = (
+			);
+			productName = SocraticJournalWidget;
+			productReference = B66382598AAD00FE3EA7118A /* SocraticJournalWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		4F597517012D1D2069CFA905 /* SocraticJournal */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4D6ECD6302407144E3536991 /* Build configuration list for PBXNativeTarget "SocraticJournal" */;
@@ -374,10 +500,12 @@
 				8ECAD0DA53B9EF636A573B00 /* Sources */,
 				1B7C62B3C7FF8CAC68174086 /* Resources */,
 				70D95131945F0495DA866702 /* Frameworks */,
+				FD3EFBCC0E43D97BF06FFD77 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3DC755CF0135BED55AB737D8 /* PBXTargetDependency */,
 			);
 			name = SocraticJournal;
 			packageProductDependencies = (
@@ -415,6 +543,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					3E7E2F28509587C1660C5CC1 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
 					4F597517012D1D2069CFA905 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
@@ -445,6 +577,7 @@
 			targets = (
 				4F597517012D1D2069CFA905 /* SocraticJournal */,
 				7CFF6DB8DE828147AE0D43B9 /* SocraticJournalTests */,
+				3E7E2F28509587C1660C5CC1 /* SocraticJournalWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -474,6 +607,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		621AA8DF7734D8FAF442BF43 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C1F5E56BFACE901553D27E4A /* SocraticJournalWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8ECAD0DA53B9EF636A573B00 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -481,10 +622,13 @@
 				3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */,
 				DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */,
 				260CF80AFE98AC17C77CF517 /* AppColors.swift in Sources */,
+				F46FF1B3C57B25CFA6632F59 /* AppGroupSessionStore.swift in Sources */,
 				18A62927823B5A6BA560C79E /* AppShapes.swift in Sources */,
 				6D98A2F1C80A94CBE7A571D8 /* AppSpacing.swift in Sources */,
 				1942377AA6B21C6D939D0917 /* AppTypography.swift in Sources */,
 				81091E373EF2A53EFFF913E4 /* AppsFlyerService.swift in Sources */,
+				1458610D06CDA98E156C4CF6 /* ArticleDetailView.swift in Sources */,
+				B8AADCC66FFD7A8C748969B2 /* BreathFacts.swift in Sources */,
 				5A38F686BDEF3AA914881906 /* BreathPattern.swift in Sources */,
 				42920AFCA24AD3E7B07FAC9C /* BreathSession.swift in Sources */,
 				799002C73195226FFC74051F /* BreathSessionEngine.swift in Sources */,
@@ -493,6 +637,8 @@
 				87C69F93A2A7CA34C6820A81 /* CountdownView.swift in Sources */,
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
+				761F4F167BF2CC4ED5089CCA /* LearnArticle.swift in Sources */,
+				9917834581BCFF88C4288A82 /* LearnView.swift in Sources */,
 				2C3397BB2F4A3E010DA7050F /* LocalNotificationService.swift in Sources */,
 				2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */,
 				BCACC343A11ABFC7EC85E29C /* MountainWaveView.swift in Sources */,
@@ -501,6 +647,8 @@
 				54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */,
 				7C31192B6919AC8374BD69EC /* NotificationSettingsView.swift in Sources */,
 				1ABBB78A8CEA3BD9E26CE03D /* PatternSelectionView.swift in Sources */,
+				8AD0D70AE9DB20185E445A27 /* ProgressView.swift in Sources */,
+				A6196D685C57667CED95385B /* ProgressViewModel.swift in Sources */,
 				B65285CC231F096C26A30BD7 /* SessionDuration.swift in Sources */,
 				69F0F528E9F4D2769072451F /* SessionPhase.swift in Sources */,
 				40EE8BB87AC5E0BCA052CE19 /* SessionProgressArc.swift in Sources */,
@@ -511,17 +659,28 @@
 				861E5A80148AE0039A28AEE4 /* SettingsViewModel.swift in Sources */,
 				060DCDE2F8D2095C6DA7AC4E /* SocraticJournal.swift in Sources */,
 				C670681889110CD5220DE1B8 /* SocraticJournalApp.swift in Sources */,
+				45C2BF4B25CB536299E7215A /* StreakCalculator.swift in Sources */,
+				93AF17094C89F29CCB065A9A /* StreakCalendarView.swift in Sources */,
 				2353327B27450AF113EF609F /* ThemeManager.swift in Sources */,
 				0047B39B7559AD5B4D2A724A /* ThemeSelectorView.swift in Sources */,
+				9163C53633F2F027735054AF /* TodayView.swift in Sources */,
+				9162787D7DD1219552768117 /* TodayViewModel.swift in Sources */,
 				8143635EA811EE29FEC1099B /* UserDefaultsSessionRepository.swift in Sources */,
 				E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */,
 				5EB2D92F73DDED1293A73A2E /* UserSettings.swift in Sources */,
+				123B970483CA8C0C5D8E8F18 /* WeeklyGoalPicker.swift in Sources */,
+				216BC675745EB51E7714B727 /* WidgetCenterHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3DC755CF0135BED55AB737D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3E7E2F28509587C1660C5CC1 /* SocraticJournalWidget */;
+			targetProxy = B0C5DD16ADB67C2BCA5F7EF5 /* PBXContainerItemProxy */;
+		};
 		AC83B929CFC01618F44725CD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4F597517012D1D2069CFA905 /* SocraticJournal */;
@@ -608,6 +767,26 @@
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		5A874812CBEC6A6BB558B9C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SocraticJournalWidget.entitlements;
+				CURRENT_PROJECT_VERSION = 9;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/SocraticJournalWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.StudioNext.socraticJournal.widget;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -707,6 +886,26 @@
 			};
 			name = Release;
 		};
+		C383D713F39F7147CB979B54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SocraticJournalWidget.entitlements;
+				CURRENT_PROJECT_VERSION = 9;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/SocraticJournalWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.StudioNext.socraticJournal.widget;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		F85E7616DED84A9C7CD6AD50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -741,6 +940,15 @@
 			buildConfigurations = (
 				F85E7616DED84A9C7CD6AD50 /* Debug */,
 				B61F8AEB801F1EAE1650CCAA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8B001A0809CB437EE9B744E8 /* Build configuration list for PBXNativeTarget "SocraticJournalWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A874812CBEC6A6BB558B9C6 /* Debug */,
+				C383D713F39F7147CB979B54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
