@@ -1,5 +1,5 @@
 // SettingsView.swift
-// SocraticJournal
+// Breathe
 // Copyright 2024 StudioNext
 
 #if os(iOS)
@@ -7,15 +7,14 @@ import SwiftUI
 
 /// Notification posted when user requests to replay onboarding
 public extension Notification.Name {
-    static let replayOnboarding = Notification.Name("com.socraticjournal.replayOnboarding")
+    static let replayOnboarding = Notification.Name("com.breathe.replayOnboarding")
 }
 
-/// Settings screen for app configuration
+/// Settings screen for the Breath Pacer app
 public struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(ThemeManager.self) private var themeManager
     @State private var viewModel: SettingsViewModel
-    @State private var showingPaywall: Bool = false
 
     public init(viewModel: SettingsViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -33,22 +32,7 @@ public struct SettingsView: View {
                         viewModel.openNotificationSettings()
                     }
                 } message: {
-                    Text("To receive notifications, please enable them in Settings.")
-                }
-                .sheet(isPresented: $showingPaywall) {
-                    if let subscriptionService = viewModel.subscriptionService {
-                        PaywallView(
-                            viewModel: PaywallViewModel(
-                                subscriptionService: subscriptionService,
-                                analyticsService: viewModel.analyticsService
-                            )
-                        )
-                        .environment(themeManager)
-                        .preferredColorScheme(themeManager.colorScheme)
-                    } else {
-                        subscriptionUnavailableView
-                            .preferredColorScheme(themeManager.colorScheme)
-                    }
+                    Text("To receive breath reminders, please enable notifications in Settings.")
                 }
                 .preferredColorScheme(themeManager.colorScheme)
                 .onChange(of: viewModel.themeMode) { _, newMode in
@@ -69,43 +53,30 @@ public struct SettingsView: View {
         } else {
             ScrollView {
                 VStack(spacing: 0) {
-                    // Custom title
                     settingsHeader
 
-                    // APPEARANCE section
-                    SectionHeaderView("Appearance")
-                    ThemeSelectorView(
-                        selectedTheme: Binding(
-                            get: { viewModel.themeMode },
-                            set: { viewModel.themeMode = $0 }
+                    // PRACTICE section
+                    SectionHeaderView("Practice")
+                    DailyGoalPicker(
+                        selectedMinutes: Binding(
+                            get: { viewModel.dailyGoalMinutes },
+                            set: { viewModel.dailyGoalMinutes = $0 }
                         )
                     )
                     .padding(.horizontal, AppSpacing.screenPadding)
                     .padding(.bottom, AppSpacing.md)
 
-                    // NOTIFICATIONS section
-                    SectionHeaderView("Notifications")
+                    // REMINDERS section
+                    SectionHeaderView("Reminders")
                         .padding(.top, AppSpacing.md)
-                    NotificationSettingsView(
-                        dailyReminderEnabled: Binding(
-                            get: { viewModel.dailyReminderEnabled },
-                            set: { viewModel.dailyReminderEnabled = $0 }
+                    BreathReminderSettingsView(
+                        reminderEnabled: Binding(
+                            get: { viewModel.breathReminderEnabled },
+                            set: { viewModel.breathReminderEnabled = $0 }
                         ),
                         reminderTime: Binding(
                             get: { viewModel.reminderTime },
                             set: { viewModel.reminderTime = $0 }
-                        ),
-                        friendActivityEnabled: Binding(
-                            get: { viewModel.friendActivityEnabled },
-                            set: { viewModel.friendActivityEnabled = $0 }
-                        ),
-                        streakRemindersEnabled: Binding(
-                            get: { viewModel.streakRemindersEnabled },
-                            set: { viewModel.streakRemindersEnabled = $0 }
-                        ),
-                        fomoAlertsEnabled: Binding(
-                            get: { viewModel.fomoAlertsEnabled },
-                            set: { viewModel.fomoAlertsEnabled = $0 }
                         ),
                         notificationsDenied: viewModel.notificationsDenied,
                         onOpenSettings: {
@@ -115,24 +86,14 @@ public struct SettingsView: View {
                     .padding(.horizontal, AppSpacing.screenPadding)
                     .padding(.bottom, AppSpacing.md)
 
-                    // SUBSCRIPTION section
-                    SectionHeaderView("Subscription")
+                    // APPEARANCE section
+                    SectionHeaderView("Appearance")
                         .padding(.top, AppSpacing.md)
-                    SubscriptionSettingsView(
-                        subscriptionStatus: viewModel.subscriptionStatus,
-                        expiryDate: viewModel.formattedSubscriptionExpiry,
-                        isRestoring: viewModel.isRestoringPurchases,
-                        onUpgradeTapped: {
-                            showingPaywall = true
-                        },
-                        onRestoreTapped: {
-                            Task {
-                                await viewModel.restorePurchases()
-                            }
-                        },
-                        onManageSubscriptionTapped: {
-                            viewModel.openSubscriptionManagement()
-                        }
+                    ThemeSelectorView(
+                        selectedTheme: Binding(
+                            get: { viewModel.themeMode },
+                            set: { viewModel.themeMode = $0 }
+                        )
                     )
                     .padding(.horizontal, AppSpacing.screenPadding)
                     .padding(.bottom, AppSpacing.md)
@@ -142,9 +103,7 @@ public struct SettingsView: View {
                         .padding(.top, AppSpacing.md)
                     AboutView(
                         version: SocraticJournal.version,
-                        onPrivacyPolicy: {
-                            openPrivacyPolicy()
-                        },
+                        onPrivacyPolicy: { openPrivacyPolicy() },
                         onReplayOnboarding: {
                             Task {
                                 await viewModel.resetOnboarding()
@@ -162,8 +121,6 @@ public struct SettingsView: View {
         }
     }
 
-    // MARK: - Settings Header
-
     private var settingsHeader: some View {
         HStack {
             Text("Settings")
@@ -174,49 +131,6 @@ public struct SettingsView: View {
         .padding(.horizontal, AppSpacing.screenPadding)
         .padding(.top, AppSpacing.lg)
         .padding(.bottom, AppSpacing.md)
-    }
-
-    // MARK: - Subscription Unavailable
-
-    private var subscriptionUnavailableView: some View {
-        NavigationStack {
-            VStack(spacing: AppSpacing.lg) {
-                Image(systemName: "exclamationmark.triangle")
-                    .font(.system(size: 48))
-                    .foregroundStyle(AppColors.warning)
-
-                VStack(spacing: AppSpacing.xs) {
-                    Text("Subscriptions Unavailable")
-                        .font(AppTypography.headlineMedium)
-                        .foregroundStyle(AppColors.textPrimary)
-
-                    Text("The subscription service is not available right now. Please try again later.")
-                        .font(AppTypography.body)
-                        .foregroundStyle(AppColors.textSecondary)
-                        .multilineTextAlignment(.center)
-                }
-
-                AccentPillButton("Dismiss") {
-                    showingPaywall = false
-                }
-                .frame(width: 180)
-            }
-            .padding(AppSpacing.screenPadding)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(AppColors.background)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        showingPaywall = false
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.body.weight(.medium))
-                            .foregroundStyle(AppColors.textPrimary)
-                    }
-                }
-            }
-        }
     }
 
     @ToolbarContentBuilder
@@ -233,22 +147,131 @@ public struct SettingsView: View {
     }
 
     private func openPrivacyPolicy() {
-        let urlString = "https://studionext.co.uk/socratic-privacy.html"
+        let urlString = "https://studionext.co.uk/breathe-privacy.html"
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url)
         }
     }
 }
 
-/// UIActivityViewController wrapper for sharing
-struct ShareSheet: UIViewControllerRepresentable {
-    let activityItems: [Any]
+// MARK: - Daily Goal Picker
 
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+struct DailyGoalPicker: View {
+    @Binding var selectedMinutes: Int
+    private let options = [3, 5, 10, 15]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            Text("Daily Goal")
+                .font(AppTypography.body)
+                .foregroundStyle(AppColors.textPrimary)
+
+            HStack(spacing: AppSpacing.xs) {
+                ForEach(options, id: \.self) { minutes in
+                    Button {
+                        selectedMinutes = minutes
+                    } label: {
+                        Text("\(minutes) min")
+                            .font(AppTypography.captionBold)
+                            .foregroundStyle(selectedMinutes == minutes ? AppColors.textOnAccent : AppColors.textPrimary)
+                            .padding(.horizontal, AppSpacing.md)
+                            .padding(.vertical, AppSpacing.sm)
+                            .background(
+                                Capsule()
+                                    .fill(selectedMinutes == minutes ? AppColors.accent : AppColors.surfaceElevated)
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+        .padding(AppSpacing.cardPadding)
+        .background(AppColors.surface)
+        .overlay(
+            Rectangle()
+                .stroke(AppColors.border, lineWidth: AppSpacing.gridGutter)
+        )
+    }
+}
+
+// MARK: - Breath Reminder Settings
+
+struct BreathReminderSettingsView: View {
+    @Binding var reminderEnabled: Bool
+    @Binding var reminderTime: Date
+    var notificationsDenied: Bool = false
+    var onOpenSettings: (() -> Void)? = nil
+
+    var body: some View {
+        VStack(spacing: 0) {
+            if notificationsDenied {
+                deniedBanner
+                HairlineDivider()
+            }
+
+            Toggle(isOn: $reminderEnabled) {
+                VStack(alignment: .leading, spacing: AppSpacing.xxs) {
+                    Text("Daily Reminder")
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppColors.textPrimary)
+                    Text("A gentle nudge to breathe")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppColors.textTertiary)
+                }
+            }
+            .tint(AppColors.accent)
+            .disabled(notificationsDenied)
+            .padding(.horizontal, AppSpacing.screenPadding)
+            .padding(.vertical, AppSpacing.sm)
+
+            if reminderEnabled && !notificationsDenied {
+                HairlineDivider()
+                    .padding(.leading, AppSpacing.screenPadding)
+
+                HStack {
+                    Text("Reminder Time")
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppColors.textPrimary)
+                    Spacer()
+                    DatePicker("", selection: $reminderTime, displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                }
+                .padding(.horizontal, AppSpacing.screenPadding)
+                .padding(.vertical, AppSpacing.sm)
+            }
+        }
+        .background(AppColors.surface)
+        .overlay(
+            Rectangle()
+                .stroke(AppColors.border, lineWidth: AppSpacing.gridGutter)
+        )
     }
 
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+    private var deniedBanner: some View {
+        HStack(spacing: AppSpacing.sm) {
+            Image(systemName: "bell.slash.fill")
+                .foregroundStyle(AppColors.warning)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Notifications Disabled")
+                    .font(AppTypography.bodyBold)
+                    .foregroundStyle(AppColors.textPrimary)
+                Text("Enable in Settings to receive reminders.")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textSecondary)
+            }
+
+            Spacer()
+
+            if let onOpenSettings {
+                Button("Enable") { onOpenSettings() }
+                    .font(AppTypography.captionBold)
+                    .foregroundStyle(AppColors.accent)
+            }
+        }
+        .padding(AppSpacing.md)
+        .background(AppColors.warning.opacity(0.08))
+    }
 }
 
 #Preview {
