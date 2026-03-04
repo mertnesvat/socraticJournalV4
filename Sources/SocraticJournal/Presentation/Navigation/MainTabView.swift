@@ -43,9 +43,11 @@ public enum MainTab: Int, CaseIterable {
 /// Main tab container with clean minimal bottom bar
 public struct MainTabView: View {
     @State private var selectedTab: MainTab = .today
+    @State private var isSessionActive: Bool = false
+    @State private var showSettings: Bool = false
+    @State private var preSelectedTechnique: BreathTechnique?
+    @State private var refreshTrigger: UUID = UUID()
     @Environment(ThemeManager.self) private var themeManager
-
-    // MARK: - Services
 
     let settingsRepository: SettingsRepositoryProtocol
     let analyticsService: AnalyticsServiceProtocol
@@ -66,38 +68,72 @@ public struct MainTabView: View {
             ZStack {
                 switch selectedTab {
                 case .today:
-                    placeholderTab("Today", icon: "wind")
+                    TodayDashboardView(
+                        sessionRepository: sessionRepository,
+                        settingsRepository: settingsRepository,
+                        onStartSession: { technique in
+                            preSelectedTechnique = technique
+                            selectedTab = .breathe
+                        }
+                    )
+                    .id(refreshTrigger)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button {
+                                showSettings = true
+                            } label: {
+                                Image(systemName: "gearshape")
+                                    .font(.body.weight(.medium))
+                                    .foregroundStyle(AppColors.textPrimary)
+                            }
+                        }
+                    }
+
                 case .breathe:
-                    placeholderTab("Breathe", icon: "lungs.fill")
+                    BreathSessionSetupView(
+                        repository: sessionRepository,
+                        initialTechnique: preSelectedTechnique,
+                        onFlowStateChange: { state in
+                            switch state {
+                            case .countdown, .active:
+                                isSessionActive = true
+                            case .setup, .complete:
+                                isSessionActive = false
+                            }
+                        },
+                        onDone: {
+                            preSelectedTechnique = nil
+                            refreshTrigger = UUID()
+                            selectedTab = .today
+                        }
+                    )
+
                 case .learn:
                     LearnFeedView(
                         contentService: StaticLearningContentService(),
                         analyticsService: analyticsService
                     )
+
                 case .progress:
                     BreathProgressView(repository: sessionRepository)
+                        .id(refreshTrigger)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            customTabBar
+            if !isSessionActive {
+                customTabBar
+            }
         }
         .ignoresSafeArea(.keyboard)
-    }
-
-    // MARK: - Placeholder
-
-    private func placeholderTab(_ title: String, icon: String) -> some View {
-        VStack(spacing: AppSpacing.md) {
-            Image(systemName: icon)
-                .font(.system(size: 48))
-                .foregroundStyle(AppColors.textTertiary)
-            Text(title)
-                .font(AppTypography.headline)
-                .foregroundStyle(AppColors.textSecondary)
+        .sheet(isPresented: $showSettings) {
+            SettingsView(
+                viewModel: SettingsViewModel(
+                    settingsRepository: settingsRepository
+                )
+            )
+            .environment(themeManager)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColors.background)
     }
 
     // MARK: - Tab Bar
@@ -122,6 +158,9 @@ public struct MainTabView: View {
         let isSelected = selectedTab == tab
 
         Button {
+            if tab == .breathe {
+                preSelectedTechnique = nil
+            }
             withAnimation(.easeInOut(duration: 0.2)) {
                 selectedTab = tab
             }

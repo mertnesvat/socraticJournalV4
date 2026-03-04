@@ -27,6 +27,9 @@ enum BreathSessionFlowState: Equatable {
 /// Manages the full flow: setup -> countdown -> active session -> completion.
 struct BreathSessionSetupView: View {
     let repository: BreathSessionRepositoryProtocol
+    var initialTechnique: BreathTechnique?
+    var onFlowStateChange: ((BreathSessionFlowState) -> Void)?
+    var onDone: (() -> Void)?
 
     @State private var selectedTechnique: BreathTechnique = .resonance
     @State private var selectedDuration: TimeInterval = 300
@@ -39,7 +42,6 @@ struct BreathSessionSetupView: View {
                 setupContent
 
             case .countdown:
-                // Show session background behind countdown
                 Color(hex: "0B1426")
                     .ignoresSafeArea()
 
@@ -68,8 +70,17 @@ struct BreathSessionSetupView: View {
                         withAnimation(.easeInOut(duration: 0.3)) {
                             flowState = .setup
                         }
+                        onDone?()
                     }
                 )
+            }
+        }
+        .onChange(of: flowState) { _, newState in
+            onFlowStateChange?(newState)
+        }
+        .onAppear {
+            if let technique = initialTechnique {
+                selectedTechnique = technique
             }
         }
     }
