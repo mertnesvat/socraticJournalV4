@@ -5,69 +5,79 @@
 #if os(iOS)
 import SwiftUI
 
-/// Onboarding placeholder — will be fully implemented in Feature 9
+/// Three-page breath-focused onboarding flow.
+/// Pages: Hook -> Science -> Commitment
 public struct NewOnboardingView: View {
-    @State private var currentPage: Int = 0
-
-    private let settingsRepository: SettingsRepositoryProtocol
-    private let analyticsService: AnalyticsServiceProtocol
-    private let onDismiss: () -> Void
+    @State private var viewModel: OnboardingViewModel
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
         analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared,
         onDismiss: @escaping () -> Void
     ) {
-        self.settingsRepository = settingsRepository
-        self.analyticsService = analyticsService
-        self.onDismiss = onDismiss
+        _viewModel = State(initialValue: OnboardingViewModel(
+            settingsRepository: settingsRepository,
+            analyticsService: analyticsService,
+            onDismiss: onDismiss
+        ))
     }
 
     public var body: some View {
-        VStack(spacing: AppSpacing.xl) {
-            Spacer()
+        ZStack(alignment: .bottom) {
+            TabView(selection: $viewModel.currentPage) {
+                OnboardingHookPage {
+                    withAnimation {
+                        viewModel.nextPage()
+                    }
+                }
+                .tag(0)
 
-            Image(systemName: "wind")
-                .font(.system(size: 64))
-                .foregroundStyle(AppColors.accent)
+                OnboardingSciencePage {
+                    withAnimation {
+                        viewModel.nextPage()
+                    }
+                }
+                .tag(1)
 
-            VStack(spacing: AppSpacing.sm) {
-                Text("Breathe")
-                    .font(AppTypography.displayLarge)
-                    .foregroundStyle(AppColors.textPrimary)
-
-                Text("Science-backed breathing companion")
-                    .font(AppTypography.body)
-                    .foregroundStyle(AppColors.textSecondary)
+                OnboardingCommitPage(
+                    isCompleting: viewModel.isCompleting
+                ) {
+                    Task {
+                        await viewModel.completeOnboarding()
+                    }
+                }
+                .tag(2)
             }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .ignoresSafeArea()
 
-            Spacer()
-
-            AccentPillButton("Get Started") {
-                completeOnboarding()
-            }
-            .padding(.horizontal, AppSpacing.screenPadding)
-            .padding(.bottom, AppSpacing.xl)
+            // Custom page indicators
+            PageIndicatorView(
+                currentPage: viewModel.currentPage,
+                totalPages: viewModel.totalPages
+            )
+            .padding(.bottom, AppSpacing.md)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColors.background)
         .onAppear {
-            analyticsService.logEvent(.onboardingStarted, parameters: nil)
+            viewModel.logOnboardingStarted()
         }
     }
+}
 
-    private func completeOnboarding() {
-        Task {
-            do {
-                var settings = try await settingsRepository.getSettings()
-                settings.hasCompletedOnboarding = true
-                try await settingsRepository.saveSettings(settings)
-                analyticsService.logEvent(.onboardingCompleted, parameters: nil)
-            } catch {
-                print("Failed to save onboarding completion: \(error)")
-            }
-            await MainActor.run {
-                onDismiss()
+// MARK: - Page Indicator
+
+/// Custom page dots for the onboarding flow
+private struct PageIndicatorView: View {
+    let currentPage: Int
+    let totalPages: Int
+
+    var body: some View {
+        HStack(spacing: AppSpacing.xs) {
+            ForEach(0..<totalPages, id: \.self) { index in
+                Circle()
+                    .fill(index == currentPage ? .white : .white.opacity(0.4))
+                    .frame(width: 8, height: 8)
+                    .animation(.easeInOut(duration: 0.25), value: currentPage)
             }
         }
     }
