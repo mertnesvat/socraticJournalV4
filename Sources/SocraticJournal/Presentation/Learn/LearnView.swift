@@ -173,7 +173,7 @@ public struct LearnView: View {
 
                     Text(article.body)
                         .font(.system(size: 13))
-                        .foregroundStyle(Color(hex: "3D3328"))
+                        .foregroundStyle(AppColors.textPrimary)
                         .lineSpacing(6)
                         .padding(.horizontal, AppSpacing.screenPadding)
                         .padding(.vertical, 14)
