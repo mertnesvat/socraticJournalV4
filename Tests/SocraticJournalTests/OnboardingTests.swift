@@ -175,19 +175,16 @@ struct OnboardingTests {
             #expect(repository.lastSavedSettings?.hasCompletedOnboarding == true)
         }
 
-        @Test("Subscription status not checked during onboarding")
-        func subscriptionStatusNotChecked() async throws {
-            let subscriptionService = TestMockSubscriptionService()
+        @Test("Onboarding works without external service dependencies")
+        func onboardingWorksIndependently() async throws {
             let repository = MockSettingsRepository()
 
-            // Simulate onboarding flow
+            // Simulate onboarding flow — no external services needed
             var settings = try await repository.getSettings()
             settings.hasCompletedOnboarding = true
             try await repository.saveSettings(settings)
 
-            // Subscription service should not have been called
-            #expect(!subscriptionService.currentStatusCalled)
-            #expect(!subscriptionService.fetchProductsCalled)
+            #expect(repository.lastSavedSettings?.hasCompletedOnboarding == true)
         }
     }
 

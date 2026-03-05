@@ -10,6 +10,7 @@ public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryP
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
     private let sessionsKey = "com.breathe.sessions"
+    private let boltKey = "com.breathe.bolt"
 
     public init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -70,12 +71,36 @@ public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryP
         return streak
     }
 
-    // MARK: - Private
+    // MARK: - BOLT Score
 
-    private func getAllSessions() async throws -> [BreathSession] {
+    public func saveBOLTScore(_ score: BOLTScore) async throws {
+        var scores = try await getBOLTScores()
+        scores.append(score)
+        let data = try encoder.encode(scores)
+        defaults.set(data, forKey: boltKey)
+    }
+
+    public func getBOLTScores() async throws -> [BOLTScore] {
+        guard let data = defaults.data(forKey: boltKey) else { return [] }
+        do {
+            return try decoder.decode([BOLTScore].self, from: data)
+        } catch {
+            return []
+        }
+    }
+
+    public func getLatestBOLTScore() async throws -> BOLTScore? {
+        let scores = try await getBOLTScores()
+        return scores.max(by: { $0.recordedAt < $1.recordedAt })
+    }
+
+    // MARK: - All Sessions
+
+    public func getAllSessions() async throws -> [BreathSession] {
         guard let data = defaults.data(forKey: sessionsKey) else { return [] }
         do {
             return try decoder.decode([BreathSession].self, from: data)
+                .sorted { $0.startedAt > $1.startedAt }
         } catch {
             return []
         }

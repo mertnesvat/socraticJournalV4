@@ -20,4 +20,20 @@ public protocol BreathSessionRepositoryProtocol: Sendable {
 
     /// Get current streak (consecutive days with at least one session)
     func getStreak() async throws -> Int
+
+    // MARK: - BOLT Score
+
+    /// Save a BOLT score
+    func saveBOLTScore(_ score: BOLTScore) async throws
+
+    /// Get all BOLT scores
+    func getBOLTScores() async throws -> [BOLTScore]
+
+    /// Get the most recent BOLT score
+    func getLatestBOLTScore() async throws -> BOLTScore?
+
+    // MARK: - All Sessions
+
+    /// Get all saved sessions sorted by startedAt descending
+    func getAllSessions() async throws -> [BreathSession]
 }

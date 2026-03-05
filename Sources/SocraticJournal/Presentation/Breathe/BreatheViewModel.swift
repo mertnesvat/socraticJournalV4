@@ -14,6 +14,9 @@ public final class BreatheViewModel {
     var selectedPattern: BreathPattern = .resonance
     var selectedDuration: SessionDuration = .five
     private(set) var sessionStartedAt: Date?
+    private(set) var previousDailyTotal: Double = 0
+    private(set) var dailyGoalMinutes: Int = 5
+    private(set) var lastCompletedSession: BreathSession?
 
     let engine = BreathPacingEngine()
     let hapticEngine = HapticRhythmEngine()
@@ -45,6 +48,7 @@ public final class BreatheViewModel {
         do {
             let settings = try await repo.getSettings()
             hapticEngine.setEnabled(settings.hapticRhythmEnabled)
+            dailyGoalMinutes = settings.dailyGoalMinutes
         } catch {}
     }
 
@@ -60,6 +64,20 @@ public final class BreatheViewModel {
     }
 
     // MARK: - Actions
+
+    func preSelectForProgram(patternId: String, durationMinutes: Int) {
+        guard !engine.isRunning else { return }
+        if let pattern = BreathPattern.allPatterns.first(where: { $0.id == patternId }) {
+            selectedPattern = pattern
+        }
+        if let duration = SessionDuration(rawValue: durationMinutes) {
+            selectedDuration = duration
+        } else {
+            // Pick nearest duration
+            let sorted = SessionDuration.allCases.sorted { abs($0.rawValue - durationMinutes) < abs($1.rawValue - durationMinutes) }
+            selectedDuration = sorted.first ?? .five
+        }
+    }
 
     func selectPattern(_ pattern: BreathPattern) {
         guard !engine.isRunning else { return }
@@ -93,6 +111,10 @@ public final class BreatheViewModel {
 
     private func startSession() {
         sessionStartedAt = Date()
+        lastCompletedSession = nil
+        Task {
+            previousDailyTotal = (try? await sessionRepository.getTotalMinutesToday()) ?? 0
+        }
         engine.start(pattern: selectedPattern, duration: selectedDuration.seconds)
         analyticsService?.logEvent(.sessionStarted, parameters: [
             "pattern_id": selectedPattern.id,
@@ -116,6 +138,9 @@ public final class BreatheViewModel {
             totalDuration: duration,
             cyclesCompleted: cycles
         )
+        if duration >= 30 {
+            lastCompletedSession = session
+        }
         Task {
             try? await sessionRepository.saveSession(session)
         }

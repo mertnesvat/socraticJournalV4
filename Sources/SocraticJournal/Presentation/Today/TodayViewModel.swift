@@ -17,6 +17,7 @@ public final class TodayViewModel {
     private(set) var weekDays: [WeekDay] = []
     private(set) var dailyGoalMinutes: Int = 5
     private(set) var isLoading: Bool = false
+    private(set) var latestBOLTScore: BOLTScore?
 
     var goalReached: Bool {
         totalMinutesToday >= Double(dailyGoalMinutes)
@@ -60,6 +61,7 @@ public final class TodayViewModel {
             totalMinutesToday = try await sessionRepository.getTotalMinutesToday()
             let settings = try await settingsRepository.getSettings()
             dailyGoalMinutes = settings.dailyGoalMinutes
+            latestBOLTScore = try await sessionRepository.getLatestBOLTScore()
             weekDays = buildWeekDays()
         } catch {
             // Silently handle — dashboard degrades gracefully
