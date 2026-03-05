@@ -181,19 +181,19 @@ struct ProgramProgressRepositoryTests {
 @Suite("BreathProgram Entity Tests")
 struct BreathProgramTests {
 
-    @Test("All programs have correct total days")
-    func allProgramsTotalDays() {
-        #expect(BreathProgram.calmFoundation.totalDays == 7)
-        #expect(BreathProgram.sleepReset.totalDays == 7)
-        #expect(BreathProgram.stressResilience.totalDays == 10)
-        #expect(BreathProgram.advancedExplorer.totalDays == 14)
+    @Test("All programs have correct duration days")
+    func allProgramsDurationDays() {
+        #expect(BreathProgram.nasalBreathingReset.durationDays == 7)
+        #expect(BreathProgram.stressResilience.durationDays == 10)
+        #expect(BreathProgram.breathMastery.durationDays == 21)
+        #expect(BreathProgram.eveningWindDown.durationDays == 7)
     }
 
-    @Test("All programs have sequential day IDs")
+    @Test("All programs have sequential day numbers")
     func programsHaveSequentialDays() {
         for program in BreathProgram.allPrograms {
             for (index, day) in program.days.enumerated() {
-                #expect(day.id == index + 1, "Day \(day.id) in \(program.name) should be \(index + 1)")
+                #expect(day.dayNumber == index + 1, "Day \(day.dayNumber) in \(program.title) should be \(index + 1)")
             }
         }
     }
@@ -203,15 +203,24 @@ struct BreathProgramTests {
         for program in BreathProgram.allPrograms {
             for day in program.days {
                 let pattern = BreathPattern.allPatterns.first { $0.id == day.patternId }
-                #expect(pattern != nil, "Day \(day.id) in \(program.name) references invalid pattern: \(day.patternId)")
+                #expect(pattern != nil, "Day \(day.id) in \(program.title) references invalid pattern: \(day.patternId)")
             }
         }
     }
 
     @Test("ProgramDay resolves pattern correctly")
     func programDayResolvesPattern() {
-        let day = ProgramDay(id: 1, patternId: "resonance", durationMinutes: 5, focus: "Test")
-        #expect(day.pattern?.name == "Resonance")
+        let day = ProgramDay(
+            id: "test-d1",
+            dayNumber: 1,
+            title: "Test Day",
+            lesson: "Test lesson",
+            patternId: "resonance",
+            durationMinutes: 5,
+            focusNote: "Test"
+        )
+        let pattern = BreathPattern.allPatterns.first { $0.id == day.patternId }
+        #expect(pattern?.name == "Resonance")
     }
 
     @Test("Four programs exist in allPrograms")
