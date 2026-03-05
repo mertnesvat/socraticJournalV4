@@ -8,6 +8,7 @@ import SwiftUI
 /// Learn tab with science editorial content about breathing
 public struct LearnView: View {
     @State private var expandedArticle: Int?
+    @State private var selectedCategory: LearnCategory = .all
 
     public var body: some View {
         ScrollView {
@@ -20,10 +21,14 @@ public struct LearnView: View {
                 quickFactStrip
                 HairlineDivider()
 
+                // Category filter
+                categoryFilter
+                HairlineDivider()
+
                 // Articles
-                ForEach(Array(LearnContent.articles.enumerated()), id: \.offset) { index, article in
+                ForEach(Array(filteredArticles.enumerated()), id: \.element.id) { index, article in
                     articleRow(article, index: index)
-                    if index < LearnContent.articles.count - 1 {
+                    if index < filteredArticles.count - 1 {
                         HairlineDivider()
                     }
                 }
@@ -32,6 +37,15 @@ public struct LearnView: View {
             }
         }
         .background(AppColors.background)
+    }
+
+    // MARK: - Filtered Articles
+
+    private var filteredArticles: [LearnContent.Article] {
+        if selectedCategory == .all {
+            return LearnContent.articles
+        }
+        return LearnContent.articles.filter { $0.category == selectedCategory }
     }
 
     // MARK: - Header
@@ -80,6 +94,22 @@ public struct LearnView: View {
                 }
             }
         }
+    }
+
+    // MARK: - Category Filter
+
+    private var categoryFilter: some View {
+        CategoryFilterBar(
+            selectedCategory: selectedCategory,
+            onSelect: { category in
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    // Collapse any expanded article when switching categories
+                    expandedArticle = nil
+                    selectedCategory = category
+                }
+            }
+        )
+        .padding(.vertical, AppSpacing.sm)
     }
 
     // MARK: - Article Row
@@ -171,6 +201,7 @@ enum LearnContent {
         let tagColorHex: String
         let readTime: String
         let body: String
+        let category: LearnCategory
     }
 
     static let quickFacts: [QuickFact] = [
@@ -179,6 +210,11 @@ enum LearnContent {
         QuickFact(value: "90 min", label: "nasal cycle"),
         QuickFact(value: "NO", label: "nitric oxide from nose"),
         QuickFact(value: "Bohr", label: "CO\u{2082} releases O\u{2082}"),
+        QuickFact(value: "40%", label: "of people are chronic mouth breathers"),
+        QuickFact(value: "pH 7.4", label: "blood alkalinity from breathing"),
+        QuickFact(value: "2x", label: "nitric oxide from humming"),
+        QuickFact(value: "1500 L", label: "of air through your nose daily"),
+        QuickFact(value: "10s", label: "one breath at resonance pace"),
     ]
 
     static let articles: [Article] = [
@@ -188,7 +224,8 @@ enum LearnContent {
             tag: "Start here",
             tagColorHex: "C4502A",
             readTime: "3 min",
-            body: "Nasal breathing filters, humidifies, and pressurises air before it reaches the lungs. It also produces nitric oxide \u{2014} a molecule that dilates blood vessels, improves oxygen transfer, and kills pathogens. Mouth breathing does none of this. The evidence from anthropology is stark: skull records show our ancestors had wide jaws, straight teeth, and open nasal passages. Modern skulls are narrower, more crowded \u{2014} a direct result of the shift to mouth breathing over centuries."
+            body: "Nasal breathing filters, humidifies, and pressurises air before it reaches the lungs. It also produces nitric oxide \u{2014} a molecule that dilates blood vessels, improves oxygen transfer, and kills pathogens. Mouth breathing does none of this. The evidence from anthropology is stark: skull records show our ancestors had wide jaws, straight teeth, and open nasal passages. Modern skulls are narrower, more crowded \u{2014} a direct result of the shift to mouth breathing over centuries.",
+            category: .fundamentals
         ),
         Article(
             title: "The nasal cycle and your brain",
@@ -196,7 +233,8 @@ enum LearnContent {
             tag: "Awareness",
             tagColorHex: "2D5F5D",
             readTime: "4 min",
-            body: "Every 90 minutes or so, your body shifts airflow from one nostril to the other \u{2014} the nasal cycle. This isn\u{2019}t random. The right nostril activates the sympathetic nervous system (alertness, left-brain activity). The left nostril activates the parasympathetic (calm, creative, right-brain). You can test this right now: close your right nostril and breathe only through your left. Within minutes, your nervous system follows."
+            body: "Every 90 minutes or so, your body shifts airflow from one nostril to the other \u{2014} the nasal cycle. This isn\u{2019}t random. The right nostril activates the sympathetic nervous system (alertness, left-brain activity). The left nostril activates the parasympathetic (calm, creative, right-brain). You can test this right now: close your right nostril and breathe only through your left. Within minutes, your nervous system follows.",
+            category: .fundamentals
         ),
         Article(
             title: "5.5 \u{2014} why this number",
@@ -204,7 +242,8 @@ enum LearnContent {
             tag: "Science",
             tagColorHex: "2D5F5D",
             readTime: "5 min",
-            body: "The cardiovascular system has a natural resonance frequency \u{2014} a rhythm at which the baroreflex (blood pressure regulator) and heart rate variability are perfectly synchronised. For most humans this is ~0.1 Hz, or about 5.5 breaths per minute. Breathing at this exact rate maximises HRV, lowers blood pressure, and creates a feedback loop between heart, lungs, and brain that has measurable effects on anxiety, sleep, and athletic performance."
+            body: "The cardiovascular system has a natural resonance frequency \u{2014} a rhythm at which the baroreflex (blood pressure regulator) and heart rate variability are perfectly synchronised. For most humans this is ~0.1 Hz, or about 5.5 breaths per minute. Breathing at this exact rate maximises HRV, lowers blood pressure, and creates a feedback loop between heart, lungs, and brain that has measurable effects on anxiety, sleep, and athletic performance.",
+            category: .fundamentals
         ),
         Article(
             title: "The CO\u{2082} problem",
@@ -212,7 +251,8 @@ enum LearnContent {
             tag: "Counter-intuitive",
             tagColorHex: "7A6030",
             readTime: "4 min",
-            body: "The Bohr Effect: oxygen clings more tightly to haemoglobin when CO\u{2082} is high. If you over-breathe and deplete CO\u{2082}, paradoxically less oxygen is released to your tissues. Buteyko\u{2019}s entire system is built on this insight. The chronic \u{2018}air hunger\u{2019} anxiety sufferers feel is usually not a lack of oxygen \u{2014} it\u{2019}s a trained intolerance to CO\u{2082}. Slow, reduced breathing rebuilds this tolerance over weeks."
+            body: "The Bohr Effect: oxygen clings more tightly to haemoglobin when CO\u{2082} is high. If you over-breathe and deplete CO\u{2082}, paradoxically less oxygen is released to your tissues. Buteyko\u{2019}s entire system is built on this insight. The chronic \u{2018}air hunger\u{2019} anxiety sufferers feel is usually not a lack of oxygen \u{2014} it\u{2019}s a trained intolerance to CO\u{2082}. Slow, reduced breathing rebuilds this tolerance over weeks.",
+            category: .fundamentals
         ),
     ]
 }
