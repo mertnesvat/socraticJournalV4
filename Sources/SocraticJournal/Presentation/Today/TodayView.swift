@@ -31,37 +31,56 @@ public struct TodayView: View {
     }
 
     public var body: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                // Date header
-                dateHeader
-                HairlineDivider()
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 0) {
+                    // Date header
+                    dateHeader
+                    HairlineDivider()
 
-                // Streak + Week grid
-                streakAndWeekSection
-                HairlineDivider()
+                    // Streak + Week grid
+                    streakAndWeekSection
+                    HairlineDivider()
 
-                // Today's sessions
-                todaySessionsSection
-                HairlineDivider()
+                    // Today's sessions
+                    todaySessionsSection
+                    HairlineDivider()
 
-                // Daily goal progress
-                goalProgressSection
+                    // Daily goal progress
+                    goalProgressSection
 
-                Spacer(minLength: AppSpacing.sectionGap)
+                    // Active program card
+                    if let program = viewModel.activeProgram, let progress = viewModel.activeProgress {
+                        HairlineDivider()
+                        ActiveProgramCard(
+                            program: program,
+                            progress: progress,
+                            todayCompleted: viewModel.todayProgramDayCompleted,
+                            onStartSession: {
+                                // Navigate to Breathe tab — parent handles this
+                            }
+                        )
+                    } else {
+                        // Browse programs link
+                        HairlineDivider()
+                        browseProgramsLink
+                    }
+
+                    Spacer(minLength: AppSpacing.sectionGap)
+                }
             }
-        }
-        .background(AppColors.background)
-        .task { await viewModel.loadData() }
-        .sheet(isPresented: $showSettings) {
-            SettingsView(
-                viewModel: SettingsViewModel(
-                    settingsRepository: settingsRepository,
-                    notificationService: notificationService,
-                    analyticsService: analyticsService
+            .background(AppColors.background)
+            .task { await viewModel.loadData() }
+            .sheet(isPresented: $showSettings) {
+                SettingsView(
+                    viewModel: SettingsViewModel(
+                        settingsRepository: settingsRepository,
+                        notificationService: notificationService,
+                        analyticsService: analyticsService
+                    )
                 )
-            )
-            .environment(themeManager)
+                .environment(themeManager)
+            }
         }
     }
 
@@ -226,6 +245,43 @@ public struct TodayView: View {
             }
         }
         .padding(.horizontal, AppSpacing.cardPadding)
+    }
+
+    // MARK: - Browse Programs Link
+
+    private var browseProgramsLink: some View {
+        NavigationLink {
+            ProgramBrowserView(
+                progressRepository: UserDefaultsProgramProgressRepository()
+            )
+        } label: {
+            HStack(spacing: AppSpacing.sm) {
+                Image(systemName: "list.bullet.rectangle")
+                    .font(.system(size: 16))
+                    .foregroundStyle(AppColors.accent)
+                    .frame(width: 32, height: 32)
+                    .background(AppColors.accentLight)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Guided Programs")
+                        .font(.system(size: 14, weight: .semibold, design: .serif))
+                        .foregroundStyle(AppColors.textPrimary)
+
+                    Text("Multi-day breath training journeys")
+                        .font(.system(size: 11))
+                        .foregroundStyle(AppColors.textTertiary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(AppColors.textTertiary)
+            }
+            .padding(AppSpacing.cardPadding)
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Goal Progress
