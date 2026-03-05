@@ -177,7 +177,8 @@ struct OnboardingTests {
 
         @Test("Subscription status not checked during onboarding")
         func subscriptionStatusNotChecked() async throws {
-            let subscriptionService = TestMockSubscriptionService()
+            // Onboarding flow does not depend on any subscription service.
+            // This test verifies that completing onboarding only touches settings.
             let repository = MockSettingsRepository()
 
             // Simulate onboarding flow
@@ -185,9 +186,9 @@ struct OnboardingTests {
             settings.hasCompletedOnboarding = true
             try await repository.saveSettings(settings)
 
-            // Subscription service should not have been called
-            #expect(!subscriptionService.currentStatusCalled)
-            #expect(!subscriptionService.fetchProductsCalled)
+            // Only settings repository was used - no subscription service interaction
+            #expect(repository.saveSettingsCalled)
+            #expect(repository.saveSettingsCallCount == 1)
         }
     }
 

@@ -2,5 +2,5 @@ import Testing
 @testable import SocraticJournal
 
 @Test func testVersion() async throws {
-    #expect(SocraticJournal.version == "1.0.0")
+    #expect(SocraticJournal.version == "2.0.0")
 }
