@@ -70,9 +70,9 @@ public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryP
         return streak
     }
 
-    // MARK: - Private
+    // MARK: - Aggregate Queries
 
-    private func getAllSessions() async throws -> [BreathSession] {
+    public func getAllSessions() async throws -> [BreathSession] {
         guard let data = defaults.data(forKey: sessionsKey) else { return [] }
         do {
             return try decoder.decode([BreathSession].self, from: data)
@@ -80,4 +80,60 @@ public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryP
             return []
         }
     }
+
+    public func getTotalMinutes() async throws -> Double {
+        let sessions = try await getAllSessions()
+        return sessions.reduce(0) { $0 + $1.totalDuration } / 60.0
+    }
+
+    public func getTotalSessions() async throws -> Int {
+        let sessions = try await getAllSessions()
+        return sessions.count
+    }
+
+    public func getLongestStreak() async throws -> Int {
+        let allSessions = try await getAllSessions()
+        guard !allSessions.isEmpty else { return 0 }
+
+        let calendar = Calendar.current
+        let uniqueDays = Set(allSessions.map { calendar.startOfDay(for: $0.startedAt) })
+        let sortedDays = uniqueDays.sorted()
+
+        var longest = 1
+        var current = 1
+
+        for i in 1..<sortedDays.count {
+            let diff = calendar.dateComponents([.day], from: sortedDays[i - 1], to: sortedDays[i]).day ?? 0
+            if diff == 1 {
+                current += 1
+                longest = max(longest, current)
+            } else {
+                current = 1
+            }
+        }
+
+        return longest
+    }
+
+    public func getSessionsByPattern() async throws -> [String: [BreathSession]] {
+        let sessions = try await getAllSessions()
+        return Dictionary(grouping: sessions, by: { $0.patternId })
+    }
+
+    public func getSessionsForMonth(year: Int, month: Int) async throws -> [BreathSession] {
+        let calendar = Calendar.current
+        var startComponents = DateComponents()
+        startComponents.year = year
+        startComponents.month = month
+        startComponents.day = 1
+
+        guard let startDate = calendar.date(from: startComponents),
+              let endDate = calendar.date(byAdding: .month, value: 1, to: startDate) else {
+            return []
+        }
+
+        let allSessions = try await getAllSessions()
+        return allSessions.filter { $0.startedAt >= startDate && $0.startedAt < endDate }
+    }
+
 }
