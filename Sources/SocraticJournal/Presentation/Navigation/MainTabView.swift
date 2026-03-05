@@ -68,7 +68,8 @@ public struct MainTabView: View {
                     BreatheView(
                         sessionRepository: sessionRepository,
                         settingsRepository: settingsRepository,
-                        analyticsService: analyticsService
+                        analyticsService: analyticsService,
+                        selectedTab: $selectedTab
                     )
                 case .learn:
                     LearnView()
