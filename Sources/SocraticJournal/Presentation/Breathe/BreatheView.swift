@@ -8,17 +8,25 @@ import SwiftUI
 /// Full Breathe tab screen with pattern selector, wave animation, and pacing controls
 public struct BreatheView: View {
     @State private var viewModel: BreatheViewModel
+    @State private var completedSession: BreathSession?
+    @State private var completedPattern: BreathPattern?
+    @Binding var pendingPatternId: String?
+    @Binding var pendingDuration: Int?
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol? = nil,
-        analyticsService: AnalyticsServiceProtocol? = nil
+        analyticsService: AnalyticsServiceProtocol? = nil,
+        pendingPatternId: Binding<String?> = .constant(nil),
+        pendingDuration: Binding<Int?> = .constant(nil)
     ) {
         _viewModel = State(initialValue: BreatheViewModel(
             sessionRepository: sessionRepository,
             settingsRepository: settingsRepository,
             analyticsService: analyticsService
         ))
+        _pendingPatternId = pendingPatternId
+        _pendingDuration = pendingDuration
     }
 
     public var body: some View {
@@ -54,10 +62,39 @@ public struct BreatheView: View {
         }
         .background(AppColors.background)
         .task { await viewModel.loadSettings() }
+        .onChange(of: pendingPatternId) { _, patternId in
+            if let patternId {
+                viewModel.preSelectForProgram(
+                    patternId: patternId,
+                    durationMinutes: pendingDuration ?? 5
+                )
+                pendingPatternId = nil
+                pendingDuration = nil
+            }
+        }
         .onChange(of: viewModel.engine.sessionFinished) { _, finished in
             if finished {
+                completedPattern = viewModel.selectedPattern
                 viewModel.handleSessionFinished()
             }
+        }
+        .onChange(of: viewModel.lastCompletedSession?.id) { _, _ in
+            if let session = viewModel.lastCompletedSession {
+                completedSession = session
+                completedPattern = completedPattern ?? viewModel.selectedPattern
+            }
+        }
+        .fullScreenCover(item: $completedSession) { session in
+            SessionCompleteOverlay(
+                session: session,
+                pattern: completedPattern ?? viewModel.selectedPattern,
+                previousDailyTotal: viewModel.previousDailyTotal,
+                dailyGoalMinutes: viewModel.dailyGoalMinutes,
+                onDismiss: {
+                    completedSession = nil
+                    completedPattern = nil
+                }
+            )
         }
     }
 

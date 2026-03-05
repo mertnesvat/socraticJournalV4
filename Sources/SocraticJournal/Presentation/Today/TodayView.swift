@@ -9,8 +9,11 @@ import SwiftUI
 public struct TodayView: View {
     @State private var viewModel: TodayViewModel
     @State private var showSettings = false
+    @State private var showBOLTTest = false
+    @State private var showProgress = false
     @Environment(ThemeManager.self) private var themeManager
 
+    private let sessionRepository: BreathSessionRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol
     private let analyticsService: AnalyticsServiceProtocol
@@ -21,6 +24,7 @@ public struct TodayView: View {
         notificationService: NotificationServiceProtocol,
         analyticsService: AnalyticsServiceProtocol
     ) {
+        self.sessionRepository = sessionRepository
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
         self.analyticsService = analyticsService
@@ -39,6 +43,16 @@ public struct TodayView: View {
 
                 // Streak + Week grid
                 streakAndWeekSection
+                HairlineDivider()
+
+                // BOLT Score card
+                BOLTScoreCard(
+                    latestScore: viewModel.latestBOLTScore,
+                    onTap: { showBOLTTest = true }
+                )
+                .padding(.horizontal, AppSpacing.screenPadding)
+                .padding(.vertical, AppSpacing.md)
+
                 HairlineDivider()
 
                 // Today's sessions
@@ -63,6 +77,22 @@ public struct TodayView: View {
             )
             .environment(themeManager)
         }
+        .sheet(isPresented: $showProgress) {
+            ProgressHistoryView(
+                sessionRepository: sessionRepository,
+                settingsRepository: settingsRepository
+            )
+        }
+        .sheet(isPresented: $showBOLTTest) {
+            BOLTTestView(
+                sessionRepository: sessionRepository,
+                latestScore: viewModel.latestBOLTScore,
+                onDismiss: {
+                    showBOLTTest = false
+                    Task { await viewModel.loadData() }
+                }
+            )
+        }
     }
 
     // MARK: - Date Header
@@ -83,6 +113,15 @@ public struct TodayView: View {
                 }
 
                 Spacer()
+
+                Button {
+                    showProgress = true
+                } label: {
+                    Image(systemName: "chart.bar")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundStyle(AppColors.accent)
+                }
+                .buttonStyle(.plain)
 
                 Button {
                     showSettings = true
