@@ -31,6 +31,10 @@ public final class ProgressViewModel {
 
     private(set) var patternBreakdown: [PatternStat] = []
 
+    // MARK: - Milestones State
+
+    private(set) var milestones: [Milestone] = Milestone.allMilestones
+
     // MARK: - Types
 
     struct DayBar: Identifiable {
@@ -76,11 +80,13 @@ public final class ProgressViewModel {
     // MARK: - Dependencies
 
     private let sessionRepository: BreathSessionRepositoryProtocol
+    private let milestonesKey = "com.breathe.milestones"
 
     // MARK: - Init
 
     public init(sessionRepository: BreathSessionRepositoryProtocol) {
         self.sessionRepository = sessionRepository
+        loadMilestonesFromDefaults()
     }
 
     // MARK: - Actions
@@ -96,6 +102,7 @@ public final class ProgressViewModel {
             weeklyTotalMinutes = weeklyBarData.reduce(0) { $0 + $1.minutes }
             try await loadMonthData()
             try await loadPatternBreakdown()
+            try await checkMilestones()
         } catch {
             self.error = error
         }
@@ -269,5 +276,129 @@ public final class ProgressViewModel {
                 proportion: maxMinutes > 0 ? stat.minutes / maxMinutes : 0
             )
         }
+    }
+
+    // MARK: - Private -- Milestones
+
+    private func loadMilestonesFromDefaults() {
+        guard let data = UserDefaults.standard.data(forKey: milestonesKey),
+              let saved = try? JSONDecoder().decode([Milestone].self, from: data) else {
+            milestones = Milestone.allMilestones
+            return
+        }
+        // Merge saved unlock state into canonical milestones
+        let savedMap = Dictionary(uniqueKeysWithValues: saved.map { ($0.id, $0) })
+        milestones = Milestone.allMilestones.map { template in
+            if let saved = savedMap[template.id], saved.isUnlocked {
+                var m = template
+                m.isUnlocked = true
+                m.unlockedAt = saved.unlockedAt
+                return m
+            }
+            return template
+        }
+    }
+
+    private func saveMilestonesToDefaults() {
+        if let data = try? JSONEncoder().encode(milestones) {
+            UserDefaults.standard.set(data, forKey: milestonesKey)
+        }
+    }
+
+    private func checkMilestones() async throws {
+        let allSessions = try await sessionRepository.getAllSessions()
+        let totalMins = totalMinutes
+        let streak = longestStreak
+        let patternKeys = try await sessionRepository.getSessionsByPattern().keys
+        let now = Date()
+
+        var changed = false
+
+        // 1. First Breath: 1+ sessions
+        if !milestones.first(where: { $0.id == "first_breath" })!.isUnlocked && allSessions.count >= 1 {
+            unlock("first_breath", at: now)
+            changed = true
+        }
+
+        // 2. Week One: 7 consecutive days
+        if !milestones.first(where: { $0.id == "week_one" })!.isUnlocked && streak >= 7 {
+            unlock("week_one", at: now)
+            changed = true
+        }
+
+        // 3. Century: 100 total minutes
+        if !milestones.first(where: { $0.id == "century" })!.isUnlocked && totalMins >= 100 {
+            unlock("century", at: now)
+            changed = true
+        }
+
+        // 4. Pattern Explorer: all 8 patterns used
+        if !milestones.first(where: { $0.id == "pattern_explorer" })!.isUnlocked && patternKeys.count >= 8 {
+            unlock("pattern_explorer", at: now)
+            changed = true
+        }
+
+        // 5. Dawn Breather: session before 7 AM
+        let calendar = Calendar.current
+        if !milestones.first(where: { $0.id == "dawn_breather" })!.isUnlocked {
+            let hasDawnSession = allSessions.contains { session in
+                calendar.component(.hour, from: session.startedAt) < 7
+            }
+            if hasDawnSession {
+                unlock("dawn_breather", at: now)
+                changed = true
+            }
+        }
+
+        // 6. Night Owl: session at or after 10 PM
+        if !milestones.first(where: { $0.id == "night_owl" })!.isUnlocked {
+            let hasNightSession = allSessions.contains { session in
+                calendar.component(.hour, from: session.startedAt) >= 22
+            }
+            if hasNightSession {
+                unlock("night_owl", at: now)
+                changed = true
+            }
+        }
+
+        // 7. Marathon: 20-minute session (1200 seconds)
+        if !milestones.first(where: { $0.id == "marathon" })!.isUnlocked {
+            let hasMarathon = allSessions.contains { $0.totalDuration >= 1200 }
+            if hasMarathon {
+                unlock("marathon", at: now)
+                changed = true
+            }
+        }
+
+        // 8. Monthly Master: 30 consecutive days
+        if !milestones.first(where: { $0.id == "monthly_master" })!.isUnlocked && streak >= 30 {
+            unlock("monthly_master", at: now)
+            changed = true
+        }
+
+        // 9. Thousand Minutes: 1000 total
+        if !milestones.first(where: { $0.id == "thousand_minutes" })!.isUnlocked && totalMins >= 1000 {
+            unlock("thousand_minutes", at: now)
+            changed = true
+        }
+
+        // 10. Breath Master: all other 9 unlocked
+        if !milestones.first(where: { $0.id == "breath_master" })!.isUnlocked {
+            let otherMilestones = milestones.filter { $0.id != "breath_master" }
+            if otherMilestones.allSatisfy({ $0.isUnlocked }) {
+                unlock("breath_master", at: now)
+                changed = true
+            }
+        }
+
+        if changed {
+            saveMilestonesToDefaults()
+        }
+    }
+
+    private func unlock(_ milestoneId: String, at date: Date) {
+        guard let index = milestones.firstIndex(where: { $0.id == milestoneId }) else { return }
+        milestones[index].isUnlocked = true
+        milestones[index].unlockedAt = date
     }
 }

@@ -39,6 +39,10 @@ public struct SessionProgressView: View {
 
                     // Pattern breakdown
                     patternBreakdownSection
+                    HairlineDivider()
+
+                    // Milestones
+                    milestonesSection
                 }
 
                 Spacer(minLength: AppSpacing.sectionGap)
@@ -177,6 +181,12 @@ public struct SessionProgressView: View {
                 .padding(.bottom, AppSpacing.sm)
             }
         }
+    }
+
+    // MARK: - Milestones
+
+    private var milestonesSection: some View {
+        MilestoneGridSection(milestones: viewModel.milestones)
     }
 
     // MARK: - Empty State
