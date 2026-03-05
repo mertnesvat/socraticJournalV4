@@ -9,6 +9,7 @@ import SwiftUI
 public struct TodayView: View {
     @State private var viewModel: TodayViewModel
     @State private var showSettings = false
+    @State private var showProgramBrowser = false
     @Environment(ThemeManager.self) private var themeManager
 
     private let settingsRepository: SettingsRepositoryProtocol
@@ -69,11 +70,18 @@ public struct TodayView: View {
                     // See Progress link
                     seeProgressLink
 
+                    // Browse Programs link
+                    browseProgramsLink
+                    HairlineDivider()
+
                     Spacer(minLength: AppSpacing.sectionGap)
                 }
             }
             .background(AppColors.background)
             .task { await viewModel.loadData() }
+            .sheet(isPresented: $showProgramBrowser) {
+                ProgramBrowserView()
+            }
             .sheet(isPresented: $showSettings) {
                 SettingsView(
                     viewModel: SettingsViewModel(
@@ -278,6 +286,23 @@ public struct TodayView: View {
             .padding(.vertical, AppSpacing.cardPadding)
         }
         .buttonStyle(.plain)
+    }
+
+    // MARK: - Browse Programs
+
+    private var browseProgramsLink: some View {
+        Button {
+            showProgramBrowser = true
+        } label: {
+            Text("BROWSE PROGRAMS")
+                .font(.system(size: 11, weight: .semibold))
+                .tracking(1.0)
+                .foregroundStyle(AppColors.accent)
+        }
+        .buttonStyle(.plain)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, AppSpacing.cardPadding)
+        .padding(.vertical, AppSpacing.sm)
     }
 
     // MARK: - Goal Progress
