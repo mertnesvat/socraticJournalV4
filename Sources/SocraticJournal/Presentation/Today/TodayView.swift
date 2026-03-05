@@ -67,6 +67,22 @@ public struct TodayView: View {
                     goalProgressSection
                     HairlineDivider()
 
+                    // Active program card or browse link
+                    if let program = viewModel.activeProgram, let progress = viewModel.activeProgress {
+                        ActiveProgramCard(
+                            program: program,
+                            progress: progress,
+                            todayCompleted: viewModel.todayProgramDayCompleted,
+                            onStartSession: {
+                                onNavigateToBreathe?(
+                                    program.days[progress.currentDay - 1].patternId,
+                                    program.days[progress.currentDay - 1].durationMinutes
+                                )
+                            }
+                        )
+                        HairlineDivider()
+                    }
+
                     // See Progress link
                     seeProgressLink
 
@@ -80,7 +96,9 @@ public struct TodayView: View {
             .background(AppColors.background)
             .task { await viewModel.loadData() }
             .sheet(isPresented: $showProgramBrowser) {
-                ProgramBrowserView()
+                ProgramBrowserView(
+                    progressRepository: UserDefaultsProgramProgressRepository()
+                )
             }
             .sheet(isPresented: $showSettings) {
                 SettingsView(
@@ -291,18 +309,38 @@ public struct TodayView: View {
     // MARK: - Browse Programs
 
     private var browseProgramsLink: some View {
-        Button {
-            showProgramBrowser = true
+        NavigationLink {
+            ProgramBrowserView(
+                progressRepository: UserDefaultsProgramProgressRepository()
+            )
         } label: {
-            Text("BROWSE PROGRAMS")
-                .font(.system(size: 11, weight: .semibold))
-                .tracking(1.0)
-                .foregroundStyle(AppColors.accent)
+            HStack(spacing: AppSpacing.sm) {
+                Image(systemName: "list.bullet.rectangle")
+                    .font(.system(size: 16))
+                    .foregroundStyle(AppColors.accent)
+                    .frame(width: 32, height: 32)
+                    .background(AppColors.accentLight)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Guided Programs")
+                        .font(.system(size: 14, weight: .semibold, design: .serif))
+                        .foregroundStyle(AppColors.textPrimary)
+
+                    Text("Multi-day breath training journeys")
+                        .font(.system(size: 11))
+                        .foregroundStyle(AppColors.textTertiary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(AppColors.textTertiary)
+            }
+            .padding(AppSpacing.cardPadding)
         }
         .buttonStyle(.plain)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, AppSpacing.cardPadding)
-        .padding(.vertical, AppSpacing.sm)
     }
 
     // MARK: - Goal Progress

@@ -19,6 +19,11 @@ public final class TodayViewModel {
     private(set) var isLoading: Bool = false
     private(set) var recommendation: PatternRecommendation = PatternRecommendationService.recommend()
 
+    // Active program state
+    private(set) var activeProgress: ProgramProgress?
+    private(set) var activeProgram: BreathProgram?
+    private(set) var todayProgramDayCompleted: Bool = false
+
     var goalReached: Bool {
         totalMinutesToday >= Double(dailyGoalMinutes)
     }
@@ -40,15 +45,18 @@ public final class TodayViewModel {
 
     let sessionRepository: BreathSessionRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
+    private let progressRepository: ProgramProgressRepositoryProtocol
 
     // MARK: - Init
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
-        settingsRepository: SettingsRepositoryProtocol
+        settingsRepository: SettingsRepositoryProtocol,
+        progressRepository: ProgramProgressRepositoryProtocol = UserDefaultsProgramProgressRepository()
     ) {
         self.sessionRepository = sessionRepository
         self.settingsRepository = settingsRepository
+        self.progressRepository = progressRepository
     }
 
     // MARK: - Actions
@@ -63,10 +71,38 @@ public final class TodayViewModel {
             let settings = try await settingsRepository.getSettings()
             dailyGoalMinutes = settings.dailyGoalMinutes
             weekDays = buildWeekDays()
+
+            // Load active program progress
+            await loadActiveProgram()
         } catch {
             // Silently handle — dashboard degrades gracefully
         }
         isLoading = false
+    }
+
+    private func loadActiveProgram() async {
+        do {
+            if let progress = try await progressRepository.getActiveProgram() {
+                activeProgress = progress
+                activeProgram = BreathProgram.allPrograms.first { $0.id == progress.programId }
+                // Check if today's program day was already completed
+                todayProgramDayCompleted = checkTodayProgramDayCompleted(progress: progress)
+            } else {
+                activeProgress = nil
+                activeProgram = nil
+                todayProgramDayCompleted = false
+            }
+        } catch {
+            // Degrade gracefully
+        }
+    }
+
+    private func checkTodayProgramDayCompleted(progress: ProgramProgress) -> Bool {
+        guard activeProgram != nil else { return false }
+        // If the last practice was today and the previous day is in completedDays,
+        // then today's program day has been completed
+        guard let lastPracticed = progress.lastPracticedAt else { return false }
+        return Calendar.current.isDateInToday(lastPracticed) && progress.completedDays.contains(progress.currentDay - 1)
     }
 
     // MARK: - Week Days
