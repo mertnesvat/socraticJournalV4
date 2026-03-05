@@ -38,7 +38,7 @@ public final class TodayViewModel {
 
     // MARK: - Dependencies
 
-    private let sessionRepository: BreathSessionRepositoryProtocol
+    let sessionRepository: BreathSessionRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
 
     // MARK: - Init
