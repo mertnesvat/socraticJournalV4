@@ -26,7 +26,7 @@ public struct ActiveProgramCard: View {
 
     /// The current day's schedule entry
     private var currentDayEntry: ProgramDay? {
-        program.days.first { $0.id == progress.currentDay }
+        program.days.first { $0.dayNumber == progress.currentDay }
     }
 
     public var body: some View {
@@ -38,7 +38,7 @@ public struct ActiveProgramCard: View {
                 .foregroundStyle(AppColors.textTertiary)
 
             // Program name
-            Text(program.name)
+            Text(program.title)
                 .font(.system(size: 15, weight: .bold, design: .serif))
                 .foregroundStyle(AppColors.textPrimary)
 
@@ -86,7 +86,7 @@ public struct ActiveProgramCard: View {
                         .foregroundStyle(AppColors.textTertiary)
 
                     HStack(spacing: 6) {
-                        Text(dayEntry.pattern?.name ?? dayEntry.patternId)
+                        Text(BreathProgram.patternName(for: dayEntry.patternId))
                             .font(.system(size: 13, weight: .semibold))
                             .foregroundStyle(AppColors.textPrimary)
 
@@ -98,7 +98,7 @@ public struct ActiveProgramCard: View {
                             .foregroundStyle(AppColors.textSecondary)
                     }
 
-                    Text(dayEntry.focus)
+                    Text(dayEntry.focusNote)
                         .font(.system(size: 11))
                         .foregroundStyle(AppColors.textTertiary)
                         .lineLimit(1)
@@ -127,7 +127,7 @@ public struct ActiveProgramCard: View {
 #Preview {
     VStack(spacing: 0) {
         ActiveProgramCard(
-            program: .calmFoundation,
+            program: .nasalBreathingReset,
             progress: ProgramProgress(
                 programId: "calm-foundation",
                 currentDay: 3,
@@ -141,7 +141,7 @@ public struct ActiveProgramCard: View {
         HairlineDivider()
 
         ActiveProgramCard(
-            program: .calmFoundation,
+            program: .nasalBreathingReset,
             progress: ProgramProgress(
                 programId: "calm-foundation",
                 currentDay: 4,

@@ -260,7 +260,8 @@ enum LearnContent {
             tag: "History",
             tagColorHex: "7A6030",
             readTime: "6 min",
-            body: "For 2 million years, our ancestors had wide jaws, straight teeth, and spacious nasal passages. Then, about 300 years ago, something changed. The industrial revolution brought processed food \u{2014} softer, requiring less chewing. Within generations, human jaws narrowed, teeth crowded, and airways shrank. George Catlin documented this in 1870 among Indigenous peoples who had adopted Western diets. The skulls tell the story: pre-industrial humans rarely had crooked teeth. The modern epidemic of sleep apnea, snoring, and mouth breathing is, in part, an architectural problem \u{2014} our airways are literally too small for the air we need. James Nestor\u{2019}s experiment with Stanford showed that just 10 days of forced mouth breathing raised blood pressure, reduced blood oxygen, and increased snoring by 4,800%."
+            body: "For 2 million years, our ancestors had wide jaws, straight teeth, and spacious nasal passages. Then, about 300 years ago, something changed. The industrial revolution brought processed food \u{2014} softer, requiring less chewing. Within generations, human jaws narrowed, teeth crowded, and airways shrank. George Catlin documented this in 1870 among Indigenous peoples who had adopted Western diets. The skulls tell the story: pre-industrial humans rarely had crooked teeth. The modern epidemic of sleep apnea, snoring, and mouth breathing is, in part, an architectural problem \u{2014} our airways are literally too small for the air we need. James Nestor\u{2019}s experiment with Stanford showed that just 10 days of forced mouth breathing raised blood pressure, reduced blood oxygen, and increased snoring by 4,800%.",
+            category: .history
         ),
         Article(
             title: "Nitric oxide \u{2014} the miracle molecule",
@@ -268,7 +269,8 @@ enum LearnContent {
             tag: "Science",
             tagColorHex: "2D5F5D",
             readTime: "4 min",
-            body: "In 1998, three scientists won the Nobel Prize for discovering nitric oxide\u{2019}s role in the body. Your paranasal sinuses produce it continuously \u{2014} but only when you breathe through your nose. NO dilates blood vessels (lowering blood pressure), improves oxygen transfer in the lungs, and has direct antimicrobial properties. Humming increases NO production by 15x. This is why many breathing traditions involve nasal breathing with vocalization. When you breathe through your mouth, you bypass this entire pharmacy. The military has studied nasal NO for its ability to prevent respiratory infections in close quarters. It\u{2019}s one of the strongest arguments for nose-over-mouth breathing."
+            body: "In 1998, three scientists won the Nobel Prize for discovering nitric oxide\u{2019}s role in the body. Your paranasal sinuses produce it continuously \u{2014} but only when you breathe through your nose. NO dilates blood vessels (lowering blood pressure), improves oxygen transfer in the lungs, and has direct antimicrobial properties. Humming increases NO production by 15x. This is why many breathing traditions involve nasal breathing with vocalization. When you breathe through your mouth, you bypass this entire pharmacy. The military has studied nasal NO for its ability to prevent respiratory infections in close quarters. It\u{2019}s one of the strongest arguments for nose-over-mouth breathing.",
+            category: .fundamentals
         ),
         Article(
             title: "Box Breathing \u{2014} the Navy SEAL secret",
@@ -276,7 +278,8 @@ enum LearnContent {
             tag: "Pattern",
             tagColorHex: "C4502A",
             readTime: "5 min",
-            body: "Mark Divine, a retired Navy SEAL commander, introduced Box Breathing to the special operations community in the early 2000s. The pattern \u{2014} 4 seconds inhale, 4 hold, 4 exhale, 4 hold \u{2014} works because of the holds. During a hold, CO\u{2082} rises slightly, which triggers a mild stress response. But the structured pattern teaches the nervous system that this stress is manageable. Over weeks of practice, your CO\u{2082} tolerance increases, and your baseline anxiety decreases. The hold phases also demand attentional control \u{2014} you cannot hold your breath and ruminate simultaneously. This is why Box Breathing is prescribed before combat operations, high-stakes negotiations, and surgical procedures. The 4-4-4-4 ratio isn\u{2019}t magic \u{2014} it\u{2019}s the equality of phases that matters."
+            body: "Mark Divine, a retired Navy SEAL commander, introduced Box Breathing to the special operations community in the early 2000s. The pattern \u{2014} 4 seconds inhale, 4 hold, 4 exhale, 4 hold \u{2014} works because of the holds. During a hold, CO\u{2082} rises slightly, which triggers a mild stress response. But the structured pattern teaches the nervous system that this stress is manageable. Over weeks of practice, your CO\u{2082} tolerance increases, and your baseline anxiety decreases. The hold phases also demand attentional control \u{2014} you cannot hold your breath and ruminate simultaneously. This is why Box Breathing is prescribed before combat operations, high-stakes negotiations, and surgical procedures. The 4-4-4-4 ratio isn\u{2019}t magic \u{2014} it\u{2019}s the equality of phases that matters.",
+            category: .patterns
         ),
         Article(
             title: "The Wim Hof protocol \u{2014} science vs spectacle",
@@ -284,7 +287,8 @@ enum LearnContent {
             tag: "Advanced",
             tagColorHex: "6B4C8A",
             readTime: "7 min",
-            body: "Wim Hof\u{2019}s fame rests on spectacle \u{2014} swimming under ice, climbing Everest in shorts. But the science beneath is real and peer-reviewed. A 2014 study at Radboud University showed that Hof-trained subjects could voluntarily suppress their innate immune response \u{2014} something previously thought impossible. The mechanism: 30 rounds of rapid breathing (Tummo-style) depletes CO\u{2082}, creating respiratory alkalosis. This alkaline blood shift triggers adrenaline release, which suppresses inflammatory cytokines. The breath hold that follows creates a rebound \u{2014} CO\u{2082} floods back, vasodilation occurs, and the body enters a heightened state. The risks are real: loss of consciousness is possible during holds (never in water), and the hyperventilation can trigger panic in susceptible individuals. The practice builds resilience, not relaxation \u{2014} it\u{2019}s the opposite of slow breathing."
+            body: "Wim Hof\u{2019}s fame rests on spectacle \u{2014} swimming under ice, climbing Everest in shorts. But the science beneath is real and peer-reviewed. A 2014 study at Radboud University showed that Hof-trained subjects could voluntarily suppress their innate immune response \u{2014} something previously thought impossible. The mechanism: 30 rounds of rapid breathing (Tummo-style) depletes CO\u{2082}, creating respiratory alkalosis. This alkaline blood shift triggers adrenaline release, which suppresses inflammatory cytokines. The breath hold that follows creates a rebound \u{2014} CO\u{2082} floods back, vasodilation occurs, and the body enters a heightened state. The risks are real: loss of consciousness is possible during holds (never in water), and the hyperventilation can trigger panic in susceptible individuals. The practice builds resilience, not relaxation \u{2014} it\u{2019}s the opposite of slow breathing.",
+            category: .advanced
         ),
         Article(
             title: "Buteyko \u{2014} the doctor who said we breathe too much",
@@ -292,7 +296,8 @@ enum LearnContent {
             tag: "History",
             tagColorHex: "7A6030",
             readTime: "6 min",
-            body: "In 1952, Konstantin Buteyko was monitoring critically ill patients in a Moscow hospital when he noticed something strange: the sickest patients breathed the most. Not less \u{2014} more. He spent the next 40 years developing a theory: modern humans chronically over-breathe, depleting CO\u{2082} and paradoxically reducing oxygen delivery to tissues (via the Bohr Effect). His Reduced Breathing technique \u{2014} deliberately taking smaller, lighter breaths \u{2014} was dismissed by Western medicine for decades. Then the evidence accumulated. A 2008 Cochrane review found Buteyko breathing reduced asthma medication use by 50-90% in clinical trials. The key metric he invented \u{2014} the Control Pause (comfortable breath-hold time after a normal exhale) \u{2014} remains the best proxy for CO\u{2082} tolerance. A healthy CP is 25-40 seconds. Most chronic mouth breathers score under 15."
+            body: "In 1952, Konstantin Buteyko was monitoring critically ill patients in a Moscow hospital when he noticed something strange: the sickest patients breathed the most. Not less \u{2014} more. He spent the next 40 years developing a theory: modern humans chronically over-breathe, depleting CO\u{2082} and paradoxically reducing oxygen delivery to tissues (via the Bohr Effect). His Reduced Breathing technique \u{2014} deliberately taking smaller, lighter breaths \u{2014} was dismissed by Western medicine for decades. Then the evidence accumulated. A 2008 Cochrane review found Buteyko breathing reduced asthma medication use by 50-90% in clinical trials. The key metric he invented \u{2014} the Control Pause (comfortable breath-hold time after a normal exhale) \u{2014} remains the best proxy for CO\u{2082} tolerance. A healthy CP is 25-40 seconds. Most chronic mouth breathers score under 15.",
+            category: .history
         ),
         Article(
             title: "The vagus nerve \u{2014} your body\u{2019}s brake pedal",
@@ -300,7 +305,8 @@ enum LearnContent {
             tag: "Science",
             tagColorHex: "2D5F5D",
             readTime: "5 min",
-            body: "The vagus nerve is the longest cranial nerve in the body, running from the brainstem to the gut. It controls heart rate, digestion, immune response, and mood. Exhaling stimulates it directly \u{2014} which is why every calming breath pattern emphasises the exhale. The mechanism is mechanical: your diaphragm descends during inhalation (compressing abdominal organs, increasing heart rate) and rises during exhalation (releasing pressure, decreasing heart rate). This is called respiratory sinus arrhythmia, and it\u{2019}s the basis of HRV. When you breathe at 5.5 BPM, the vagal stimulation from each exhale is maximised. People with high vagal tone \u{2014} measured by HRV \u{2014} recover faster from stress, sleep better, digest more efficiently, and report higher emotional wellbeing. You can train vagal tone. The tool is your breath."
+            body: "The vagus nerve is the longest cranial nerve in the body, running from the brainstem to the gut. It controls heart rate, digestion, immune response, and mood. Exhaling stimulates it directly \u{2014} which is why every calming breath pattern emphasises the exhale. The mechanism is mechanical: your diaphragm descends during inhalation (compressing abdominal organs, increasing heart rate) and rises during exhalation (releasing pressure, decreasing heart rate). This is called respiratory sinus arrhythmia, and it\u{2019}s the basis of HRV. When you breathe at 5.5 BPM, the vagal stimulation from each exhale is maximised. People with high vagal tone \u{2014} measured by HRV \u{2014} recover faster from stress, sleep better, digest more efficiently, and report higher emotional wellbeing. You can train vagal tone. The tool is your breath.",
+            category: .fundamentals
         ),
         Article(
             title: "Alternate nostril breathing \u{2014} ancient practice, modern neuroscience",
@@ -308,7 +314,8 @@ enum LearnContent {
             tag: "Pattern",
             tagColorHex: "C4502A",
             readTime: "5 min",
-            body: "Nadi Shodhana (alternate nostril breathing) appears in the Hatha Yoga Pradipika from the 15th century. Modern neuroscience has validated its core claim: each nostril preferentially activates the opposite brain hemisphere. Right nostril breathing increases left-hemisphere activity (logic, language, analytical thinking) and sympathetic arousal. Left nostril breathing increases right-hemisphere activity (creativity, spatial awareness, intuition) and parasympathetic activation. The nasal cycle \u{2014} your body\u{2019}s natural alternation between nostrils every 90-120 minutes \u{2014} reflects this hemispheric oscillation. Alternate nostril breathing manually overrides the cycle, creating bilateral balance. Studies show it reduces blood pressure, improves cognitive performance, and decreases perceived stress more effectively than simple slow breathing alone."
+            body: "Nadi Shodhana (alternate nostril breathing) appears in the Hatha Yoga Pradipika from the 15th century. Modern neuroscience has validated its core claim: each nostril preferentially activates the opposite brain hemisphere. Right nostril breathing increases left-hemisphere activity (logic, language, analytical thinking) and sympathetic arousal. Left nostril breathing increases right-hemisphere activity (creativity, spatial awareness, intuition) and parasympathetic activation. The nasal cycle \u{2014} your body\u{2019}s natural alternation between nostrils every 90-120 minutes \u{2014} reflects this hemispheric oscillation. Alternate nostril breathing manually overrides the cycle, creating bilateral balance. Studies show it reduces blood pressure, improves cognitive performance, and decreases perceived stress more effectively than simple slow breathing alone.",
+            category: .patterns
         ),
         Article(
             title: "The future of breathing \u{2014} what\u{2019}s next",
@@ -316,7 +323,8 @@ enum LearnContent {
             tag: "Advanced",
             tagColorHex: "6B4C8A",
             readTime: "4 min",
-            body: "Breathing science is entering a new era. Wearable devices now measure respiratory rate, HRV, and blood oxygen in real-time \u{2014} giving us feedback loops our ancestors never had. Researchers at Stanford are studying how specific breathing patterns can modulate gene expression through epigenetic mechanisms. The military is investing in respiratory training for cognitive performance under extreme conditions. And the simplest intervention remains the most powerful: breathe through your nose, breathe slowly, breathe less. James Nestor\u{2019}s central insight isn\u{2019}t about any single technique \u{2014} it\u{2019}s that the quality of your breathing determines the quality of your health. Every breath is a choice."
+            body: "Breathing science is entering a new era. Wearable devices now measure respiratory rate, HRV, and blood oxygen in real-time \u{2014} giving us feedback loops our ancestors never had. Researchers at Stanford are studying how specific breathing patterns can modulate gene expression through epigenetic mechanisms. The military is investing in respiratory training for cognitive performance under extreme conditions. And the simplest intervention remains the most powerful: breathe through your nose, breathe slowly, breathe less. James Nestor\u{2019}s central insight isn\u{2019}t about any single technique \u{2014} it\u{2019}s that the quality of your breathing determines the quality of your health. Every breath is a choice.",
+            category: .advanced
         ),
     ]
 }

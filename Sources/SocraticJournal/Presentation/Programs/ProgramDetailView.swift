@@ -55,7 +55,7 @@ public struct ProgramDetailView: View {
                 Task { await viewModel.abandonProgram() }
             }
         } message: {
-            Text("Your progress in \(viewModel.program.name) will be lost. This cannot be undone.")
+            Text("Your progress in \(viewModel.program.title) will be lost. This cannot be undone.")
         }
     }
 
@@ -64,7 +64,7 @@ public struct ProgramDetailView: View {
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: AppSpacing.sm) {
-                Image(systemName: viewModel.program.iconSystemName)
+                Image(systemName: viewModel.program.iconName)
                     .font(.system(size: 24))
                     .foregroundStyle(AppColors.accent)
                     .frame(width: 44, height: 44)
@@ -72,7 +72,7 @@ public struct ProgramDetailView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(viewModel.program.name)
+                    Text(viewModel.program.title)
                         .font(.system(size: 22, weight: .bold, design: .serif))
                         .foregroundStyle(AppColors.textPrimary)
                         .tracking(-0.3)
@@ -84,7 +84,7 @@ public struct ProgramDetailView: View {
             }
 
             HStack(spacing: AppSpacing.md) {
-                Label("\(viewModel.program.totalDays) days", systemImage: "calendar")
+                Label("\(viewModel.program.durationDays) days", systemImage: "calendar")
                     .font(.system(size: 12))
                     .foregroundStyle(AppColors.textTertiary)
 
@@ -189,8 +189,8 @@ public struct ProgramDetailView: View {
     }
 
     private func dayRow(_ day: ProgramDay) -> some View {
-        let isCompleted = viewModel.isDayCompleted(day.id)
-        let isCurrent = viewModel.isCurrentDay(day.id)
+        let isCompleted = viewModel.isDayCompleted(day.dayNumber)
+        let isCurrent = viewModel.isCurrentDay(day.dayNumber)
 
         return HStack(spacing: AppSpacing.sm) {
             // Day number / status indicator
@@ -224,11 +224,11 @@ public struct ProgramDetailView: View {
                     }
                 }
 
-                Text("\(day.pattern?.name ?? day.patternId) \u{00B7} \(day.durationMinutes) min")
+                Text("\(BreathProgram.patternName(for: day.patternId)) \u{00B7} \(day.durationMinutes) min")
                     .font(.system(size: 11))
                     .foregroundStyle(AppColors.textSecondary)
 
-                Text(day.focus)
+                Text(day.focusNote)
                     .font(.system(size: 11))
                     .foregroundStyle(AppColors.textTertiary)
                     .lineLimit(1)
@@ -294,7 +294,7 @@ public struct ProgramDetailView: View {
 #Preview {
     NavigationStack {
         ProgramDetailView(
-            program: .calmFoundation,
+            program: .nasalBreathingReset,
             progressRepository: UserDefaultsProgramProgressRepository()
         )
     }

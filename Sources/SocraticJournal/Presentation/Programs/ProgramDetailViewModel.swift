@@ -56,7 +56,7 @@ public final class ProgramDetailViewModel {
 
     func startProgram() async {
         do {
-            try await progressRepository.startProgram(program.id, totalDays: program.totalDays)
+            try await progressRepository.startProgram(program.id, totalDays: program.durationDays)
             progress = try await progressRepository.getActiveProgram()
         } catch {
             self.error = "Could not start program"

@@ -55,94 +55,45 @@ public struct MainTabView: View {
     }
 
     public var body: some View {
-        VStack(spacing: 0) {
-            // Content area
-            ZStack {
-                switch selectedTab {
-                case .today:
-                    TodayView(
-                        sessionRepository: sessionRepository,
-                        settingsRepository: settingsRepository,
-                        notificationService: notificationService,
-                        analyticsService: analyticsService,
-                        onNavigateToBreathe: { patternId, durationMinutes in
-                            pendingPatternId = patternId
-                            pendingDurationMinutes = durationMinutes
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                selectedTab = .breathe
-                            }
-                        }
-                    )
-                case .breathe:
-                    BreatheView(
-                        sessionRepository: sessionRepository,
-                        settingsRepository: settingsRepository,
-                        analyticsService: analyticsService,
-                        selectedTab: $selectedTab,
-                        pendingPatternId: $pendingPatternId,
-                        pendingDurationMinutes: $pendingDurationMinutes
-                    )
-                case .learn:
-                    LearnView()
+        TabView(selection: $selectedTab) {
+            TodayView(
+                sessionRepository: sessionRepository,
+                settingsRepository: settingsRepository,
+                notificationService: notificationService,
+                analyticsService: analyticsService,
+                onNavigateToBreathe: { patternId, durationMinutes in
+                    pendingPatternId = patternId
+                    pendingDurationMinutes = durationMinutes
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        selectedTab = .breathe
+                    }
                 }
+            )
+            .tabItem {
+                Label("Today", systemImage: "circle.grid.2x1")
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .tag(MainTab.today)
 
-            // Tab bar
-            customTabBar
-        }
-        .ignoresSafeArea(.keyboard)
-    }
+            BreatheView(
+                sessionRepository: sessionRepository,
+                settingsRepository: settingsRepository,
+                analyticsService: analyticsService,
+                selectedTab: $selectedTab,
+                pendingPatternId: $pendingPatternId,
+                pendingDurationMinutes: $pendingDurationMinutes
+            )
+            .tabItem {
+                Label("Breathe", systemImage: "wind")
+            }
+            .tag(MainTab.breathe)
 
-    // MARK: - Editorial Tab Bar
-
-    private var customTabBar: some View {
-        VStack(spacing: 0) {
-            HairlineDivider()
-
-            HStack(spacing: 0) {
-                ForEach(MainTab.allCases, id: \.rawValue) { tab in
-                    tabBarButton(for: tab)
+            LearnView()
+                .tabItem {
+                    Label("Learn", systemImage: "book")
                 }
-            }
-            .frame(height: AppSpacing.tabBarHeight)
-            .padding(.bottom, safeAreaBottom)
+                .tag(MainTab.learn)
         }
-        .background(AppColors.background)
-    }
-
-    @ViewBuilder
-    private func tabBarButton(for tab: MainTab) -> some View {
-        let isSelected = selectedTab == tab
-
-        Button {
-            withAnimation(.easeInOut(duration: 0.2)) {
-                selectedTab = tab
-            }
-        } label: {
-            VStack(spacing: 4) {
-                // Dot indicator above label
-                Circle()
-                    .fill(isSelected ? AppColors.accent : Color.clear)
-                    .frame(width: 5, height: 5)
-
-                Text(tab.title.uppercased())
-                    .font(.system(size: 11, weight: isSelected ? .bold : .regular, design: .serif))
-                    .tracking(0.8)
-                    .foregroundStyle(isSelected ? AppColors.accent : AppColors.textSecondary)
-            }
-            .frame(maxWidth: .infinity)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-    }
-
-    // MARK: - Helpers
-
-    private var safeAreaBottom: CGFloat {
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScene = scenes.first as? UIWindowScene
-        return windowScene?.windows.first?.safeAreaInsets.bottom ?? 0
+        .tint(AppColors.accent)
     }
 }
 

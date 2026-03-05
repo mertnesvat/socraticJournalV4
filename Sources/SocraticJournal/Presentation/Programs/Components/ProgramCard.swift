@@ -20,7 +20,7 @@ public struct ProgramCard: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             HStack(spacing: AppSpacing.sm) {
-                Image(systemName: program.iconSystemName)
+                Image(systemName: program.iconName)
                     .font(.system(size: 20))
                     .foregroundStyle(AppColors.accent)
                     .frame(width: 36, height: 36)
@@ -29,7 +29,7 @@ public struct ProgramCard: View {
 
                 VStack(alignment: .leading, spacing: 2) {
                     HStack(spacing: 6) {
-                        Text(program.name)
+                        Text(program.title)
                             .font(.system(size: 15, weight: .bold, design: .serif))
                             .foregroundStyle(AppColors.textPrimary)
 
@@ -54,7 +54,7 @@ public struct ProgramCard: View {
 
                 Spacer()
 
-                Text("\(program.totalDays)d")
+                Text("\(program.durationDays)d")
                     .font(.system(size: 13, weight: .semibold, design: .serif))
                     .foregroundStyle(AppColors.textTertiary)
             }
@@ -85,11 +85,11 @@ public struct ProgramCard: View {
 
 #Preview {
     VStack(spacing: 0) {
-        ProgramCard(program: .calmFoundation, isActive: true, progress: ProgramProgress(
+        ProgramCard(program: .nasalBreathingReset, isActive: true, progress: ProgramProgress(
             programId: "calm-foundation", currentDay: 4, completedDays: [1, 2, 3], totalDays: 7
         ))
         HairlineDivider()
-        ProgramCard(program: .sleepReset)
+        ProgramCard(program: .eveningWindDown)
     }
     .background(AppColors.background)
 }
