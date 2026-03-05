@@ -11,6 +11,7 @@ struct CompletedSessionData {
     let durationSeconds: TimeInterval
     let cyclesCompleted: Int
     let patternName: String
+    let patternId: String
     let patternTiming: String
     let totalMinutesToday: Double
     let dailyGoalMinutes: Int
@@ -28,6 +29,13 @@ struct SessionCompleteView: View {
     @State private var showCheckmark = false
     @State private var showTitle = false
     @State private var showContent = false
+
+    // MARK: - Insight State
+
+    @State private var currentInsight: BreathInsight?
+    @State private var insightOpacity: Double = 0
+
+    private let insightService = InsightSelectionService()
 
     // MARK: - Computed
 
@@ -89,6 +97,10 @@ struct SessionCompleteView: View {
                             patternTiming: data.patternTiming
                         )
 
+                        // Breath insight
+                        insightSection
+                            .padding(.top, AppSpacing.lg)
+
                         // Daily progress
                         dailyProgressSection
                             .padding(.top, AppSpacing.md)
@@ -105,6 +117,7 @@ struct SessionCompleteView: View {
         .onAppear {
             fireHaptic()
             startAnimations()
+            loadInitialInsight()
         }
     }
 
@@ -127,6 +140,34 @@ struct SessionCompleteView: View {
                     .transition(.opacity)
             }
         }
+    }
+
+    // MARK: - Breath Insight
+
+    private var insightSection: some View {
+        VStack(spacing: AppSpacing.xs) {
+            if let insight = currentInsight {
+                Text("\u{201C}\(insight.text)\u{201D}")
+                    .font(.system(size: 13, weight: .regular, design: .serif))
+                    .italic()
+                    .foregroundStyle(AppColors.accent)
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(4)
+                    .opacity(insightOpacity)
+                    .id(insight.id)
+
+                Button {
+                    rotateInsight()
+                } label: {
+                    Text("tap for another")
+                        .font(.system(size: 9, weight: .regular))
+                        .foregroundStyle(AppColors.textTertiary)
+                        .opacity(insightOpacity)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.horizontal, AppSpacing.screenPadding + AppSpacing.md)
     }
 
     // MARK: - Daily Progress
@@ -193,6 +234,32 @@ struct SessionCompleteView: View {
         }
     }
 
+    // MARK: - Insight Helpers
+
+    private func loadInitialInsight() {
+        currentInsight = insightService.selectInsight(forPatternId: data.patternId)
+    }
+
+    private func rotateInsight() {
+        guard let current = currentInsight else { return }
+
+        // Fade out
+        withAnimation(.easeOut(duration: 0.15)) {
+            insightOpacity = 0
+        }
+
+        // Swap insight and fade in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            currentInsight = insightService.selectNextInsight(
+                forPatternId: data.patternId,
+                currentId: current.id
+            )
+            withAnimation(.easeIn(duration: 0.25)) {
+                insightOpacity = 1.0
+            }
+        }
+    }
+
     // MARK: - Helpers
 
     private func fireHaptic() {
@@ -226,6 +293,13 @@ struct SessionCompleteView: View {
                 showContent = true
             }
         }
+
+        // Insight fades in slightly after content
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
+            withAnimation(.easeIn(duration: 0.4)) {
+                insightOpacity = 1.0
+            }
+        }
     }
 }
 
@@ -235,7 +309,8 @@ struct SessionCompleteView: View {
             durationSeconds: 305,
             cyclesCompleted: 12,
             patternName: "Resonance",
-            patternTiming: "5.5 · 5.5",
+            patternId: "resonance",
+            patternTiming: "5.5 \u{00B7} 5.5",
             totalMinutesToday: 3.2,
             dailyGoalMinutes: 5
         ),

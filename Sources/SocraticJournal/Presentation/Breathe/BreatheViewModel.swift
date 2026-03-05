@@ -183,6 +183,7 @@ public final class BreatheViewModel {
                     durationSeconds: duration,
                     cyclesCompleted: cycles,
                     patternName: patternName,
+                    patternId: self.selectedPattern.id,
                     patternTiming: patternTiming,
                     totalMinutesToday: previousTotal,
                     dailyGoalMinutes: goalMinutes
