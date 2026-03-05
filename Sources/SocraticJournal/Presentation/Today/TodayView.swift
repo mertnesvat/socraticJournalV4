@@ -31,37 +31,52 @@ public struct TodayView: View {
     }
 
     public var body: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                // Date header
-                dateHeader
-                HairlineDivider()
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 0) {
+                    // Date header
+                    dateHeader
+                    HairlineDivider()
 
-                // Streak + Week grid
-                streakAndWeekSection
-                HairlineDivider()
+                    // Streak + Week grid
+                    streakAndWeekSection
+                    HairlineDivider()
 
-                // Today's sessions
-                todaySessionsSection
-                HairlineDivider()
+                    // Today's sessions
+                    todaySessionsSection
+                    HairlineDivider()
 
-                // Daily goal progress
-                goalProgressSection
+                    // Daily goal progress
+                    goalProgressSection
+                    HairlineDivider()
 
-                Spacer(minLength: AppSpacing.sectionGap)
+                    // See Progress link
+                    seeProgressLink
+
+                    Spacer(minLength: AppSpacing.sectionGap)
+                }
             }
-        }
-        .background(AppColors.background)
-        .task { await viewModel.loadData() }
-        .sheet(isPresented: $showSettings) {
-            SettingsView(
-                viewModel: SettingsViewModel(
-                    settingsRepository: settingsRepository,
-                    notificationService: notificationService,
-                    analyticsService: analyticsService
+            .background(AppColors.background)
+            .task { await viewModel.loadData() }
+            .sheet(isPresented: $showSettings) {
+                SettingsView(
+                    viewModel: SettingsViewModel(
+                        settingsRepository: settingsRepository,
+                        notificationService: notificationService,
+                        analyticsService: analyticsService
+                    )
                 )
-            )
-            .environment(themeManager)
+                .environment(themeManager)
+            }
+            .navigationDestination(for: String.self) { destination in
+                if destination == "progress" {
+                    SessionProgressView(
+                        viewModel: ProgressViewModel(
+                            sessionRepository: viewModel.sessionRepository
+                        )
+                    )
+                }
+            }
         }
     }
 
@@ -226,6 +241,27 @@ public struct TodayView: View {
             }
         }
         .padding(.horizontal, AppSpacing.cardPadding)
+    }
+
+    // MARK: - See Progress
+
+    private var seeProgressLink: some View {
+        NavigationLink(value: "progress") {
+            HStack {
+                Text("See Progress")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(AppColors.accent)
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(AppColors.accent)
+            }
+            .padding(.horizontal, AppSpacing.screenPadding)
+            .padding(.vertical, AppSpacing.cardPadding)
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Goal Progress

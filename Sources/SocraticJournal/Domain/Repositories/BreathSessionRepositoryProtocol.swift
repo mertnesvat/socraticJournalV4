@@ -20,4 +20,22 @@ public protocol BreathSessionRepositoryProtocol: Sendable {
 
     /// Get current streak (consecutive days with at least one session)
     func getStreak() async throws -> Int
+
+    /// Get all stored sessions
+    func getAllSessions() async throws -> [BreathSession]
+
+    /// Get total minutes across all sessions
+    func getTotalMinutes() async throws -> Double
+
+    /// Get total number of sessions
+    func getTotalSessions() async throws -> Int
+
+    /// Get longest streak of consecutive days
+    func getLongestStreak() async throws -> Int
+
+    /// Get sessions grouped by pattern ID
+    func getSessionsByPattern() async throws -> [String: [BreathSession]]
+
+    /// Get sessions for a specific calendar month
+    func getSessionsForMonth(year: Int, month: Int) async throws -> [BreathSession]
 }
