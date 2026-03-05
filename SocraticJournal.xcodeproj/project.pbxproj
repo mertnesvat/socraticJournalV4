@@ -176,7 +176,6 @@
 			isa = PBXGroup;
 			children = (
 				C6492138B440EC6E4C03ED3C /* NewOnboardingView.swift */,
-				2D43DDDF3265CFB5DEB362E5 /* Pages */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -226,13 +225,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		2D43DDDF3265CFB5DEB362E5 /* Pages */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pages;
-			sourceTree = "<group>";
-		};
 		3292427AC674B121CCABA44F /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,7 +250,6 @@
 			isa = PBXGroup;
 			children = (
 				428C5E0D4079AC6077240D2B /* LearnView.swift */,
-				915A0D1896B17DA72A55A457 /* Components */,
 			);
 			path = Learn;
 			sourceTree = "<group>";
@@ -321,20 +312,6 @@
 			path = Domain;
 			sourceTree = "<group>";
 		};
-		8E8920A02489B57CAB0B1757 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		915A0D1896B17DA72A55A457 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		9440E899341B6D5D2E0624AC /* Breathe */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,19 +355,11 @@
 			path = Tests/SocraticJournalTests;
 			sourceTree = "<group>";
 		};
-		B04C0B8D7BF9B1BAF80E4F32 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		B520E5A58E5D6C44DD6EDF04 /* Today */ = {
 			isa = PBXGroup;
 			children = (
 				0C9E98B9AB99203807F249A5 /* TodayView.swift */,
 				905280F906AF00098A4D2C8D /* TodayViewModel.swift */,
-				8E8920A02489B57CAB0B1757 /* Components */,
 			);
 			path = Today;
 			sourceTree = "<group>";
@@ -439,7 +408,6 @@
 			isa = PBXGroup;
 			children = (
 				9440E899341B6D5D2E0624AC /* Breathe */,
-				B04C0B8D7BF9B1BAF80E4F32 /* Components */,
 				44C6342BAD100613D5E5867C /* Learn */,
 				7DBE6F1459754CEC4DAED18F /* Navigation */,
 				165EBEA269EA38D7418DCC61 /* Onboarding */,
@@ -640,7 +608,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.StudioNext.socraticJournal;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -721,7 +689,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.StudioNext.socraticJournal;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
