@@ -8,12 +8,18 @@ import SwiftUI
 /// Full Breathe tab screen with pattern selector, wave animation, and pacing controls
 public struct BreatheView: View {
     @State private var viewModel: BreatheViewModel
+    @Binding var pendingPatternId: String?
+    @Binding var pendingDurationMinutes: Int?
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol? = nil,
-        analyticsService: AnalyticsServiceProtocol? = nil
+        analyticsService: AnalyticsServiceProtocol? = nil,
+        pendingPatternId: Binding<String?> = .constant(nil),
+        pendingDurationMinutes: Binding<Int?> = .constant(nil)
     ) {
+        _pendingPatternId = pendingPatternId
+        _pendingDurationMinutes = pendingDurationMinutes
         _viewModel = State(initialValue: BreatheViewModel(
             sessionRepository: sessionRepository,
             settingsRepository: settingsRepository,
@@ -33,7 +39,9 @@ public struct BreatheView: View {
                     PatternSelectorBar(
                         patterns: BreathPattern.allPatterns,
                         selectedId: viewModel.selectedPattern.id,
-                        onSelect: { viewModel.selectPattern($0) }
+                        onSelect: { viewModel.selectPattern($0) },
+                        recommendedPatternId: viewModel.recommendedPatternId,
+                        showRecommendedBadge: !viewModel.userDidOverrideSelection
                     )
                     .padding(.vertical, AppSpacing.md)
                     .allowsHitTesting(!viewModel.engine.isRunning)
@@ -53,7 +61,17 @@ public struct BreatheView: View {
             }
         }
         .background(AppColors.background)
-        .task { await viewModel.loadSettings() }
+        .task {
+            viewModel.applyRecommendedDefault()
+            await viewModel.loadSettings()
+        }
+        .onChange(of: pendingPatternId) { _, newValue in
+            if let patternId = newValue, let duration = pendingDurationMinutes {
+                viewModel.applyPendingSelection(patternId: patternId, durationMinutes: duration)
+                pendingPatternId = nil
+                pendingDurationMinutes = nil
+            }
+        }
         .onChange(of: viewModel.engine.sessionFinished) { _, finished in
             if finished {
                 viewModel.handleSessionFinished()

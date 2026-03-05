@@ -17,6 +17,7 @@ public final class TodayViewModel {
     private(set) var weekDays: [WeekDay] = []
     private(set) var dailyGoalMinutes: Int = 5
     private(set) var isLoading: Bool = false
+    private(set) var recommendation: PatternRecommendation = PatternRecommendationService.recommend()
 
     var goalReached: Bool {
         totalMinutesToday >= Double(dailyGoalMinutes)
@@ -53,6 +54,7 @@ public final class TodayViewModel {
     // MARK: - Actions
 
     func loadData() async {
+        recommendation = PatternRecommendationService.recommend()
         isLoading = true
         do {
             streak = try await sessionRepository.getStreak()

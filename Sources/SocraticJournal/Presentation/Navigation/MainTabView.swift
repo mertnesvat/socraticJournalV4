@@ -31,6 +31,8 @@ public enum MainTab: Int, CaseIterable {
 /// Main tab container with editorial bottom bar
 public struct MainTabView: View {
     @State private var selectedTab: MainTab = .today
+    @State private var pendingPatternId: String?
+    @State private var pendingDurationMinutes: Int?
     @Environment(ThemeManager.self) private var themeManager
 
     // MARK: - Services
@@ -62,13 +64,22 @@ public struct MainTabView: View {
                         sessionRepository: sessionRepository,
                         settingsRepository: settingsRepository,
                         notificationService: notificationService,
-                        analyticsService: analyticsService
+                        analyticsService: analyticsService,
+                        onNavigateToBreathe: { patternId, durationMinutes in
+                            pendingPatternId = patternId
+                            pendingDurationMinutes = durationMinutes
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                selectedTab = .breathe
+                            }
+                        }
                     )
                 case .breathe:
                     BreatheView(
                         sessionRepository: sessionRepository,
                         settingsRepository: settingsRepository,
-                        analyticsService: analyticsService
+                        analyticsService: analyticsService,
+                        pendingPatternId: $pendingPatternId,
+                        pendingDurationMinutes: $pendingDurationMinutes
                     )
                 case .learn:
                     LearnView()

@@ -15,6 +15,11 @@ public final class BreatheViewModel {
     var selectedDuration: SessionDuration = .five
     private(set) var sessionStartedAt: Date?
 
+    /// The currently recommended pattern based on time of day
+    private(set) var recommendedPatternId: String = PatternRecommendationService.recommend().patternId
+    /// Whether the user has manually overridden the selection
+    private(set) var userDidOverrideSelection: Bool = false
+
     let engine = BreathPacingEngine()
     let hapticEngine = HapticRhythmEngine()
 
@@ -61,9 +66,43 @@ public final class BreatheViewModel {
 
     // MARK: - Actions
 
+    /// Apply the time-of-day recommended pattern as the default selection
+    func applyRecommendedDefault() {
+        let rec = PatternRecommendationService.recommend()
+        recommendedPatternId = rec.patternId
+        guard !userDidOverrideSelection, !engine.isRunning else { return }
+        if let pattern = rec.pattern {
+            selectedPattern = pattern
+        }
+        if rec.suggestedDurationMinutes <= 5 {
+            selectedDuration = .five
+        } else if rec.suggestedDurationMinutes <= 10 {
+            selectedDuration = .ten
+        } else {
+            selectedDuration = .twenty
+        }
+    }
+
+    /// Apply a specific pattern and duration from an external navigation request
+    func applyPendingSelection(patternId: String, durationMinutes: Int) {
+        guard !engine.isRunning else { return }
+        if let pattern = BreathPattern.allPatterns.first(where: { $0.id == patternId }) {
+            selectedPattern = pattern
+        }
+        if durationMinutes <= 5 {
+            selectedDuration = .five
+        } else if durationMinutes <= 10 {
+            selectedDuration = .ten
+        } else {
+            selectedDuration = .twenty
+        }
+        userDidOverrideSelection = false // Came from suggestion, not a manual override
+    }
+
     func selectPattern(_ pattern: BreathPattern) {
         guard !engine.isRunning else { return }
         selectedPattern = pattern
+        userDidOverrideSelection = true
         analyticsService?.logEvent(.patternSelected, parameters: [
             "pattern_id": pattern.id,
             "pattern_name": pattern.name,

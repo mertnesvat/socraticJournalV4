@@ -15,15 +15,20 @@ public struct TodayView: View {
     private let notificationService: NotificationServiceProtocol
     private let analyticsService: AnalyticsServiceProtocol
 
+    /// Callback to switch to the Breathe tab with a pre-selected pattern and duration
+    var onNavigateToBreathe: ((_ patternId: String, _ durationMinutes: Int) -> Void)?
+
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
         notificationService: NotificationServiceProtocol,
-        analyticsService: AnalyticsServiceProtocol
+        analyticsService: AnalyticsServiceProtocol,
+        onNavigateToBreathe: ((_ patternId: String, _ durationMinutes: Int) -> Void)? = nil
     ) {
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
         self.analyticsService = analyticsService
+        self.onNavigateToBreathe = onNavigateToBreathe
         _viewModel = State(initialValue: TodayViewModel(
             sessionRepository: sessionRepository,
             settingsRepository: settingsRepository
@@ -35,6 +40,17 @@ public struct TodayView: View {
             VStack(spacing: 0) {
                 // Date header
                 dateHeader
+                HairlineDivider()
+
+                // Suggested pattern card
+                SuggestedPatternCard(
+                    recommendation: viewModel.recommendation
+                ) {
+                    onNavigateToBreathe?(
+                        viewModel.recommendation.patternId,
+                        viewModel.recommendation.suggestedDurationMinutes
+                    )
+                }
                 HairlineDivider()
 
                 // Streak + Week grid
@@ -264,7 +280,8 @@ public struct TodayView: View {
         sessionRepository: UserDefaultsBreathSessionRepository(),
         settingsRepository: UserDefaultsSettingsRepository(),
         notificationService: LocalNotificationService(),
-        analyticsService: PreviewAnalyticsService()
+        analyticsService: PreviewAnalyticsService(),
+        onNavigateToBreathe: { _, _ in }
     )
     .environment(ThemeManager.shared)
 }
