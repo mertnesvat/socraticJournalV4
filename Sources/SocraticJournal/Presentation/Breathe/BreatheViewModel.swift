@@ -15,6 +15,14 @@ public final class BreatheViewModel {
     var selectedDuration: SessionDuration = .five
     private(set) var sessionStartedAt: Date?
 
+    /// Set to non-nil when a session completes and the overlay should show
+    private(set) var completedSessionData: CompletedSessionData?
+
+    /// The currently recommended pattern based on time of day
+    private(set) var recommendedPatternId: String = PatternRecommendationService.recommend().patternId
+    /// Whether the user has manually overridden the selection
+    private(set) var userDidOverrideSelection: Bool = false
+
     let engine = BreathPacingEngine()
     let hapticEngine = HapticRhythmEngine()
 
@@ -61,9 +69,43 @@ public final class BreatheViewModel {
 
     // MARK: - Actions
 
+    /// Apply the time-of-day recommended pattern as the default selection
+    func applyRecommendedDefault() {
+        let rec = PatternRecommendationService.recommend()
+        recommendedPatternId = rec.patternId
+        guard !userDidOverrideSelection, !engine.isRunning else { return }
+        if let pattern = rec.pattern {
+            selectedPattern = pattern
+        }
+        if rec.suggestedDurationMinutes <= 5 {
+            selectedDuration = .five
+        } else if rec.suggestedDurationMinutes <= 10 {
+            selectedDuration = .ten
+        } else {
+            selectedDuration = .twenty
+        }
+    }
+
+    /// Apply a specific pattern and duration from an external navigation request
+    func applyPendingSelection(patternId: String, durationMinutes: Int) {
+        guard !engine.isRunning else { return }
+        if let pattern = BreathPattern.allPatterns.first(where: { $0.id == patternId }) {
+            selectedPattern = pattern
+        }
+        if durationMinutes <= 5 {
+            selectedDuration = .five
+        } else if durationMinutes <= 10 {
+            selectedDuration = .ten
+        } else {
+            selectedDuration = .twenty
+        }
+        userDidOverrideSelection = false // Came from suggestion, not a manual override
+    }
+
     func selectPattern(_ pattern: BreathPattern) {
         guard !engine.isRunning else { return }
         selectedPattern = pattern
+        userDidOverrideSelection = true
         analyticsService?.logEvent(.patternSelected, parameters: [
             "pattern_id": pattern.id,
             "pattern_name": pattern.name,
@@ -103,10 +145,15 @@ public final class BreatheViewModel {
     func handleSessionFinished() {
         let duration = engine.totalElapsed
         let cycles = engine.cyclesCompleted
-        saveSession(duration: duration, cycles: cycles)
+        saveSession(duration: duration, cycles: cycles, showCompletion: true)
     }
 
-    private func saveSession(duration: TimeInterval, cycles: Int) {
+    /// Dismisses the completion overlay and resets state
+    func dismissCompletion() {
+        completedSessionData = nil
+    }
+
+    private func saveSession(duration: TimeInterval, cycles: Int, showCompletion: Bool = false) {
         guard duration > 5 else { return } // Don't save sessions < 5 seconds
         let session = BreathSession(
             id: UUID().uuidString,
@@ -116,8 +163,32 @@ public final class BreatheViewModel {
             totalDuration: duration,
             cyclesCompleted: cycles
         )
+        let patternName = selectedPattern.name
+        let patternTiming = selectedPattern.timing
+
         Task {
             try? await sessionRepository.saveSession(session)
+
+            if showCompletion {
+                // Fetch today's total (before this session was saved, the repo now includes it)
+                let totalToday = (try? await sessionRepository.getTotalMinutesToday()) ?? 0
+                let settings = try? await settingsRepository?.getSettings()
+                let goalMinutes = settings?.dailyGoalMinutes ?? 5
+
+                // totalToday already includes the just-saved session, so subtract it
+                // so SessionCompleteView can add it back for display
+                let previousTotal = max(totalToday - (duration / 60.0), 0)
+
+                completedSessionData = CompletedSessionData(
+                    durationSeconds: duration,
+                    cyclesCompleted: cycles,
+                    patternName: patternName,
+                    patternId: self.selectedPattern.id,
+                    patternTiming: patternTiming,
+                    totalMinutesToday: previousTotal,
+                    dailyGoalMinutes: goalMinutes
+                )
+            }
         }
         analyticsService?.logEvent(.sessionCompleted, parameters: [
             "pattern_id": selectedPattern.id,

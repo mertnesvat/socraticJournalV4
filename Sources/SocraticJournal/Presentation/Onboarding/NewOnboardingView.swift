@@ -5,15 +5,16 @@
 #if os(iOS)
 import SwiftUI
 
-/// 3-page swipeable onboarding for the Breathe app
+/// 5-page swipeable onboarding for the Breathe app
 public struct NewOnboardingView: View {
     @State private var currentPage: Int = 0
     @State private var breathScale: CGFloat = 0.6
     @State private var breathOpacity: Double = 0.15
+    @State private var assessment = OnboardingAssessment()
 
     private let settingsRepository: SettingsRepositoryProtocol
     private let onDismiss: () -> Void
-    private let totalPages = 3
+    private let totalPages = 5
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
@@ -34,6 +35,8 @@ public struct NewOnboardingView: View {
                     onboardingPage1.tag(0)
                     onboardingPage2.tag(1)
                     onboardingPage3.tag(2)
+                    onboardingPage4.tag(3)
+                    onboardingPage5.tag(4)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .animation(.easeInOut(duration: 0.3), value: currentPage)
@@ -42,14 +45,36 @@ public struct NewOnboardingView: View {
                 HStack(spacing: 8) {
                     ForEach(0..<totalPages, id: \.self) { index in
                         Circle()
-                            .fill(index == currentPage
-                                  ? (currentPage == 2 ? Color.white : AppColors.accent)
-                                  : (currentPage == 2 ? Color.white.opacity(0.4) : AppColors.border))
+                            .fill(dotColor(for: index))
                             .frame(width: 8, height: 8)
                     }
                 }
                 .padding(.bottom, 40)
             }
+        }
+        .onChange(of: assessment.experience) { _, newValue in
+            // Auto-advance to page 5 after all questions answered
+            if newValue != nil && assessment.isComplete {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        currentPage = 4
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - Page Dot Colors
+
+    /// Pages on cream background (0, 1, 3) use teal dots; pages on teal (2, 4) use white dots
+    private func dotColor(for index: Int) -> Color {
+        let isTealBackground = currentPage == 2 || currentPage == 4
+        let isActive = index == currentPage
+
+        if isTealBackground {
+            return isActive ? Color.white : Color.white.opacity(0.4)
+        } else {
+            return isActive ? AppColors.accent : AppColors.border
         }
     }
 
@@ -59,6 +84,8 @@ public struct NewOnboardingView: View {
             case 0: AppColors.background
             case 1: AppColors.background
             case 2: AppColors.accent
+            case 3: AppColors.background
+            case 4: AppColors.accent
             default: AppColors.background
             }
         }
@@ -158,9 +185,11 @@ public struct NewOnboardingView: View {
             Spacer()
 
             Button {
-                completeOnboarding()
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    currentPage = 3
+                }
             } label: {
-                Text("Get Started")
+                Text("Continue")
                     .font(.system(size: 17, weight: .semibold, design: .serif))
                     .foregroundStyle(AppColors.accent)
                     .frame(maxWidth: .infinity)
@@ -171,6 +200,31 @@ public struct NewOnboardingView: View {
             .padding(.bottom, AppSpacing.lg)
         }
         .padding(.horizontal, AppSpacing.screenPadding)
+    }
+
+    // MARK: - Page 4: Assessment
+
+    private var onboardingPage4: some View {
+        OnboardingAssessmentPage(
+            assessment: $assessment,
+            onSkip: {
+                assessment = .defaults
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    currentPage = 4
+                }
+            }
+        )
+    }
+
+    // MARK: - Page 5: Recommendation
+
+    private var onboardingPage5: some View {
+        OnboardingRecommendationPage(
+            assessment: assessment.isComplete ? assessment : .defaults,
+            onBeginJourney: {
+                completeOnboarding()
+            }
+        )
     }
 
     // MARK: - Helpers

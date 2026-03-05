@@ -9,21 +9,27 @@ import SwiftUI
 public struct TodayView: View {
     @State private var viewModel: TodayViewModel
     @State private var showSettings = false
+    @State private var showProgramBrowser = false
     @Environment(ThemeManager.self) private var themeManager
 
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol
     private let analyticsService: AnalyticsServiceProtocol
 
+    /// Callback to switch to the Breathe tab with a pre-selected pattern and duration
+    var onNavigateToBreathe: ((_ patternId: String, _ durationMinutes: Int) -> Void)?
+
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
         notificationService: NotificationServiceProtocol,
-        analyticsService: AnalyticsServiceProtocol
+        analyticsService: AnalyticsServiceProtocol,
+        onNavigateToBreathe: ((_ patternId: String, _ durationMinutes: Int) -> Void)? = nil
     ) {
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
         self.analyticsService = analyticsService
+        self.onNavigateToBreathe = onNavigateToBreathe
         _viewModel = State(initialValue: TodayViewModel(
             sessionRepository: sessionRepository,
             settingsRepository: settingsRepository
@@ -31,37 +37,88 @@ public struct TodayView: View {
     }
 
     public var body: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                // Date header
-                dateHeader
-                HairlineDivider()
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 0) {
+                    // Date header
+                    dateHeader
+                    HairlineDivider()
 
-                // Streak + Week grid
-                streakAndWeekSection
-                HairlineDivider()
+                    // Suggested pattern card
+                    SuggestedPatternCard(
+                        recommendation: viewModel.recommendation
+                    ) {
+                        onNavigateToBreathe?(
+                            viewModel.recommendation.patternId,
+                            viewModel.recommendation.suggestedDurationMinutes
+                        )
+                    }
+                    HairlineDivider()
 
-                // Today's sessions
-                todaySessionsSection
-                HairlineDivider()
+                    // Streak + Week grid
+                    streakAndWeekSection
+                    HairlineDivider()
 
-                // Daily goal progress
-                goalProgressSection
+                    // Today's sessions
+                    todaySessionsSection
+                    HairlineDivider()
 
-                Spacer(minLength: AppSpacing.sectionGap)
+                    // Daily goal progress
+                    goalProgressSection
+                    HairlineDivider()
+
+                    // Active program card or browse link
+                    if let program = viewModel.activeProgram, let progress = viewModel.activeProgress {
+                        ActiveProgramCard(
+                            program: program,
+                            progress: progress,
+                            todayCompleted: viewModel.todayProgramDayCompleted,
+                            onStartSession: {
+                                onNavigateToBreathe?(
+                                    program.days[progress.currentDay - 1].patternId,
+                                    program.days[progress.currentDay - 1].durationMinutes
+                                )
+                            }
+                        )
+                        HairlineDivider()
+                    }
+
+                    // See Progress link
+                    seeProgressLink
+
+                    // Browse Programs link
+                    browseProgramsLink
+                    HairlineDivider()
+
+                    Spacer(minLength: AppSpacing.sectionGap)
+                }
             }
-        }
-        .background(AppColors.background)
-        .task { await viewModel.loadData() }
-        .sheet(isPresented: $showSettings) {
-            SettingsView(
-                viewModel: SettingsViewModel(
-                    settingsRepository: settingsRepository,
-                    notificationService: notificationService,
-                    analyticsService: analyticsService
+            .background(AppColors.background)
+            .task { await viewModel.loadData() }
+            .sheet(isPresented: $showProgramBrowser) {
+                ProgramBrowserView(
+                    progressRepository: UserDefaultsProgramProgressRepository()
                 )
-            )
-            .environment(themeManager)
+            }
+            .sheet(isPresented: $showSettings) {
+                SettingsView(
+                    viewModel: SettingsViewModel(
+                        settingsRepository: settingsRepository,
+                        notificationService: notificationService,
+                        analyticsService: analyticsService
+                    )
+                )
+                .environment(themeManager)
+            }
+            .navigationDestination(for: String.self) { destination in
+                if destination == "progress" {
+                    SessionProgressView(
+                        viewModel: ProgressViewModel(
+                            sessionRepository: viewModel.sessionRepository
+                        )
+                    )
+                }
+            }
         }
     }
 
@@ -228,6 +285,64 @@ public struct TodayView: View {
         .padding(.horizontal, AppSpacing.cardPadding)
     }
 
+    // MARK: - See Progress
+
+    private var seeProgressLink: some View {
+        NavigationLink(value: "progress") {
+            HStack {
+                Text("See Progress")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(AppColors.accent)
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(AppColors.accent)
+            }
+            .padding(.horizontal, AppSpacing.screenPadding)
+            .padding(.vertical, AppSpacing.cardPadding)
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Browse Programs
+
+    private var browseProgramsLink: some View {
+        NavigationLink {
+            ProgramBrowserView(
+                progressRepository: UserDefaultsProgramProgressRepository()
+            )
+        } label: {
+            HStack(spacing: AppSpacing.sm) {
+                Image(systemName: "list.bullet.rectangle")
+                    .font(.system(size: 16))
+                    .foregroundStyle(AppColors.accent)
+                    .frame(width: 32, height: 32)
+                    .background(AppColors.accentLight)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Guided Programs")
+                        .font(.system(size: 14, weight: .semibold, design: .serif))
+                        .foregroundStyle(AppColors.textPrimary)
+
+                    Text("Multi-day breath training journeys")
+                        .font(.system(size: 11))
+                        .foregroundStyle(AppColors.textTertiary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(AppColors.textTertiary)
+            }
+            .padding(AppSpacing.cardPadding)
+        }
+        .buttonStyle(.plain)
+    }
+
     // MARK: - Goal Progress
 
     private var goalProgressSection: some View {
@@ -264,7 +379,8 @@ public struct TodayView: View {
         sessionRepository: UserDefaultsBreathSessionRepository(),
         settingsRepository: UserDefaultsSettingsRepository(),
         notificationService: LocalNotificationService(),
-        analyticsService: PreviewAnalyticsService()
+        analyticsService: PreviewAnalyticsService(),
+        onNavigateToBreathe: { _, _ in }
     )
     .environment(ThemeManager.shared)
 }

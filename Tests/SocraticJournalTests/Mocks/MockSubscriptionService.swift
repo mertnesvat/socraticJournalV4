@@ -1,6 +1,11 @@
 // MockSubscriptionService.swift
 // SocraticJournalTests
 // Copyright 2024 StudioNext
+//
+// TODO: Re-enable when subscription feature types (SubscriptionServiceProtocol,
+// SubscriptionProduct, SubscriptionProductID, SubscriptionStatus, SubscriptionError,
+// SubscriptionPeriod) are added to the Sources target.
+#if false
 
 import Foundation
 @testable import SocraticJournal
@@ -165,3 +170,4 @@ public final class TestMockSubscriptionService: SubscriptionServiceProtocol, @un
         mockStatus = .expired(lastExpiryDate: expiryDate, lastProductId: productId)
     }
 }
+#endif
