@@ -109,25 +109,7 @@ public struct WeeklyBarChart: View {
         guard maxMinutes > 0 else { return 4 }
         let proportion = minutes / maxMinutes
         let height = proportion * maxBarHeight
-        return max(height, 4) // Minimum visible height
+        return max(height, 4)
     }
-}
-
-#Preview {
-    VStack {
-        WeeklyBarChart(
-            bars: [
-                .init(id: 0, label: "M", minutes: 5, isToday: false),
-                .init(id: 1, label: "T", minutes: 10, isToday: false),
-                .init(id: 2, label: "W", minutes: 3, isToday: false),
-                .init(id: 3, label: "T", minutes: 8, isToday: true),
-                .init(id: 4, label: "F", minutes: 0, isToday: false),
-                .init(id: 5, label: "S", minutes: 0, isToday: false),
-                .init(id: 6, label: "S", minutes: 0, isToday: false),
-            ],
-            weeklyMinutesFormatted: "26"
-        )
-    }
-    .background(AppColors.background)
 }
 #endif

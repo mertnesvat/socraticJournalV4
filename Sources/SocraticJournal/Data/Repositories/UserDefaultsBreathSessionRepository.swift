@@ -70,6 +70,8 @@ public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryP
         return streak
     }
 
+    // MARK: - Aggregate Queries
+
     public func getAllSessions() async throws -> [BreathSession] {
         guard let data = defaults.data(forKey: sessionsKey) else { return [] }
         do {
@@ -90,34 +92,27 @@ public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryP
     }
 
     public func getLongestStreak() async throws -> Int {
-        let sessions = try await getAllSessions()
-        guard !sessions.isEmpty else { return 0 }
+        let allSessions = try await getAllSessions()
+        guard !allSessions.isEmpty else { return 0 }
 
         let calendar = Calendar.current
+        let uniqueDays = Set(allSessions.map { calendar.startOfDay(for: $0.startedAt) })
+        let sortedDays = uniqueDays.sorted()
 
-        // Get unique days with sessions, sorted ascending
-        let sessionDays = Set(sessions.map { calendar.startOfDay(for: $0.startedAt) })
-            .sorted()
+        var longest = 1
+        var current = 1
 
-        guard !sessionDays.isEmpty else { return 0 }
-
-        var longestStreak = 1
-        var currentStreak = 1
-
-        for i in 1..<sessionDays.count {
-            let previousDay = sessionDays[i - 1]
-            let currentDay = sessionDays[i]
-            let daysBetween = calendar.dateComponents([.day], from: previousDay, to: currentDay).day ?? 0
-
-            if daysBetween == 1 {
-                currentStreak += 1
-                longestStreak = max(longestStreak, currentStreak)
+        for i in 1..<sortedDays.count {
+            let diff = calendar.dateComponents([.day], from: sortedDays[i - 1], to: sortedDays[i]).day ?? 0
+            if diff == 1 {
+                current += 1
+                longest = max(longest, current)
             } else {
-                currentStreak = 1
+                current = 1
             }
         }
 
-        return longestStreak
+        return longest
     }
 
     public func getSessionsByPattern() async throws -> [String: [BreathSession]] {
@@ -140,4 +135,5 @@ public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryP
         let allSessions = try await getAllSessions()
         return allSessions.filter { $0.startedAt >= startDate && $0.startedAt < endDate }
     }
+
 }

@@ -32,6 +32,13 @@ public struct SessionProgressView: View {
                     // Weekly bar chart
                     weeklyChartSection
                     HairlineDivider()
+
+                    // Monthly calendar heatmap
+                    monthlyHeatmapSection
+                    HairlineDivider()
+
+                    // Pattern breakdown
+                    patternBreakdownSection
                 }
 
                 Spacer(minLength: AppSpacing.sectionGap)
@@ -126,6 +133,49 @@ public struct SessionProgressView: View {
                 weeklyMinutesFormatted: viewModel.weeklyMinutesFormatted
             )
             .padding(.bottom, AppSpacing.cardPadding)
+        }
+    }
+
+    // MARK: - Monthly Heatmap
+
+    private var monthlyHeatmapSection: some View {
+        MonthlyHeatmap(
+            monthTitle: viewModel.displayedMonthFormatted,
+            dayCells: viewModel.monthlyDayData,
+            onPreviousMonth: {
+                Task { await viewModel.navigateMonth(by: -1) }
+            },
+            onNextMonth: {
+                Task { await viewModel.navigateMonth(by: 1) }
+            }
+        )
+    }
+
+    // MARK: - Pattern Breakdown
+
+    private var patternBreakdownSection: some View {
+        VStack(spacing: 0) {
+            SectionHeaderView("Patterns Practiced")
+
+            if viewModel.patternBreakdown.isEmpty {
+                // Empty state
+                Text("Complete a session to see your pattern usage")
+                    .font(.system(size: 13))
+                    .foregroundStyle(AppColors.textSecondary)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, AppSpacing.lg)
+                    .padding(.horizontal, AppSpacing.screenPadding)
+            } else {
+                ForEach(viewModel.patternBreakdown) { stat in
+                    PatternBreakdownRow(stat: stat)
+
+                    if stat.id != viewModel.patternBreakdown.last?.id {
+                        HairlineDivider()
+                            .padding(.horizontal, AppSpacing.screenPadding)
+                    }
+                }
+                .padding(.bottom, AppSpacing.sm)
+            }
         }
     }
 
