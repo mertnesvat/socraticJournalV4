@@ -15,6 +15,9 @@ public final class BreatheViewModel {
     var selectedDuration: SessionDuration = .five
     private(set) var sessionStartedAt: Date?
 
+    /// Set to non-nil when a session completes and the overlay should show
+    private(set) var completedSessionData: CompletedSessionData?
+
     let engine = BreathPacingEngine()
     let hapticEngine = HapticRhythmEngine()
 
@@ -103,10 +106,15 @@ public final class BreatheViewModel {
     func handleSessionFinished() {
         let duration = engine.totalElapsed
         let cycles = engine.cyclesCompleted
-        saveSession(duration: duration, cycles: cycles)
+        saveSession(duration: duration, cycles: cycles, showCompletion: true)
     }
 
-    private func saveSession(duration: TimeInterval, cycles: Int) {
+    /// Dismisses the completion overlay and resets state
+    func dismissCompletion() {
+        completedSessionData = nil
+    }
+
+    private func saveSession(duration: TimeInterval, cycles: Int, showCompletion: Bool = false) {
         guard duration > 5 else { return } // Don't save sessions < 5 seconds
         let session = BreathSession(
             id: UUID().uuidString,
@@ -116,8 +124,31 @@ public final class BreatheViewModel {
             totalDuration: duration,
             cyclesCompleted: cycles
         )
+        let patternName = selectedPattern.name
+        let patternTiming = selectedPattern.timing
+
         Task {
             try? await sessionRepository.saveSession(session)
+
+            if showCompletion {
+                // Fetch today's total (before this session was saved, the repo now includes it)
+                let totalToday = (try? await sessionRepository.getTotalMinutesToday()) ?? 0
+                let settings = try? await settingsRepository?.getSettings()
+                let goalMinutes = settings?.dailyGoalMinutes ?? 5
+
+                // totalToday already includes the just-saved session, so subtract it
+                // so SessionCompleteView can add it back for display
+                let previousTotal = max(totalToday - (duration / 60.0), 0)
+
+                completedSessionData = CompletedSessionData(
+                    durationSeconds: duration,
+                    cyclesCompleted: cycles,
+                    patternName: patternName,
+                    patternTiming: patternTiming,
+                    totalMinutesToday: previousTotal,
+                    dailyGoalMinutes: goalMinutes
+                )
+            }
         }
         analyticsService?.logEvent(.sessionCompleted, parameters: [
             "pattern_id": selectedPattern.id,

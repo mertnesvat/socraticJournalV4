@@ -8,51 +8,75 @@ import SwiftUI
 /// Full Breathe tab screen with pattern selector, wave animation, and pacing controls
 public struct BreatheView: View {
     @State private var viewModel: BreatheViewModel
+    @Binding var selectedTab: MainTab
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol? = nil,
-        analyticsService: AnalyticsServiceProtocol? = nil
+        analyticsService: AnalyticsServiceProtocol? = nil,
+        selectedTab: Binding<MainTab> = .constant(.breathe)
     ) {
         _viewModel = State(initialValue: BreatheViewModel(
             sessionRepository: sessionRepository,
             settingsRepository: settingsRepository,
             analyticsService: analyticsService
         ))
+        _selectedTab = selectedTab
+    }
+
+    private var showSessionComplete: Bool {
+        viewModel.completedSessionData != nil
     }
 
     public var body: some View {
-        VStack(spacing: 0) {
-            // Header with duration chips
-            headerBar
-            HairlineDivider()
+        ZStack {
+            VStack(spacing: 0) {
+                // Header with duration chips
+                headerBar
+                HairlineDivider()
 
-            ScrollView {
-                VStack(spacing: 0) {
-                    // Pattern selector
-                    PatternSelectorBar(
-                        patterns: BreathPattern.allPatterns,
-                        selectedId: viewModel.selectedPattern.id,
-                        onSelect: { viewModel.selectPattern($0) }
-                    )
-                    .padding(.vertical, AppSpacing.md)
-                    .allowsHitTesting(!viewModel.engine.isRunning)
-                    .opacity(viewModel.engine.isRunning ? 0.5 : 1)
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // Pattern selector
+                        PatternSelectorBar(
+                            patterns: BreathPattern.allPatterns,
+                            selectedId: viewModel.selectedPattern.id,
+                            onSelect: { viewModel.selectPattern($0) }
+                        )
+                        .padding(.vertical, AppSpacing.md)
+                        .allowsHitTesting(!viewModel.engine.isRunning)
+                        .opacity(viewModel.engine.isRunning ? 0.5 : 1)
 
-                    HairlineDivider()
+                        HairlineDivider()
 
-                    // Wave animator section
-                    waveSection
-                        .padding(.vertical, 36)
+                        // Wave animator section
+                        waveSection
+                            .padding(.vertical, 36)
 
-                    HairlineDivider()
+                        HairlineDivider()
 
-                    // Pattern info
-                    PatternInfoSection(pattern: viewModel.selectedPattern)
+                        // Pattern info
+                        PatternInfoSection(pattern: viewModel.selectedPattern)
+                    }
                 }
             }
+            .background(AppColors.background)
+
+            // Session complete overlay
+            if let data = viewModel.completedSessionData {
+                SessionCompleteView(
+                    data: data,
+                    onDone: {
+                        viewModel.dismissCompletion()
+                    },
+                    onGoToToday: {
+                        viewModel.dismissCompletion()
+                        selectedTab = .today
+                    }
+                )
+                .transition(.opacity)
+            }
         }
-        .background(AppColors.background)
         .task { await viewModel.loadSettings() }
         .onChange(of: viewModel.engine.sessionFinished) { _, finished in
             if finished {
@@ -163,7 +187,8 @@ public struct BreatheView: View {
 
 #Preview {
     BreatheView(
-        sessionRepository: UserDefaultsBreathSessionRepository()
+        sessionRepository: UserDefaultsBreathSessionRepository(),
+        selectedTab: .constant(.breathe)
     )
 }
 #endif
