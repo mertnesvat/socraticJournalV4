@@ -17,6 +17,7 @@ public final class BreatheViewModel {
     private(set) var previousDailyTotal: Double = 0
     private(set) var dailyGoalMinutes: Int = 5
     private(set) var lastCompletedSession: BreathSession?
+    private(set) var favoritePatternId: String?
 
     let engine = BreathPacingEngine()
     let hapticEngine = HapticRhythmEngine()
@@ -49,6 +50,7 @@ public final class BreatheViewModel {
             let settings = try await repo.getSettings()
             hapticEngine.setEnabled(settings.hapticRhythmEnabled)
             dailyGoalMinutes = settings.dailyGoalMinutes
+            favoritePatternId = settings.favoritePatternId
         } catch {}
     }
 
@@ -61,6 +63,25 @@ public final class BreatheViewModel {
 
         var label: String { "\(rawValue) min" }
         var seconds: TimeInterval { TimeInterval(rawValue * 60) }
+    }
+
+    // MARK: - Favourite
+
+    var isCurrentPatternFavorite: Bool {
+        favoritePatternId == selectedPattern.id
+    }
+
+    func toggleFavorite() {
+        guard let repo = settingsRepository else { return }
+        let newFavoriteId: String? = isCurrentPatternFavorite ? nil : selectedPattern.id
+        favoritePatternId = newFavoriteId
+        Task {
+            do {
+                var settings = try await repo.getSettings()
+                settings.favoritePatternId = newFavoriteId
+                try await repo.saveSettings(settings)
+            } catch {}
+        }
     }
 
     // MARK: - Actions
