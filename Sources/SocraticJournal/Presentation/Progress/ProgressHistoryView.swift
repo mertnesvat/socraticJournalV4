@@ -32,6 +32,12 @@ public struct ProgressHistoryView: View {
                     )
                     HairlineDivider()
 
+                    // Apple Health cumulative minutes (hidden when unavailable or zero)
+                    if let hkMinutes = viewModel.totalHealthKitMinutes, hkMinutes > 0 {
+                        healthKitMinutesRow(minutes: hkMinutes)
+                        HairlineDivider()
+                    }
+
                     // Weekly bar chart
                     WeeklyBarChart(
                         days: viewModel.weeklyMinutes,
@@ -73,6 +79,36 @@ public struct ProgressHistoryView: View {
             }
         }
         .task { await viewModel.loadData() }
+    }
+
+    // MARK: - HealthKit Row
+
+    private func healthKitMinutesRow(minutes: Double) -> some View {
+        HStack {
+            HStack(spacing: 8) {
+                Image(systemName: "heart.fill")
+                    .font(.system(size: 14))
+                    .foregroundStyle(AppColors.accent2.opacity(0.8))
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("HEALTH")
+                        .font(.system(size: 9, weight: .bold))
+                        .tracking(1.2)
+                        .foregroundStyle(AppColors.textTertiary)
+
+                    Text(String(format: "%.0f min total", minutes))
+                        .font(.system(size: 14, weight: .semibold, design: .serif))
+                        .foregroundStyle(AppColors.textPrimary)
+                }
+            }
+
+            Spacer()
+
+            Text("All time · Apple Health")
+                .font(.system(size: 10))
+                .foregroundStyle(AppColors.textTertiary)
+        }
+        .padding(AppSpacing.cardPadding)
     }
 }
 #endif

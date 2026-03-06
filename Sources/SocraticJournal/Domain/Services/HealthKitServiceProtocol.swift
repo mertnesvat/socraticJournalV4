@@ -22,4 +22,8 @@ public protocol HealthKitServiceProtocol: Sendable {
 
     /// Returns the most recent resting heart rate in BPM, or nil if unavailable
     func fetchLatestRestingHeartRate() async -> Double?
+
+    /// Returns the total duration (in minutes) of all mindful sessions written to
+    /// HealthKit by Rumi (identified by the RumiPatternId metadata key), all time
+    func fetchTotalRumiMindfulMinutes() async -> Double?
 }

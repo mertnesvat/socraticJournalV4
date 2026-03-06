@@ -53,6 +53,14 @@ public struct TodayView: View {
                 .padding(.horizontal, AppSpacing.screenPadding)
                 .padding(.vertical, AppSpacing.md)
 
+                // Resting Heart Rate from Apple Health (hidden when unavailable)
+                if let bpm = viewModel.restingHeartRate {
+                    HairlineDivider()
+                    restingHRCard(bpm: bpm)
+                        .padding(.horizontal, AppSpacing.screenPadding)
+                        .padding(.vertical, AppSpacing.md)
+                }
+
                 HairlineDivider()
 
                 // Today's sessions
@@ -265,6 +273,50 @@ public struct TodayView: View {
             }
         }
         .padding(.horizontal, AppSpacing.cardPadding)
+    }
+
+    // MARK: - Goal Progress
+
+    // MARK: - Resting HR Card
+
+    private func restingHRCard(bpm: Double) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("RESTING HEART RATE")
+                    .font(.system(size: 11, weight: .bold))
+                    .tracking(1.0)
+                    .foregroundStyle(AppColors.accent)
+
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text(String(format: "%.0f", bpm))
+                        .font(.system(size: 36, weight: .bold, design: .serif))
+                        .foregroundStyle(AppColors.textPrimary)
+
+                    Text("BPM")
+                        .font(.system(size: 11))
+                        .foregroundStyle(AppColors.textTertiary)
+                }
+
+                Text("From Apple Health")
+                    .font(.system(size: 11))
+                    .foregroundStyle(AppColors.textTertiary)
+            }
+
+            Spacer()
+
+            Image(systemName: "heart.fill")
+                .font(.system(size: 28))
+                .foregroundStyle(AppColors.accent2.opacity(0.7))
+        }
+        .padding(AppSpacing.cardPadding)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(AppColors.accent2.opacity(0.06))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(AppColors.accent2.opacity(0.12), lineWidth: 1)
+        )
     }
 
     // MARK: - Goal Progress

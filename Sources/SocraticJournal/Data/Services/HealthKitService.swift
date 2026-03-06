@@ -89,5 +89,35 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
             store.execute(query)
         }
     }
+
+    public func fetchTotalRumiMindfulMinutes() async -> Double? {
+        guard isAvailable() else { return nil }
+        guard store.authorizationStatus(for: mindfulSessionType) != .notDetermined else { return nil }
+
+        return await withCheckedContinuation { continuation in
+            let query = HKSampleQuery(
+                sampleType: mindfulSessionType,
+                predicate: nil,
+                limit: HKObjectQueryNoLimit,
+                sortDescriptors: nil
+            ) { _, samples, _ in
+                guard let samples = samples as? [HKCategorySample] else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                // Filter to only Rumi-originated samples via metadata key
+                let rumiSamples = samples.filter { $0.metadata?["RumiPatternId"] != nil }
+                guard !rumiSamples.isEmpty else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                let totalMinutes = rumiSamples.reduce(0.0) { acc, sample in
+                    acc + sample.endDate.timeIntervalSince(sample.startDate) / 60.0
+                }
+                continuation.resume(returning: totalMinutes)
+            }
+            store.execute(query)
+        }
+    }
 }
 #endif
