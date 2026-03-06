@@ -18,6 +18,7 @@ public final class ProgressViewModel {
     private(set) var patternStats: [PatternStat] = []
     private(set) var dateGroups: [DateGroup] = []
     private(set) var dailyGoalMinutes: Int = 5
+    private(set) var boltScores: [BOLTScore] = []
     private(set) var isLoading: Bool = false
 
     // MARK: - Types
@@ -89,6 +90,9 @@ public final class ProgressViewModel {
             // Session history (last 30 sessions)
             let recentSessions = Array(allSessions.prefix(30))
             dateGroups = buildDateGroups(sessions: recentSessions, calendar: calendar, today: today)
+
+            // BOLT score history
+            boltScores = try await sessionRepository.getBOLTScores()
         } catch {
             // Degrade gracefully
         }

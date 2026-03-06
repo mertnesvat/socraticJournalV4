@@ -48,6 +48,10 @@ public struct ProgressHistoryView: View {
                         dateGroups: viewModel.dateGroups,
                         viewModel: viewModel
                     )
+                    HairlineDivider()
+
+                    // BOLT history
+                    BOLTHistoryList(scores: viewModel.boltScores)
 
                     Spacer(minLength: AppSpacing.sectionGap)
                 }

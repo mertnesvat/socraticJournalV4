@@ -218,5 +218,64 @@ struct ProgressViewModelTests {
         #expect(!result.isEmpty)
         #expect(result.contains(":"))
     }
+
+    // MARK: - BOLT Score Integration
+
+    @Test("boltScores is empty before loadData is called")
+    func boltScoresInitiallyEmpty() {
+        let (vm, _, _) = makeViewModel()
+        #expect(vm.boltScores.isEmpty)
+    }
+
+    @Test("boltScores is populated from repository after loadData")
+    func boltScoresLoaded() async {
+        let (vm, repo, _) = makeViewModel()
+        repo.boltScores = [
+            BOLTScore(score: 15.0),
+            BOLTScore(score: 25.0),
+        ]
+        await vm.loadData()
+        #expect(vm.boltScores.count == 2)
+    }
+
+    @Test("boltScores values match what repository returns")
+    func boltScoresMatchRepository() async {
+        let (vm, repo, _) = makeViewModel()
+        let score1 = BOLTScore(score: 18.5)
+        let score2 = BOLTScore(score: 32.0)
+        repo.boltScores = [score1, score2]
+        await vm.loadData()
+
+        let loadedScores = vm.boltScores.map { $0.score }
+        #expect(loadedScores.contains(18.5))
+        #expect(loadedScores.contains(32.0))
+    }
+
+    @Test("boltScores is empty when repository has no scores")
+    func boltScoresEmptyWhenRepositoryEmpty() async {
+        let (vm, _, _) = makeViewModel()
+        await vm.loadData()
+        #expect(vm.boltScores.isEmpty)
+    }
+
+    @Test("boltScores degrades gracefully when repository throws")
+    func boltScoresGracefulFailure() async {
+        let (vm, repo, _) = makeViewModel()
+        repo.shouldFail = true
+        await vm.loadData()
+        #expect(vm.boltScores.isEmpty)
+    }
+
+    @Test("boltScores count reflects all saved scores")
+    func boltScoresCountMatchesSaved() async {
+        let (vm, repo, _) = makeViewModel()
+        repo.boltScores = [
+            BOLTScore(score: 10.0),
+            BOLTScore(score: 20.0),
+            BOLTScore(score: 30.0),
+        ]
+        await vm.loadData()
+        #expect(vm.boltScores.count == 3)
+    }
 }
 #endif

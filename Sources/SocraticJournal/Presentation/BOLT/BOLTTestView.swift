@@ -8,7 +8,6 @@ import SwiftUI
 /// Container view for the BOLT test flow with NavigationStack
 public struct BOLTTestView: View {
     @State private var path = NavigationPath()
-    @State private var testScore: TimeInterval?
     let sessionRepository: BreathSessionRepositoryProtocol
     let latestScore: BOLTScore?
     let onDismiss: () -> Void
@@ -23,31 +22,28 @@ public struct BOLTTestView: View {
                 case .timer:
                     BOLTTimerPage(
                         onComplete: { score in
-                            testScore = score
-                            path.append(BOLTPage.result)
+                            path.append(BOLTPage.result(score))
                         }
                     )
-                case .result:
-                    if let score = testScore {
-                        BOLTResultPage(
-                            score: score,
-                            previousScore: latestScore,
-                            sessionRepository: sessionRepository,
-                            onSave: onDismiss,
-                            onRetake: {
-                                testScore = nil
-                                path.removeLast(path.count)
-                                path.append(BOLTPage.timer)
-                            }
-                        )
-                    }
+                case .result(let score):
+                    BOLTResultPage(
+                        score: score,
+                        previousScore: latestScore,
+                        sessionRepository: sessionRepository,
+                        onSave: onDismiss,
+                        onRetake: {
+                            path.removeLast(path.count)
+                            path.append(BOLTPage.timer)
+                        }
+                    )
                 }
             }
         }
     }
 
     enum BOLTPage: Hashable {
-        case timer, result
+        case timer
+        case result(TimeInterval)
     }
 }
 #endif
