@@ -130,19 +130,28 @@ public final class BreatheViewModel {
 
     private func saveSession(duration: TimeInterval, cycles: Int) {
         guard duration > 5 else { return } // Don't save sessions < 5 seconds
+        let sessionStart = sessionStartedAt ?? Date()
+        let sessionEnd = Date()
         let session = BreathSession(
             id: UUID().uuidString,
             patternId: selectedPattern.id,
-            startedAt: sessionStartedAt ?? Date(),
-            completedAt: Date(),
+            startedAt: sessionStart,
+            completedAt: sessionEnd,
             totalDuration: duration,
             cyclesCompleted: cycles
         )
         if duration >= 30 {
             lastCompletedSession = session
         }
+        let patternId = selectedPattern.id
         Task {
             try? await sessionRepository.saveSession(session)
+            // Write to Apple Health as a Mindful Minute (silently ignored if unavailable/unauthorized)
+            try? await HealthKitService.shared.saveMindfulSession(
+                start: sessionStart,
+                end: sessionEnd,
+                patternId: patternId
+            )
         }
         analyticsService?.logEvent(.sessionCompleted, parameters: [
             "pattern_id": selectedPattern.id,
