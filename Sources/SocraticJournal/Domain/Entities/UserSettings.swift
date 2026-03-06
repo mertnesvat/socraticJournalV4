@@ -16,6 +16,8 @@ public struct UserSettings: Codable, Sendable, Equatable {
     public var readArticleIndices: Set<Int>
     /// The pattern ID the user has marked as their favourite (used by the home screen widget)
     public var favoritePatternId: String?
+    /// Whether to write an HRV session marker to Apple Health after coherence-focused sessions
+    public var healthKitHRVLoggingEnabled: Bool
 
     public init(
         themeMode: ThemeMode = .system,
@@ -26,7 +28,8 @@ public struct UserSettings: Codable, Sendable, Equatable {
         dailyGoalMinutes: Int = 5,
         hapticRhythmEnabled: Bool = true,
         readArticleIndices: Set<Int> = [],
-        favoritePatternId: String? = nil
+        favoritePatternId: String? = nil,
+        healthKitHRVLoggingEnabled: Bool = false
     ) {
         self.themeMode = themeMode
         self.dailyReminderEnabled = dailyReminderEnabled
@@ -37,6 +40,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
         self.hapticRhythmEnabled = hapticRhythmEnabled
         self.readArticleIndices = readArticleIndices
         self.favoritePatternId = favoritePatternId
+        self.healthKitHRVLoggingEnabled = healthKitHRVLoggingEnabled
     }
 
     // Custom decoder for backwards compatibility
@@ -51,6 +55,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
         hapticRhythmEnabled = try container.decodeIfPresent(Bool.self, forKey: .hapticRhythmEnabled) ?? true
         readArticleIndices = try container.decodeIfPresent(Set<Int>.self, forKey: .readArticleIndices) ?? []
         favoritePatternId = try container.decodeIfPresent(String.self, forKey: .favoritePatternId)
+        healthKitHRVLoggingEnabled = try container.decodeIfPresent(Bool.self, forKey: .healthKitHRVLoggingEnabled) ?? false
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -63,6 +68,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
         case hapticRhythmEnabled
         case readArticleIndices
         case favoritePatternId
+        case healthKitHRVLoggingEnabled
     }
 
     /// Default settings

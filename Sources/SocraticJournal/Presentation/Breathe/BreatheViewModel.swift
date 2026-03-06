@@ -17,6 +17,9 @@ public final class BreatheViewModel {
     private(set) var previousDailyTotal: Double = 0
     private(set) var dailyGoalMinutes: Int = 5
     private(set) var lastCompletedSession: BreathSession?
+    private(set) var healthKitHRVLoggingEnabled: Bool = false
+
+    private static let hrvEligiblePatterns: Set<String> = ["resonance", "coherent", "box", "478", "nadi"]
 
     let engine = BreathPacingEngine()
     let hapticEngine = HapticRhythmEngine()
@@ -49,6 +52,7 @@ public final class BreatheViewModel {
             let settings = try await repo.getSettings()
             hapticEngine.setEnabled(settings.hapticRhythmEnabled)
             dailyGoalMinutes = settings.dailyGoalMinutes
+            healthKitHRVLoggingEnabled = settings.healthKitHRVLoggingEnabled
         } catch {}
     }
 
@@ -141,8 +145,14 @@ public final class BreatheViewModel {
         if duration >= 30 {
             lastCompletedSession = session
         }
+        let patternId = selectedPattern.id
+        let sessionEnd = session.completedAt
         Task {
             try? await sessionRepository.saveSession(session)
+            if healthKitHRVLoggingEnabled,
+               BreatheViewModel.hrvEligiblePatterns.contains(patternId) {
+                try? await HealthKitService.shared.saveHRVMarker(date: sessionEnd)
+            }
         }
         analyticsService?.logEvent(.sessionCompleted, parameters: [
             "pattern_id": selectedPattern.id,

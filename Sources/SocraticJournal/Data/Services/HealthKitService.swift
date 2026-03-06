@@ -18,7 +18,7 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
 
     // Types we read
     private let restingHRType = HKQuantityType(.restingHeartRate)
-    private let hrvType = HKQuantityType(.heartRateVariability)
+    private let hrvType = HKQuantityType(.heartRateVariabilitySDNN)
 
     private init() {}
 
@@ -32,7 +32,7 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
         guard isAvailable() else { return }
         let typesToWrite: Set<HKSampleType> = [
             mindfulSessionType,
-            HKQuantityType(.heartRateVariability)
+            HKQuantityType(.heartRateVariabilitySDNN)
         ]
         let typesToRead: Set<HKObjectType> = [
             restingHRType,
@@ -44,6 +44,11 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
     public func isMindfulSessionWriteAuthorized() -> Bool {
         guard isAvailable() else { return false }
         return store.authorizationStatus(for: mindfulSessionType) == .sharingAuthorized
+    }
+
+    public func isHRVWriteAuthorized() -> Bool {
+        guard isAvailable() else { return false }
+        return store.authorizationStatus(for: hrvType) == .sharingAuthorized
     }
 
     // MARK: - Write
@@ -62,6 +67,24 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
             value: HKCategoryValue.notApplicable.rawValue,
             start: start,
             end: end,
+            metadata: metadata
+        )
+        try await store.save(sample)
+    }
+
+    public func saveHRVMarker(date: Date) async throws {
+        guard isAvailable(), isHRVWriteAuthorized() else { return }
+        let quantity = HKQuantity(unit: HKUnit(from: "ms"), doubleValue: 0.0)
+        let metadata: [String: Any] = [
+            HKMetadataKeyWasUserEntered: false,
+            "RumiEstimated": true,
+            "RumiSessionMarker": true
+        ]
+        let sample = HKQuantitySample(
+            type: hrvType,
+            quantity: quantity,
+            start: date,
+            end: date,
             metadata: metadata
         )
         try await store.save(sample)

@@ -22,4 +22,11 @@ public protocol HealthKitServiceProtocol: Sendable {
 
     /// Returns the most recent resting heart rate in BPM, or nil if unavailable
     func fetchLatestRestingHeartRate() async -> Double?
+
+    /// Writes an HRV session marker (value 0.0 ms, metadata flagged as estimated)
+    /// to Apple Health at the given date. This is a practice marker, not a real HRV measurement.
+    func saveHRVMarker(date: Date) async throws
+
+    /// Returns true if write authorisation for HRV has been granted
+    func isHRVWriteAuthorized() -> Bool
 }
