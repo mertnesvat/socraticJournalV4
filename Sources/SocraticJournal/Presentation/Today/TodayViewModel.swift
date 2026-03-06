@@ -18,6 +18,7 @@ public final class TodayViewModel {
     private(set) var dailyGoalMinutes: Int = 5
     private(set) var isLoading: Bool = false
     private(set) var latestBOLTScore: BOLTScore?
+    private(set) var restingHeartRate: Double?
 
     var goalReached: Bool {
         totalMinutesToday >= Double(dailyGoalMinutes)
@@ -66,6 +67,8 @@ public final class TodayViewModel {
         } catch {
             // Silently handle — dashboard degrades gracefully
         }
+        // HealthKit read is independent — failure should not affect the dashboard
+        restingHeartRate = await HealthKitService.shared.fetchLatestRestingHeartRate()
         isLoading = false
     }
 

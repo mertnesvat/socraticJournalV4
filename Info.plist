@@ -16,6 +16,17 @@
     <string>APPL</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>com.StudioNext.socraticJournal</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>rumi</string>
+            </array>
+        </dict>
+    </array>
     <key>UILaunchScreen</key>
     <dict/>
     <key>UIApplicationSceneManifest</key>
@@ -39,6 +50,10 @@
     <false/>
     <key>NSUserTrackingUsageDescription</key>
     <string>We use this to measure the effectiveness of our marketing campaigns and improve your app experience.</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>Rumi saves your breathing sessions as Mindful Minutes in Apple Health.</string>
+    <key>NSHealthShareUsageDescription</key>
+    <string>Rumi reads your resting heart rate to show health trends alongside your breathing practice.</string>
     <key>FirebaseUseEmulator</key>
     <string>$(FIREBASE_USE_EMULATOR)</string>
     <key>FirebaseEmulatorHost</key>

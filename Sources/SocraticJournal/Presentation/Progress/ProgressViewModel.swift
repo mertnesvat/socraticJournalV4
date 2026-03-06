@@ -19,6 +19,7 @@ public final class ProgressViewModel {
     private(set) var dateGroups: [DateGroup] = []
     private(set) var dailyGoalMinutes: Int = 5
     private(set) var isLoading: Bool = false
+    private(set) var totalHealthKitMinutes: Double?
 
     // MARK: - Types
 
@@ -92,6 +93,8 @@ public final class ProgressViewModel {
         } catch {
             // Degrade gracefully
         }
+        // HealthKit fetch is independent — failures do not affect the rest of the view
+        totalHealthKitMinutes = await HealthKitService.shared.fetchTotalRumiMindfulMinutes()
         isLoading = false
     }
 
