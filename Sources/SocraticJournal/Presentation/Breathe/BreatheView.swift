@@ -31,7 +31,7 @@ public struct BreatheView: View {
 
     public var body: some View {
         VStack(spacing: 0) {
-            // Header with duration chips
+            // Header with favourite button and duration chips
             headerBar
             HairlineDivider()
 
@@ -101,13 +101,28 @@ public struct BreatheView: View {
     // MARK: - Header Bar
 
     private var headerBar: some View {
-        HStack {
+        HStack(spacing: AppSpacing.sm) {
             Text("BREATHE")
                 .font(.system(size: 11, weight: .bold))
                 .tracking(1.5)
                 .foregroundStyle(AppColors.accent)
 
             Spacer()
+
+            // Favourite toggle — disabled while a session is running
+            if !viewModel.engine.isRunning {
+                Button {
+                    viewModel.toggleFavorite()
+                } label: {
+                    Image(systemName: viewModel.isCurrentPatternFavorite ? "heart.fill" : "heart")
+                        .font(.system(size: 16))
+                        .foregroundStyle(viewModel.isCurrentPatternFavorite ? AppColors.accent2 : AppColors.textTertiary)
+                        .frame(width: 36, height: 36)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(viewModel.isCurrentPatternFavorite ? "Remove from favourites" : "Set as favourite")
+            }
 
             DurationChipBar(
                 durations: BreatheViewModel.SessionDuration.allCases,
