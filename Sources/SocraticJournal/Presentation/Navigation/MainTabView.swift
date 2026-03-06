@@ -95,6 +95,34 @@ public struct MainTabView: View {
             }
         }
         .tint(AppColors.accent)
+        .onOpenURL { url in
+            handleDeepLink(url)
+        }
+    }
+
+    // MARK: - Deep Link Handling
+
+    /// Handles `rumi://breathe?patternId=<id>` deep links from the widget.
+    private func handleDeepLink(_ url: URL) {
+        guard url.scheme?.lowercased() == "rumi" else { return }
+        guard let host = url.host?.lowercased(), host == "breathe" else {
+            // Unknown host — just open the Breathe tab
+            withAnimation(.easeInOut(duration: 0.2)) { selectedTab = .breathe }
+            return
+        }
+
+        // Extract optional patternId query parameter
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let patternId = components?.queryItems?.first(where: { $0.name == "patternId" })?.value
+
+        // Set pending pattern before switching tab so BreatheView picks it up
+        if let patternId, !patternId.isEmpty {
+            pendingPatternId = patternId
+        }
+
+        withAnimation(.easeInOut(duration: 0.2)) {
+            selectedTab = .breathe
+        }
     }
 }
 
