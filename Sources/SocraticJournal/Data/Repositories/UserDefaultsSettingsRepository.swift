@@ -4,14 +4,15 @@
 
 import Foundation
 
-/// UserDefaults-based implementation of SettingsRepositoryProtocol
+/// UserDefaults-based implementation of SettingsRepositoryProtocol.
+/// Defaults to the App Group shared suite so the widget extension can read the same data.
 public final class UserDefaultsSettingsRepository: SettingsRepositoryProtocol, @unchecked Sendable {
     private let defaults: UserDefaults
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
     private let settingsKey = "com.socraticjournal.settings"
 
-    public init(defaults: UserDefaults = .standard) {
+    public init(defaults: UserDefaults = .appGroup) {
         self.defaults = defaults
         self.encoder = JSONEncoder()
         self.decoder = JSONDecoder()
@@ -48,9 +49,5 @@ public final class UserDefaultsSettingsRepository: SettingsRepositoryProtocol, @
         let bundleId = Bundle.main.bundleIdentifier ?? "com.socraticjournal"
         defaults.removePersistentDomain(forName: bundleId)
         defaults.synchronize()
-
-        // Note: In-memory data will be cleared when the app restarts
-        // In a production app with persistent storage, you would clear
-        // the database/files here as well
     }
 }

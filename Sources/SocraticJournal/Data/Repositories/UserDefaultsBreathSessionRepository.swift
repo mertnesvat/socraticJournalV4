@@ -4,7 +4,8 @@
 
 import Foundation
 
-/// UserDefaults-backed implementation of BreathSessionRepositoryProtocol
+/// UserDefaults-backed implementation of BreathSessionRepositoryProtocol.
+/// Defaults to the App Group shared suite so the widget extension can read session data.
 public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryProtocol, @unchecked Sendable {
     private let defaults: UserDefaults
     private let encoder: JSONEncoder
@@ -12,7 +13,7 @@ public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryP
     private let sessionsKey = "com.breathe.sessions"
     private let boltKey = "com.breathe.bolt"
 
-    public init(defaults: UserDefaults = .standard) {
+    public init(defaults: UserDefaults = .appGroup) {
         self.defaults = defaults
         self.encoder = JSONEncoder()
         self.decoder = JSONDecoder()
