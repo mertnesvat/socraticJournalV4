@@ -54,6 +54,8 @@ targets:
       path: SocraticJournal.entitlements
       properties:
         aps-environment: development
+        com.apple.security.application-groups:
+          - group.com.StudioNext.socraticJournal
 
   SocraticJournalTests:
     type: bundle.unit-test
