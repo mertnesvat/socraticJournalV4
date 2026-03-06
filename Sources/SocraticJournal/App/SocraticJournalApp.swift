@@ -36,6 +36,7 @@ public struct SocraticJournalApp: App {
             .task {
                 await themeManager.loadTheme()
                 await checkOnboardingStatus()
+                await requestHealthKitIfNeeded()
             }
             .fullScreenCover(isPresented: $showOnboarding) {
                 NewOnboardingView(
@@ -64,6 +65,13 @@ public struct SocraticJournalApp: App {
                 showOnboarding = true
             }
         }
+    }
+
+    /// Requests HealthKit authorization on devices where it is available.
+    /// Non-blocking — the app continues normally regardless of the user's choice.
+    private func requestHealthKitIfNeeded() async {
+        guard HealthKitService.shared.isAvailable() else { return }
+        try? await HealthKitService.shared.requestAuthorization()
     }
 }
 #endif
