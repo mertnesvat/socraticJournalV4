@@ -20,9 +20,6 @@ packages:
   firebase-ios-sdk:
     url: https://github.com/firebase/firebase-ios-sdk.git
     from: "11.0.0"
-  AppsFlyerFramework:
-    url: https://github.com/AppsFlyerSDK/AppsFlyerFramework.git
-    from: "6.15.0"
 
 targets:
   SocraticJournal:
@@ -53,8 +50,6 @@ targets:
         product: FirebaseFunctions
       - package: firebase-ios-sdk
         product: FirebaseMessaging
-      - package: AppsFlyerFramework
-        product: AppsFlyerLib
     entitlements:
       path: SocraticJournal.entitlements
       properties:
