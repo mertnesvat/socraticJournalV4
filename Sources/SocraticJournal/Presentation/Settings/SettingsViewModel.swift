@@ -68,6 +68,14 @@ public final class SettingsViewModel {
         }
     }
 
+    var healthKitHRVLoggingEnabled: Bool {
+        get { settings.healthKitHRVLoggingEnabled }
+        set {
+            settings.healthKitHRVLoggingEnabled = newValue
+            Task { await saveSettings() }
+        }
+    }
+
     var notificationsDenied: Bool {
         notificationPermissionStatus == .denied
     }

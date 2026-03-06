@@ -75,6 +75,15 @@ public struct SettingsView: View {
                         .padding(.horizontal, AppSpacing.screenPadding)
                         .padding(.bottom, AppSpacing.md)
 
+                    // HEALTH section (only on devices with HealthKit)
+                    if HealthKitService.shared.isAvailable() {
+                        SectionHeaderView("Health")
+                            .padding(.top, AppSpacing.md)
+                        healthKitSection
+                            .padding(.horizontal, AppSpacing.screenPadding)
+                            .padding(.bottom, AppSpacing.md)
+                    }
+
                     // APPEARANCE section
                     SectionHeaderView("Appearance")
                         .padding(.top, AppSpacing.md)
@@ -155,6 +164,28 @@ public struct SettingsView: View {
                     .buttonStyle(.plain)
                 }
             }
+        }
+    }
+
+    // MARK: - Health Section
+
+    private var healthKitSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Log HRV marker to Health")
+                    .font(AppTypography.bodyBold)
+                    .foregroundStyle(AppColors.textPrimary)
+                Text("Marks coherence sessions in Apple Health")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textSecondary)
+            }
+            Spacer()
+            Toggle("", isOn: Binding(
+                get: { viewModel.healthKitHRVLoggingEnabled },
+                set: { viewModel.healthKitHRVLoggingEnabled = $0 }
+            ))
+            .tint(AppColors.accent)
+            .labelsHidden()
         }
     }
 

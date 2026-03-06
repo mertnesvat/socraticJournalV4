@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -73,6 +73,7 @@
 		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
 		980A3458BC44A5ED8B194540 /* PatternSelectorBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D310E6FEDB1269BDC6844E6 /* PatternSelectorBar.swift */; };
 		9917834581BCFF88C4288A82 /* LearnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C5E0D4079AC6077240D2B /* LearnView.swift */; };
+		A03E497AF878EF6115D08920 /* HealthKitServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B64781DF590E431DB8C4524 /* HealthKitServiceProtocol.swift */; };
 		A2481571749D543317F411DC /* BreatheView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71271D797DB8CC4FA3B1EF89 /* BreatheView.swift */; };
 		A30E828964F3B115BD81F6FE /* TrainingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F98D174A271690D1FECA4 /* TrainingViewModel.swift */; };
 		A6196D685C57667CED95385B /* ProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */; };
@@ -98,6 +99,7 @@
 		E22D51C2108FCDF5D2670EE7 /* BreathSessionRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DF4448F47B1DE6B53169BA /* BreathSessionRepositoryProtocol.swift */; };
 		E594F9C12B3734F2ED86CA78 /* MockNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264BBCCB81D25B4C291BDD2D /* MockNotificationService.swift */; };
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
+		ECBF68F49D8770745CCFC556 /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EEB68AC65A76154DCF7B45 /* HealthKitService.swift */; };
 		EF2DCE222330B94D6C0CA97E /* BreathSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F08E6F4D39B48732A09ECA /* BreathSessionTests.swift */; };
 		F395480855579B6811747877 /* ProgressHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960CC5ACE3BD13E1D11AE13F /* ProgressHistoryView.swift */; };
 		F7A6ACD01D3F048108B098D9 /* SessionCompletionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAEEA14D3D56EA59B71874A /* SessionCompletionTests.swift */; };
@@ -121,6 +123,7 @@
 		0C9E98B9AB99203807F249A5 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		0FAEEA14D3D56EA59B71874A /* SessionCompletionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompletionTests.swift; sourceTree = "<group>"; };
 		10FCE6C89661575815CB6CE7 /* BreathPacingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingEngine.swift; sourceTree = "<group>"; };
+		18EEB68AC65A76154DCF7B45 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
 		1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewModel.swift; sourceTree = "<group>"; };
 		21B81A264A8ED07DAB0C5671 /* BreathWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathWaveView.swift; sourceTree = "<group>"; };
 		264BBCCB81D25B4C291BDD2D /* MockNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotificationService.swift; sourceTree = "<group>"; };
@@ -137,16 +140,17 @@
 		49C8AFDD8F05DE7987047037 /* ProgramDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailView.swift; sourceTree = "<group>"; };
 		4A737F1D67490C9A86525010 /* BreathSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSession.swift; sourceTree = "<group>"; };
 		4C2DE432B9DE5251217EE654 /* SummaryStatsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryStatsRow.swift; sourceTree = "<group>"; };
-		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54BA9804A6F548EFB32161C7 /* BreathPatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPatternTests.swift; sourceTree = "<group>"; };
 		55BA781ACCE79EACDA7E0CEE /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
 		58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		5B64781DF590E431DB8C4524 /* HealthKitServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitServiceProtocol.swift; sourceTree = "<group>"; };
 		60A8B02F05534B87C324BF7A /* BreathPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPattern.swift; sourceTree = "<group>"; };
 		619E5097DA5BB102624F0F78 /* SessionCompleteOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteOverlay.swift; sourceTree = "<group>"; };
 		620AE1DE3EBF768B0B45DE15 /* TrainingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingData.swift; sourceTree = "<group>"; };
 		62DFDC648338C8E0D2CE3976 /* ProgramProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramProgress.swift; sourceTree = "<group>"; };
 		67C9D53BA27D2C984BB8128B /* ProgramCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramCarousel.swift; sourceTree = "<group>"; };
-		6A07E910B300F8BA4C4769BE /* SocraticJournalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SocraticJournalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A07E910B300F8BA4C4769BE /* SocraticJournalTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SocraticJournalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A26CE363104B816367D8564 /* WeeklyBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBarChart.swift; sourceTree = "<group>"; };
 		6AA33B8E08110486FD435C7E /* InsightCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightCard.swift; sourceTree = "<group>"; };
 		6E4354C4A721FB32CB090AC6 /* LearnContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnContent.swift; sourceTree = "<group>"; };
@@ -309,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */,
+				5B64781DF590E431DB8C4524 /* HealthKitServiceProtocol.swift */,
 				B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */,
 			);
 			path = Services;
@@ -333,13 +338,6 @@
 				CF92EF5F314A4CC8478E991C /* ThemeManager.swift */,
 			);
 			path = Theme;
-			sourceTree = "<group>";
-		};
-		32989E0CC90971ED5BDB641C /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		40CFC09542825B694EBA4363 /* Progress */ = {
@@ -567,7 +565,6 @@
 				620AE1DE3EBF768B0B45DE15 /* TrainingData.swift */,
 				F27EA561A1CC769B929BC3E6 /* TrainingFlowView.swift */,
 				AD8F98D174A271690D1FECA4 /* TrainingViewModel.swift */,
-				32989E0CC90971ED5BDB641C /* Components */,
 			);
 			path = Training;
 			sourceTree = "<group>";
@@ -578,6 +575,7 @@
 				3D029C25B681B5461B571644 /* AppsFlyerService.swift */,
 				AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */,
 				B67545F72405599CA3D6E892 /* FirebaseNotificationService.swift */,
+				18EEB68AC65A76154DCF7B45 /* HealthKitService.swift */,
 				C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */,
 				F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */,
 			);
@@ -675,6 +673,7 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					4F597517012D1D2069CFA905 = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					7CFF6DB8DE828147AE0D43B9 = {
@@ -697,6 +696,7 @@
 				0FEB5928F96AB8640A1CDC8A /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
 				9EA46445D4C732837295775D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -776,6 +776,8 @@
 				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
 				7E18F84144F8748DD3C9BE5E /* FirebaseNotificationService.swift in Sources */,
 				9642579B660C2F7F7F23E410 /* HapticRhythmEngine.swift in Sources */,
+				ECBF68F49D8770745CCFC556 /* HealthKitService.swift in Sources */,
+				A03E497AF878EF6115D08920 /* HealthKitServiceProtocol.swift in Sources */,
 				257FD30AE9ED8946B76C5790 /* InsightCard.swift in Sources */,
 				34FD5A4D2F29130DA2DBA513 /* LearnContent.swift in Sources */,
 				9917834581BCFF88C4288A82 /* LearnView.swift in Sources */,
@@ -840,7 +842,6 @@
 				CODE_SIGN_ENTITLEMENTS = SocraticJournal.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 9;
-				DEVELOPMENT_TEAM = 5C6693YG48;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -922,7 +923,6 @@
 				CODE_SIGN_ENTITLEMENTS = SocraticJournal.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 9;
-				DEVELOPMENT_TEAM = 5C6693YG48;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
