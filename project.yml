@@ -55,10 +55,33 @@ targets:
         product: FirebaseMessaging
       - package: AppsFlyerFramework
         product: AppsFlyerLib
+      - target: RumiWidget
+        embed: true
     entitlements:
       path: SocraticJournal.entitlements
       properties:
         aps-environment: development
+        com.apple.security.application-groups:
+          - group.com.StudioNext.socraticJournal
+
+  RumiWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: RumiWidget
+        excludes:
+          - "**/.DS_Store"
+          - "RumiWidget.entitlements"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournal.widget
+        INFOPLIST_FILE: RumiWidget/Info.plist
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SWIFT_VERSION: "5.9"
+        GENERATE_INFOPLIST_FILE: NO
+    entitlements:
+      path: RumiWidget/RumiWidget.entitlements
+      properties:
         com.apple.security.application-groups:
           - group.com.StudioNext.socraticJournal
 
@@ -81,6 +104,7 @@ schemes:
     build:
       targets:
         SocraticJournal: all
+        RumiWidget: all
         SocraticJournalTests: [test]
     run:
       config: Debug
