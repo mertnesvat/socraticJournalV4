@@ -24,6 +24,7 @@
 		18A62927823B5A6BA560C79E /* AppShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E9AEFA74F97714623EBBB5 /* AppShapes.swift */; };
 		1942377AA6B21C6D939D0917 /* AppTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA3E1F2B8FB060A9055025B /* AppTypography.swift */; };
 		1DB64DE4DC0030FFEF1052F1 /* DailyLogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A532053939151DFEDF4CB1 /* DailyLogTests.swift */; };
+		1EAA46FECA3FACE17AA7E311 /* BOLTLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DCCE4A3159FA00AD7FCD49 /* BOLTLineChart.swift */; };
 		20D9D532C6E707A8D3F5B38C /* SampleDataGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1816E010B3904ABC74A1AFD2 /* SampleDataGenerator.swift */; };
 		2353327B27450AF113EF609F /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF92EF5F314A4CC8478E991C /* ThemeManager.swift */; };
 		2397BEF12B98BED9BC58761A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780176F1D4C8DEFC0AC2A54 /* MainTabView.swift */; };
@@ -127,6 +128,7 @@
 		264BBCCB81D25B4C291BDD2D /* MockNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotificationService.swift; sourceTree = "<group>"; };
 		2CF73C946A4299853FE58E44 /* AppSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpacing.swift; sourceTree = "<group>"; };
 		302C0F83D5747A73A08F0A83 /* PatternInfoSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternInfoSection.swift; sourceTree = "<group>"; };
+		30DCCE4A3159FA00AD7FCD49 /* BOLTLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BOLTLineChart.swift; sourceTree = "<group>"; };
 		35A17C2522BE41DC11F0453D /* ChapterSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterSection.swift; sourceTree = "<group>"; };
 		3B0B595102B110BCF1BD8C1F /* SettingsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepositoryProtocol.swift; sourceTree = "<group>"; };
 		3F9071F501DD9923652F37E5 /* ProgramData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramData.swift; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				82B0783DFC383F050515D677 /* BOLTHistoryList.swift */,
+				30DCCE4A3159FA00AD7FCD49 /* BOLTLineChart.swift */,
 				BCDBC20306488E9672FFA204 /* PatternDistribution.swift */,
 				C6F6B81BBC59B303F3AC4278 /* SessionHistoryList.swift */,
 				4C2DE432B9DE5251217EE654 /* SummaryStatsRow.swift */,
@@ -750,6 +753,7 @@
 				CCC56E6EA60688409D223FB5 /* ArticleRow.swift in Sources */,
 				030566D5D16DDF99E1DFB671 /* BOLTHistoryList.swift in Sources */,
 				248CD0125B42A6B5D84DB832 /* BOLTInstructionsPage.swift in Sources */,
+				1EAA46FECA3FACE17AA7E311 /* BOLTLineChart.swift in Sources */,
 				06BCE4AC73115D8F79BD6C67 /* BOLTResultPage.swift in Sources */,
 				337889469D7465C7DC40BB9B /* BOLTScore.swift in Sources */,
 				14B23246A969A014276F36A0 /* BOLTScoreCard.swift in Sources */,
