@@ -74,12 +74,31 @@ public final class SettingsViewModel {
         notificationPermissionStatus == .denied
     }
 
+    // MARK: - HealthKit
+
+    private(set) var healthKitAvailable: Bool = false
+    var showHealthPermissionDeniedAlert: Bool = false
+
+    var healthKitEnabled: Bool {
+        get { settings.healthKitEnabled }
+        set {
+            if newValue && !settings.healthKitEnabled {
+                // Request authorization on first enable
+                Task { await requestHealthKitAuthorization() }
+            } else {
+                settings.healthKitEnabled = newValue
+                Task { await saveSettings() }
+            }
+        }
+    }
+
     // MARK: - Dependencies
 
     public let settingsRepository: SettingsRepositoryProtocol
     public let sessionRepository: BreathSessionRepositoryProtocol?
     public let notificationService: NotificationServiceProtocol?
     public let analyticsService: AnalyticsServiceProtocol?
+    public let healthKitService: (any HealthKitServiceProtocol)?
 
     // MARK: - Init
 
@@ -87,12 +106,15 @@ public final class SettingsViewModel {
         settingsRepository: SettingsRepositoryProtocol,
         sessionRepository: BreathSessionRepositoryProtocol? = nil,
         notificationService: NotificationServiceProtocol? = nil,
-        analyticsService: AnalyticsServiceProtocol? = nil
+        analyticsService: AnalyticsServiceProtocol? = nil,
+        healthKitService: (any HealthKitServiceProtocol)? = nil
     ) {
         self.settingsRepository = settingsRepository
         self.sessionRepository = sessionRepository
         self.notificationService = notificationService
         self.analyticsService = analyticsService
+        self.healthKitService = healthKitService
+        self.healthKitAvailable = healthKitService?.isAvailable ?? false
     }
 
     // MARK: - Actions
@@ -161,6 +183,23 @@ public final class SettingsViewModel {
     public func openNotificationSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url)
+        }
+    }
+
+    public func openHealthSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url)
+        }
+    }
+
+    private func requestHealthKitAuthorization() async {
+        guard let hk = healthKitService, hk.isAvailable else { return }
+        do {
+            try await hk.requestAuthorization()
+            settings.healthKitEnabled = true
+            await saveSettings()
+        } catch {
+            showHealthPermissionDeniedAlert = true
         }
     }
 

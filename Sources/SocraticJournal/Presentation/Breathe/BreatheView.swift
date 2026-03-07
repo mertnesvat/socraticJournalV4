@@ -18,13 +18,15 @@ public struct BreatheView: View {
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol? = nil,
         analyticsService: AnalyticsServiceProtocol? = nil,
+        healthKitService: (any HealthKitServiceProtocol)? = nil,
         pendingPatternId: Binding<String?> = .constant(nil),
         pendingDuration: Binding<Int?> = .constant(nil)
     ) {
         _viewModel = State(initialValue: BreatheViewModel(
             sessionRepository: sessionRepository,
             settingsRepository: settingsRepository,
-            analyticsService: analyticsService
+            analyticsService: analyticsService,
+            healthKitService: healthKitService
         ))
         _pendingPatternId = pendingPatternId
         _pendingDuration = pendingDuration

@@ -39,6 +39,10 @@
     <false/>
     <key>NSUserTrackingUsageDescription</key>
     <string>We use this to measure the effectiveness of our marketing campaigns and improve your app experience.</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>Rumi Breathing saves your completed breath sessions as Mindful Minutes in Apple Health.</string>
+    <key>NSHealthShareUsageDescription</key>
+    <string>Rumi Breathing reads your Heart Rate Variability and Resting Heart Rate to show how your breathing practice improves your recovery.</string>
     <key>FirebaseUseEmulator</key>
     <string>$(FIREBASE_USE_EMULATOR)</string>
     <key>FirebaseEmulatorHost</key>

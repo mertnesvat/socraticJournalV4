@@ -54,6 +54,7 @@ targets:
       path: SocraticJournal.entitlements
       properties:
         aps-environment: development
+        com.apple.developer.healthkit: true
 
   SocraticJournalTests:
     type: bundle.unit-test
