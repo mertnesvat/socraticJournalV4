@@ -103,6 +103,15 @@ public struct SettingsView: View {
                     )
                     .padding(.horizontal, AppSpacing.screenPadding)
 
+                    // DEVELOPER section
+                    if viewModel.sessionRepository != nil {
+                        SectionHeaderView("Developer")
+                            .padding(.top, AppSpacing.md)
+                        developerSection
+                            .padding(.horizontal, AppSpacing.screenPadding)
+                            .padding(.bottom, AppSpacing.md)
+                    }
+
                     Spacer(minLength: AppSpacing.sectionGap)
                 }
             }
@@ -224,6 +233,62 @@ public struct SettingsView: View {
                     .font(AppTypography.captionBold)
                     .foregroundStyle(AppColors.accent)
                 }
+            }
+        }
+    }
+
+    // MARK: - Developer Section
+
+    private var developerSection: some View {
+        VStack(spacing: 0) {
+            Button {
+                Task { await viewModel.addSampleData() }
+            } label: {
+                HStack {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Add Sample Data")
+                            .font(AppTypography.bodyBold)
+                            .foregroundStyle(AppColors.accent)
+                        Text("30 days of sessions + BOLT history")
+                            .font(AppTypography.caption)
+                            .foregroundStyle(AppColors.textSecondary)
+                    }
+                    Spacer()
+                    if viewModel.isSampleDataLoading && !viewModel.hasSampleData {
+                        ProgressView()
+                            .tint(AppColors.accent)
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+            .disabled(viewModel.isSampleDataLoading || viewModel.hasSampleData)
+            .opacity((viewModel.hasSampleData) ? 0.4 : 1.0)
+
+            if viewModel.hasSampleData {
+                HairlineDivider()
+                    .padding(.vertical, AppSpacing.sm)
+
+                Button {
+                    Task { await viewModel.removeSampleData() }
+                } label: {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Remove Sample Data")
+                                .font(AppTypography.bodyBold)
+                                .foregroundStyle(AppColors.accent2)
+                            Text("Deletes only generated data, not real sessions")
+                                .font(AppTypography.caption)
+                                .foregroundStyle(AppColors.textSecondary)
+                        }
+                        Spacer()
+                        if viewModel.isSampleDataLoading {
+                            ProgressView()
+                                .tint(AppColors.accent2)
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+                .disabled(viewModel.isSampleDataLoading)
             }
         }
     }

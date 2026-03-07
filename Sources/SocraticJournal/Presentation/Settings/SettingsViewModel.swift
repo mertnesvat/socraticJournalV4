@@ -17,6 +17,8 @@ public final class SettingsViewModel {
     private(set) var error: Error?
     private(set) var notificationPermissionStatus: NotificationPermissionStatus = .notDetermined
     var showPermissionDeniedAlert: Bool = false
+    private(set) var hasSampleData: Bool = false
+    private(set) var isSampleDataLoading: Bool = false
 
     // MARK: - Computed Properties
 
@@ -75,6 +77,7 @@ public final class SettingsViewModel {
     // MARK: - Dependencies
 
     public let settingsRepository: SettingsRepositoryProtocol
+    public let sessionRepository: BreathSessionRepositoryProtocol?
     public let notificationService: NotificationServiceProtocol?
     public let analyticsService: AnalyticsServiceProtocol?
 
@@ -82,10 +85,12 @@ public final class SettingsViewModel {
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
+        sessionRepository: BreathSessionRepositoryProtocol? = nil,
         notificationService: NotificationServiceProtocol? = nil,
         analyticsService: AnalyticsServiceProtocol? = nil
     ) {
         self.settingsRepository = settingsRepository
+        self.sessionRepository = sessionRepository
         self.notificationService = notificationService
         self.analyticsService = analyticsService
     }
@@ -101,6 +106,7 @@ public final class SettingsViewModel {
             if let service = notificationService {
                 notificationPermissionStatus = await service.getPermissionStatus()
             }
+            await checkSampleData()
         } catch {
             self.error = error
         }
@@ -162,5 +168,37 @@ public final class SettingsViewModel {
         settings.hasCompletedOnboarding = false
         await saveSettings()
     }
+
+    // MARK: - Sample Data
+
+    public func addSampleData() async {
+        guard let repo = sessionRepository else { return }
+        isSampleDataLoading = true
+        do {
+            try await repo.addSampleData()
+            hasSampleData = true
+        } catch {
+            self.error = error
+        }
+        isSampleDataLoading = false
+    }
+
+    public func removeSampleData() async {
+        guard let repo = sessionRepository else { return }
+        isSampleDataLoading = true
+        do {
+            try await repo.removeSampleData()
+            hasSampleData = false
+        } catch {
+            self.error = error
+        }
+        isSampleDataLoading = false
+    }
+
+    private func checkSampleData() async {
+        guard let repo = sessionRepository else { return }
+        hasSampleData = (try? await repo.hasSampleData()) ?? false
+    }
 }
+
 #endif

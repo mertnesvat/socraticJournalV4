@@ -71,6 +71,7 @@ public struct TodayView: View {
             SettingsView(
                 viewModel: SettingsViewModel(
                     settingsRepository: settingsRepository,
+                    sessionRepository: sessionRepository,
                     notificationService: notificationService,
                     analyticsService: analyticsService
                 )

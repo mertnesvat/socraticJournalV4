@@ -4,6 +4,12 @@
 
 import Foundation
 
+/// Tracks IDs of sample-generated sessions and BOLT scores for clean removal
+private struct SampleDataTracker: Codable {
+    var sessionIds: [String]
+    var boltIds: [String]
+}
+
 /// UserDefaults-backed implementation of BreathSessionRepositoryProtocol
 public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryProtocol, @unchecked Sendable {
     private let defaults: UserDefaults
@@ -11,6 +17,7 @@ public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryP
     private let decoder: JSONDecoder
     private let sessionsKey = "com.breathe.sessions"
     private let boltKey = "com.breathe.bolt"
+    private let sampleTrackerKey = "com.breathe.sampleDataIds"
 
     public init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -104,5 +111,54 @@ public final class UserDefaultsBreathSessionRepository: BreathSessionRepositoryP
         } catch {
             return []
         }
+    }
+
+    // MARK: - Sample Data
+
+    public func addSampleData() async throws {
+        guard try await !hasSampleData() else { return }
+
+        let sessions = SampleDataGenerator.generateSessions()
+        let boltScores = SampleDataGenerator.generateBOLTScores()
+
+        for session in sessions {
+            try await saveSession(session)
+        }
+        for score in boltScores {
+            try await saveBOLTScore(score)
+        }
+
+        let tracker = SampleDataTracker(
+            sessionIds: sessions.map(\.id),
+            boltIds: boltScores.map(\.id)
+        )
+        let data = try encoder.encode(tracker)
+        defaults.set(data, forKey: sampleTrackerKey)
+    }
+
+    public func removeSampleData() async throws {
+        guard let data = defaults.data(forKey: sampleTrackerKey),
+              let tracker = try? decoder.decode(SampleDataTracker.self, from: data) else { return }
+
+        let sampleSessionIds = Set(tracker.sessionIds)
+        let sampleBoltIds = Set(tracker.boltIds)
+
+        let allSessions = try await getAllSessions()
+        let filteredSessions = allSessions.filter { !sampleSessionIds.contains($0.id) }
+        let sessionData = try encoder.encode(filteredSessions)
+        defaults.set(sessionData, forKey: sessionsKey)
+
+        let allBolt = try await getBOLTScores()
+        let filteredBolt = allBolt.filter { !sampleBoltIds.contains($0.id) }
+        let boltData = try encoder.encode(filteredBolt)
+        defaults.set(boltData, forKey: boltKey)
+
+        defaults.removeObject(forKey: sampleTrackerKey)
+    }
+
+    public func hasSampleData() async throws -> Bool {
+        guard let data = defaults.data(forKey: sampleTrackerKey),
+              let tracker = try? decoder.decode(SampleDataTracker.self, from: data) else { return false }
+        return !tracker.sessionIds.isEmpty || !tracker.boltIds.isEmpty
     }
 }

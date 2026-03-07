@@ -36,4 +36,15 @@ public protocol BreathSessionRepositoryProtocol: Sendable {
 
     /// Get all saved sessions sorted by startedAt descending
     func getAllSessions() async throws -> [BreathSession]
+
+    // MARK: - Sample Data
+
+    /// Add realistic sample sessions and BOLT scores for demo/screenshot purposes
+    func addSampleData() async throws
+
+    /// Remove only the previously added sample data, leaving real user data intact
+    func removeSampleData() async throws
+
+    /// Returns true if sample data has been added and not yet removed
+    func hasSampleData() async throws -> Bool
 }
