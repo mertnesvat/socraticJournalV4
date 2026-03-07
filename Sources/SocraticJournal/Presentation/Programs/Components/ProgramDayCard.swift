@@ -64,7 +64,7 @@ struct ProgramDayCard: View {
                     // Daily tip
                     Text(day.tip)
                         .font(.system(size: 13))
-                        .foregroundStyle(Color(hex: "3D3328"))
+                        .foregroundStyle(AppColors.textPrimary)
                         .lineSpacing(6)
                         .padding(.horizontal, AppSpacing.screenPadding)
 

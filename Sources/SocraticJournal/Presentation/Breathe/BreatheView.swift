@@ -12,6 +12,7 @@ public struct BreatheView: View {
     @State private var completedPattern: BreathPattern?
     @Binding var pendingPatternId: String?
     @Binding var pendingDuration: Int?
+    @Environment(ThemeManager.self) private var themeManager
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
@@ -95,6 +96,8 @@ public struct BreatheView: View {
                     completedPattern = nil
                 }
             )
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
         }
     }
 

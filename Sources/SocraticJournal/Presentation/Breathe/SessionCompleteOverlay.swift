@@ -88,7 +88,7 @@ public struct SessionCompleteOverlay: View {
                         .padding(.vertical, 12)
                         .background(
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(Color(hex: "1C1710"))
+                                .fill(AppColors.textPrimary)
                         )
                 }
                 .buttonStyle(.plain)

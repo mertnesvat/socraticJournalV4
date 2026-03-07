@@ -9,6 +9,7 @@ import SwiftUI
 public struct LearnView: View {
     let settingsRepository: SettingsRepositoryProtocol
     var onStartProgramPattern: ((String, Int) -> Void)?
+    @Environment(ThemeManager.self) private var themeManager
 
     @State private var expandedArticle: Int?
     @State private var expandedChapters: Set<Int> = [1] // Chapter 1 expanded by default
@@ -91,6 +92,8 @@ public struct LearnView: View {
         .task { await loadReadProgress() }
         .sheet(item: $selectedExercise) { exercise in
             TrainingFlowView(exercise: exercise)
+                .environment(themeManager)
+                .preferredColorScheme(themeManager.colorScheme)
         }
         .sheet(item: $selectedProgram) { program in
             ProgramDetailView(program: program) { patternId, duration in
@@ -99,6 +102,8 @@ public struct LearnView: View {
                     onStartProgramPattern?(patternId, duration)
                 }
             }
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
         }
     }
 

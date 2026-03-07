@@ -55,7 +55,7 @@ public struct BOLTResultPage: View {
                 // Interpretation
                 Text(tier.interpretation)
                     .font(.system(size: 13))
-                    .foregroundStyle(Color(hex: "3D3328"))
+                    .foregroundStyle(AppColors.textPrimary)
                     .lineSpacing(13 * 0.75)
                     .padding(.horizontal, AppSpacing.screenPadding)
 
@@ -91,7 +91,7 @@ public struct BOLTResultPage: View {
                         .padding(.vertical, 14)
                         .background(
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(Color(hex: "1C1710"))
+                                .fill(AppColors.textPrimary)
                         )
                 }
                 .buttonStyle(.plain)
