@@ -100,6 +100,7 @@
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
 		EF2DCE222330B94D6C0CA97E /* BreathSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F08E6F4D39B48732A09ECA /* BreathSessionTests.swift */; };
 		F395480855579B6811747877 /* ProgressHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960CC5ACE3BD13E1D11AE13F /* ProgressHistoryView.swift */; };
+		F3DEB15037827CF12B5A4DC3 /* AllSessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A013B837B3B1727A13F29B /* AllSessionsView.swift */; };
 		F7A6ACD01D3F048108B098D9 /* SessionCompletionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAEEA14D3D56EA59B71874A /* SessionCompletionTests.swift */; };
 		FD764235B722DD5F364C9850 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7427E0C3061E854EE474F549 /* FirebaseMessaging */; };
 		FFD6A44603614E7B7C030FAC /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 20CC8584D9C7E0C1B74D5D56 /* FirebaseFunctions */; };
@@ -184,6 +185,7 @@
 		B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceProtocol.swift; sourceTree = "<group>"; };
 		B67545F72405599CA3D6E892 /* FirebaseNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseNotificationService.swift; sourceTree = "<group>"; };
 		B6C8AA2807811F1C4E1165F7 /* BOLTScoreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BOLTScoreCard.swift; sourceTree = "<group>"; };
+		B8A013B837B3B1727A13F29B /* AllSessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSessionsView.swift; sourceTree = "<group>"; };
 		B8CC51B11D11256E62F9C6E0 /* ProgressViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewModelTests.swift; sourceTree = "<group>"; };
 		BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelectorView.swift; sourceTree = "<group>"; };
 		BCDBC20306488E9672FFA204 /* PatternDistribution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternDistribution.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 		40CFC09542825B694EBA4363 /* Progress */ = {
 			isa = PBXGroup;
 			children = (
+				B8A013B837B3B1727A13F29B /* AllSessionsView.swift */,
 				960CC5ACE3BD13E1D11AE13F /* ProgressHistoryView.swift */,
 				1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */,
 				4772B76E9A7B01A319088D94 /* Components */,
@@ -742,6 +745,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */,
+				F3DEB15037827CF12B5A4DC3 /* AllSessionsView.swift in Sources */,
 				DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */,
 				260CF80AFE98AC17C77CF517 /* AppColors.swift in Sources */,
 				18A62927823B5A6BA560C79E /* AppShapes.swift in Sources */,
