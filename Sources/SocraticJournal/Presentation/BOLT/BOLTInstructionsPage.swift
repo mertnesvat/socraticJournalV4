@@ -63,17 +63,17 @@ public struct BOLTInstructionsPage: View {
                         .font(.system(size: 14))
                     Text("This is NOT a maximum breath-hold test. Stop timing at the first involuntary swallow, the first diaphragm contraction, or the first urge to inhale. Your next breath after the test should be calm — if you gasp, you held too long.")
                         .font(.system(size: 12))
-                        .foregroundStyle(Color(hex: "C4502A").opacity(0.9))
+                        .foregroundStyle(AppColors.accent2.opacity(0.9))
                         .lineSpacing(4)
                 }
                 .padding(AppSpacing.md)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(hex: "C4502A").opacity(0.08))
+                        .fill(AppColors.accent2.opacity(0.08))
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color(hex: "C4502A").opacity(0.12), lineWidth: 1)
+                        .stroke(AppColors.accent2.opacity(0.12), lineWidth: 1)
                 )
                 .padding(.bottom, AppSpacing.lg)
 
@@ -82,12 +82,12 @@ public struct BOLTInstructionsPage: View {
                     Text("START TEST")
                         .font(.system(size: 12, weight: .bold, design: .serif))
                         .tracking(1)
-                        .foregroundStyle(AppColors.surface)
+                        .foregroundStyle(AppColors.buttonPrimaryForeground)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                         .background(
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(Color(hex: "1C1710"))
+                                .fill(AppColors.buttonPrimaryBackground)
                         )
                 }
                 .buttonStyle(.plain)
@@ -113,7 +113,7 @@ public struct BOLTInstructionsPage: View {
                 if showExplanation {
                     Text("The BOLT score was developed by Patrick McKeown as part of the Buteyko breathing method. It measures your body's tolerance to carbon dioxide — the real driver of the urge to breathe. James Nestor tested his own BOLT score throughout his research for 'Breath' and documented how it improved with practice. A higher BOLT score correlates with lower anxiety, better exercise tolerance, improved sleep quality, and stronger parasympathetic tone.")
                         .font(.system(size: 13))
-                        .foregroundStyle(Color(hex: "3D3328"))
+                        .foregroundStyle(AppColors.textWarmBody)
                         .lineSpacing(13 * 0.75)
                         .padding(.top, AppSpacing.sm)
                 }

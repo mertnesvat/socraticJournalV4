@@ -11,10 +11,13 @@ public struct SessionCompleteOverlay: View {
     let pattern: BreathPattern
     let previousDailyTotal: Double
     let dailyGoalMinutes: Int
+    let settingsRepository: SettingsRepositoryProtocol?
+    let healthKitService: HealthKitServiceProtocol?
     let onDismiss: () -> Void
 
     @State private var showCheckmark = false
     @State private var autoDismissTask: Task<Void, Never>?
+    @State private var showHealthKitPrompt = false
 
     private var sessionMinutes: Double {
         session.totalDuration / 60.0
@@ -78,17 +81,20 @@ public struct SessionCompleteOverlay: View {
                     .padding(.horizontal, AppSpacing.screenPadding)
                     .padding(.vertical, AppSpacing.lg)
 
+                // HealthKit prompt (one-time)
+                healthKitPromptSection
+
                 // Done button
                 Button(action: dismiss) {
                     Text("DONE")
                         .font(.system(size: 12, weight: .bold, design: .serif))
                         .tracking(1)
-                        .foregroundStyle(AppColors.surface)
+                        .foregroundStyle(AppColors.buttonPrimaryForeground)
                         .padding(.horizontal, 40)
                         .padding(.vertical, 12)
                         .background(
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(Color(hex: "1C1710"))
+                                .fill(AppColors.buttonPrimaryBackground)
                         )
                 }
                 .buttonStyle(.plain)
@@ -114,10 +120,79 @@ public struct SessionCompleteOverlay: View {
                 try? await Task.sleep(for: .seconds(30))
                 dismiss()
             }
+            Task { await checkHealthKitPrompt() }
         }
         .onDisappear {
             autoDismissTask?.cancel()
         }
+    }
+
+    // MARK: - HealthKit Prompt
+
+    @ViewBuilder
+    var healthKitPromptSection: some View {
+        if showHealthKitPrompt, let hkService = healthKitService {
+            VStack(spacing: 8) {
+                HairlineDivider()
+                    .padding(.horizontal, AppSpacing.screenPadding)
+
+                HStack(spacing: 12) {
+                    Image(systemName: "heart.text.square")
+                        .font(.system(size: 20))
+                        .foregroundStyle(AppColors.accent)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Save to Apple Health?")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(AppColors.textPrimary)
+                        Text("Log sessions as Mindful Minutes")
+                            .font(.system(size: 11))
+                            .foregroundStyle(AppColors.textSecondary)
+                    }
+
+                    Spacer()
+
+                    HStack(spacing: 8) {
+                        Button("Allow") {
+                            Task {
+                                try? await hkService.requestAuthorization()
+                                await markHealthKitPromptSeen()
+                                showHealthKitPrompt = false
+                            }
+                        }
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(AppColors.accent)
+
+                        Button("Not Now") {
+                            Task {
+                                await markHealthKitPromptSeen()
+                                showHealthKitPrompt = false
+                            }
+                        }
+                        .font(.system(size: 12))
+                        .foregroundStyle(AppColors.textTertiary)
+                    }
+                }
+                .padding(.horizontal, AppSpacing.screenPadding)
+                .padding(.vertical, AppSpacing.sm)
+            }
+        }
+    }
+
+    private func checkHealthKitPrompt() async {
+        guard let hkService = healthKitService,
+              let settingsRepo = settingsRepository,
+              hkService.isHealthDataAvailable() else { return }
+        guard let settings = try? await settingsRepo.getSettings(),
+              !settings.hasSeenHealthKitPrompt else { return }
+        showHealthKitPrompt = true
+    }
+
+    private func markHealthKitPromptSeen() async {
+        guard let settingsRepo = settingsRepository,
+              var settings = try? await settingsRepo.getSettings() else { return }
+        settings.hasSeenHealthKitPrompt = true
+        try? await settingsRepo.saveSettings(settings)
     }
 
     // MARK: - Top Section

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0047B39B7559AD5B4D2A724A /* ThemeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB18A1B1A98B091A23F7688C /* ThemeSelectorView.swift */; };
 		030566D5D16DDF99E1DFB671 /* BOLTHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0783DFC383F050515D677 /* BOLTHistoryList.swift */; };
+		05F3D57C1C6303194F34E6D0 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCA8E5019DF1A4851B698468 /* HealthKit.framework */; };
 		05FBBAE4EC27F21E6660CF9C /* ProgressViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CC51B11D11256E62F9C6E0 /* ProgressViewModelTests.swift */; };
 		060DCDE2F8D2095C6DA7AC4E /* SocraticJournal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5542CCF49C5EF6A1BB8CC7B /* SocraticJournal.swift */; };
 		06BCE4AC73115D8F79BD6C67 /* BOLTResultPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801EDCEE7C68A74ACBA121FF /* BOLTResultPage.swift */; };
@@ -44,6 +45,7 @@
 		38A9331E7E6F3740FE04B892 /* ProgramDayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2DBCEE79A34FCA20EC91C /* ProgramDayCard.swift */; };
 		3C93F2DA3CB61A8427D4D0CD /* BreathPacingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FCE6C89661575815CB6CE7 /* BreathPacingEngine.swift */; };
 		3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782BF4BCB8611080CE7218E /* AboutView.swift */; };
+		40CFA7640A502B2BFCD2E329 /* HRVCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721AF6A61741D837233EFAB4 /* HRVCard.swift */; };
 		40DB66C3830BF575B1904170 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBFCD947C02302577DE3EC06 /* Assets.xcassets */; };
 		42920AFCA24AD3E7B07FAC9C /* BreathSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A737F1D67490C9A86525010 /* BreathSession.swift */; };
 		54BD24D0AB6F3F961A2A7BE3 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */; };
@@ -75,6 +77,7 @@
 		97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D0C775AF90C1F520FA648805 /* FirebaseFirestore */; };
 		980A3458BC44A5ED8B194540 /* PatternSelectorBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D310E6FEDB1269BDC6844E6 /* PatternSelectorBar.swift */; };
 		9917834581BCFF88C4288A82 /* LearnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428C5E0D4079AC6077240D2B /* LearnView.swift */; };
+		A03E497AF878EF6115D08920 /* HealthKitServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B64781DF590E431DB8C4524 /* HealthKitServiceProtocol.swift */; };
 		A2481571749D543317F411DC /* BreatheView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71271D797DB8CC4FA3B1EF89 /* BreatheView.swift */; };
 		A30E828964F3B115BD81F6FE /* TrainingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F98D174A271690D1FECA4 /* TrainingViewModel.swift */; };
 		A6196D685C57667CED95385B /* ProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */; };
@@ -100,6 +103,7 @@
 		E22D51C2108FCDF5D2670EE7 /* BreathSessionRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DF4448F47B1DE6B53169BA /* BreathSessionRepositoryProtocol.swift */; };
 		E594F9C12B3734F2ED86CA78 /* MockNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264BBCCB81D25B4C291BDD2D /* MockNotificationService.swift */; };
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
+		ECBF68F49D8770745CCFC556 /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EEB68AC65A76154DCF7B45 /* HealthKitService.swift */; };
 		EF2DCE222330B94D6C0CA97E /* BreathSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F08E6F4D39B48732A09ECA /* BreathSessionTests.swift */; };
 		EF3B206491149A9F1A72B942 /* AllBOLTScoresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BC7C06001550AF6E252970 /* AllBOLTScoresView.swift */; };
 		F395480855579B6811747877 /* ProgressHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960CC5ACE3BD13E1D11AE13F /* ProgressHistoryView.swift */; };
@@ -127,6 +131,7 @@
 		10FCE6C89661575815CB6CE7 /* BreathPacingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingEngine.swift; sourceTree = "<group>"; };
 		17BC7C06001550AF6E252970 /* AllBOLTScoresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBOLTScoresView.swift; sourceTree = "<group>"; };
 		1816E010B3904ABC74A1AFD2 /* SampleDataGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleDataGenerator.swift; sourceTree = "<group>"; };
+		18EEB68AC65A76154DCF7B45 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
 		1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewModel.swift; sourceTree = "<group>"; };
 		21B81A264A8ED07DAB0C5671 /* BreathWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathWaveView.swift; sourceTree = "<group>"; };
 		264BBCCB81D25B4C291BDD2D /* MockNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotificationService.swift; sourceTree = "<group>"; };
@@ -147,6 +152,7 @@
 		54BA9804A6F548EFB32161C7 /* BreathPatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPatternTests.swift; sourceTree = "<group>"; };
 		55BA781ACCE79EACDA7E0CEE /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
 		58368D6FA3A29D6D8E4C7C51 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		5B64781DF590E431DB8C4524 /* HealthKitServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitServiceProtocol.swift; sourceTree = "<group>"; };
 		60A8B02F05534B87C324BF7A /* BreathPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPattern.swift; sourceTree = "<group>"; };
 		619E5097DA5BB102624F0F78 /* SessionCompleteOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteOverlay.swift; sourceTree = "<group>"; };
 		620AE1DE3EBF768B0B45DE15 /* TrainingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingData.swift; sourceTree = "<group>"; };
@@ -160,6 +166,7 @@
 		6EF2DBCEE79A34FCA20EC91C /* ProgramDayCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDayCard.swift; sourceTree = "<group>"; };
 		70E9F8E59F56730033FF0309 /* HapticRhythmEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticRhythmEngine.swift; sourceTree = "<group>"; };
 		71271D797DB8CC4FA3B1EF89 /* BreatheView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreatheView.swift; sourceTree = "<group>"; };
+		721AF6A61741D837233EFAB4 /* HRVCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HRVCard.swift; sourceTree = "<group>"; };
 		73E9AEFA74F97714623EBBB5 /* AppShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShapes.swift; sourceTree = "<group>"; };
 		788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSettingsRepository.swift; sourceTree = "<group>"; };
 		7A211FCA2679A8B683599D50 /* SocraticJournalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocraticJournalApp.swift; sourceTree = "<group>"; };
@@ -218,6 +225,7 @@
 		F6CEE7EE05E497A1DE6F8DDD /* DurationChipBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationChipBar.swift; sourceTree = "<group>"; };
 		F782BF4BCB8611080CE7218E /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		FCA8E5019DF1A4851B698468 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		FCB753CCE7C6AA6AE1BAF974 /* BOLTScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BOLTScore.swift; sourceTree = "<group>"; };
 		FFB1648673F7C7318C65914F /* ProgramViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -231,6 +239,7 @@
 				97DB0893F432AAA1FF3FF082 /* FirebaseFirestore in Frameworks */,
 				FFD6A44603614E7B7C030FAC /* FirebaseFunctions in Frameworks */,
 				FD764235B722DD5F364C9850 /* FirebaseMessaging in Frameworks */,
+				05F3D57C1C6303194F34E6D0 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +326,7 @@
 			isa = PBXGroup;
 			children = (
 				E4FB591A7450FBB08651043F /* AnalyticsServiceProtocol.swift */,
+				5B64781DF590E431DB8C4524 /* HealthKitServiceProtocol.swift */,
 				B26B1FE888678C875F331DB1 /* NotificationServiceProtocol.swift */,
 			);
 			path = Services;
@@ -450,6 +460,14 @@
 			path = Domain;
 			sourceTree = "<group>";
 		};
+		84629C5603000CC6660FF19F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FCA8E5019DF1A4851B698468 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8E1B325900532C228D0E0B40 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -465,6 +483,7 @@
 			isa = PBXGroup;
 			children = (
 				B6C8AA2807811F1C4E1165F7 /* BOLTScoreCard.swift */,
+				721AF6A61741D837233EFAB4 /* HRVCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -528,6 +547,7 @@
 				94ACDA6074BCA45E656DA2B4 /* Configuration */,
 				1939C2C2FC3281E95516289F /* SocraticJournal */,
 				A9FB2C518662F19D6CAB9CA0 /* SocraticJournalTests */,
+				84629C5603000CC6660FF19F /* Frameworks */,
 				59D69EF141D9FE3F51EE009A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -582,6 +602,7 @@
 			children = (
 				AA7566A7048FAFE95F723AF3 /* FirebaseAnalyticsService.swift */,
 				B67545F72405599CA3D6E892 /* FirebaseNotificationService.swift */,
+				18EEB68AC65A76154DCF7B45 /* HealthKitService.swift */,
 				C03E86BBD666990580FCDEC8 /* LocalNotificationService.swift */,
 				F87DE2A018777F1D131B23B9 /* NetworkMonitor.swift */,
 				1816E010B3904ABC74A1AFD2 /* SampleDataGenerator.swift */,
@@ -783,7 +804,10 @@
 				2BCDA8AC4EF9ED04B4742229 /* Environment.swift in Sources */,
 				15495665B7DBD41BFDE0913D /* FirebaseAnalyticsService.swift in Sources */,
 				7E18F84144F8748DD3C9BE5E /* FirebaseNotificationService.swift in Sources */,
+				40CFA7640A502B2BFCD2E329 /* HRVCard.swift in Sources */,
 				9642579B660C2F7F7F23E410 /* HapticRhythmEngine.swift in Sources */,
+				ECBF68F49D8770745CCFC556 /* HealthKitService.swift in Sources */,
+				A03E497AF878EF6115D08920 /* HealthKitServiceProtocol.swift in Sources */,
 				257FD30AE9ED8946B76C5790 /* InsightCard.swift in Sources */,
 				34FD5A4D2F29130DA2DBA513 /* LearnContent.swift in Sources */,
 				9917834581BCFF88C4288A82 /* LearnView.swift in Sources */,

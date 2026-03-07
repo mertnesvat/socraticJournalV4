@@ -12,6 +12,8 @@ public struct BOLTTestView: View {
     let latestScore: BOLTScore?
     let onDismiss: () -> Void
 
+    @Environment(ThemeManager.self) private var themeManager
+
     public var body: some View {
         NavigationStack(path: $path) {
             BOLTInstructionsPage(
@@ -39,6 +41,7 @@ public struct BOLTTestView: View {
                 }
             }
         }
+        .applyTheme(from: themeManager)
     }
 
     enum BOLTPage: Hashable {

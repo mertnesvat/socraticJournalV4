@@ -41,17 +41,20 @@ public struct MainTabView: View {
     let notificationService: NotificationServiceProtocol
     let sessionRepository: BreathSessionRepositoryProtocol
     let analyticsService: AnalyticsServiceProtocol
+    let healthKitService: HealthKitServiceProtocol
 
     public init(
         settingsRepository: SettingsRepositoryProtocol,
         notificationService: NotificationServiceProtocol,
         sessionRepository: BreathSessionRepositoryProtocol,
-        analyticsService: AnalyticsServiceProtocol
+        analyticsService: AnalyticsServiceProtocol,
+        healthKitService: HealthKitServiceProtocol = HealthKitService()
     ) {
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
         self.sessionRepository = sessionRepository
         self.analyticsService = analyticsService
+        self.healthKitService = healthKitService
     }
 
     public var body: some View {
@@ -60,7 +63,8 @@ public struct MainTabView: View {
                 sessionRepository: sessionRepository,
                 settingsRepository: settingsRepository,
                 notificationService: notificationService,
-                analyticsService: analyticsService
+                analyticsService: analyticsService,
+                healthKitService: healthKitService
             )
             .tag(MainTab.today)
             .tabItem {
@@ -71,6 +75,7 @@ public struct MainTabView: View {
                 sessionRepository: sessionRepository,
                 settingsRepository: settingsRepository,
                 analyticsService: analyticsService,
+                healthKitService: healthKitService,
                 pendingPatternId: $pendingPatternId,
                 pendingDuration: $pendingDuration
             )

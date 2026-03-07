@@ -50,10 +50,13 @@ targets:
         product: FirebaseFunctions
       - package: firebase-ios-sdk
         product: FirebaseMessaging
+      - sdk: HealthKit.framework
     entitlements:
       path: SocraticJournal.entitlements
       properties:
         aps-environment: development
+        com.apple.developer.healthkit: true
+        com.apple.developer.healthkit.access: []
 
   SocraticJournalTests:
     type: bundle.unit-test

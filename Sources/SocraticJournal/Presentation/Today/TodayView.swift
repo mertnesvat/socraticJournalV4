@@ -17,20 +17,24 @@ public struct TodayView: View {
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol
     private let analyticsService: AnalyticsServiceProtocol
+    private let healthKitService: HealthKitServiceProtocol?
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
         notificationService: NotificationServiceProtocol,
-        analyticsService: AnalyticsServiceProtocol
+        analyticsService: AnalyticsServiceProtocol,
+        healthKitService: HealthKitServiceProtocol? = nil
     ) {
         self.sessionRepository = sessionRepository
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
         self.analyticsService = analyticsService
+        self.healthKitService = healthKitService
         _viewModel = State(initialValue: TodayViewModel(
             sessionRepository: sessionRepository,
-            settingsRepository: settingsRepository
+            settingsRepository: settingsRepository,
+            healthKitService: healthKitService
         ))
     }
 
@@ -53,6 +57,14 @@ public struct TodayView: View {
                 .padding(.horizontal, AppSpacing.screenPadding)
                 .padding(.vertical, AppSpacing.md)
 
+                // HRV card — only shown when HealthKit is authorized and data exists
+                if viewModel.showHRVCard, let hrv = viewModel.latestHRV {
+                    HairlineDivider()
+                    HRVCard(latestHRV: hrv)
+                        .padding(.horizontal, AppSpacing.screenPadding)
+                        .padding(.vertical, AppSpacing.md)
+                }
+
                 HairlineDivider()
 
                 // Today's sessions
@@ -74,15 +86,18 @@ public struct TodayView: View {
                     sessionRepository: sessionRepository,
                     notificationService: notificationService,
                     analyticsService: analyticsService
-                )
+                ),
+                healthKitService: healthKitService
             )
             .environment(themeManager)
         }
         .sheet(isPresented: $showProgress) {
             ProgressHistoryView(
                 sessionRepository: sessionRepository,
-                settingsRepository: settingsRepository
+                settingsRepository: settingsRepository,
+                healthKitService: healthKitService
             )
+            .environment(themeManager)
         }
         .sheet(isPresented: $showBOLTTest) {
             BOLTTestView(
@@ -93,6 +108,7 @@ public struct TodayView: View {
                     Task { await viewModel.loadData() }
                 }
             )
+            .environment(themeManager)
         }
     }
 

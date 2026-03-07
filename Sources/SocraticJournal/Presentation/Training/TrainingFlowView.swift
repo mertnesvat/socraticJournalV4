@@ -9,6 +9,7 @@ import SwiftUI
 struct TrainingFlowView: View {
     @State private var viewModel: TrainingViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(ThemeManager.self) private var themeManager
     @State private var showExitConfirmation = false
 
     init(exercise: TrainingData.Exercise) {
@@ -59,6 +60,7 @@ struct TrainingFlowView: View {
                 Button("Continue", role: .cancel) {}
             }
         }
+        .applyTheme(from: themeManager)
         .onAppear { viewModel.handleStepEntry() }
     }
 
@@ -461,7 +463,7 @@ struct TrainingFlowView: View {
     private func resultCard(_ text: String, colorHex: String) -> some View {
         Text(text)
             .font(.system(size: 13))
-            .foregroundStyle(Color(hex: "3D3328"))
+            .foregroundStyle(AppColors.textWarmBody)
             .lineSpacing(6)
             .padding(14)
             .frame(maxWidth: .infinity, alignment: .leading)

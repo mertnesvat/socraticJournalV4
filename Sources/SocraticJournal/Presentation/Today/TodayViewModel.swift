@@ -18,6 +18,8 @@ public final class TodayViewModel {
     private(set) var dailyGoalMinutes: Int = 5
     private(set) var isLoading: Bool = false
     private(set) var latestBOLTScore: BOLTScore?
+    private(set) var latestHRV: Double? = nil
+    private(set) var showHRVCard: Bool = false
 
     var goalReached: Bool {
         totalMinutesToday >= Double(dailyGoalMinutes)
@@ -40,15 +42,18 @@ public final class TodayViewModel {
 
     private let sessionRepository: BreathSessionRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
+    private let healthKitService: HealthKitServiceProtocol?
 
     // MARK: - Init
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
-        settingsRepository: SettingsRepositoryProtocol
+        settingsRepository: SettingsRepositoryProtocol,
+        healthKitService: HealthKitServiceProtocol? = nil
     ) {
         self.sessionRepository = sessionRepository
         self.settingsRepository = settingsRepository
+        self.healthKitService = healthKitService
     }
 
     // MARK: - Actions
@@ -63,6 +68,15 @@ public final class TodayViewModel {
             dailyGoalMinutes = settings.dailyGoalMinutes
             latestBOLTScore = try await sessionRepository.getLatestBOLTScore()
             weekDays = buildWeekDays()
+            // Load HRV if enabled and available
+            if settings.healthKitEnabled && settings.showHRVInsights,
+               let hkService = healthKitService,
+               hkService.isHealthDataAvailable() {
+                latestHRV = try? await hkService.fetchLatestHRV()
+                showHRVCard = latestHRV != nil
+            } else {
+                showHRVCard = false
+            }
         } catch {
             // Silently handle — dashboard degrades gracefully
         }
