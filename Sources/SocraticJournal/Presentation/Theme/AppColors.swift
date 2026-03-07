@@ -4,6 +4,7 @@
 
 #if os(iOS)
 import SwiftUI
+import UIKit
 
 public enum AppColors {
     // Primary — Calm Teal (breath-focused)
@@ -13,19 +14,33 @@ public enum AppColors {
     // Secondary — Deep Coral (energy, alerts, stress patterns)
     public static let accent2 = Color(hex: "C4502A")
 
-    // Backgrounds — Warm cream editorial
-    public static let background = Color(hex: "FAF7F2")
-    public static let surface = Color(hex: "F2EDE4")
-    public static let surfaceElevated = Color(hex: "EDE7DB")
+    // Backgrounds — Dynamic light/dark
+    public static let background = Color(uiColor: UIColor(dynamicProvider: { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor(dynamicHex: "0D0D0D") : UIColor(dynamicHex: "FAF7F2")
+    }))
+    public static let surface = Color(uiColor: UIColor(dynamicProvider: { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor(dynamicHex: "1A1A1A") : UIColor(dynamicHex: "F2EDE4")
+    }))
+    public static let surfaceElevated = Color(uiColor: UIColor(dynamicProvider: { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor(dynamicHex: "242424") : UIColor(dynamicHex: "EDE7DB")
+    }))
 
-    // Dark variants
-    public static let backgroundDark = Color(hex: "0A0A0A")
-    public static let surfaceDark = Color(hex: "1A1A1A")
-
-    // Text — Warm brown tones
-    public static let textPrimary = Color(hex: "1C1710")
-    public static let textSecondary = Color(hex: "7A6E60")
-    public static let textTertiary = Color(hex: "B0A898")
+    // Text — Dynamic light/dark warm tones
+    public static let textPrimary = Color(uiColor: UIColor(dynamicProvider: { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor(dynamicHex: "F0EBE3") : UIColor(dynamicHex: "1C1710")
+    }))
+    public static let textSecondary = Color(uiColor: UIColor(dynamicProvider: { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor(dynamicHex: "9A8E80") : UIColor(dynamicHex: "7A6E60")
+    }))
+    public static let textTertiary = Color(uiColor: UIColor(dynamicProvider: { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor(dynamicHex: "665E55") : UIColor(dynamicHex: "B0A898")
+    }))
     public static let textOnDark = Color.white
     public static let textOnAccent = Color.white
 
@@ -45,9 +60,15 @@ public enum AppColors {
     public static let cardYellow = Color(hex: "FADF63")
     public static let cardDark = Color(hex: "1C1C1E")
 
-    // Borders (hairline grid)
-    public static let border = Color(hex: "D8D0C4")
-    public static let borderStrong = Color(hex: "C8C4BC")
+    // Borders — Dynamic light/dark (hairline grid)
+    public static let border = Color(uiColor: UIColor(dynamicProvider: { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor(dynamicHex: "2C2926") : UIColor(dynamicHex: "D8D0C4")
+    }))
+    public static let borderStrong = Color(uiColor: UIColor(dynamicProvider: { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor(dynamicHex: "3A3632") : UIColor(dynamicHex: "C8C4BC")
+    }))
 
     // Gradient
     public static let accentGradient = LinearGradient(
@@ -69,6 +90,22 @@ extension Color {
         default: (a, r, g, b) = (255, 0, 0, 0)
         }
         self.init(.sRGB, red: Double(r) / 255, green: Double(g) / 255, blue: Double(b) / 255, opacity: Double(a) / 255)
+    }
+}
+
+extension UIColor {
+    convenience init(dynamicHex hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default: (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
 }
 #endif

@@ -18,7 +18,7 @@ public struct PatternInfoSection: View {
 
             Text(pattern.importance)
                 .font(.system(size: 13, weight: .regular))
-                .foregroundStyle(Color(hex: "3D3328"))
+                .foregroundStyle(AppColors.textPrimary)
                 .lineSpacing(6)
 
             HStack(spacing: 6) {

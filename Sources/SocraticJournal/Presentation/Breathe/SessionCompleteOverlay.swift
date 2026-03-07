@@ -83,12 +83,12 @@ public struct SessionCompleteOverlay: View {
                     Text("DONE")
                         .font(.system(size: 12, weight: .bold, design: .serif))
                         .tracking(1)
-                        .foregroundStyle(AppColors.surface)
+                        .foregroundStyle(AppColors.background)
                         .padding(.horizontal, 40)
                         .padding(.vertical, 12)
                         .background(
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(Color(hex: "1C1710"))
+                                .fill(AppColors.textPrimary)
                         )
                 }
                 .buttonStyle(.plain)

@@ -75,6 +75,13 @@ public struct SettingsView: View {
                         .padding(.horizontal, AppSpacing.screenPadding)
                         .padding(.bottom, AppSpacing.md)
 
+                    // HEALTH section
+                    SectionHeaderView("Health")
+                        .padding(.top, AppSpacing.md)
+                    healthSection
+                        .padding(.horizontal, AppSpacing.screenPadding)
+                        .padding(.bottom, AppSpacing.md)
+
                     // APPEARANCE section
                     SectionHeaderView("Appearance")
                         .padding(.top, AppSpacing.md)
@@ -234,6 +241,28 @@ public struct SettingsView: View {
                     .foregroundStyle(AppColors.accent)
                 }
             }
+        }
+    }
+
+    // MARK: - Health Section
+
+    private var healthSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Apple Health Sync")
+                    .font(AppTypography.bodyBold)
+                    .foregroundStyle(AppColors.textPrimary)
+                Text("Log sessions as Mindful Minutes")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textTertiary)
+            }
+            Spacer()
+            Toggle("", isOn: Binding(
+                get: { viewModel.healthKitEnabled },
+                set: { viewModel.healthKitEnabled = $0 }
+            ))
+            .tint(AppColors.accent)
+            .labelsHidden()
         }
     }
 

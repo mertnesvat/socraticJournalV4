@@ -16,6 +16,7 @@ public struct LearnView: View {
     @State private var readTimers: [Int: Task<Void, Never>] = [:]
     @State private var selectedProgram: Program?
     @State private var selectedExercise: TrainingData.Exercise?
+    @Environment(ThemeManager.self) private var themeManager
 
     public init(
         settingsRepository: SettingsRepositoryProtocol = UserDefaultsSettingsRepository(),
@@ -91,6 +92,8 @@ public struct LearnView: View {
         .task { await loadReadProgress() }
         .sheet(item: $selectedExercise) { exercise in
             TrainingFlowView(exercise: exercise)
+                .environment(themeManager)
+                .preferredColorScheme(themeManager.colorScheme)
         }
         .sheet(item: $selectedProgram) { program in
             ProgramDetailView(program: program) { patternId, duration in
@@ -99,6 +102,8 @@ public struct LearnView: View {
                     onStartProgramPattern?(patternId, duration)
                 }
             }
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
         }
     }
 
