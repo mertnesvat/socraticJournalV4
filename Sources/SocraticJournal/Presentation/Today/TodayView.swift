@@ -83,6 +83,8 @@ public struct TodayView: View {
                 sessionRepository: sessionRepository,
                 settingsRepository: settingsRepository
             )
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
         }
         .sheet(isPresented: $showBOLTTest) {
             BOLTTestView(
@@ -93,6 +95,8 @@ public struct TodayView: View {
                     Task { await viewModel.loadData() }
                 }
             )
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
         }
     }
 

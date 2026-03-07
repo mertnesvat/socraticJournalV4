@@ -44,6 +44,8 @@ public struct SocraticJournalApp: App {
                         showOnboarding = false
                     }
                 )
+                .environment(themeManager)
+                .preferredColorScheme(themeManager.colorScheme)
             }
             .onReceive(NotificationCenter.default.publisher(for: .replayOnboarding)) { _ in
                 showOnboarding = true

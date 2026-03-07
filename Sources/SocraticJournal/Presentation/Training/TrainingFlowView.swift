@@ -461,7 +461,7 @@ struct TrainingFlowView: View {
     private func resultCard(_ text: String, colorHex: String) -> some View {
         Text(text)
             .font(.system(size: 13))
-            .foregroundStyle(Color(hex: "3D3328"))
+            .foregroundStyle(AppColors.textPrimary)
             .lineSpacing(6)
             .padding(14)
             .frame(maxWidth: .infinity, alignment: .leading)
