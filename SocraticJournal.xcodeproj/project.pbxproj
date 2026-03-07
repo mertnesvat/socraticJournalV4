@@ -101,6 +101,7 @@
 		E594F9C12B3734F2ED86CA78 /* MockNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264BBCCB81D25B4C291BDD2D /* MockNotificationService.swift */; };
 		E7BEF20A03B5A2CED4D70D57 /* UserDefaultsSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788820DA9BA9F743A9811730 /* UserDefaultsSettingsRepository.swift */; };
 		EF2DCE222330B94D6C0CA97E /* BreathSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F08E6F4D39B48732A09ECA /* BreathSessionTests.swift */; };
+		EF3B206491149A9F1A72B942 /* AllBOLTScoresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BC7C06001550AF6E252970 /* AllBOLTScoresView.swift */; };
 		F395480855579B6811747877 /* ProgressHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960CC5ACE3BD13E1D11AE13F /* ProgressHistoryView.swift */; };
 		F3DEB15037827CF12B5A4DC3 /* AllSessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A013B837B3B1727A13F29B /* AllSessionsView.swift */; };
 		F7A6ACD01D3F048108B098D9 /* SessionCompletionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAEEA14D3D56EA59B71874A /* SessionCompletionTests.swift */; };
@@ -124,6 +125,7 @@
 		0C9E98B9AB99203807F249A5 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		0FAEEA14D3D56EA59B71874A /* SessionCompletionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompletionTests.swift; sourceTree = "<group>"; };
 		10FCE6C89661575815CB6CE7 /* BreathPacingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPacingEngine.swift; sourceTree = "<group>"; };
+		17BC7C06001550AF6E252970 /* AllBOLTScoresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBOLTScoresView.swift; sourceTree = "<group>"; };
 		1816E010B3904ABC74A1AFD2 /* SampleDataGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleDataGenerator.swift; sourceTree = "<group>"; };
 		1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewModel.swift; sourceTree = "<group>"; };
 		21B81A264A8ED07DAB0C5671 /* BreathWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathWaveView.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 		40CFC09542825B694EBA4363 /* Progress */ = {
 			isa = PBXGroup;
 			children = (
+				17BC7C06001550AF6E252970 /* AllBOLTScoresView.swift */,
 				B8A013B837B3B1727A13F29B /* AllSessionsView.swift */,
 				960CC5ACE3BD13E1D11AE13F /* ProgressHistoryView.swift */,
 				1D851063D549EC1BA61C70FD /* ProgressViewModel.swift */,
@@ -751,6 +754,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */,
+				EF3B206491149A9F1A72B942 /* AllBOLTScoresView.swift in Sources */,
 				F3DEB15037827CF12B5A4DC3 /* AllSessionsView.swift in Sources */,
 				DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */,
 				260CF80AFE98AC17C77CF517 /* AppColors.swift in Sources */,

@@ -52,7 +52,7 @@ public struct ProgressHistoryView: View {
                     HairlineDivider()
 
                     // BOLT history
-                    BOLTHistoryList(scores: viewModel.boltScores)
+                    BOLTHistoryList(recentScores: viewModel.recentBoltScores, allScores: viewModel.boltScores)
 
                     Spacer(minLength: AppSpacing.sectionGap)
                 }

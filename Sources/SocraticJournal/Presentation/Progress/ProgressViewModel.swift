@@ -20,6 +20,7 @@ public final class ProgressViewModel {
     private(set) var recentSessions: [BreathSession] = []
     private(set) var dailyGoalMinutes: Int = 5
     private(set) var boltScores: [BOLTScore] = []
+    private(set) var recentBoltScores: [BOLTScore] = []
     private(set) var isLoading: Bool = false
 
     // MARK: - Types
@@ -95,6 +96,7 @@ public final class ProgressViewModel {
 
             // BOLT score history
             boltScores = try await sessionRepository.getBOLTScores()
+            recentBoltScores = Array(boltScores.prefix(3))
         } catch {
             // Degrade gracefully
         }
