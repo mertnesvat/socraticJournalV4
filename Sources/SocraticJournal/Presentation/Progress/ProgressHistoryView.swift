@@ -43,9 +43,10 @@ public struct ProgressHistoryView: View {
                     PatternDistribution(stats: viewModel.patternStats)
                     HairlineDivider()
 
-                    // Session history
-                    SessionHistoryList(
-                        dateGroups: viewModel.dateGroups,
+                    // Session history (last 3 + See All)
+                    RecentSessionsSection(
+                        sessions: viewModel.recentSessions,
+                        allDateGroups: viewModel.dateGroups,
                         viewModel: viewModel
                     )
                     HairlineDivider()

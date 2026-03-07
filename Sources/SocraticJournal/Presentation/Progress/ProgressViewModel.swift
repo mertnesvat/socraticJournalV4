@@ -17,6 +17,7 @@ public final class ProgressViewModel {
     private(set) var weeklyMinutes: [DayMinutes] = []
     private(set) var patternStats: [PatternStat] = []
     private(set) var dateGroups: [DateGroup] = []
+    private(set) var recentSessions: [BreathSession] = []
     private(set) var dailyGoalMinutes: Int = 5
     private(set) var boltScores: [BOLTScore] = []
     private(set) var isLoading: Bool = false
@@ -87,9 +88,10 @@ public final class ProgressViewModel {
             // Pattern distribution (last 7 days)
             patternStats = buildPatternStats(sessions: weekSessions)
 
-            // Session history (last 30 sessions)
-            let recentSessions = Array(allSessions.prefix(30))
-            dateGroups = buildDateGroups(sessions: recentSessions, calendar: calendar, today: today)
+            // Session history (last 30 sessions grouped, last 3 for summary)
+            let last30 = Array(allSessions.prefix(30))
+            dateGroups = buildDateGroups(sessions: last30, calendar: calendar, today: today)
+            recentSessions = Array(allSessions.prefix(3))
 
             // BOLT score history
             boltScores = try await sessionRepository.getBOLTScores()

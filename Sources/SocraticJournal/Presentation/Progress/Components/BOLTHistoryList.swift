@@ -31,6 +31,12 @@ struct BOLTHistoryList: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, AppSpacing.lg)
             } else {
+                if scores.count >= 2 {
+                    BOLTLineChart(scores: scores)
+                    HairlineDivider()
+                        .padding(.bottom, AppSpacing.sm)
+                }
+
                 ForEach(scores) { score in
                     scoreRow(score)
                     if score.id != scores.last?.id {
