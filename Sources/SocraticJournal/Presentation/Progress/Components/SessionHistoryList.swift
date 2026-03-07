@@ -5,10 +5,18 @@
 #if os(iOS)
 import SwiftUI
 
-/// Date-grouped session history list
+/// Date-grouped session history list (shows 3 most recent groups, with "See All" navigation)
 struct SessionHistoryList: View {
     let dateGroups: [ProgressViewModel.DateGroup]
     let viewModel: ProgressViewModel
+
+    private var displayedGroups: [ProgressViewModel.DateGroup] {
+        Array(dateGroups.prefix(3))
+    }
+
+    private var hasMore: Bool {
+        dateGroups.count > 3
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -32,7 +40,7 @@ struct SessionHistoryList: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, AppSpacing.lg)
             } else {
-                ForEach(dateGroups) { group in
+                ForEach(displayedGroups) { group in
                     // Date header
                     Text(group.label)
                         .font(.system(size: 11))
@@ -50,8 +58,26 @@ struct SessionHistoryList: View {
                         }
                     }
 
-                    if group.id != dateGroups.last?.id {
+                    if group.id != displayedGroups.last?.id || hasMore {
                         HairlineDivider()
+                    }
+                }
+
+                if hasMore {
+                    NavigationLink(destination: AllSessionsView(dateGroups: dateGroups, viewModel: viewModel)) {
+                        HStack {
+                            Text("See All Sessions")
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundStyle(AppColors.accent)
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 11, weight: .medium))
+                                .foregroundStyle(AppColors.textTertiary)
+                        }
+                        .padding(.horizontal, AppSpacing.screenPadding)
+                        .padding(.vertical, 12)
                     }
                 }
             }
@@ -59,7 +85,7 @@ struct SessionHistoryList: View {
         .padding(.vertical, AppSpacing.md)
     }
 
-    private func sessionRow(_ session: BreathSession) -> some View {
+    func sessionRow(_ session: BreathSession) -> some View {
         HStack(spacing: 14) {
             // Pattern initial circle
             ZStack {
