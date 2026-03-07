@@ -7,9 +7,7 @@ import SwiftUI
 
 /// BOLT score history section for the Progress view
 struct BOLTHistoryList: View {
-    /// Scores to display as rows (3 for summary, all for full screen)
     let recentScores: [BOLTScore]
-    /// All scores — used for the trend chart and "See All" navigation
     let allScores: [BOLTScore]
 
     private let dateFormatter: DateFormatter = {
@@ -20,40 +18,49 @@ struct BOLTHistoryList: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Header row
-            HStack {
+            if allScores.isEmpty {
+                // Header + empty state
                 Text("BOLT HISTORY")
                     .font(.system(size: 11))
                     .tracking(1.0)
                     .foregroundStyle(AppColors.textTertiary)
+                    .padding(.horizontal, AppSpacing.screenPadding)
+                    .padding(.bottom, AppSpacing.sm)
 
-                Spacer()
-
-                if allScores.count > recentScores.count {
-                    NavigationLink {
-                        AllBOLTScoresView(scores: allScores)
-                    } label: {
-                        Text("See All")
-                            .font(.system(size: 11, weight: .medium))
-                            .foregroundStyle(AppColors.accent)
-                    }
-                }
-            }
-            .padding(.horizontal, AppSpacing.screenPadding)
-            .padding(.bottom, AppSpacing.sm)
-
-            if allScores.isEmpty {
                 Text("No BOLT tests yet")
                     .font(.system(size: 13))
                     .foregroundStyle(AppColors.textSecondary)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, AppSpacing.lg)
             } else {
+                // Chart first
                 if allScores.count >= 2 {
                     BOLTLineChart(scores: allScores)
                     HairlineDivider()
-                        .padding(.bottom, AppSpacing.sm)
                 }
+
+                // Header + See All below the chart
+                HStack {
+                    Text("BOLT HISTORY")
+                        .font(.system(size: 11))
+                        .tracking(1.0)
+                        .foregroundStyle(AppColors.textTertiary)
+
+                    Spacer()
+
+                    if allScores.count > recentScores.count {
+                        NavigationLink {
+                            AllBOLTScoresView(scores: allScores)
+                        } label: {
+                            Text("See All")
+                                .font(.system(size: 11, weight: .medium))
+                                .foregroundStyle(AppColors.accent)
+                        }
+                    }
+                }
+                .padding(.horizontal, AppSpacing.screenPadding)
+                .padding(.top, AppSpacing.md)
+                .padding(.bottom, AppSpacing.sm)
 
                 ForEach(recentScores) { score in
                     scoreRow(score)
