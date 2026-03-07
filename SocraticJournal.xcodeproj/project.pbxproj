@@ -40,6 +40,7 @@
 		37C7744630A2A2A38CFA0EB6 /* BOLTRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6064615BBA4ED445D6D015 /* BOLTRepositoryTests.swift */; };
 		380BB1864718154278AE5705 /* ProgramDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8AFDD8F05DE7987047037 /* ProgramDetailView.swift */; };
 		38A9331E7E6F3740FE04B892 /* ProgramDayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2DBCEE79A34FCA20EC91C /* ProgramDayCard.swift */; };
+		39578E8AEF712C1D571BD641 /* AllSessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D53A7C3AE75F5F476A9DE72 /* AllSessionsView.swift */; };
 		3C93F2DA3CB61A8427D4D0CD /* BreathPacingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FCE6C89661575815CB6CE7 /* BreathPacingEngine.swift */; };
 		3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782BF4BCB8611080CE7218E /* AboutView.swift */; };
 		40DB66C3830BF575B1904170 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBFCD947C02302577DE3EC06 /* Assets.xcassets */; };
@@ -137,6 +138,7 @@
 		49C8AFDD8F05DE7987047037 /* ProgramDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailView.swift; sourceTree = "<group>"; };
 		4A737F1D67490C9A86525010 /* BreathSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathSession.swift; sourceTree = "<group>"; };
 		4C2DE432B9DE5251217EE654 /* SummaryStatsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryStatsRow.swift; sourceTree = "<group>"; };
+		4D53A7C3AE75F5F476A9DE72 /* AllSessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSessionsView.swift; sourceTree = "<group>"; };
 		5116538D9F07FF35490DCEC7 /* SocraticJournal.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SocraticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54BA9804A6F548EFB32161C7 /* BreathPatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreathPatternTests.swift; sourceTree = "<group>"; };
 		55BA781ACCE79EACDA7E0CEE /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 		4772B76E9A7B01A319088D94 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				4D53A7C3AE75F5F476A9DE72 /* AllSessionsView.swift */,
 				82B0783DFC383F050515D677 /* BOLTHistoryList.swift */,
 				BCDBC20306488E9672FFA204 /* PatternDistribution.swift */,
 				C6F6B81BBC59B303F3AC4278 /* SessionHistoryList.swift */,
@@ -742,6 +745,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FC5024647C8A5037BE1D3DC /* AboutView.swift in Sources */,
+				39578E8AEF712C1D571BD641 /* AllSessionsView.swift in Sources */,
 				DD8DFAC53005D236FC5C1D7A /* AnalyticsServiceProtocol.swift in Sources */,
 				260CF80AFE98AC17C77CF517 /* AppColors.swift in Sources */,
 				18A62927823B5A6BA560C79E /* AppShapes.swift in Sources */,
