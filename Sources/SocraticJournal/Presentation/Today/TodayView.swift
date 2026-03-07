@@ -17,17 +17,20 @@ public struct TodayView: View {
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol
     private let analyticsService: AnalyticsServiceProtocol
+    private let healthKitService: (any HealthKitServiceProtocol)?
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
         notificationService: NotificationServiceProtocol,
-        analyticsService: AnalyticsServiceProtocol
+        analyticsService: AnalyticsServiceProtocol,
+        healthKitService: (any HealthKitServiceProtocol)? = nil
     ) {
         self.sessionRepository = sessionRepository
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
         self.analyticsService = analyticsService
+        self.healthKitService = healthKitService
         _viewModel = State(initialValue: TodayViewModel(
             sessionRepository: sessionRepository,
             settingsRepository: settingsRepository
@@ -73,7 +76,8 @@ public struct TodayView: View {
                     settingsRepository: settingsRepository,
                     sessionRepository: sessionRepository,
                     notificationService: notificationService,
-                    analyticsService: analyticsService
+                    analyticsService: analyticsService,
+                    healthKitService: healthKitService
                 )
             )
             .environment(themeManager)
@@ -81,7 +85,8 @@ public struct TodayView: View {
         .sheet(isPresented: $showProgress) {
             ProgressHistoryView(
                 sessionRepository: sessionRepository,
-                settingsRepository: settingsRepository
+                settingsRepository: settingsRepository,
+                healthKitService: healthKitService
             )
             .environment(themeManager)
             .preferredColorScheme(themeManager.colorScheme)

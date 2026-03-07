@@ -47,19 +47,54 @@ public final class ProgressViewModel {
         let sessions: [BreathSession]
     }
 
+    // MARK: - Health Data
+
+    private(set) var healthKitEnabled: Bool = false
+    private(set) var healthKitAvailable: Bool = false
+    private(set) var hrvSamples: [HRVSample] = []
+    private(set) var restingHRSamples: [HeartRateSample] = []
+
+    var currentHRVAvg: Double? {
+        let recent = Array(hrvSamples.prefix(7))
+        guard !recent.isEmpty else { return nil }
+        return recent.map(\.valueMs).reduce(0, +) / Double(recent.count)
+    }
+
+    var previousHRVAvg: Double? {
+        let previous = Array(hrvSamples.dropFirst(7).prefix(7))
+        guard !previous.isEmpty else { return nil }
+        return previous.map(\.valueMs).reduce(0, +) / Double(previous.count)
+    }
+
+    var currentRHRAvg: Double? {
+        let recent = Array(restingHRSamples.prefix(7))
+        guard !recent.isEmpty else { return nil }
+        return recent.map(\.bpm).reduce(0, +) / Double(recent.count)
+    }
+
+    var previousRHRAvg: Double? {
+        let previous = Array(restingHRSamples.dropFirst(7).prefix(7))
+        guard !previous.isEmpty else { return nil }
+        return previous.map(\.bpm).reduce(0, +) / Double(previous.count)
+    }
+
     // MARK: - Dependencies
 
     private let sessionRepository: BreathSessionRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
+    private let healthKitService: (any HealthKitServiceProtocol)?
 
     // MARK: - Init
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
-        settingsRepository: SettingsRepositoryProtocol
+        settingsRepository: SettingsRepositoryProtocol,
+        healthKitService: (any HealthKitServiceProtocol)? = nil
     ) {
         self.sessionRepository = sessionRepository
         self.settingsRepository = settingsRepository
+        self.healthKitService = healthKitService
+        self.healthKitAvailable = healthKitService?.isAvailable ?? false
     }
 
     // MARK: - Actions
@@ -69,6 +104,14 @@ public final class ProgressViewModel {
         do {
             let settings = try await settingsRepository.getSettings()
             dailyGoalMinutes = settings.dailyGoalMinutes
+            healthKitEnabled = settings.healthKitEnabled
+
+            if healthKitEnabled, let hk = healthKitService, hk.isAvailable {
+                async let hrv = hk.fetchHRVSamples(days: 14)
+                async let rhr = hk.fetchRestingHeartRate(days: 14)
+                hrvSamples = (try? await hrv) ?? []
+                restingHRSamples = (try? await rhr) ?? []
+            }
 
             let allSessions = try await sessionRepository.getAllSessions()
             let calendar = Calendar.current

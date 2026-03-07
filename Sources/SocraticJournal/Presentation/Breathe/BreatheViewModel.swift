@@ -26,22 +26,27 @@ public final class BreatheViewModel {
     private let sessionRepository: BreathSessionRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol?
     private let analyticsService: AnalyticsServiceProtocol?
+    private let healthKitService: (any HealthKitServiceProtocol)?
 
     // MARK: - Init
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol? = nil,
-        analyticsService: AnalyticsServiceProtocol? = nil
+        analyticsService: AnalyticsServiceProtocol? = nil,
+        healthKitService: (any HealthKitServiceProtocol)? = nil
     ) {
         self.sessionRepository = sessionRepository
         self.settingsRepository = settingsRepository
         self.analyticsService = analyticsService
+        self.healthKitService = healthKitService
 
         engine.onPhaseTransition = { [hapticEngine] phaseType in
             hapticEngine.firePhaseTransition(phaseType: phaseType)
         }
     }
+
+    private(set) var healthKitEnabled: Bool = false
 
     func loadSettings() async {
         guard let repo = settingsRepository else { return }
@@ -49,6 +54,7 @@ public final class BreatheViewModel {
             let settings = try await repo.getSettings()
             hapticEngine.setEnabled(settings.hapticRhythmEnabled)
             dailyGoalMinutes = settings.dailyGoalMinutes
+            healthKitEnabled = settings.healthKitEnabled
         } catch {}
     }
 
@@ -143,6 +149,9 @@ public final class BreatheViewModel {
         }
         Task {
             try? await sessionRepository.saveSession(session)
+            if healthKitEnabled, let hk = healthKitService, hk.isAvailable {
+                try? await hk.saveMindfulSession(start: session.startedAt, end: session.completedAt)
+            }
         }
         analyticsService?.logEvent(.sessionCompleted, parameters: [
             "pattern_id": selectedPattern.id,

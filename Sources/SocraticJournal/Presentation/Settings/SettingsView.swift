@@ -34,6 +34,14 @@ public struct SettingsView: View {
                 } message: {
                     Text("To receive breath reminders, please enable notifications in Settings.")
                 }
+                .alert("Health Access Needed", isPresented: $viewModel.showHealthPermissionDeniedAlert) {
+                    Button("Cancel", role: .cancel) {}
+                    Button("Open Settings") {
+                        viewModel.openHealthSettings()
+                    }
+                } message: {
+                    Text("To sync breath sessions to Apple Health, please grant access in Settings → Health → Data Access & Devices.")
+                }
                 .preferredColorScheme(themeManager.colorScheme)
                 .onChange(of: viewModel.themeMode) { _, newMode in
                     themeManager.updateTheme(newMode)
@@ -86,6 +94,13 @@ public struct SettingsView: View {
                     )
                     .padding(.horizontal, AppSpacing.screenPadding)
                     .padding(.bottom, AppSpacing.md)
+
+                    // HEALTH section
+                    SectionHeaderView("Health")
+                        .padding(.top, AppSpacing.md)
+                    healthSection
+                        .padding(.horizontal, AppSpacing.screenPadding)
+                        .padding(.bottom, AppSpacing.md)
 
                     // ABOUT section
                     SectionHeaderView("About")
@@ -235,6 +250,32 @@ public struct SettingsView: View {
                 }
             }
         }
+    }
+
+    // MARK: - Health Section
+
+    private var healthSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Sync to Apple Health")
+                    .font(AppTypography.bodyBold)
+                    .foregroundStyle(AppColors.textPrimary)
+                Text(viewModel.healthKitAvailable
+                     ? "Save sessions as Mindful Minutes, see HRV trends"
+                     : "Not available on this device")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppColors.textSecondary)
+            }
+            Spacer()
+            Toggle("", isOn: Binding(
+                get: { viewModel.healthKitEnabled },
+                set: { viewModel.healthKitEnabled = $0 }
+            ))
+            .tint(AppColors.accent)
+            .labelsHidden()
+            .disabled(!viewModel.healthKitAvailable)
+        }
+        .opacity(viewModel.healthKitAvailable ? 1.0 : 0.5)
     }
 
     // MARK: - Developer Section
