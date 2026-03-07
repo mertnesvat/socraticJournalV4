@@ -7,7 +7,8 @@ import SwiftUI
 
 /// BOLT score history section for the Progress view
 struct BOLTHistoryList: View {
-    let scores: [BOLTScore]
+    let recentScores: [BOLTScore]
+    let allScores: [BOLTScore]
 
     private let dateFormatter: DateFormatter = {
         let f = DateFormatter()
@@ -17,23 +18,53 @@ struct BOLTHistoryList: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("BOLT HISTORY")
-                .font(.system(size: 11))
-                .tracking(1.0)
-                .foregroundStyle(AppColors.textTertiary)
-                .padding(.horizontal, AppSpacing.screenPadding)
-                .padding(.bottom, AppSpacing.sm)
+            if allScores.isEmpty {
+                // Header + empty state
+                Text("BOLT HISTORY")
+                    .font(.system(size: 11))
+                    .tracking(1.0)
+                    .foregroundStyle(AppColors.textTertiary)
+                    .padding(.horizontal, AppSpacing.screenPadding)
+                    .padding(.bottom, AppSpacing.sm)
 
-            if scores.isEmpty {
                 Text("No BOLT tests yet")
                     .font(.system(size: 13))
                     .foregroundStyle(AppColors.textSecondary)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, AppSpacing.lg)
             } else {
-                ForEach(scores) { score in
+                // Chart first
+                if allScores.count >= 2 {
+                    BOLTLineChart(scores: allScores)
+                    HairlineDivider()
+                }
+
+                // Header + See All below the chart
+                HStack {
+                    Text("BOLT HISTORY")
+                        .font(.system(size: 11))
+                        .tracking(1.0)
+                        .foregroundStyle(AppColors.textTertiary)
+
+                    Spacer()
+
+                    if allScores.count > recentScores.count {
+                        NavigationLink {
+                            AllBOLTScoresView(scores: allScores)
+                        } label: {
+                            Text("See All")
+                                .font(.system(size: 11, weight: .medium))
+                                .foregroundStyle(AppColors.accent)
+                        }
+                    }
+                }
+                .padding(.horizontal, AppSpacing.screenPadding)
+                .padding(.top, AppSpacing.md)
+                .padding(.bottom, AppSpacing.sm)
+
+                ForEach(recentScores) { score in
                     scoreRow(score)
-                    if score.id != scores.last?.id {
+                    if score.id != recentScores.last?.id {
                         HairlineDivider()
                     }
                 }
@@ -47,7 +78,6 @@ struct BOLTHistoryList: View {
         let tierColor = Color(hex: tier.colorHex)
 
         return HStack(spacing: 14) {
-            // Tier color dot
             Circle()
                 .fill(tierColor)
                 .frame(width: 8, height: 8)
