@@ -9,14 +9,17 @@ import SwiftUI
 public struct ProgressHistoryView: View {
     @State private var viewModel: ProgressViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(ThemeManager.self) private var themeManager
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
-        settingsRepository: SettingsRepositoryProtocol
+        settingsRepository: SettingsRepositoryProtocol,
+        healthKitService: HealthKitServiceProtocol? = nil
     ) {
         _viewModel = State(initialValue: ProgressViewModel(
             sessionRepository: sessionRepository,
-            settingsRepository: settingsRepository
+            settingsRepository: settingsRepository,
+            healthKitService: healthKitService
         ))
     }
 
@@ -54,6 +57,12 @@ public struct ProgressHistoryView: View {
                     // BOLT history
                     BOLTHistoryList(recentScores: viewModel.recentBoltScores, allScores: viewModel.boltScores)
 
+                    // HRV insights — only when authorized and data available
+                    if viewModel.showHRVInsights, let hrv = viewModel.weeklyHRVAverage {
+                        HairlineDivider()
+                        hrvInsightsSection(average: hrv)
+                    }
+
                     Spacer(minLength: AppSpacing.sectionGap)
                 }
             }
@@ -77,7 +86,47 @@ public struct ProgressHistoryView: View {
                 }
             }
         }
+        .applyTheme(from: themeManager)
         .task { await viewModel.loadData() }
+    }
+
+    private func hrvInsightsSection(average: Double) -> some View {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            Text("HEALTH INSIGHTS")
+                .font(.system(size: 11, weight: .bold))
+                .tracking(1.2)
+                .foregroundStyle(AppColors.textTertiary)
+                .padding(.horizontal, AppSpacing.screenPadding)
+                .padding(.top, AppSpacing.lg)
+
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text(String(format: "%.0f ms", average))
+                        .font(.system(size: 28, weight: .bold, design: .serif))
+                        .foregroundStyle(AppColors.textPrimary)
+
+                    Text("avg HRV · 7 days")
+                        .font(.system(size: 11))
+                        .foregroundStyle(AppColors.textTertiary)
+                }
+
+                Text("Higher HRV and BOLT scores both reflect a calmer, stronger nervous system.")
+                    .font(.system(size: 12))
+                    .foregroundStyle(AppColors.textSecondary)
+                    .lineSpacing(4)
+            }
+            .padding(AppSpacing.cardPadding)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(AppColors.accent.opacity(0.06))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(AppColors.border, lineWidth: 1)
+            )
+            .padding(.horizontal, AppSpacing.screenPadding)
+            .padding(.bottom, AppSpacing.md)
+        }
     }
 }
 #endif

@@ -17,7 +17,6 @@ struct AllBOLTScoresView: View {
         .navigationTitle("BOLT History")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(AppColors.background, for: .navigationBar)
-        .toolbarColorScheme(.light, for: .navigationBar)
     }
 }
 #endif

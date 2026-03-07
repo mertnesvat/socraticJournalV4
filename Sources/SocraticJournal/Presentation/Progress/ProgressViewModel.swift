@@ -22,6 +22,8 @@ public final class ProgressViewModel {
     private(set) var boltScores: [BOLTScore] = []
     private(set) var recentBoltScores: [BOLTScore] = []
     private(set) var isLoading: Bool = false
+    private(set) var weeklyHRVAverage: Double? = nil
+    private(set) var showHRVInsights: Bool = false
 
     // MARK: - Types
 
@@ -51,15 +53,18 @@ public final class ProgressViewModel {
 
     private let sessionRepository: BreathSessionRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol
+    private let healthKitService: HealthKitServiceProtocol?
 
     // MARK: - Init
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
-        settingsRepository: SettingsRepositoryProtocol
+        settingsRepository: SettingsRepositoryProtocol,
+        healthKitService: HealthKitServiceProtocol? = nil
     ) {
         self.sessionRepository = sessionRepository
         self.settingsRepository = settingsRepository
+        self.healthKitService = healthKitService
     }
 
     // MARK: - Actions
@@ -97,6 +102,16 @@ public final class ProgressViewModel {
             // BOLT score history
             boltScores = try await sessionRepository.getBOLTScores()
             recentBoltScores = Array(boltScores.prefix(3))
+
+            // HRV insights (only if authorized and data available)
+            if settings.healthKitEnabled && settings.showHRVInsights,
+               let hkService = healthKitService,
+               hkService.isHealthDataAvailable() {
+                weeklyHRVAverage = try? await hkService.fetchAverageHRV(days: 7)
+                showHRVInsights = weeklyHRVAverage != nil
+            } else {
+                showHRVInsights = false
+            }
         } catch {
             // Degrade gracefully
         }

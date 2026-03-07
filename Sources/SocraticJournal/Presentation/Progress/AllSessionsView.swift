@@ -18,7 +18,6 @@ struct AllSessionsView: View {
         .navigationTitle("All Sessions")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(AppColors.background, for: .navigationBar)
-        .toolbarColorScheme(.light, for: .navigationBar)
     }
 }
 #endif

@@ -13,6 +13,7 @@ public struct SocraticJournalApp: App {
     private let notificationService: NotificationServiceProtocol = LocalNotificationService()
     private let sessionRepository: BreathSessionRepositoryProtocol = UserDefaultsBreathSessionRepository()
     private let analyticsService: AnalyticsServiceProtocol = FirebaseAnalyticsService.shared
+    private let healthKitService: HealthKitServiceProtocol = HealthKitService()
     @State private var themeManager = ThemeManager.shared
     @State private var showOnboarding: Bool = false
 
@@ -29,7 +30,8 @@ public struct SocraticJournalApp: App {
                 settingsRepository: settingsRepository,
                 notificationService: notificationService,
                 sessionRepository: sessionRepository,
-                analyticsService: analyticsService
+                analyticsService: analyticsService,
+                healthKitService: healthKitService
             )
             .environment(themeManager)
             .preferredColorScheme(themeManager.colorScheme)

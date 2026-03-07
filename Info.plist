@@ -37,6 +37,10 @@
     </array>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
+    <key>NSHealthShareUsageDescription</key>
+    <string>Rumi Breathing reads your Heart Rate Variability to show how your breathing practice is improving your nervous system health.</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>Rumi Breathing saves your breathing sessions as Mindful Minutes in Apple Health.</string>
     <key>NSUserTrackingUsageDescription</key>
     <string>We use this to measure the effectiveness of our marketing campaigns and improve your app experience.</string>
     <key>FirebaseUseEmulator</key>

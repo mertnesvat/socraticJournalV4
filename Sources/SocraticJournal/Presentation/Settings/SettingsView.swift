@@ -15,9 +15,11 @@ public struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(ThemeManager.self) private var themeManager
     @State private var viewModel: SettingsViewModel
+    let healthKitService: HealthKitServiceProtocol?
 
-    public init(viewModel: SettingsViewModel) {
+    public init(viewModel: SettingsViewModel, healthKitService: HealthKitServiceProtocol? = nil) {
         _viewModel = State(initialValue: viewModel)
+        self.healthKitService = healthKitService
     }
 
     public var body: some View {
@@ -86,6 +88,15 @@ public struct SettingsView: View {
                     )
                     .padding(.horizontal, AppSpacing.screenPadding)
                     .padding(.bottom, AppSpacing.md)
+
+                    // HEALTH & DATA section (only on device with HealthKit)
+                    if let hkService = healthKitService, hkService.isHealthDataAvailable() {
+                        SectionHeaderView("Health & Data")
+                            .padding(.top, AppSpacing.md)
+                        healthSection(hkService: hkService)
+                            .padding(.horizontal, AppSpacing.screenPadding)
+                            .padding(.bottom, AppSpacing.md)
+                    }
 
                     // ABOUT section
                     SectionHeaderView("About")
@@ -302,6 +313,80 @@ public struct SettingsView: View {
                 Image(systemName: "xmark")
                     .font(.body.weight(.medium))
                     .foregroundStyle(AppColors.textPrimary)
+            }
+        }
+    }
+
+    // MARK: - Health Section
+
+    private func healthSection(hkService: HealthKitServiceProtocol) -> some View {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            // Connect Apple Health row
+            Button {
+                Task {
+                    if viewModel.healthKitEnabled {
+                        // Already enabled — open Health settings
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            await UIApplication.shared.open(url)
+                        }
+                    } else {
+                        try? await hkService.requestAuthorization()
+                        viewModel.healthKitEnabled = true
+                    }
+                }
+            } label: {
+                HStack {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Connect Apple Health")
+                            .font(AppTypography.bodyBold)
+                            .foregroundStyle(AppColors.textPrimary)
+                        Text(viewModel.healthKitEnabled ? "Connected" : "Tap to connect")
+                            .font(.system(size: 12))
+                            .foregroundStyle(viewModel.healthKitEnabled ? AppColors.accent : AppColors.textTertiary)
+                    }
+                    Spacer()
+                    Image(systemName: viewModel.healthKitEnabled ? "checkmark.circle.fill" : "chevron.right")
+                        .foregroundStyle(viewModel.healthKitEnabled ? AppColors.accent : AppColors.textTertiary)
+                        .font(.system(size: 15))
+                }
+                .padding(.vertical, AppSpacing.xs)
+            }
+            .buttonStyle(.plain)
+
+            if viewModel.healthKitEnabled {
+                HairlineDivider()
+
+                Toggle(isOn: Binding(
+                    get: { viewModel.saveMindfulMinutes },
+                    set: { viewModel.saveMindfulMinutes = $0 }
+                )) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Save sessions as Mindful Minutes")
+                            .font(AppTypography.body)
+                            .foregroundStyle(AppColors.textPrimary)
+                        Text("Sessions appear in Apple Health")
+                            .font(.system(size: 12))
+                            .foregroundStyle(AppColors.textTertiary)
+                    }
+                }
+                .tint(AppColors.accent)
+
+                HairlineDivider()
+
+                Toggle(isOn: Binding(
+                    get: { viewModel.showHRVInsights },
+                    set: { viewModel.showHRVInsights = $0 }
+                )) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Show HRV in Today view")
+                            .font(AppTypography.body)
+                            .foregroundStyle(AppColors.textPrimary)
+                        Text("Requires Apple Watch data")
+                            .font(.system(size: 12))
+                            .foregroundStyle(AppColors.textTertiary)
+                    }
+                }
+                .tint(AppColors.accent)
             }
         }
     }

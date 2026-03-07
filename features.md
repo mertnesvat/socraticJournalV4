@@ -1100,3 +1100,208 @@ After 5 rounds — **Summary result card:**
 
 **Priority:** 17
 **Dependencies:** 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+
+---
+
+# Feature Queue: Dark Theme 3 Branch
+# Quality Mode: DEEP — thorough implementation, no shortcuts
+
+---
+
+### 18. Complete Dark Theme — Fix All Views
+
+**User Story:** As a user who prefers dark mode, I expect every screen in the app to actually turn dark when I switch the theme in Settings. Currently, switching to dark mode only partially works — the tab bar changes but most screens stay cream/light.
+
+**Problem Analysis:**
+The root cause is in `AppColors.swift`. All color tokens (`AppColors.background`, `AppColors.surface`, `AppColors.textPrimary`, etc.) are defined as static `Color(hex: "...")` — hardcoded RGB values that never change regardless of the active color scheme. `ThemeManager` correctly calls `.preferredColorScheme(.dark)` at the root, but this only adapts SwiftUI's *system* colors (`Color.primary`, `Color(.systemBackground)`). Custom hex colors are always rendered as-defined. Additionally, many views hardcode `Color(hex: "...")` inline — bypassing AppColors entirely — and sheets/fullScreenCovers don't always inherit the root's `preferredColorScheme`.
+
+**Acceptance Criteria:**
+
+**AppColors Refactor (the foundation fix):**
+- Convert every color token in `AppColors.swift` to use `UIColor(dynamicProvider:)` wrapped in `Color(uiColor:)`, providing light and dark variants for each token
+- Light variants: keep current warm cream values unchanged
+- Dark variants:
+  - `background` → `#0F0E0C` (very dark warm black)
+  - `surface` → `#1A1815` (dark warm brown-black)
+  - `surfaceElevated` → `#242018` (slightly lighter)
+  - `textPrimary` → `#F0EBE3` (warm off-white)
+  - `textSecondary` → `#9E9488` (muted warm gray)
+  - `textTertiary` → `#5C564E` (dimmed warm gray)
+  - `border` → `#2E2A24` (dark warm divider)
+  - `borderStrong` → `#3A342C` (slightly stronger dark divider)
+  - `accent` (`#2D5F5D`) — unchanged in both modes (teal works on dark)
+  - `accent2` (`#C4502A`) — unchanged in both modes (coral works on dark)
+  - `cardTeal` → dark variant `#5CBFB8` (less bright in dark)
+  - `cardYellow` → dark variant `#C8A84A` (muted amber in dark)
+- Keep the `Color(hex:)` extension — just stop using it directly in AppColors token definitions
+
+**Inline Hardcoded Color Fixes (view-by-view):**
+- `BOLTInstructionsPage.swift`: Replace `Color(hex: "C4502A")` → `AppColors.accent2`, replace `Color(hex: "1C1710")` button background → adaptive dark-aware color, replace `Color(hex: "3D3328")` text → `AppColors.textSecondary`
+- `BOLTResultPage.swift`: Audit and replace all inline hex colors with AppColors tokens
+- `BOLTTimerPage.swift`: Audit and replace all inline hex colors with AppColors tokens
+
+**Sheets and Covers — Apply Theme:**
+Add `@Environment(ThemeManager.self) private var themeManager` and `.preferredColorScheme(themeManager.colorScheme)` to all of these (they don't inherit reliably from parent):
+- `BOLTTestView.swift` — fullScreenCover root
+- `TrainingFlowView.swift` — sheet
+- `ProgramDetailView.swift` — sheet
+- `ProgressHistoryView.swift` — sheet
+- `AllSessionsView.swift` — sheet
+- `AllBOLTScoresView.swift` — sheet
+- `SessionCompleteOverlay.swift` — overlay, verify it picks up theme
+
+**Component Audit (replace any hardcoded hex found):**
+Audit all of these and replace any `Color(hex:)` inline calls with AppColors tokens:
+- `BOLTScoreCard.swift`, `BOLTLineChart.swift`, `WeeklyBarChart.swift`, `PatternDistribution.swift`
+- `InsightCard.swift`, `PatternSelectorBar.swift`, `PhaseLabelView.swift`, `BreathWaveView.swift`
+- `DurationChipBar.swift`, `SessionStatsGrid.swift`, `PatternInfoSection.swift`
+- `ProgramDayCard.swift`, `ChapterSection.swift`, `ArticleRow.swift`, `ProgramCarousel.swift`, `TrainingGrid.swift`
+
+**Verification:**
+- Manually verify every screen in dark mode: Today, Breathe, Learn, Settings, BOLT flow (all 3 pages), Progress, All Sessions, All BOLT Scores, Program Detail, Training Flow, Onboarding
+- Light mode must look identical to before — zero visual regression
+- Dark mode colors must feel warm and intentional (not pure black #000000)
+
+**Files to Modify:**
+- `Sources/SocraticJournal/Presentation/Theme/AppColors.swift` — primary fix
+- `Sources/SocraticJournal/Presentation/BOLT/BOLTInstructionsPage.swift`
+- `Sources/SocraticJournal/Presentation/BOLT/BOLTResultPage.swift`
+- `Sources/SocraticJournal/Presentation/BOLT/BOLTTimerPage.swift`
+- `Sources/SocraticJournal/Presentation/BOLT/BOLTTestView.swift`
+- `Sources/SocraticJournal/Presentation/Training/TrainingFlowView.swift`
+- `Sources/SocraticJournal/Presentation/Programs/ProgramDetailView.swift`
+- `Sources/SocraticJournal/Presentation/Progress/ProgressHistoryView.swift`
+- `Sources/SocraticJournal/Presentation/Progress/AllSessionsView.swift`
+- `Sources/SocraticJournal/Presentation/Progress/AllBOLTScoresView.swift`
+- `Sources/SocraticJournal/Presentation/Breathe/SessionCompleteOverlay.swift`
+- All component files above if hardcoded colors found during audit
+
+**Priority:** 18
+**Dependencies:** none
+
+---
+
+### 19. HealthKit Integration — Breathing Sessions + HRV Insights
+
+**User Story:** As a user who tracks my health data in Apple Health, I want my Rumi Breathing sessions to automatically appear in the Health app as Mindful Minutes, so my breathing practice is counted alongside my other health metrics. I also want to see my Heart Rate Variability (HRV) displayed in the app, since HRV and BOLT score are both measures of nervous system health and show whether my practice is working.
+
+**Science Alignment:** Breathing practice directly improves HRV (parasympathetic tone). "Mindful Minutes" in Apple Health is the natural category — same used by Calm and Headspace. HRV + BOLT score together give a complete picture of progress. This feature appeals strongly to the app's science-oriented primary audience (Huberman/Nestor followers who track HRV via Apple Watch or Whoop).
+
+**Acceptance Criteria:**
+
+**Project Setup:**
+- Add `HealthKit.framework` to `project.yml` under `SocraticJournal` target frameworks
+- Add to `SocraticJournal.entitlements`:
+  - `com.apple.developer.healthkit` → `true`
+  - `com.apple.developer.healthkit.access` → `[]`
+- Add to Info.plist section of `project.yml`:
+  - `NSHealthShareUsageDescription`: "Rumi Breathing reads your Heart Rate Variability to show how your breathing practice is improving your nervous system health."
+  - `NSHealthUpdateUsageDescription`: "Rumi Breathing saves your breathing sessions as Mindful Minutes in Apple Health."
+- Run `xcodegen generate` after project.yml changes
+
+**New Domain Protocol — `HealthKitServiceProtocol`:**
+Create `Sources/SocraticJournal/Domain/Services/HealthKitServiceProtocol.swift`:
+- `isHealthDataAvailable() -> Bool`
+- `requestAuthorization() async throws`
+- `saveMindfulSession(startDate: Date, endDate: Date) async throws`
+- `fetchLatestHRV() async throws -> Double?` — returns SDNN in ms
+- `fetchAverageHRV(days: Int) async throws -> Double?`
+- `fetchRestingHeartRate() async throws -> Double?` — returns BPM
+
+**New Data Service — `HealthKitService`:**
+Create `Sources/SocraticJournal/Data/Services/HealthKitService.swift`:
+- Conforms to `HealthKitServiceProtocol`
+- Write authorization: `HKCategoryType(.mindfulSession)`
+- Read authorization: `HKQuantityType(.heartRateVariabilitySDNN)`, `HKQuantityType(.restingHeartRate)`
+- `saveMindfulSession`: create `HKCategorySample` with type `.mindfulSession`, save via `HKHealthStore`
+- `fetchLatestHRV`: query most recent `heartRateVariabilitySDNN` sample, return value in ms
+- `fetchAverageHRV`: query last N days of HRV samples, return average
+- `fetchRestingHeartRate`: query most recent `restingHeartRate` sample
+- Handle `HKError.errorHealthDataUnavailable` gracefully — return nil, never throw to caller
+- Guard all code with `HKHealthStore.isHealthDataAvailable()` check
+- Use `#if canImport(HealthKit)` for simulator safety
+
+**Session Save Integration:**
+- In `BreatheViewModel.swift`: after session completes, call `healthKitService?.saveMindfulSession(startDate: Date() - session.durationSeconds, endDate: Date())`
+- Inject `HealthKitService` as optional `HealthKitServiceProtocol?` — if nil or unauthorized, silently skip
+- Authorization is requested lazily (not at app launch)
+- In `SessionCompleteOverlay.swift`: show a one-time "Save to Apple Health?" prompt if HealthKit is available and `hasSeenHealthKitPrompt == false`. User can tap "Allow" (calls requestAuthorization) or "Not Now" (sets hasSeenHealthKitPrompt = true, never shows again)
+
+**HRV Display — Today Tab:**
+- Add an HRV card below BOLTScoreCard in `TodayView.swift` — only shown if HealthKit authorized AND HRV data exists in Health app
+- Display: latest HRV value in ms, label "Heart Rate Variability", small trend indicator (▲/▼ vs previous day)
+- Style: match the existing BOLTScoreCard hairline-bordered card style
+- If no HRV data or not authorized: hide entirely, no empty state shown
+
+**HRV Trend — Progress Tab:**
+- Add "Health Insights" section in `ProgressHistoryView.swift` — only if authorized + data available
+- Show 7-day HRV average trend using same `BOLTLineChart` style
+- Below chart: one line of context — "Higher HRV and BOLT scores both reflect a calmer, stronger nervous system."
+
+**Settings — Health & Data Section:**
+- Add "Health & Data" section in `SettingsView.swift`:
+  - "Connect Apple Health" row — shows auth status; tapping requests permission or opens Settings URL if denied
+  - "Save sessions as Mindful Minutes" toggle (stored in `UserSettings`, default true when authorized)
+  - "Show HRV in Today view" toggle (stored in `UserSettings`, default true when authorized)
+- Hide entire section on simulator (isHealthDataAvailable guard)
+
+**UserSettings Updates:**
+Add to `UserSettings` entity:
+- `healthKitEnabled: Bool` (default: false)
+- `saveMindfulMinutes: Bool` (default: true)
+- `showHRVInsights: Bool` (default: true)
+- `hasSeenHealthKitPrompt: Bool` (default: false)
+Update `UserDefaultsSettingsRepository` to persist new fields.
+
+**Error Handling:**
+- All HealthKit calls are `async throws` but callers catch and ignore errors silently (log to analytics)
+- Permission denied: Settings row shows "Tap to open Health settings" → `UIApplication.openSettingsURLString`
+- No HealthKit UI shown on Simulator at all
+
+**Files to Create:**
+- `Sources/SocraticJournal/Domain/Services/HealthKitServiceProtocol.swift`
+- `Sources/SocraticJournal/Data/Services/HealthKitService.swift`
+
+**Files to Modify:**
+- `project.yml` — add HealthKit framework + entitlement + Info.plist keys
+- `SocraticJournal.entitlements` — add HealthKit keys
+- `Sources/SocraticJournal/Domain/Entities/UserSettings.swift` — add 4 new fields
+- `Sources/SocraticJournal/Data/Repositories/UserDefaultsSettingsRepository.swift` — persist new fields
+- `Sources/SocraticJournal/App/SocraticJournalApp.swift` — instantiate HealthKitService, inject into MainTabView
+- `Sources/SocraticJournal/Presentation/Navigation/MainTabView.swift` — thread HealthKitService to views
+- `Sources/SocraticJournal/Presentation/Breathe/BreatheViewModel.swift` — save session to HealthKit
+- `Sources/SocraticJournal/Presentation/Breathe/SessionCompleteOverlay.swift` — one-time permission prompt
+- `Sources/SocraticJournal/Presentation/Today/TodayView.swift` — HRV card
+- `Sources/SocraticJournal/Presentation/Today/TodayViewModel.swift` — fetch HRV
+- `Sources/SocraticJournal/Presentation/Progress/ProgressHistoryView.swift` — HRV chart section
+- `Sources/SocraticJournal/Presentation/Progress/ProgressViewModel.swift` — fetch HRV history
+- `Sources/SocraticJournal/Presentation/Settings/SettingsView.swift` — Health & Data section
+- `Sources/SocraticJournal/Presentation/Settings/SettingsViewModel.swift` — health toggle logic
+
+**Priority:** 19
+**Dependencies:** 18 (dark theme must be done first so HRV card looks correct in both modes)
+
+---
+
+### 20. Final Build Verification (Dark Theme 3 Branch)
+
+**User Story:** As a developer, I need to confirm the app builds cleanly and all new features work end-to-end before the branch is ready to merge.
+
+**Steps:**
+1. Run `xcodegen generate`
+2. Run `xcodebuild build -scheme SocraticJournal -destination 'platform=iOS Simulator,name=iPhone 16 Pro'` — must exit 0
+3. Navigate all screens in light mode — verify no visual regression
+4. Switch to dark mode in Settings — verify all screens go dark (warm dark, not pure black)
+5. Complete a breath session — verify no crash on session complete overlay
+6. On device (not simulator): verify HealthKit permission prompt appears on first session complete
+7. Verify BOLT test flow works in dark mode (all 3 pages)
+8. Verify Progress sheet, All Sessions, All BOLT Scores all show dark correctly
+
+**Acceptance Criteria:**
+- `xcodebuild build` exits 0 with zero errors
+- All screens render correctly in both light and dark mode
+- HealthKit service gracefully no-ops on Simulator
+- No regressions in existing functionality
+
+**Priority:** 20
+**Dependencies:** 18, 19

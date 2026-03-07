@@ -64,7 +64,7 @@ public struct BOLTTimerPage: View {
                     .padding(.vertical, 16)
                     .background(
                         RoundedRectangle(cornerRadius: 6)
-                            .fill(Color(hex: "C4502A"))
+                            .fill(AppColors.accent2)
                     )
             }
             .buttonStyle(.plain)

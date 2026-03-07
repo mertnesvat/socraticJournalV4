@@ -9,6 +9,7 @@ import SwiftUI
 struct ProgramDetailView: View {
     @State private var viewModel: ProgramViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(ThemeManager.self) private var themeManager
     let onStartPattern: (String, Int) -> Void
 
     init(program: Program, onStartPattern: @escaping (String, Int) -> Void) {
@@ -87,6 +88,7 @@ struct ProgramDetailView: View {
                 }
             }
         }
+        .applyTheme(from: themeManager)
         .onAppear { viewModel.loadProgress() }
     }
 

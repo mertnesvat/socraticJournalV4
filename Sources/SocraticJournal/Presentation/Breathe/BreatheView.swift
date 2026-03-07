@@ -13,17 +13,24 @@ public struct BreatheView: View {
     @Binding var pendingPatternId: String?
     @Binding var pendingDuration: Int?
 
+    private let settingsRepository: SettingsRepositoryProtocol?
+    private let healthKitService: HealthKitServiceProtocol?
+
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol? = nil,
         analyticsService: AnalyticsServiceProtocol? = nil,
+        healthKitService: HealthKitServiceProtocol? = nil,
         pendingPatternId: Binding<String?> = .constant(nil),
         pendingDuration: Binding<Int?> = .constant(nil)
     ) {
+        self.settingsRepository = settingsRepository
+        self.healthKitService = healthKitService
         _viewModel = State(initialValue: BreatheViewModel(
             sessionRepository: sessionRepository,
             settingsRepository: settingsRepository,
-            analyticsService: analyticsService
+            analyticsService: analyticsService,
+            healthKitService: healthKitService
         ))
         _pendingPatternId = pendingPatternId
         _pendingDuration = pendingDuration
@@ -90,6 +97,8 @@ public struct BreatheView: View {
                 pattern: completedPattern ?? viewModel.selectedPattern,
                 previousDailyTotal: viewModel.previousDailyTotal,
                 dailyGoalMinutes: viewModel.dailyGoalMinutes,
+                settingsRepository: settingsRepository,
+                healthKitService: healthKitService,
                 onDismiss: {
                     completedSession = nil
                     completedPattern = nil

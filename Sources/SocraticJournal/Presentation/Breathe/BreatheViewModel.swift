@@ -26,17 +26,20 @@ public final class BreatheViewModel {
     private let sessionRepository: BreathSessionRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol?
     private let analyticsService: AnalyticsServiceProtocol?
+    private let healthKitService: HealthKitServiceProtocol?
 
     // MARK: - Init
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol? = nil,
-        analyticsService: AnalyticsServiceProtocol? = nil
+        analyticsService: AnalyticsServiceProtocol? = nil,
+        healthKitService: HealthKitServiceProtocol? = nil
     ) {
         self.sessionRepository = sessionRepository
         self.settingsRepository = settingsRepository
         self.analyticsService = analyticsService
+        self.healthKitService = healthKitService
 
         engine.onPhaseTransition = { [hapticEngine] phaseType in
             hapticEngine.firePhaseTransition(phaseType: phaseType)
@@ -141,8 +144,12 @@ public final class BreatheViewModel {
         if duration >= 30 {
             lastCompletedSession = session
         }
+        let endDate = Date()
+        let startDate = endDate.addingTimeInterval(-duration)
         Task {
             try? await sessionRepository.saveSession(session)
+            // Save to HealthKit as Mindful Minutes (silently ignores auth errors)
+            try? await healthKitService?.saveMindfulSession(startDate: startDate, endDate: endDate)
         }
         analyticsService?.logEvent(.sessionCompleted, parameters: [
             "pattern_id": selectedPattern.id,
