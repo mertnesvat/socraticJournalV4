@@ -26,17 +26,20 @@ public final class BreatheViewModel {
     private let sessionRepository: BreathSessionRepositoryProtocol
     private let settingsRepository: SettingsRepositoryProtocol?
     private let analyticsService: AnalyticsServiceProtocol?
+    private let healthKitService: HealthKitServiceProtocol
 
     // MARK: - Init
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol? = nil,
-        analyticsService: AnalyticsServiceProtocol? = nil
+        analyticsService: AnalyticsServiceProtocol? = nil,
+        healthKitService: HealthKitServiceProtocol = NoOpHealthKitService()
     ) {
         self.sessionRepository = sessionRepository
         self.settingsRepository = settingsRepository
         self.analyticsService = analyticsService
+        self.healthKitService = healthKitService
 
         engine.onPhaseTransition = { [hapticEngine] phaseType in
             hapticEngine.firePhaseTransition(phaseType: phaseType)
@@ -50,6 +53,16 @@ public final class BreatheViewModel {
             hapticEngine.setEnabled(settings.hapticRhythmEnabled)
             dailyGoalMinutes = settings.dailyGoalMinutes
         } catch {}
+    }
+
+    func requestHealthKitAuthorizationIfNeeded() {
+        let key = "healthkit_authorization_requested"
+        guard !UserDefaults.standard.bool(forKey: key) else { return }
+        guard healthKitService.isAvailable else { return }
+        UserDefaults.standard.set(true, forKey: key)
+        Task {
+            try? await healthKitService.requestAuthorization()
+        }
     }
 
     // MARK: - Duration Options
@@ -130,10 +143,11 @@ public final class BreatheViewModel {
 
     private func saveSession(duration: TimeInterval, cycles: Int) {
         guard duration > 5 else { return } // Don't save sessions < 5 seconds
+        let startedAt = sessionStartedAt ?? Date()
         let session = BreathSession(
             id: UUID().uuidString,
             patternId: selectedPattern.id,
-            startedAt: sessionStartedAt ?? Date(),
+            startedAt: startedAt,
             completedAt: Date(),
             totalDuration: duration,
             cyclesCompleted: cycles
@@ -144,12 +158,32 @@ public final class BreatheViewModel {
         Task {
             try? await sessionRepository.saveSession(session)
         }
+        writeToHealthKit(session: session)
         analyticsService?.logEvent(.sessionCompleted, parameters: [
             "pattern_id": selectedPattern.id,
             "duration_seconds": duration,
             "cycles_completed": cycles,
         ])
         sessionStartedAt = nil
+    }
+
+    private func writeToHealthKit(session: BreathSession) {
+        guard healthKitService.isAvailable else { return }
+        Task {
+            try? await healthKitService.saveMindfulSession(
+                startedAt: session.startedAt,
+                duration: session.totalDuration
+            )
+            let respiratoryRate = session.cyclesCompleted > 0 && session.totalDuration > 0
+                ? Double(session.cyclesCompleted) / (session.totalDuration / 60.0)
+                : 0
+            if respiratoryRate > 1 && respiratoryRate < 60 {
+                try? await healthKitService.saveRespiratoryRate(
+                    breathsPerMinute: respiratoryRate,
+                    date: session.startedAt
+                )
+            }
+        }
     }
 
     /// Formatted elapsed time

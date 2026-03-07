@@ -82,12 +82,12 @@ public struct BOLTInstructionsPage: View {
                     Text("START TEST")
                         .font(.system(size: 12, weight: .bold, design: .serif))
                         .tracking(1)
-                        .foregroundStyle(AppColors.surface)
+                        .foregroundStyle(AppColors.background)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                         .background(
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(Color(hex: "1C1710"))
+                                .fill(AppColors.textPrimary)
                         )
                 }
                 .buttonStyle(.plain)
@@ -113,7 +113,7 @@ public struct BOLTInstructionsPage: View {
                 if showExplanation {
                     Text("The BOLT score was developed by Patrick McKeown as part of the Buteyko breathing method. It measures your body's tolerance to carbon dioxide — the real driver of the urge to breathe. James Nestor tested his own BOLT score throughout his research for 'Breath' and documented how it improved with practice. A higher BOLT score correlates with lower anxiety, better exercise tolerance, improved sleep quality, and stronger parasympathetic tone.")
                         .font(.system(size: 13))
-                        .foregroundStyle(Color(hex: "3D3328"))
+                        .foregroundStyle(AppColors.textPrimary)
                         .lineSpacing(13 * 0.75)
                         .padding(.top, AppSpacing.sm)
                 }

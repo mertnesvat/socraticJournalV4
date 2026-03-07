@@ -59,6 +59,8 @@ public struct ProgressHistoryView: View {
             }
             .background(AppColors.background)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(AppColors.background, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Progress")

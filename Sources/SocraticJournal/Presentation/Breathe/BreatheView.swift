@@ -12,18 +12,21 @@ public struct BreatheView: View {
     @State private var completedPattern: BreathPattern?
     @Binding var pendingPatternId: String?
     @Binding var pendingDuration: Int?
+    @Environment(ThemeManager.self) private var themeManager
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol? = nil,
         analyticsService: AnalyticsServiceProtocol? = nil,
+        healthKitService: HealthKitServiceProtocol = NoOpHealthKitService(),
         pendingPatternId: Binding<String?> = .constant(nil),
         pendingDuration: Binding<Int?> = .constant(nil)
     ) {
         _viewModel = State(initialValue: BreatheViewModel(
             sessionRepository: sessionRepository,
             settingsRepository: settingsRepository,
-            analyticsService: analyticsService
+            analyticsService: analyticsService,
+            healthKitService: healthKitService
         ))
         _pendingPatternId = pendingPatternId
         _pendingDuration = pendingDuration
@@ -61,7 +64,10 @@ public struct BreatheView: View {
             }
         }
         .background(AppColors.background)
-        .task { await viewModel.loadSettings() }
+        .task {
+            await viewModel.loadSettings()
+            viewModel.requestHealthKitAuthorizationIfNeeded()
+        }
         .onChange(of: pendingPatternId) { _, patternId in
             if let patternId {
                 viewModel.preSelectForProgram(
@@ -95,6 +101,8 @@ public struct BreatheView: View {
                     completedPattern = nil
                 }
             )
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
         }
     }
 

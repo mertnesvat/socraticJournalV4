@@ -17,17 +17,20 @@ public struct TodayView: View {
     private let settingsRepository: SettingsRepositoryProtocol
     private let notificationService: NotificationServiceProtocol
     private let analyticsService: AnalyticsServiceProtocol
+    private let healthKitService: HealthKitServiceProtocol
 
     public init(
         sessionRepository: BreathSessionRepositoryProtocol,
         settingsRepository: SettingsRepositoryProtocol,
         notificationService: NotificationServiceProtocol,
-        analyticsService: AnalyticsServiceProtocol
+        analyticsService: AnalyticsServiceProtocol,
+        healthKitService: HealthKitServiceProtocol = NoOpHealthKitService()
     ) {
         self.sessionRepository = sessionRepository
         self.settingsRepository = settingsRepository
         self.notificationService = notificationService
         self.analyticsService = analyticsService
+        self.healthKitService = healthKitService
         _viewModel = State(initialValue: TodayViewModel(
             sessionRepository: sessionRepository,
             settingsRepository: settingsRepository
@@ -55,6 +58,11 @@ public struct TodayView: View {
 
                 HairlineDivider()
 
+                // Health metrics (resting HR + HRV from Apple Health)
+                HealthInsightCard(healthKitService: healthKitService)
+
+                HairlineDivider()
+
                 // Today's sessions
                 todaySessionsSection
                 HairlineDivider()
@@ -77,12 +85,15 @@ public struct TodayView: View {
                 )
             )
             .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
         }
         .sheet(isPresented: $showProgress) {
             ProgressHistoryView(
                 sessionRepository: sessionRepository,
                 settingsRepository: settingsRepository
             )
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
         }
         .sheet(isPresented: $showBOLTTest) {
             BOLTTestView(
@@ -93,6 +104,8 @@ public struct TodayView: View {
                     Task { await viewModel.loadData() }
                 }
             )
+            .environment(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
         }
     }
 

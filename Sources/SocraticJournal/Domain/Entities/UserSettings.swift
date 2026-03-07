@@ -14,6 +14,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
     public var dailyGoalMinutes: Int
     public var hapticRhythmEnabled: Bool
     public var readArticleIndices: Set<Int>
+    public var healthKitEnabled: Bool
 
     public init(
         themeMode: ThemeMode = .system,
@@ -23,7 +24,8 @@ public struct UserSettings: Codable, Sendable, Equatable {
         hasCompletedOnboarding: Bool = false,
         dailyGoalMinutes: Int = 5,
         hapticRhythmEnabled: Bool = true,
-        readArticleIndices: Set<Int> = []
+        readArticleIndices: Set<Int> = [],
+        healthKitEnabled: Bool = true
     ) {
         self.themeMode = themeMode
         self.dailyReminderEnabled = dailyReminderEnabled
@@ -33,6 +35,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
         self.dailyGoalMinutes = dailyGoalMinutes
         self.hapticRhythmEnabled = hapticRhythmEnabled
         self.readArticleIndices = readArticleIndices
+        self.healthKitEnabled = healthKitEnabled
     }
 
     // Custom decoder for backwards compatibility
@@ -46,6 +49,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
         dailyGoalMinutes = try container.decodeIfPresent(Int.self, forKey: .dailyGoalMinutes) ?? 5
         hapticRhythmEnabled = try container.decodeIfPresent(Bool.self, forKey: .hapticRhythmEnabled) ?? true
         readArticleIndices = try container.decodeIfPresent(Set<Int>.self, forKey: .readArticleIndices) ?? []
+        healthKitEnabled = try container.decodeIfPresent(Bool.self, forKey: .healthKitEnabled) ?? true
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -57,6 +61,7 @@ public struct UserSettings: Codable, Sendable, Equatable {
         case dailyGoalMinutes
         case hapticRhythmEnabled
         case readArticleIndices
+        case healthKitEnabled
     }
 
     /// Default settings

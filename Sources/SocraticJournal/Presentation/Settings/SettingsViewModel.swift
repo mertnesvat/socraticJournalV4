@@ -74,6 +74,14 @@ public final class SettingsViewModel {
         notificationPermissionStatus == .denied
     }
 
+    var healthKitEnabled: Bool {
+        get { settings.healthKitEnabled }
+        set {
+            settings.healthKitEnabled = newValue
+            Task { await saveSettings() }
+        }
+    }
+
     // MARK: - Dependencies
 
     public let settingsRepository: SettingsRepositoryProtocol
