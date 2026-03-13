@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleDisplayName</key>
-    <string>Socratic</string>
+    <string>Next Breathe</string>
     <key>CFBundleName</key>
     <string>SocraticJournal</string>
     <key>CFBundleIdentifier</key>
@@ -38,9 +38,9 @@
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
     <key>NSHealthShareUsageDescription</key>
-    <string>Rumi Breathing reads your resting heart rate and HRV from Apple Health to show how your breathing practice is improving your cardiovascular health.</string>
+    <string>Next Breathe reads your resting heart rate and HRV from Apple Health to show how your breathing practice is improving your cardiovascular health.</string>
     <key>NSHealthUpdateUsageDescription</key>
-    <string>Rumi Breathing saves your breath sessions to Apple Health as Mindful Minutes so your practice appears in your Health dashboard and Activity rings.</string>
+    <string>Next Breathe saves your breath sessions to Apple Health as Mindful Minutes so your practice appears in your Health dashboard and Activity rings.</string>
     <key>FirebaseUseEmulator</key>
     <string>$(FIREBASE_USE_EMULATOR)</string>
     <key>FirebaseEmulatorHost</key>

@@ -1,4 +1,4 @@
-# Rumi Breathing — Short Video Content Playbook
+# Next Breathe — Short Video Content Playbook
 
 *TikTok · Instagram Reels · YouTube Shorts*
 
@@ -6,7 +6,7 @@
 
 ## The Core Content Strategy
 
-Every short video for Rumi Breathing should follow this formula:
+Every short video for Next Breathe should follow this formula:
 
 ```
 Hook (0–3s)     → Stop the scroll with a surprising claim or challenge
@@ -455,7 +455,7 @@ Rotate these angles to cover different audience segments without repeating. Best
 
 When comments ask "what app is this?" or "where do I find the BOLT test?":
 
-> "I track mine in Rumi Breathing — it saves the history so you can see the trend. Link in bio."
+> "I track mine in Next Breathe — it saves the history so you can see the trend. Link in bio."
 
 When someone shares their BOLT score:
 

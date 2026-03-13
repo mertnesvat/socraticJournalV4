@@ -111,7 +111,7 @@ Most health metrics require equipment: a WHOOP band, a pulse oximeter, a spirome
 
 A user who begins with a score of 14 seconds and reaches 28 seconds in four weeks has measurable proof that their breathing physiology has changed. That number change is the "weight lost" equivalent for breathing practice — the motivating evidence that the work is real.
 
-For Rumi Breathing specifically, the BOLT score anchors the entire app:
+For Next Breathe specifically, the BOLT score anchors the entire app:
 - **Onboarding** → take your first BOLT score (establish baseline)
 - **Daily practice** → any of the 8 patterns improves CO₂ tolerance over time
 - **Programs** → Day 9 of the Nasal Reset specifically prompts a BOLT check

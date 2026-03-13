@@ -1,4 +1,4 @@
-# Rumi Breathing — Development Roadmap
+# Next Breathe — Development Roadmap
 
 *Last updated: 2026-03-06*
 
@@ -91,11 +91,11 @@ Widget and main app need to share the user's favourite pattern setting. Add an A
 
 ```yaml
 targets:
-  RumiWidget:
+  NextBreatheWidget:
     type: app-extension
     platform: iOS
     sources:
-      - path: Sources/RumiWidget
+      - path: Sources/NextBreatheWidget
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournal.widget
@@ -106,8 +106,8 @@ targets:
 
 **Step 3 — Widget implementation structure**
 ```
-Sources/RumiWidget/
-├── RumiWidgetBundle.swift      # @main WidgetBundle
+Sources/NextBreatheWidget/
+├── NextBreatheWidgetBundle.swift      # @main WidgetBundle
 ├── FavouritePatternWidget.swift # Widget definition + Provider
 ├── WidgetEntryView.swift        # SwiftUI view (small + medium)
 └── WidgetPatternData.swift      # Reads from App Group UserDefaults
@@ -123,7 +123,7 @@ Use a URL scheme or `AppIntent` to tell the main app which pattern to open.
 
 Option A — URL scheme (simpler):
 ```swift
-// In widget: widgetURL(URL(string: "rumibreathing://breathe?pattern=resonance")!)
+// In widget: widgetURL(URL(string: "nextbreathe://breathe?pattern=resonance")!)
 // In SocraticJournalApp: handle .onOpenURL { url in ... }
 ```
 
@@ -206,17 +206,17 @@ Done Screen
 
 ```yaml
 targets:
-  RumiWatchApp:
+  NextBreatheWatchApp:
     type: application
     platform: watchOS
     deploymentTarget: "10.0"
     sources:
-      - path: Sources/RumiWatch
+      - path: Sources/NextBreatheWatch
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournal.watchkitapp
 
-  RumiWatchExtension:
+  NextBreatheWatchExtension:
     # Only needed for watchOS < 7 — on watchOS 7+ use standalone app
     # Skip if targeting watchOS 10+
 ```
@@ -337,7 +337,7 @@ For the session screen, implement `TimelineView(.animation(minimumInterval: 1))`
 
 ### 8. Optional Whispered Audio Cues
 
-Soft audio phase guidance ("Inhale... hold... exhale...") as an alternative to the visual wave for eyes-closed practice. Rumi poetry quotes read aloud between sessions.
+Soft audio phase guidance ("Inhale... hold... exhale...") as an alternative to the visual wave for eyes-closed practice. Inspirational quotes read aloud between sessions.
 
 **Effort:** 1 week (recording + playback implementation)
 
@@ -365,7 +365,7 @@ These don't ship features but keep the codebase healthy:
 
 | Item | Notes |
 |------|-------|
-| Rename Xcode target / bundle ID to `rumibreathing` | Coordinate with new App Store listing, provisioning profiles, Firebase project rename |
+| Rename Xcode target / bundle ID to `nextbreathe` | Coordinate with new App Store listing, provisioning profiles, Firebase project rename |
 | `CharacterDiscovery/` folder in Presentation | Leftover from Socratic Journal — check if empty and delete |
 | `Statistics/` folder in Presentation | Currently empty — delete or plan |
 | `functions/src/` at root | Duplicate of `Firebase/functions/` — clarify which is live, delete the other |

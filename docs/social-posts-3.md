@@ -1,4 +1,4 @@
-# Rumi Breathing — Short Video Content Playbook Vol. 3
+# Next Breathe — Short Video Content Playbook Vol. 3
 ## History, Etymology & Unknown Facts
 
 *TikTok · Instagram Reels · YouTube Shorts*

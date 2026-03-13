@@ -1,4 +1,4 @@
-# Rumi Breathing — Short Video Content Playbook Vol. 2
+# Next Breathe — Short Video Content Playbook Vol. 2
 
 *TikTok · Instagram Reels · YouTube Shorts*
 
@@ -6,7 +6,7 @@
 
 ## The Core Content Strategy
 
-Every short video for Rumi Breathing should follow this formula:
+Every short video for Next Breathe should follow this formula:
 
 ```
 Hook (0–3s)     → Stop the scroll with a surprising claim or challenge
