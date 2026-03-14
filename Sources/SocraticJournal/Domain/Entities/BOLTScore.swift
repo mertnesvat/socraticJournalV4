@@ -56,15 +56,15 @@ public enum BOLTTier: String, Codable, Sendable {
     public var interpretation: String {
         switch self {
         case .veryLow:
-            return "Your CO₂ tolerance is very low — this is common in chronic mouth-breathers and people with anxiety. Buteyko Reduced breathing is your priority pattern. Even a few weeks of practice can dramatically improve this score."
+            return "Your CO₂ tolerance is very low — this is common in chronic mouth-breathers and people with anxiety. Buteyko Reduced breathing is your priority pattern. Even a few weeks of practice can dramatically improve this score. Try the CO₂ Tolerance Builder and High Altitude Hold exercises to begin retraining your chemoreceptors."
         case .belowAverage:
-            return "Below average, but this is where most modern adults land. Your chemoreceptors are over-sensitive to CO₂, causing you to over-breathe. Resonance and Coherent patterns will gradually recalibrate."
+            return "Below average, but this is where most modern adults land. Your chemoreceptors are over-sensitive to CO₂, causing you to over-breathe. Resonance and Coherent patterns will gradually recalibrate. The Breath-Hold Walk and CO₂ Tolerance Builder are ideal at this stage — movement during holds accelerates adaptation."
         case .average:
-            return "Average range. You have reasonable CO₂ tolerance but there's significant room for growth. Regular practice with any pattern will improve this. Aim for 30+ as your next milestone."
+            return "Average range. You have reasonable CO₂ tolerance but there's significant room for growth. Regular practice with any pattern will improve this. Aim for 30+ as your next milestone. The CO₂ Table and Apnea Pyramid will challenge your chemoreceptors at this level."
         case .good:
-            return "Good CO₂ tolerance. Your breathing efficiency is above average. You'll notice this in better sleep, lower resting heart rate, and calmer stress response. Keep going — 40+ is excellent."
+            return "Good CO₂ tolerance. Your breathing efficiency is above average. You'll notice this in better sleep, lower resting heart rate, and calmer stress response. Keep going — 40+ is excellent. The CO₂ Table and Apnea Pyramid can push you further toward the excellent range."
         case .excellent:
-            return "Excellent. This indicates strong parasympathetic tone, efficient gas exchange, and well-calibrated chemoreceptors. Nestor found that experienced meditators and free divers consistently score here."
+            return "Excellent. This indicates strong parasympathetic tone, efficient gas exchange, and well-calibrated chemoreceptors. Nestor found that experienced meditators and free divers consistently score here. Maintain your edge with any CO₂ tolerance exercise — the freediver-level protocols will keep your chemoreceptors sharp."
         }
     }
 

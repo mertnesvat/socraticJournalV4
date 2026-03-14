@@ -94,6 +94,25 @@ public final class MockBreathSessionRepository: BreathSessionRepositoryProtocol,
         return boltScores.max(by: { $0.recordedAt < $1.recordedAt })
     }
 
+    // MARK: - Sample Data
+
+    private var sampleDataAdded: Bool = false
+
+    public func addSampleData() async throws {
+        if shouldFail { throw failError }
+        sampleDataAdded = true
+    }
+
+    public func removeSampleData() async throws {
+        if shouldFail { throw failError }
+        sampleDataAdded = false
+    }
+
+    public func hasSampleData() async throws -> Bool {
+        if shouldFail { throw failError }
+        return sampleDataAdded
+    }
+
     // MARK: - Test Helpers
 
     public func reset() {

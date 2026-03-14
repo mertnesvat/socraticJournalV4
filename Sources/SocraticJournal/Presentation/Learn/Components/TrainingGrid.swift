@@ -5,7 +5,7 @@
 #if os(iOS)
 import SwiftUI
 
-/// 2x2 grid of training exercise cards for the Learn tab
+/// Grid of training exercise cards organized by section for the Learn tab
 struct TrainingGrid: View {
     let onSelectExercise: (TrainingData.Exercise) -> Void
 
@@ -15,23 +15,40 @@ struct TrainingGrid: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            Text("TRAINING")
-                .font(.system(size: 11))
-                .tracking(1.0)
-                .foregroundStyle(AppColors.textTertiary)
-                .padding(.horizontal, AppSpacing.screenPadding)
+        VStack(alignment: .leading, spacing: AppSpacing.md) {
+            ForEach(TrainingData.allSections) { section in
+                VStack(alignment: .leading, spacing: AppSpacing.sm) {
+                    // Section header
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(section.title.uppercased())
+                            .font(.system(size: 11))
+                            .tracking(1.0)
+                            .foregroundStyle(AppColors.textTertiary)
 
-            LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(TrainingData.allExercises) { exercise in
-                    TrainingExerciseCard(
-                        exercise: exercise,
-                        completionCount: TrainingData.completionCount(for: exercise.id),
-                        onTap: { onSelectExercise(exercise) }
-                    )
+                        Text(section.subtitle)
+                            .font(.system(size: 12, design: .serif))
+                            .foregroundStyle(AppColors.textSecondary)
+                    }
+                    .padding(.horizontal, AppSpacing.screenPadding)
+
+                    // Teal divider
+                    Rectangle()
+                        .fill(AppColors.accent)
+                        .frame(height: 0.5)
+                        .padding(.horizontal, AppSpacing.screenPadding)
+
+                    LazyVGrid(columns: columns, spacing: 12) {
+                        ForEach(section.exercises) { exercise in
+                            TrainingExerciseCard(
+                                exercise: exercise,
+                                completionCount: TrainingData.completionCount(for: exercise.id),
+                                onTap: { onSelectExercise(exercise) }
+                            )
+                        }
+                    }
+                    .padding(.horizontal, AppSpacing.screenPadding)
                 }
             }
-            .padding(.horizontal, AppSpacing.screenPadding)
         }
         .padding(.vertical, AppSpacing.md)
     }

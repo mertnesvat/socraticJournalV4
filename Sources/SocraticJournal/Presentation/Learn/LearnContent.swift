@@ -14,7 +14,7 @@ enum LearnContent {
     }
 
     struct Article: Identifiable {
-        let id: Int // Global article index (0-11)
+        let id: Int // Global article index (0-15)
         let title: String
         let subtitle: String
         let tag: String
@@ -41,9 +41,13 @@ enum LearnContent {
         QuickFact(value: "70%", label: "of breathing should be nasal"),
         QuickFact(value: "4x", label: "more NO via humming"),
         QuickFact(value: "20%", label: "more O\u{2082} via nose"),
+        QuickFact(value: "40s+", label: "excellent BOLT score"),
+        QuickFact(value: "50%", label: "larger Bajau spleens"),
+        QuickFact(value: "80%", label: "of apnea is mental"),
+        QuickFact(value: "10\u{2013}25%", label: "heart rate drop in dive reflex"),
     ]
 
-    // MARK: - Chapters (4 chapters, 12 articles total)
+    // MARK: - Chapters (5 chapters, 16 articles total)
 
     static let chapters: [Chapter] = [
         // Chapter 1: Foundations
@@ -131,7 +135,7 @@ enum LearnContent {
                     tag: "Counter-intuitive",
                     tagColorHex: "7A6030",
                     readTime: "4 min",
-                    body: "The Bohr Effect: oxygen clings more tightly to haemoglobin when CO\u{2082} is high. If you over-breathe and deplete CO\u{2082}, paradoxically less oxygen is released to your tissues. Buteyko\u{2019}s entire system is built on this insight. The chronic \u{2018}air hunger\u{2019} anxiety sufferers feel is usually not a lack of oxygen \u{2014} it\u{2019}s a trained intolerance to CO\u{2082}. Slow, reduced breathing rebuilds this tolerance over weeks. The practical test is the BOLT score (Body Oxygen Level Test): after a normal exhale, time how long until you feel the first urge to breathe. Most untrained people score 15-20 seconds. Patrick McKeown\u{2019}s Buteyko training aims for 40+. The improvement curve is steep \u{2014} a few weeks of reduced-volume breathing can add 10-15 seconds to your BOLT score."
+                    body: "The Bohr Effect: oxygen clings more tightly to haemoglobin when CO\u{2082} is high. If you over-breathe and deplete CO\u{2082}, paradoxically less oxygen is released to your tissues. Buteyko\u{2019}s entire system is built on this insight. The chronic \u{2018}air hunger\u{2019} anxiety sufferers feel is usually not a lack of oxygen \u{2014} it\u{2019}s a trained intolerance to CO\u{2082}. Slow, reduced breathing rebuilds this tolerance over weeks. The practical test is the BOLT score (Body Oxygen Level Test): after a normal exhale, time how long until you feel the first urge to breathe. Most untrained people score 15-20 seconds. Patrick McKeown\u{2019}s Buteyko training aims for 40+. The improvement curve is steep \u{2014} a few weeks of reduced-volume breathing can add 10-15 seconds to your BOLT score. Breath-hold training \u{2014} from simple exhale holds to freediver CO\u{2082} tables \u{2014} is the most direct way to retrain these chemoreceptors. Even a few weeks of structured practice can shift your CO\u{2082} alarm threshold significantly."
                 ),
                 Article(
                     id: 7,
@@ -186,6 +190,51 @@ enum LearnContent {
                     tagColorHex: "5A6E3D",
                     readTime: "4 min",
                     body: "The minimum effective dose is remarkably small. Five minutes of Resonance breathing (5.5 in, 5.5 out) produces a measurable HRV increase that lasts 30-60 minutes after the session. Two sessions per day \u{2014} morning and evening \u{2014} create a training effect that accumulates over weeks. By week 4, most practitioners notice: lower resting heart rate (2-5 bpm), longer BOLT score (+5-15 seconds), reduced sleep onset time, and a subjective sense of calm that wasn\u{2019}t there before. The key insight from Nestor\u{2019}s reporting is that breathing is a skill, not a gift. Every human can learn to breathe optimally. The patterns in this app aren\u{2019}t exotic \u{2014} they\u{2019}re the natural rhythms your ancestors used. You\u{2019}re just remembering."
+                ),
+            ]
+        ),
+
+        // Chapter 5: The Breath Hold
+        Chapter(
+            id: 5,
+            title: "Chapter 5 \u{00b7} The Breath Hold",
+            subtitle: "The science of not breathing",
+            articles: [
+                Article(
+                    id: 12,
+                    title: "Full lungs or empty?\nThe hold that matters.",
+                    subtitle: "Why the type of breath hold changes everything",
+                    tag: "Physiology",
+                    tagColorHex: "7A6030",
+                    readTime: "5 min",
+                    body: "Not all breath holds are equal. A full-lung hold (at total lung capacity) and an empty-lung hold (after a passive exhale, at functional residual capacity) produce fundamentally different training stimuli. Full-lung holds are easier and longer because stretch receptors in the lungs suppress the urge to breathe. The diaphragm is relaxed, the chest is expanded, and there is a large reservoir of oxygen to draw from. This is why beginners instinctively gulp air before holding. But the training effect is limited \u{2014} you are mostly testing oxygen stores, not CO\u{2082} tolerance. Empty-lung holds are harder and shorter, but far more effective for chemoreceptor training. With less oxygen available, CO\u{2082} rises faster. The urge to breathe arrives sooner and more intensely, which is precisely the stimulus that recalibrates your body\u{2019}s CO\u{2082} alarm threshold. This is why the BOLT test is measured after a passive exhale, not after a full inhale \u{2014} it tests your tolerance to CO\u{2082}, not the size of your lungs. The Bohr Effect connects both: higher CO\u{2082} during an empty-lung hold causes haemoglobin to release oxygen more readily to tissues. You are training your body to work efficiently with less air, which is the entire foundation of Buteyko\u{2019}s method. For most practitioners, empty-lung holds after gentle breathing are the priority. Full-lung holds have their place in freediving training, but for improving everyday breathing, the empty-lung hold is the one that matters."
+                ),
+                Article(
+                    id: 13,
+                    title: "The dive reflex\nyou didn\u{2019}t know you had",
+                    subtitle: "Bradycardia, vasoconstriction, and the Bajau spleen",
+                    tag: "Evolution",
+                    tagColorHex: "2D5F5D",
+                    readTime: "5 min",
+                    body: "Every human carries an ancient survival mechanism called the mammalian dive reflex. It activates during breath holds \u{2014} especially when cold water contacts the face \u{2014} and it has four remarkable components. First, apnea itself triggers the sequence. The moment you stop breathing, your body begins preparing for oxygen conservation. Second, bradycardia: your heart rate drops 10\u{2013}25%, sometimes more. This is involuntary \u{2014} even experienced freedivers cannot override it. The vagus nerve slows the heart to reduce oxygen consumption. Third, peripheral vasoconstriction. Blood vessels in your extremities constrict, shunting blood toward your brain and heart \u{2014} the organs that cannot survive without oxygen. Your fingers and toes get cold, but your core stays oxygenated. Fourth, splenic contraction. Your spleen squeezes out stored red blood cells, temporarily increasing your blood\u{2019}s oxygen-carrying capacity by up to 6%. The Bajau people of Southeast Asia \u{2014} a community of sea nomads who have been free-diving for thousands of years \u{2014} have spleens approximately 50% larger than neighbouring non-diving populations. Genetic analysis published in Cell in 2018 confirmed this is natural selection, not acclimatisation \u{2014} a variant in the PDE10A gene is responsible. Trained freedivers show a more pronounced dive reflex than untrained people, suggesting the response is both innate and trainable. Even simple breath-hold practice on dry land activates a mild version of this reflex. Cold face immersion amplifies it dramatically \u{2014} this is why splashing cold water on your face during a panic attack works. You are triggering the same vagal bradycardia that slows a diving seal\u{2019}s heart."
+                ),
+                Article(
+                    id: 14,
+                    title: "Your spleen is a scuba tank",
+                    subtitle: "The organ that gives you extra oxygen on demand",
+                    tag: "Surprising",
+                    tagColorHex: "C4502A",
+                    readTime: "4 min",
+                    body: "Your spleen is doing something remarkable that most people never learn about. This fist-sized organ in your upper left abdomen stores a reserve of red blood cells \u{2014} and during a breath hold, it contracts to release them into your bloodstream. The effect is measurable: hematocrit (the percentage of blood that is red blood cells) increases by 2\u{2013}6% within seconds of splenic contraction. More red blood cells means more haemoglobin, which means more oxygen-carrying capacity. Your body is giving itself a blood transfusion. The trigger is the sympathetic nervous system responding to apnea. As CO\u{2082} rises and oxygen falls, adrenaline causes the smooth muscle surrounding the spleen to contract. The stored red blood cells flood into circulation, buying you extra time before hypoxia becomes dangerous. The Bajau people of Southeast Asia have been diving for fish for thousands of years, and their spleens are roughly 50% larger than those of their land-dwelling neighbours. A 2018 study in Cell found a genetic variant (PDE10A) responsible for this enlargement \u{2014} genuine natural selection for diving ability, occurring over perhaps a thousand generations. Trained freedivers show more pronounced splenic contraction than untrained individuals, even during dry breath holds. The adaptation is partly genetic but also partly trainable \u{2014} regular apnea practice appears to enhance the response. However, the effect is temporary. Once you resume breathing, the spleen re-sequesters its red blood cells within minutes. This is not a permanent increase in oxygen capacity \u{2014} it is an emergency reserve, evolved for exactly the situation your body thinks it is in when you hold your breath. The takeaway is both humbling and awe-inspiring: your body has a built-in oxygen reserve that most people never activate. Even a few weeks of structured breath-hold training begins to awaken this ancient mechanism."
+                ),
+                Article(
+                    id: 15,
+                    title: "How freedivers hold their breath\nfor 10 minutes",
+                    subtitle: "CO\u{2082} tables, O\u{2082} tables, and the 80% mental rule",
+                    tag: "Extreme",
+                    tagColorHex: "C4502A",
+                    readTime: "6 min",
+                    body: "The current static apnea world record exceeds 11 minutes. This is not a genetic gift \u{2014} it is trained. Competitive freedivers use two primary table protocols to systematically extend their breath-hold capacity. CO\u{2082} tables keep the hold duration fixed while progressively shortening the rest period between holds. This means CO\u{2082} never fully clears between rounds, forcing the chemoreceptors to tolerate progressively higher levels. Over weeks, the CO\u{2082} alarm threshold shifts upward. O\u{2082} tables are the inverse: rest periods stay constant while hold durations increase. This primarily trains the body\u{2019}s tolerance to falling oxygen levels and builds the psychological confidence to sit with discomfort. Most freedivers consider apnea to be 80% mental. The physiological urge to breathe \u{2014} diaphragm contractions, rising chest pressure \u{2014} is uncomfortable but not dangerous for trained individuals operating within safe limits. The mental techniques are remarkably specific: body scanning (systematically relaxing each muscle group to reduce oxygen consumption), visualisation (imagining a calm scene to prevent panic), segmented thinking (breaking a long hold into 30-second blocks rather than contemplating the total duration), and mantras (simple repeated phrases that occupy the mind). Relaxation is the master skill. A tense body consumes oxygen far faster than a relaxed one. Elite freedivers achieve heart rates of 20\u{2013}30 BPM during static holds \u{2014} not through effort, but through deep parasympathetic activation. Some advanced freedivers use lung packing (also called carping) \u{2014} using the glottis to force additional air into already-full lungs. This can increase total lung volume by 1\u{2013}2 litres but carries serious risks including lung squeeze and pneumomediastinum. It should never be attempted without expert supervision. The safety rules are absolute: never practise breath holds in water without a trained buddy, never hold your breath after hyperventilating (this depletes CO\u{2082} and eliminates the warning urge to breathe, risking shallow-water blackout), and always stop if you feel tingling, warmth, or visual disturbances. For the average user, the goal is not a 10-minute hold. It is a BOLT score above 40 and the calm, efficient breathing that comes with it. The freediver\u{2019}s techniques \u{2014} CO\u{2082} tables, relaxation, and progressive training \u{2014} are the same principles, scaled to everyday life."
                 ),
             ]
         ),
