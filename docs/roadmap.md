@@ -1,4 +1,4 @@
-# Next Breathe — Development Roadmap
+# Next Breath — Development Roadmap
 
 *Last updated: 2026-03-06*
 
@@ -91,11 +91,11 @@ Widget and main app need to share the user's favourite pattern setting. Add an A
 
 ```yaml
 targets:
-  NextBreatheWidget:
+  NextBreathWidget:
     type: app-extension
     platform: iOS
     sources:
-      - path: Sources/NextBreatheWidget
+      - path: Sources/NextBreathWidget
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournal.widget
@@ -106,8 +106,8 @@ targets:
 
 **Step 3 — Widget implementation structure**
 ```
-Sources/NextBreatheWidget/
-├── NextBreatheWidgetBundle.swift      # @main WidgetBundle
+Sources/NextBreathWidget/
+├── NextBreathWidgetBundle.swift      # @main WidgetBundle
 ├── FavouritePatternWidget.swift # Widget definition + Provider
 ├── WidgetEntryView.swift        # SwiftUI view (small + medium)
 └── WidgetPatternData.swift      # Reads from App Group UserDefaults
@@ -123,7 +123,7 @@ Use a URL scheme or `AppIntent` to tell the main app which pattern to open.
 
 Option A — URL scheme (simpler):
 ```swift
-// In widget: widgetURL(URL(string: "nextbreathe://breathe?pattern=resonance")!)
+// In widget: widgetURL(URL(string: "nextbreath://breathe?pattern=resonance")!)
 // In SocraticJournalApp: handle .onOpenURL { url in ... }
 ```
 
@@ -206,17 +206,17 @@ Done Screen
 
 ```yaml
 targets:
-  NextBreatheWatchApp:
+  NextBreathWatchApp:
     type: application
     platform: watchOS
     deploymentTarget: "10.0"
     sources:
-      - path: Sources/NextBreatheWatch
+      - path: Sources/NextBreathWatch
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.StudioNext.socraticJournal.watchkitapp
 
-  NextBreatheWatchExtension:
+  NextBreathWatchExtension:
     # Only needed for watchOS < 7 — on watchOS 7+ use standalone app
     # Skip if targeting watchOS 10+
 ```
@@ -365,7 +365,7 @@ These don't ship features but keep the codebase healthy:
 
 | Item | Notes |
 |------|-------|
-| Rename Xcode target / bundle ID to `nextbreathe` | Coordinate with new App Store listing, provisioning profiles, Firebase project rename |
+| Rename Xcode target / bundle ID to `nextbreath` | Coordinate with new App Store listing, provisioning profiles, Firebase project rename |
 | `CharacterDiscovery/` folder in Presentation | Leftover from Socratic Journal — check if empty and delete |
 | `Statistics/` folder in Presentation | Currently empty — delete or plan |
 | `functions/src/` at root | Duplicate of `Firebase/functions/` — clarify which is live, delete the other |

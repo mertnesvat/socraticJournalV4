@@ -1,4 +1,4 @@
-# Next Breathe — Product & Marketing Strategy
+# Next Breath — Product & Marketing Strategy
 
 *A science-backed iOS breath pacer. Ancient wisdom, measurable results.*
 
@@ -6,16 +6,16 @@
 
 ## The Idea
 
-**The core thesis:** Breathing is the most powerful health tool most people use wrong — 25,000 times a day. James Nestor's *Breath* (2020) made this a mainstream conversation. Next Breathe is the app that turns that conversation into a daily practice.
+**The core thesis:** Breathing is the most powerful health tool most people use wrong — 25,000 times a day. James Nestor's *Breath* (2020) made this a mainstream conversation. Next Breath is the app that turns that conversation into a daily practice.
 
 Most breathing apps either:
 - Tell you to "breathe deeply" with no scientific foundation (Calm, Headspace)
 - Offer one technique and stop (Wim Hof Method app)
 - Look clinical and feel like medical tools
 
-Next Breathe positions itself as **the editorial, science-first breath pacer** — the app you reach for after finishing Nestor's book, listening to Huberman, or discovering your HRV is low. It has the warmth of a literary magazine, the rigour of a research paper, and the simplicity of a good metronome.
+Next Breath positions itself as **the editorial, science-first breath pacer** — the app you reach for after finishing Nestor's book, listening to Huberman, or discovering your HRV is low. It has the warmth of a literary magazine, the rigour of a research paper, and the simplicity of a good metronome.
 
-**Name rationale:** "Next Breathe" signals forward momentum — your next breath is always an opportunity to reset. The name is action-oriented and accessible, positioning the app as a practical, science-backed companion rather than a spiritual or clinical tool.
+**Name rationale:** "Next Breath" signals forward momentum — your next breath is always an opportunity to reset. The name is action-oriented and accessible, positioning the app as a practical, science-backed companion rather than a spiritual or clinical tool.
 
 ---
 
@@ -150,7 +150,7 @@ The BOLT (Body Oxygen Level Test) is the app's "fitness test" for breathing. Aft
 
 ## Competitive Landscape
 
-| App | Strengths | Weaknesses | Next Breathe's Edge |
+| App | Strengths | Weaknesses | Next Breath's Edge |
 |-----|-----------|-----------|-------------|
 | **Calm** | Brand, meditation depth | Breathing is an afterthought, no science depth | Science-first, breath specialist |
 | **Headspace** | UI polish, mainstream trust | Mindfulness framing, not breathwork | Physiological, not spiritual |
@@ -159,7 +159,7 @@ The BOLT (Body Oxygen Level Test) is the app's "fitness test" for breathing. Aft
 | **Oak Meditation** | Simplicity | Too simple, no progression | Progression, programs, BOLT |
 | **Prana Breath** | Android focus, depth | Android-first, dated UI | iOS-native, premium design |
 
-**The gap nobody fills:** A beautiful, science-backed, editorially rich breath pacer that covers the full Nestor/Buteyko/Huberman/Weil canon in one place, with measurable progress (BOLT score) and structured programs. That is Next Breathe.
+**The gap nobody fills:** A beautiful, science-backed, editorially rich breath pacer that covers the full Nestor/Buteyko/Huberman/Weil canon in one place, with measurable progress (BOLT score) and structured programs. That is Next Breath.
 
 ---
 
@@ -167,7 +167,7 @@ The BOLT (Body Oxygen Level Test) is the app's "fitness test" for breathing. Aft
 
 **For** anxious professionals, HRV optimisers, and science-curious health seekers
 **Who** know breathing matters but lack a credible daily practice tool
-**Next Breathe is** the science-backed breath pacer that turns James Nestor's research into a measurable daily habit
+**Next Breath is** the science-backed breath pacer that turns James Nestor's research into a measurable daily habit
 **Unlike** meditation apps that treat breathing as an afterthought
 **We** are the app *Breath* should have come with
 
@@ -220,7 +220,7 @@ These communities have unsatisfied demand and high trust in peer recommendations
 | r/Meditation | 400k+ | Crossover (breath as gateway) |
 | r/running + r/cycling | Millions | Nasal breathing for performance |
 
-**Content approach:** Answer "what breathing app should I use after reading *Breath*?" threads. Write honest comparisons. Demonstrate the BOLT score concept. Don't mention Next Breathe until you've provided value.
+**Content approach:** Answer "what breathing app should I use after reading *Breath*?" threads. Write honest comparisons. Demonstrate the BOLT score concept. Don't mention Next Breath until you've provided value.
 
 ---
 
@@ -283,7 +283,7 @@ These communities have unsatisfied demand and high trust in peer recommendations
 - BOLT score (single reading, no history)
 - Learn tab: Chapter 1 articles
 
-**Premium ("Next Breathe Pro"):**
+**Premium ("Next Breath Pro"):**
 - All 8 patterns
 - All session durations
 - Full BOLT score history + trend tracking
@@ -365,7 +365,7 @@ All core features implemented: 8 patterns, 3 programs, 4 training exercises, BOL
 
 **Visual:** Warm cream editorial. Serif headings. Hairline grid. Teal accent. Feels like an expensive magazine about health.
 
-**The name:** "Next Breathe" is both a call to action and a philosophy — every next breath is a chance to practice. In marketing copy, it works as both brand name and motivational prompt.
+**The name:** "Next Breath" is both a call to action and a philosophy — every next breath is a chance to practice. In marketing copy, it works as both brand name and motivational prompt.
 
 **Tone examples:**
 - Not: "Breathe better with our app!"
@@ -377,7 +377,7 @@ All core features implemented: 8 patterns, 3 programs, 4 training exercises, BOL
 
 ## The One-Sentence Pitch
 
-**"Next Breathe is the app James Nestor's *Breath* should have come with — 8 scientifically-grounded patterns, a BOLT score to measure your progress, and the editorial depth to understand why it works."**
+**"Next Breath is the app James Nestor's *Breath* should have come with — 8 scientifically-grounded patterns, a BOLT score to measure your progress, and the editorial depth to understand why it works."**
 
 ---
 

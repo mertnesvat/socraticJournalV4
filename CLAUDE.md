@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Identity
 
-**Next Breathe** — an iOS breath pacer app built by StudioNext. Pivoted from "Socratic Journal" (AI journaling) to a science-backed breathing companion inspired by James Nestor's *Breath*.
+**Next Breath** — an iOS breath pacer app built by StudioNext. Pivoted from "Socratic Journal" (AI journaling) to a science-backed breathing companion inspired by James Nestor's *Breath*.
 
-- **App Store name:** Next Breathe
+- **App Store name:** Next Breath
 - **Bundle ID:** `com.StudioNext.socraticJournal` — do NOT rename without coordinating across project.yml, entitlements, and GoogleService-Info.plist
 - **Xcode target/scheme:** `SocraticJournal`
 - **Min iOS:** 17.0 | **Swift:** 5.9 | **Version:** 1.5.0 (build 1)

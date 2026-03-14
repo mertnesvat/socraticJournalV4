@@ -1,4 +1,4 @@
-# Next Breathe — Short Video Content Playbook Vol. 4
+# Next Breath — Short Video Content Playbook Vol. 4
 ## Fascinating Breathing Facts — Talk-to-Camera Series
 
 *Instagram Reels (talk to camera format)*

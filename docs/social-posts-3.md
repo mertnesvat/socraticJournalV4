@@ -1,4 +1,4 @@
-# Next Breathe — Short Video Content Playbook Vol. 3
+# Next Breath — Short Video Content Playbook Vol. 3
 ## History, Etymology & Unknown Facts
 
 *TikTok · Instagram Reels · YouTube Shorts*
