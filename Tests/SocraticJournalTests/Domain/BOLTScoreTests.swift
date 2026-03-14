@@ -111,6 +111,51 @@ struct BOLTScoreTests {
         #expect(decoded.score == score.score)
     }
 
+    // MARK: - BOLTScore Properties
+
+    @Suite("BOLTScore Properties")
+    struct BOLTScorePropertyTests {
+
+        @Test("BOLTScore initializer sets correct defaults")
+        func initializerDefaults() {
+            let score = BOLTScore(score: 25.0)
+            #expect(!score.id.isEmpty)
+            #expect(score.score == 25.0)
+        }
+
+        @Test("BOLTScore.tier returns correct tier")
+        func tierComputed() {
+            let score5 = BOLTScore(score: 5.0)
+            #expect(score5.tier == .veryLow)
+
+            let score15 = BOLTScore(score: 15.0)
+            #expect(score15.tier == .belowAverage)
+
+            let score25 = BOLTScore(score: 25.0)
+            #expect(score25.tier == .average)
+
+            let score35 = BOLTScore(score: 35.0)
+            #expect(score35.tier == .good)
+
+            let score45 = BOLTScore(score: 45.0)
+            #expect(score45.tier == .excellent)
+        }
+
+        @Test("Trend symbols are correct")
+        func trendSymbols() {
+            #expect(BOLTTier.TrendDirection.improved.symbol == "\u{2191}")
+            #expect(BOLTTier.TrendDirection.declined.symbol == "\u{2193}")
+            #expect(BOLTTier.TrendDirection.same.symbol == "\u{2192}")
+        }
+
+        @Test("Trend colors are correct")
+        func trendColors() {
+            #expect(BOLTTier.TrendDirection.improved.colorHex == "5A6E3D")
+            #expect(BOLTTier.TrendDirection.declined.colorHex == "C4502A")
+            #expect(BOLTTier.TrendDirection.same.colorHex == "7A6E60")
+        }
+    }
+
     // MARK: - Trend
 
     @Suite("Trend Calculation")

@@ -120,7 +120,7 @@ public struct LearnView: View {
                 .font(.system(size: 12))
                 .foregroundStyle(AppColors.textSecondary)
 
-            Text("\(totalRead) of 12 read")
+            Text("\(totalRead) of \(LearnContent.allArticles.count) read")
                 .font(.system(size: 11))
                 .foregroundStyle(AppColors.accent)
                 .padding(.top, 2)

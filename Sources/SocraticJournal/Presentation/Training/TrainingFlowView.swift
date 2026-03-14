@@ -323,6 +323,14 @@ struct TrainingFlowView: View {
                     mouthTapeResult
                 } else if viewModel.exercise.id == "co2_builder" {
                     co2BuilderResult
+                } else if viewModel.exercise.id == "altitude_hold" {
+                    altitudeHoldResult
+                } else if viewModel.exercise.id == "co2_table" {
+                    co2TableResult
+                } else if viewModel.exercise.id == "breathhold_walk" {
+                    breathHoldWalkResult
+                } else if viewModel.exercise.id == "apnea_pyramid" {
+                    apneaPyramidResult
                 } else {
                     noseUnblockingResult
                 }
@@ -453,6 +461,78 @@ struct TrainingFlowView: View {
             Text("Your average (\(String(format: "%.1f", viewModel.averageHoldTime))s) suggests a BOLT score in the \(tier.label) range")
                 .font(.system(size: 11))
                 .foregroundStyle(AppColors.textTertiary)
+        }
+    }
+
+    private var altitudeHoldResult: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.md) {
+            Text("Your 5 Holds")
+                .font(.system(size: 18, weight: .bold, design: .serif))
+                .foregroundStyle(AppColors.textPrimary)
+
+            ForEach(Array(viewModel.holdTimes.enumerated()), id: \.offset) { index, time in
+                HStack {
+                    Text("Round \(index + 1)")
+                        .font(.system(size: 13))
+                        .foregroundStyle(AppColors.textTertiary)
+                    Spacer()
+                    Text(String(format: "%.1fs", time))
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(AppColors.textPrimary)
+                }
+            }
+
+            HairlineDivider()
+
+            HStack {
+                Text("Average")
+                    .font(.system(size: 13))
+                    .foregroundStyle(AppColors.textTertiary)
+                Spacer()
+                Text(String(format: "%.1fs", viewModel.averageHoldTime))
+                    .font(.system(size: 15, weight: .bold, design: .serif))
+                    .foregroundStyle(AppColors.accent)
+            }
+
+            resultCard("High-altitude holds train both CO\u{2082} and O\u{2082} tolerance simultaneously. Consistent practice builds the dual stimulus that pure CO\u{2082} exercises miss.", colorHex: "2D5F5D")
+        }
+    }
+
+    private var co2TableResult: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.md) {
+            Text("CO\u{2082} Table Complete")
+                .font(.system(size: 18, weight: .bold, design: .serif))
+                .foregroundStyle(AppColors.textPrimary)
+
+            if viewModel.ratingValue >= 4 {
+                resultCard("You handled the shrinking rest periods well. Your chemoreceptors are adapting to higher CO\u{2082} levels. Try this 2\u{2013}3 times per week.", colorHex: "2D5F5D")
+            } else if viewModel.ratingValue >= 2 {
+                resultCard("Moderate difficulty is expected \u{2014} the last few rounds are designed to push your CO\u{2082} threshold. This gets easier with regular practice.", colorHex: "7A6030")
+            } else {
+                resultCard("The final rounds were very challenging. This is normal for beginners. Your chemoreceptors will adapt over 2\u{2013}3 weeks of regular practice.", colorHex: "C4502A")
+            }
+        }
+    }
+
+    private var breathHoldWalkResult: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.md) {
+            Text("Your 6 Walks")
+                .font(.system(size: 18, weight: .bold, design: .serif))
+                .foregroundStyle(AppColors.textPrimary)
+
+            // tapCount for each round is not tracked per-round in the current ViewModel,
+            // so we show overall completion
+            resultCard("Walking during breath holds increases metabolic CO\u{2082} production, making each hold more effective than a static equivalent. Patrick McKeown considers this the single best exercise for improving your BOLT score.", colorHex: "2D5F5D")
+        }
+    }
+
+    private var apneaPyramidResult: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.md) {
+            Text("Pyramid Complete")
+                .font(.system(size: 18, weight: .bold, design: .serif))
+                .foregroundStyle(AppColors.textPrimary)
+
+            resultCard("The pyramid structure builds confidence on the way up and provides relief on the way down. The peak round (30s) is your current challenge threshold. As this gets easier, you can extend all durations.", colorHex: "2D5F5D")
         }
     }
 

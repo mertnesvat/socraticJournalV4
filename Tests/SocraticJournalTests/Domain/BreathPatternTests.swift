@@ -120,4 +120,49 @@ struct BreathPatternTests {
         #expect(BreathPattern.tummo.difficulty == .advanced)
         #expect(BreathPattern.alternateNostril.difficulty == .intermediate)
     }
+
+    @Test("Each pattern has at least 1 phase")
+    func patternsHavePhases() {
+        for pattern in BreathPattern.allPatterns {
+            #expect(!pattern.phases.isEmpty, "Pattern \(pattern.id) has no phases")
+        }
+    }
+
+    @Test("All phase durations are greater than 0")
+    func phaseDurationsPositive() {
+        for pattern in BreathPattern.allPatterns {
+            for phase in pattern.phases {
+                #expect(phase.duration > 0, "Pattern \(pattern.id) phase \(phase.id) has duration <= 0")
+            }
+        }
+    }
+
+    @Test("All patterns have non-empty name, timing, bpm, tag")
+    func patternFieldsNonEmpty() {
+        for pattern in BreathPattern.allPatterns {
+            #expect(!pattern.name.isEmpty, "Pattern \(pattern.id) has empty name")
+            #expect(!pattern.timing.isEmpty, "Pattern \(pattern.id) has empty timing")
+            #expect(!pattern.bpm.isEmpty, "Pattern \(pattern.id) has empty bpm")
+            #expect(!pattern.tag.isEmpty, "Pattern \(pattern.id) has empty tag")
+        }
+    }
+
+    @Test("All tagColorHex values are valid 6-character hex strings")
+    func tagColorHexValid() {
+        let hexChars = CharacterSet(charactersIn: "0123456789ABCDEFabcdef")
+        for pattern in BreathPattern.allPatterns {
+            #expect(pattern.tagColorHex.count == 6,
+                    "Pattern \(pattern.id) tagColorHex is not 6 chars: \(pattern.tagColorHex)")
+            #expect(pattern.tagColorHex.unicodeScalars.allSatisfy { hexChars.contains($0) },
+                    "Pattern \(pattern.id) has invalid hex chars: \(pattern.tagColorHex)")
+        }
+    }
+
+    @Test("cycleDuration equals sum of phase durations for each pattern")
+    func cycleDurationEqualsSum() {
+        for pattern in BreathPattern.allPatterns {
+            let sum = pattern.phases.reduce(0.0) { $0 + $1.duration }
+            #expect(pattern.cycleDuration == sum, "Pattern \(pattern.id) cycleDuration mismatch")
+        }
+    }
 }

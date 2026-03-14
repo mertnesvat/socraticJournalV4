@@ -4,7 +4,7 @@
 
 import Foundation
 
-/// Defines the 4 training exercises and their step structures
+/// Defines the 8 training exercises and their step structures
 enum TrainingData {
 
     // MARK: - Types
@@ -33,9 +33,35 @@ enum TrainingData {
         let steps: [Step]
     }
 
+    struct Section: Identifiable {
+        let id: String
+        let title: String
+        let subtitle: String
+        let exercises: [Exercise]
+    }
+
+    // MARK: - Sections
+
+    static let allSections: [Section] = [
+        Section(
+            id: "basics",
+            title: "Basics",
+            subtitle: "Foundation exercises for better breathing",
+            exercises: [noseUnblocking, breathAwareness, mouthTapeReadiness, co2Builder]
+        ),
+        Section(
+            id: "co2_tolerance",
+            title: "CO\u{2082} Tolerance",
+            subtitle: "Freediver-inspired protocols for chemoreceptor training",
+            exercises: [altitudeHold, co2Table, breathHoldWalk, apneaPyramid]
+        ),
+    ]
+
     // MARK: - All Exercises
 
-    static let allExercises: [Exercise] = [noseUnblocking, breathAwareness, mouthTapeReadiness, co2Builder]
+    static var allExercises: [Exercise] {
+        allSections.flatMap(\.exercises)
+    }
 
     // MARK: - Exercise 1: Nose Unblocking
 
@@ -117,6 +143,175 @@ enum TrainingData {
             steps.append(Step(id: stepId, type: .timerCountUp(
                 text: "Hold after the exhale \u{2014} tap when you feel the first urge to breathe",
                 maxSeconds: 60, tapToStop: true)))
+            stepId += 1
+        }
+        steps.append(Step(id: stepId, type: .result))
+        return steps
+    }
+
+    // MARK: - Exercise 5: High Altitude Breath Hold
+
+    static let altitudeHold = Exercise(
+        id: "altitude_hold",
+        name: "High Altitude Hold",
+        icon: "mountain.2",
+        duration: "6 min",
+        description: "Simulates the hypoxic-hypercapnic conditions of high altitude (4,000\u{2013}5,000m). A 4-second nasal inhale, 2-second hold, slow exhale, then hold after exhale for as long as comfortable. Five rounds with recovery breathing between each. Trains both CO\u{2082} and O\u{2082} tolerance simultaneously.",
+        steps: altitudeHoldSteps()
+    )
+
+    private static func altitudeHoldSteps() -> [Step] {
+        var steps: [Step] = []
+        var stepId = 0
+        steps.append(Step(id: stepId, type: .instruction(
+            text: "This exercise simulates high-altitude breathing. You\u{2019}ll do 5 rounds of: inhale, brief hold, exhale, then hold after exhale as long as comfortable.",
+            autoAdvanceSeconds: 6)))
+        stepId += 1
+        for round in 1...5 {
+            steps.append(Step(id: stepId, type: .instruction(
+                text: "Round \(round) of 5 \u{2014} Breathe in through your nose",
+                autoAdvanceSeconds: 4)))
+            stepId += 1
+            steps.append(Step(id: stepId, type: .timerCountdown(
+                text: "Hold",
+                seconds: 2, showPanicButton: false)))
+            stepId += 1
+            steps.append(Step(id: stepId, type: .instruction(
+                text: "Slow exhale through your nose",
+                autoAdvanceSeconds: 4)))
+            stepId += 1
+            steps.append(Step(id: stepId, type: .timerCountUp(
+                text: "Hold after exhale \u{2014} tap when you need to breathe",
+                maxSeconds: 90, tapToStop: true)))
+            stepId += 1
+            if round < 5 {
+                steps.append(Step(id: stepId, type: .timerCountdown(
+                    text: "Recovery breathing \u{2014} gentle nasal breaths",
+                    seconds: 15, showPanicButton: false)))
+                stepId += 1
+            }
+        }
+        steps.append(Step(id: stepId, type: .result))
+        return steps
+    }
+
+    // MARK: - Exercise 6: CO₂ Table
+
+    static let co2Table = Exercise(
+        id: "co2_table",
+        name: "CO\u{2082} Table",
+        icon: "chart.bar.xaxis.ascending",
+        duration: "7 min",
+        description: "A classic freediver CO\u{2082} desensitisation protocol. Eight rounds of a fixed 20-second breath hold with rest periods that shrink from 40 seconds down to 5. The decreasing rest means CO\u{2082} accumulates across the session, progressively challenging your chemoreceptors.",
+        steps: co2TableSteps()
+    )
+
+    private static func co2TableSteps() -> [Step] {
+        let restPeriods: [TimeInterval] = [40, 35, 30, 25, 20, 15, 10, 5]
+        var steps: [Step] = []
+        var stepId = 0
+        steps.append(Step(id: stepId, type: .instruction(
+            text: "Stop immediately if you feel dizzy, see spots, or feel tingling in your extremities. Never practise breath holds in water.",
+            autoAdvanceSeconds: 6)))
+        stepId += 1
+        for round in 0..<8 {
+            steps.append(Step(id: stepId, type: .timerCountdown(
+                text: "Recovery breathing \u{2014} Round \(round + 1) of 8 (\(Int(restPeriods[round]))s rest)",
+                seconds: restPeriods[round], showPanicButton: false)))
+            stepId += 1
+            steps.append(Step(id: stepId, type: .instruction(
+                text: "Take a normal breath in\u{2026} and out",
+                autoAdvanceSeconds: 4)))
+            stepId += 1
+            steps.append(Step(id: stepId, type: .timerCountdown(
+                text: "Hold \u{2014} Round \(round + 1) of 8",
+                seconds: 20, showPanicButton: true)))
+            stepId += 1
+        }
+        steps.append(Step(id: stepId, type: .ratingScale(
+            question: "How did the last round feel?",
+            count: 5, lowLabel: "Desperate", highLabel: "Comfortable")))
+        stepId += 1
+        steps.append(Step(id: stepId, type: .result))
+        return steps
+    }
+
+    // MARK: - Exercise 7: Breath-Hold Walk
+
+    static let breathHoldWalk = Exercise(
+        id: "breathhold_walk",
+        name: "Breath-Hold Walk",
+        icon: "figure.walk",
+        duration: "8 min",
+        description: "Patrick McKeown\u{2019}s Oxygen Advantage exercise. After a gentle exhale, hold your breath and walk, counting steps. Movement during holds is more effective than static holds for improving your BOLT score because it increases metabolic CO\u{2082} production.",
+        steps: breathHoldWalkSteps()
+    )
+
+    private static func breathHoldWalkSteps() -> [Step] {
+        var steps: [Step] = []
+        var stepId = 0
+        steps.append(Step(id: stepId, type: .instruction(
+            text: "You\u{2019}ll hold your breath after a gentle exhale and walk, counting your steps. Start easy \u{2014} your goal is to add a few steps each round.",
+            autoAdvanceSeconds: 6)))
+        stepId += 1
+        for round in 1...6 {
+            steps.append(Step(id: stepId, type: .instruction(
+                text: "Round \(round) of 6 \u{2014} Breathe normally for 30 seconds",
+                autoAdvanceSeconds: 3)))
+            stepId += 1
+            steps.append(Step(id: stepId, type: .timerCountdown(
+                text: "Normal nasal breathing",
+                seconds: 30, showPanicButton: false)))
+            stepId += 1
+            steps.append(Step(id: stepId, type: .instruction(
+                text: "Gentle breath in\u{2026} and out. Pinch your nose.",
+                autoAdvanceSeconds: 4)))
+            stepId += 1
+            steps.append(Step(id: stepId, type: .tapCounter(
+                text: "Walk and tap each step \u{2014} stop when you need to breathe",
+                seconds: 60)))
+            stepId += 1
+            steps.append(Step(id: stepId, type: .instruction(
+                text: "Resume gentle nasal breathing",
+                autoAdvanceSeconds: 4)))
+            stepId += 1
+        }
+        steps.append(Step(id: stepId, type: .result))
+        return steps
+    }
+
+    // MARK: - Exercise 8: Apnea Pyramid
+
+    static let apneaPyramid = Exercise(
+        id: "apnea_pyramid",
+        name: "Apnea Pyramid",
+        icon: "triangle",
+        duration: "8 min",
+        description: "A freediving dry static pyramid: holds gradually increase to a peak then decrease. The ascending half builds confidence, the peak challenges your limit, and the descending half provides psychological relief. All holds are after a normal exhale.",
+        steps: apneaPyramidSteps()
+    )
+
+    private static func apneaPyramidSteps() -> [Step] {
+        let holdDurations: [TimeInterval] = [10, 15, 20, 25, 30, 25, 20, 15, 10]
+        var steps: [Step] = []
+        var stepId = 0
+        steps.append(Step(id: stepId, type: .instruction(
+            text: "A pyramid of breath holds \u{2014} building up, then easing down. All holds are after a normal exhale.",
+            autoAdvanceSeconds: 5)))
+        stepId += 1
+        for (index, holdSeconds) in holdDurations.enumerated() {
+            let round = index + 1
+            steps.append(Step(id: stepId, type: .timerCountdown(
+                text: "Recovery breathing \u{2014} Round \(round) of 9",
+                seconds: 20, showPanicButton: false)))
+            stepId += 1
+            steps.append(Step(id: stepId, type: .instruction(
+                text: "Normal breath in\u{2026} and out",
+                autoAdvanceSeconds: 4)))
+            stepId += 1
+            steps.append(Step(id: stepId, type: .timerCountdown(
+                text: "Hold \u{2014} \(Int(holdSeconds))s",
+                seconds: holdSeconds, showPanicButton: holdSeconds >= 25)))
             stepId += 1
         }
         steps.append(Step(id: stepId, type: .result))
